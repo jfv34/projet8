@@ -1,12 +1,12 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements MainFragment.OnButtonClickedListener {
 
     private Toolbar toolbar;
     private MainFragment mainFragment;
@@ -18,13 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         configureAndShowMainFragment();
         configureAndShowDetailFragment();
-
-
         toolbar = findViewById(R.id.toolbar_main);
-
-
-
-
     }
 
     private void configureAndShowMainFragment() {
@@ -46,13 +40,19 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();
-
         }
-
-
     }
 
+    @Override
+    public void onButtonClicked(View view) {
 
-
-
+        int buttonTag = Integer.parseInt(view.getTag().toString());
+        if (detailFragment != null && detailFragment.isVisible()) {
+            detailFragment.updateTextView(buttonTag);
+        } else {
+            Intent i = new Intent(this, DetailActivity.class);
+            i.putExtra(DetailActivity.EXTRA_BUTTON_TAG, buttonTag);
+            startActivity(i);
+        }
+    }
 }

@@ -12,13 +12,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/fragment_main_tv"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/fragment_main_button_1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="la liste "/>
+            android:text="button 1"
+            android:tag="1"/>
+
+        <Button
+            android:id="@+id/fragment_main_button_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="button 2"
+            android:tag="2"/>
+
 
 
 

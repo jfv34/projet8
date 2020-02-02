@@ -9,17 +9,11 @@ import android.widget.TextView;
 
 public class DetailFragment extends Fragment {
 
-    public DetailFragment() {
-    }
-
     private TextView textViewMain;
     private TextView textViewQuantity;
+    private TextView textView2;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
+    public DetailFragment() {
     }
 
     @Override
@@ -28,6 +22,8 @@ public class DetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         textViewMain = rootView.findViewById(R.id.fragment_detail_mainText_tv);
         textViewQuantity = rootView.findViewById(R.id.fragment_detail_quantity_tv);
+        textView2 =rootView.findViewById(R.id.fragment_detail_textView2_tv);
+
 
         configureTextViewMain();
         configureTextViewQuantity();
@@ -46,4 +42,17 @@ public class DetailFragment extends Fragment {
         this.textViewQuantity.setText(String.valueOf(quantity));
     }
 
+    public void updateTextView(int tag) {
+        switch (tag) {
+            case 1:
+                this.textView2.setText("button 1 clicked");
+                break;
+            case 2:
+                this.textView2.setText("button 2 clicked");
+                break;
+
+            default:
+                break;
+        }
+    }
 }
