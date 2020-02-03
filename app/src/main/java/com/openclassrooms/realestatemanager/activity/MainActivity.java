@@ -1,24 +1,47 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.activity;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.openclassrooms.realestatemanager.DatasViewModel;
+import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.fragment.DetailFragment;
+import com.openclassrooms.realestatemanager.fragment.MainFragment;
+
 public class MainActivity extends AppCompatActivity implements MainFragment.OnButtonClickedListener {
 
+    private DatasViewModel model;
     private Toolbar toolbar;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
+    private MutableLiveData<String> currentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         configureAndShowMainFragment();
         configureAndShowDetailFragment();
         toolbar = findViewById(R.id.toolbar_main);
+
+        //model = new ViewModelProvider(this).get(DatasViewModel.class);
+
+
+        final Observer<String> nameObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+
+            }
+        };
     }
 
     private void configureAndShowMainFragment() {

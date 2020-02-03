@@ -1,11 +1,14 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.openclassrooms.realestatemanager.fragment.DetailFragment;
+import com.openclassrooms.realestatemanager.R;
+
 public class DetailActivity extends AppCompatActivity {
 
-    public static final String EXTRA_BUTTON_TAG = "com.openclassrooms.realestatemanager.DetailActivity.EXTRA_BUTTON_TAG";
+    public static final String EXTRA_BUTTON_TAG = "com.openclassrooms.realestatemanager.activity.DetailActivity.EXTRA_BUTTON_TAG";
 
     private DetailFragment detailFragment;
 
@@ -29,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        // 3 - Call update method here because we are sure that DetailFragment is visible
         this.updateDetailFragmentTextViewWithIntentTag();
     }
 
@@ -37,6 +39,4 @@ public class DetailActivity extends AppCompatActivity {
         int buttonTag = getIntent().getIntExtra(EXTRA_BUTTON_TAG, 0);
         detailFragment.updateTextView(buttonTag);
     }
-
-
 }
