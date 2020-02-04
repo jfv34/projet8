@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.PropertyAdapter;
 import com.openclassrooms.realestatemanager.R;
 
@@ -75,6 +77,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new PropertyAdapter(testList, getContext()));
+        recyclerView.setAdapter(new PropertyAdapter(testList, getContext(), new OnPropertyClickedListener() {
+            @Override
+            public void onClicked(String property) {
+Log.i("tag_clicked",property);
+            }
+        }));
     }
 }

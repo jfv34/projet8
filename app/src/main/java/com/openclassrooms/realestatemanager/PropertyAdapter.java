@@ -10,21 +10,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHolder> {
 
     private ArrayList<String> testList;
     private Context context;
+    private OnPropertyClickedListener clickedListener;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(@NonNull View itemView) {
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    public PropertyAdapter(ArrayList<String> testList, Context context) {
+    public PropertyAdapter(ArrayList<String> testList, Context context, OnPropertyClickedListener clickedListener) {
         this.testList = testList;
         this.context = context;
+        this.clickedListener = clickedListener;
     }
 
     @NonNull
@@ -37,13 +39,13 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         TextView test_tv = holder.itemView.findViewById(R.id.item_test_tv);
         test_tv.setText(testList.get(position));
         test_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+clickedListener.onClicked(testList.get(position));
 
             }
         });

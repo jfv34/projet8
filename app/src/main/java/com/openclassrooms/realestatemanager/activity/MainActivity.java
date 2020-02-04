@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,15 +34,16 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnBu
         configureAndShowDetailFragment();
         toolbar = findViewById(R.id.toolbar_main);
 
-        //model = new ViewModelProvider(this).get(DatasViewModel.class);
-
-
-        final Observer<String> nameObserver = new Observer<String>() {
+        model = ViewModelProviders.of(this).get(DatasViewModel.class);
+        model.getCurrentName().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
 
             }
-        };
+        });
+
+
+
     }
 
     private void configureAndShowMainFragment() {
