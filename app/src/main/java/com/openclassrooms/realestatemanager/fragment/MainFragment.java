@@ -38,8 +38,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        root.findViewById(R.id.fragment_main_button_1).setOnClickListener(this);
-        root.findViewById(R.id.fragment_main_button_2).setOnClickListener(this);
+        //root.findViewById(R.id.fragment_main_button_1).setOnClickListener(this);
+        //root.findViewById(R.id.fragment_main_button_2).setOnClickListener(this);
         recyclerView = root.findViewById(R.id.fragment_main_recyclerView);
 
 
@@ -56,7 +56,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        createCallbackToParentActivity();
+        //createCallbackToParentActivity();
     }
 
 
@@ -65,13 +65,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         callback.onButtonClicked(view);
     }
 
-    private void createCallbackToParentActivity() {
+/*    private void createCallbackToParentActivity() {
         try {
             callback = (OnButtonClickedListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(e.toString() + " must implement OnButtonClickedListener");
         }
-    }
+    }*/
 
     public void displayTestList(ArrayList<String> testList) {
         recyclerView.setHasFixedSize(true);

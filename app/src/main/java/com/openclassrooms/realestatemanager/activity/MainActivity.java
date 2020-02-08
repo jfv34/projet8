@@ -2,21 +2,18 @@ package com.openclassrooms.realestatemanager.activity;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.fragment.DetailFragment;
 import com.openclassrooms.realestatemanager.fragment.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnButtonClickedListener {
+public class MainActivity extends AppCompatActivity {
 
     private DatasViewModel model;
     private Toolbar toolbar;
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnBu
         }
     }
 
-    @Override
+  /*  @Override
     public void onButtonClicked(View view) {
 
         int buttonTag = Integer.parseInt(view.getTag().toString());
@@ -79,5 +76,5 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnBu
             i.putExtra(DetailActivity.EXTRA_BUTTON_TAG, buttonTag);
             startActivity(i);
         }
-    }
+    }*/
 }
