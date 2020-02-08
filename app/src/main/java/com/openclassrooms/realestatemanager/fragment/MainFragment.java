@@ -43,10 +43,22 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         recyclerView = root.findViewById(R.id.fragment_main_recyclerView);
 
 
-        testList.add("Flat...");
-        testList.add("Duplex...");
-        testList.add("Flat...");
-        testList.add("House...");
+        testList.add("Flat");
+        testList.add("Duplex");
+        testList.add("Flat");
+        testList.add("House");
+        testList.add("Flat");
+        testList.add("Duplex");
+        testList.add("Flat");
+        testList.add("House");
+        testList.add("Flat");
+        testList.add("Duplex");
+        testList.add("Flat");
+        testList.add("House");
+        testList.add("Flat");
+        testList.add("Duplex");
+        testList.add("Flat");
+        testList.add("House");
 
         displayTestList(testList);
 

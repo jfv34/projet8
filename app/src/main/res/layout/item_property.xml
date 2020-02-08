@@ -1,17 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_search"
-    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/item_property"
+    card_view:cardCornerRadius="@dimen/margin_small"
+    card_view:cardElevation="@dimen/margin_small"
+    card_view:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/colorSecondary"
+    app:cardPreventCornerOverlap="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="25sp"
-        android:id="@+id/item_test_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <android.support.constraint.ConstraintLayout
 
-</android.support.constraint.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/item_image_iv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_type_tv"
+            app:layout_constraintBottom_toBottomOf="@id/item_price_tv"
+            android:src="@drawable/picture_flat_exemple"
+            android:scaleType="center"
+            app:layout_constraintWidth_percent="0.4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:id="@+id/item_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:textStyle="bold"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@id/item_image_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginStart="40dp"
+            android:id="@+id/item_city_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test-City"
+            android:textSize="25sp"
+            app:layout_constraintStart_toEndOf="@id/item_image_iv"
+            app:layout_constraintTop_toBottomOf="@id/item_type_tv" />
+
+        <TextView
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/item_price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="$12,345,678"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@id/item_image_iv"
+            app:layout_constraintTop_toBottomOf="@id/item_city_tv" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

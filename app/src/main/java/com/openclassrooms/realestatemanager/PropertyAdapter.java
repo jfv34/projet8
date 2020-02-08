@@ -40,9 +40,10 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        TextView test_tv = holder.itemView.findViewById(R.id.item_test_tv);
-        test_tv.setText(testList.get(position));
-        test_tv.setOnClickListener(new View.OnClickListener() {
+        View itemView = holder.itemView.findViewById(R.id.item_property);
+        TextView type = holder.itemView.findViewById(R.id.item_type_tv);
+        type.setText(testList.get(position));
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 clickedListener.onClicked(testList.get(position));
