@@ -2,60 +2,57 @@ package com.openclassrooms.realestatemanager.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.openclassrooms.realestatemanager.PhotoAdapter;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
+
+import java.util.ArrayList;
 
 public class DetailFragment extends Fragment {
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
-    private TextView textView2;
+    RecyclerView recyclerView;
+    ArrayList<String> testPhotos = new ArrayList<>();
+
 
     public DetailFragment() {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        textViewMain = rootView.findViewById(R.id.fragment_detail_mainText_tv);
-        textViewQuantity = rootView.findViewById(R.id.fragment_detail_quantity_tv);
-        textView2 =rootView.findViewById(R.id.fragment_detail_textView2_tv);
+        View root = inflater.inflate(R.layout.fragment_detail, container, false);
 
+        recyclerView = root.findViewById(R.id.fragment_detail_photos_rv);
 
-        configureTextViewMain();
-        configureTextViewQuantity();
+        testPhotos.add("photo 1");
+        testPhotos.add("photo 2");
+        testPhotos.add("photo 3");
+        testPhotos.add("photo 4");
+        testPhotos.add("photo 5");
+        testPhotos.add("photo 6");
+        testPhotos.add("photo 7");
+        testPhotos.add("photo 8");
 
-        return rootView;
+        displayTestPhotos(testPhotos);
+
+        return root;
     }
 
-    private void configureTextViewMain(){
-        this.textViewMain.setTextSize(15);
-        this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
-    }
-
-    private void configureTextViewQuantity(){
-        int quantity = Utils.convertDollarToEuro(100);
-        this.textViewQuantity.setTextSize(20);
-        this.textViewQuantity.setText(String.valueOf(quantity));
-    }
-
-    public void updateTextView(int tag) {
-        switch (tag) {
-            case 1:
-                this.textView2.setText("button 1 clicked");
-                break;
-            case 2:
-                this.textView2.setText("button 2 clicked");
-                break;
-
-            default:
-                break;
-        }
+    public void displayTestPhotos(ArrayList<String> testPhotos) {
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new PhotoAdapter(testPhotos, getContext()));
     }
 }

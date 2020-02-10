@@ -32,11 +32,11 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        this.updateDetailFragmentTextViewWithIntentTag();
+        //this.updateDetailFragmentTextViewWithIntentTag();
     }
 
-    private void updateDetailFragmentTextViewWithIntentTag() {
+   /* private void updateDetailFragmentTextViewWithIntentTag() {
         int buttonTag = getIntent().getIntExtra(EXTRA_BUTTON_TAG, 0);
         detailFragment.updateTextView(buttonTag);
-    }
+    }*/
 }
