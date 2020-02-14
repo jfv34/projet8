@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/item_property"
-    card_view:cardCornerRadius="@dimen/margin_small"
-    card_view:cardElevation="@dimen/margin_small"
-    card_view:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/colorSecondary"
+
+    app:cardElevation="3dp"
+
+    android:layout_marginEnd="4dp"
+    app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/item_image_iv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_type_tv"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/item_price_tv"
             android:src="@drawable/picture_flat_exemple"
             android:scaleType="center"
-            app:layout_constraintWidth_percent="0.4"
+            app:layout_constraintWidth_percent="0.25"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"/>
 
         <TextView
             android:layout_marginTop="10dp"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/item_image_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Test-City"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/item_image_iv"
             app:layout_constraintTop_toBottomOf="@id/item_type_tv" />
 
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:text="$12,345,678"
-            android:textSize="30sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/item_image_iv"
             app:layout_constraintTop_toBottomOf="@id/item_city_tv" />
 
