@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.fragment;
+package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
-import com.openclassrooms.realestatemanager.PropertyAdapter;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;

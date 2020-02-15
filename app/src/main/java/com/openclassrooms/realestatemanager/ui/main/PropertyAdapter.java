@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
+import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;
 

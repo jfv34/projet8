@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.activity;
+package com.openclassrooms.realestatemanager.ui.main;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
@@ -10,15 +10,15 @@ import android.support.v7.widget.Toolbar;
 
 import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.fragment.DetailFragment;
-import com.openclassrooms.realestatemanager.fragment.MainFragment;
+
+import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private DatasViewModel model;
     private Toolbar toolbar;
     private MainFragment mainFragment;
-    private DetailFragment detailFragment;
+    private DetailsFragment detailsFragment;
     private MutableLiveData<String> currentName;
 
     @Override
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureAndShowDetailFragment() {
-        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
-        if (detailFragment == null && findViewById(R.id.frame_layout_detail) != null) {
-            detailFragment = new DetailFragment();
+        detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+        if (detailsFragment == null && findViewById(R.id.frame_layout_detail) != null) {
+            detailsFragment = new DetailsFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout_detail, detailFragment)
+                    .add(R.id.frame_layout_detail, detailsFragment)
                     .commit();
         }
     }
@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         if (detailFragment != null && detailFragment.isVisible()) {
             detailFragment.updateTextView(buttonTag);
         } else {
-            Intent i = new Intent(this, DetailActivity.class);
-            i.putExtra(DetailActivity.EXTRA_BUTTON_TAG, buttonTag);
+            Intent i = new Intent(this, DetailsActivity.class);
+            i.putExtra(DetailsActivity.EXTRA_BUTTON_TAG, buttonTag);
             startActivity(i);
         }
     }*/

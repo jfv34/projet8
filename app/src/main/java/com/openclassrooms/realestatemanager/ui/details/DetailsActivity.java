@@ -1,16 +1,15 @@
-package com.openclassrooms.realestatemanager.activity;
+package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.openclassrooms.realestatemanager.fragment.DetailFragment;
 import com.openclassrooms.realestatemanager.R;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
-    public static final String EXTRA_BUTTON_TAG = "com.openclassrooms.realestatemanager.activity.DetailActivity.EXTRA_BUTTON_TAG";
+    // public static final String EXTRA_BUTTON_TAG = "com.openclassrooms.realestatemanager.ui.details.DetailsActivity.EXTRA_BUTTON_TAG";
 
-    private DetailFragment detailFragment;
+    private DetailsFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +19,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void configureAndShowDetailFragment(){
-        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+        detailFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
 
         if (detailFragment == null) {
-            detailFragment = new DetailFragment();
+            detailFragment = new DetailsFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();

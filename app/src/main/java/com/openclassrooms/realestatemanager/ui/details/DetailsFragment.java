@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.fragment;
+package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,18 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.openclassrooms.realestatemanager.PhotoAdapter;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;
 
-public class DetailFragment extends Fragment {
+public class DetailsFragment extends Fragment {
 
     RecyclerView recyclerView;
     ArrayList<String> testPhotos = new ArrayList<>();
 
 
-    public DetailFragment() {
+    public DetailsFragment() {
     }
 
     @Override
