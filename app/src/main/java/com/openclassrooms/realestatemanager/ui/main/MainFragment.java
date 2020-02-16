@@ -1,6 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,37 +13,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;
 
-public class MainFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment {
 
     RecyclerView recyclerView;
     ArrayList<String> testList = new ArrayList<>();
+    private DatasViewModel model;
+    private MutableLiveData<String> currentName = new MutableLiveData<>();
+
     public MainFragment() { }
-
-    private OnButtonClickedListener callback;
-
-    public interface OnButtonClickedListener {
-        public void onButtonClicked(View view);
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        model= ViewModelProviders.of(this).get(DatasViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        //root.findViewById(R.id.fragment_main_button_1).setOnClickListener(this);
-        //root.findViewById(R.id.fragment_main_button_2).setOnClickListener(this);
         recyclerView = root.findViewById(R.id.fragment_main_recyclerView);
-
 
         testList.add("Flat");
         testList.add("Duplex");
@@ -67,22 +66,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //createCallbackToParentActivity();
     }
-
-
-    @Override
-    public void onClick(View view) {
-        callback.onButtonClicked(view);
-    }
-
-/*    private void createCallbackToParentActivity() {
-        try {
-            callback = (OnButtonClickedListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(e.toString() + " must implement OnButtonClickedListener");
-        }
-    }*/
 
     public void displayTestList(ArrayList<String> testList) {
         recyclerView.setHasFixedSize(true);
@@ -92,6 +76,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClicked(String property) {
 Log.i("tag_clicked",property);
+model.setCurrentName(property);
+
+
             }
         }));
     }

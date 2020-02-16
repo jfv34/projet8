@@ -1,6 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;
@@ -16,6 +21,10 @@ public class DetailsFragment extends Fragment {
 
     RecyclerView recyclerView;
     ArrayList<String> testPhotos = new ArrayList<>();
+    private DatasViewModel model;
+    private MutableLiveData<String> currentName = new MutableLiveData<>();
+
+
 
 
     public DetailsFragment() {
@@ -23,7 +32,18 @@ public class DetailsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+
+        model = ViewModelProviders.of(this).get(DatasViewModel.class);
+        model.getCurrentName().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+
+            }
+        });
+
     }
 
 

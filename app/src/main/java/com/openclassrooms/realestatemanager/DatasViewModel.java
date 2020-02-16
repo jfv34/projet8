@@ -9,6 +9,11 @@ public class DatasViewModel extends ViewModel {
     private MutableLiveData<String> currentName=new MutableLiveData<>();
 
     public LiveData<String> getCurrentName() {
+
         return currentName;
+    }
+
+    public void setCurrentName(String currentName) {
+        this.currentName.postValue(currentName);
     }
 }
