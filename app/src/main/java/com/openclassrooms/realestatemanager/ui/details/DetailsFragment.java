@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class DetailsFragment extends Fragment {
 
+    DetailsFragmentContract.Presenter presenter;
     RecyclerView recyclerView;
     ArrayList<String> testPhotos = new ArrayList<>();
     private DatasViewModel model;
@@ -35,6 +36,8 @@ public class DetailsFragment extends Fragment {
 
 
         super.onCreate(savedInstanceState);
+
+        presenter = new DetailsFragmentPresenter();
 
         model = ViewModelProviders.of(this).get(DatasViewModel.class);
         model.getCurrentName().observe(this, new Observer<String>() {

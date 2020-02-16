@@ -19,6 +19,7 @@ import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainActivityContract.Presenter presenter;
     private DatasViewModel model;
     private Toolbar toolbar;
     private MainFragment mainFragment;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        presenter = new MainActivityPresenter();
 
         configureAndShowMainFragment();
         configureAndShowDetailFragment();

@@ -23,8 +23,10 @@ import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 
+    MainFragmentContract.Presenter presenter;
     RecyclerView recyclerView;
     ArrayList<String> testList = new ArrayList<>();
+
     private DatasViewModel model;
     private MutableLiveData<String> currentName = new MutableLiveData<>();
     private DetailsFragment detailsFragment;
@@ -34,6 +36,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new MainFragmentPresenter();
 
         model= ViewModelProviders.of(this).get(DatasViewModel.class);
     }
@@ -44,22 +47,7 @@ public class MainFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = root.findViewById(R.id.fragment_main_recyclerView);
 
-        testList.add("Flat");
-        testList.add("Duplex");
-        testList.add("Flat");
-        testList.add("House");
-        testList.add("Flat");
-        testList.add("Duplex");
-        testList.add("Flat");
-        testList.add("House");
-        testList.add("Flat");
-        testList.add("Duplex");
-        testList.add("Flat");
-        testList.add("House");
-        testList.add("Flat");
-        testList.add("Duplex");
-        testList.add("Flat");
-        testList.add("House");
+        testList = presenter.getMainDatas();
 
         displayTestList(testList);
 
