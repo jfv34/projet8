@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
+import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class MainFragment extends Fragment {
     ArrayList<String> testList = new ArrayList<>();
     private DatasViewModel model;
     private MutableLiveData<String> currentName = new MutableLiveData<>();
+    private DetailsFragment detailsFragment;
 
     public MainFragment() { }
 
@@ -75,11 +78,20 @@ public class MainFragment extends Fragment {
         recyclerView.setAdapter(new PropertyAdapter(testList, getContext(), new OnPropertyClickedListener() {
             @Override
             public void onClicked(String property) {
-Log.i("tag_clicked",property);
-model.setCurrentName(property);
-
-
+                onPropertyClicked(property);
             }
         }));
+    }
+
+    private void onPropertyClicked(String property) {
+        Log.i("tag_clicked",property);
+        model.setCurrentName(property);
+        detailsFragment = (DetailsFragment) getFragmentManager().findFragmentById(R.id.frame_layout_detail);
+        if (detailsFragment != null && detailsFragment.isVisible()) {
+
+        } else {
+            Intent i = new Intent(getActivity(), DetailsActivity.class);
+            startActivity(i);
+        }
     }
 }

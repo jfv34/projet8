@@ -3,15 +3,18 @@ package com.openclassrooms.realestatemanager.ui.main;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.R;
 
+import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private DatasViewModel model;
     private Toolbar toolbar;
     private MainFragment mainFragment;
-    private DetailsFragment detailsFragment;
     private MutableLiveData<String> currentName;
+    private DetailsFragment detailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +66,4 @@ Log.i("tag_changed", "ok: "+s);
                     .commit();
         }
     }
-
-  /*  @Override
-    public void onButtonClicked(View view) {
-
-        int buttonTag = Integer.parseInt(view.getTag().toString());
-        if (detailFragment != null && detailFragment.isVisible()) {
-            detailFragment.updateTextView(buttonTag);
-        } else {
-            Intent i = new Intent(this, DetailsActivity.class);
-            i.putExtra(DetailsActivity.EXTRA_BUTTON_TAG, buttonTag);
-            startActivity(i);
-        }
-    }*/
 }
