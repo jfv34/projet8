@@ -8,8 +8,8 @@
     card_view:cardUseCompatPadding="true"
     app:cardBackgroundColor="#ffffff"
     app:cardPreventCornerOverlap="true"
-    android:layout_width="200dp"
-    android:layout_height="200dp">
+    android:layout_width="150dp"
+    android:layout_height="150dp">
 
     <android.support.constraint.ConstraintLayout
 

@@ -16,7 +16,6 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         presenter = new DetailsActivityPresenter();
-
         configureAndShowDetailFragment();
     }
 
