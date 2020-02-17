@@ -1,13 +1,18 @@
 package com.openclassrooms.realestatemanager.models;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Property {
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String type;
     private int city;
     private int price;
     private String description;
-}
+
 
     public Property() {
     }  //  ?
@@ -60,7 +65,7 @@ public class Property {
         this.description = description;
     }
 }
-}
+
 
 
 
