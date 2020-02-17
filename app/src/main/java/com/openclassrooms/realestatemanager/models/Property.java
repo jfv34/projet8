@@ -9,15 +9,11 @@ public class Property {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String type;
-    private int city;
+    private String city;
     private int price;
     private String description;
 
-
-    public Property() {
-    }  //  ?
-
-    public Property(int id, String type, int city, int price, String description) {
+    public Property(int id, String type, String city, int price, String description) {
         this.id = id;
         this.type = type;
         this.city = city;
@@ -41,11 +37,11 @@ public class Property {
         this.type = type;
     }
 
-    public int getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
