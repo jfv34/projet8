@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.database;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
-import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.ContentValues;
@@ -48,17 +47,15 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("id", 1);
                 contentValues.put("type", "Flat");
-                contentValues.put("city", "Lyon");
-                contentValues.put("price","1250259");
-                contentValues.put("description","Située dans un charmant passage, splendide maison de caractère où les styles s'harmonisent parfaitement avec les espaces extérieurs: jardin 22 m² et terrasse 16 m² magnifiquement végétalisés. Rez-de-jardin: vaste espace de vie doté d'une cuisine ouverte sur le jardin, salon cathédrale avec cheminée, hauteur sous plafond de plus de 4,5 m, salon télévision en mezzanine. 1er étage: 2 grandes chambres, salle d'eau et bureau. 2ème étage: suite parentale donnant sur terrasse, salle de bains et dressing, toilettes, buanderie. Cave. Double garage intégré. ");
-
+                contentValues.put("city", "Houston");
+                contentValues.put("price", "21250259");
+                contentValues.put("description", "Located in a charming passage, splendid house of character where styles harmonize perfectly with the outdoor spaces: 22 m² garden and 16 m² terrace beautifully planted. Garden level: large living space with a kitchen opening onto the garden, cathedral lounge with fireplace, ceiling height over 4.5m, TV lounge on the mezzanine. 1st floor: 2 large bedrooms, shower room and office. 2nd floor: master bedroom opening onto terrace, bathroom and dressing room, toilet, utility room. Cellar. Double integrated garage.");
                 contentValues.put("id", 2);
                 contentValues.put("type", "Duplex");
-                contentValues.put("city", "Bordeaux");
+                contentValues.put("city", "San Francisco");
                 contentValues.put("price","2439531");
-                contentValues.put("description","Maison de Ville exceptionnelle de 8 pièces de 353 m² avec toit terrasse de 70 m². Sur 4 niveaux, cette maison rénovée avec passion et goût par ses propriétaires se compose: - D'un sous-sol: cave, cave à vin, buanderie et local technique. - Au rez-de-chaussée: Une entrée, un salon avec cheminée à l'éthanol, une salle à manger, une cuisine semi-ouverte, une mezzanine de réception. - Au 1er étage: un vaste espace parental de 65 m² avec bureau - Au 2ème et 3ème étage: 2 chambres et 2 salles de bains Le tout desservi par un ascenseur donnant accès à un exceptionnel toit terrasse arboré de plus de 70 m². Climatisation, sauna/hammam, décoration très soignée avec matériaux luxueux font de cette maison un bien d'exception. Commerces, très bonnes écoles, 3 lignes de métro à proximité. BOX Possible en option du prix. CONTACT: Arnaud LAVIGNE dont 2.57 % honoraires TTC à la charge de l'acquéreur.");
+                contentValues.put("description", "Exceptional 8-room townhouse of 353 m² with roof terrace of 70 m². On 4 levels, this house renovated with passion and taste by its owners consists of: - A basement: cellar, wine cellar, laundry room and technical room. - On the ground floor: Entrance, living room with ethanol fireplace, dining room, semi-open kitchen, reception mezzanine. - On the 1st floor: a large parental space of 65 m² with office - On the 2nd and 3rd floor: 2 bedrooms and 2 bathrooms All served by an elevator giving access to an exceptional roof terrace with trees of over 70 m². Air conditioning, sauna / hammam, very neat decoration with luxurious materials make this house an exceptional property. Shops, very good schools, 3 metro lines nearby. BOX Possible optional price. CONTACT: Arnaud LAVIGNE of which 2.57% fees including VAT borne by the buyer.");
 
-                db.insert("User", OnConflictStrategy.IGNORE, contentValues);
             }
         };
     }

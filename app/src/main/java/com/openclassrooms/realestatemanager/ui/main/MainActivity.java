@@ -1,10 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.db.SupportSQLiteOpenHelper;
+import android.arch.persistence.room.DatabaseConfiguration;
+import android.arch.persistence.room.InvalidationTracker;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +20,13 @@ import android.view.View;
 import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.R;
 
+import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
+import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +57,36 @@ Log.i("tag_changed", "ok: "+s);
 
             }
         });
+
+
+        PropertyDataBase propertyDataBase = new PropertyDataBase() {
+            @Override
+            public PropertyDao propertyDao() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected InvalidationTracker createInvalidationTracker() {
+                return null;
+            }
+
+            @Override
+            public void clearAllTables() {
+
+            }
+        };
+
+        // LiveData<List<Property>> propertyList = propertyDataBase.propertyDao().getProperty();
+
+
+
     }
 
     private void configureAndShowMainFragment() {

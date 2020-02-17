@@ -1,10 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.db.SupportSQLiteOpenHelper;
+import android.arch.persistence.room.DatabaseConfiguration;
+import android.arch.persistence.room.InvalidationTracker;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +21,18 @@ import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.DatasViewModel;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
+import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
+    PropertyDataBase propertyDataBase;
     MainFragmentContract.Presenter presenter;
     RecyclerView recyclerView;
     ArrayList<String> testList = new ArrayList<>();
@@ -39,7 +49,30 @@ public class MainFragment extends Fragment {
         presenter = new MainFragmentPresenter();
 
         model= ViewModelProviders.of(this).get(DatasViewModel.class);
-    }
+
+        propertyDataBase = new PropertyDataBase() {
+            @NonNull
+            @Override
+            protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected InvalidationTracker createInvalidationTracker() {
+                return null;
+            }
+
+            @Override
+            public void clearAllTables() {
+
+            }
+
+            @Override
+            public PropertyDao propertyDao() {
+                return null;
+            }
+        };}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +106,7 @@ public class MainFragment extends Fragment {
 
     private void onPropertyClicked(String property) {
         Log.i("tag_clicked",property);
-        model.setCurrentName(property);
+       model.setCurrentName(property);
         detailsFragment = (DetailsFragment) getFragmentManager().findFragmentById(R.id.frame_layout_detail);
         if (detailsFragment != null && detailsFragment.isVisible()) {
 
