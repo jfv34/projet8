@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
-    private ArrayList<String> testPhoto;
-    private android.content.Context context;
-
+    private List<String> items;
+    private Context context;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(@NonNull View itemView) {
@@ -23,34 +22,30 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
         }
     }
 
-    public PhotoAdapter(ArrayList<String> testPhoto, Context context) {
-        this.testPhoto = testPhoto;
+    public PhotoAdapter(List<String> items, Context context) {
+        this.items = items;
         this.context = context;
-
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                         int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_photo, parent, false);
-        return new ViewHolder(v);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_photo, parent, false)
+        );
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        String data = items.get(position);
 
         TextView textView = holder.itemView.findViewById(R.id.item_photo_iv);
-        textView.setText(testPhoto.get(position));
-
-
+        textView.setText(data);
     }
-
 
     @Override
     public int getItemCount() {
-        return testPhoto.size();
+        return items.size();
     }
 }
 

@@ -1,5 +1,5 @@
 package com.openclassrooms.realestatemanager;
 
-abstract public class OnPropertyClickedListener{
-    public abstract void onClicked(String property);
+public interface OnPropertyClickedListener{
+    void onPropertyClicked(String property);
 }
