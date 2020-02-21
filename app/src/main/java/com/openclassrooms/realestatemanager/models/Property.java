@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.models;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity
 public class Property {
 
@@ -12,13 +14,16 @@ public class Property {
     private String city;
     private int price;
     private String description;
+    private List<PhotosURI> photos;
 
-    public Property(int id, String type, String city, int price, String description) {
+    public Property(int id, String type, String city, int price, String description,
+                    List<PhotosURI> photos) {
         this.id = id;
         this.type = type;
         this.city = city;
         this.price = price;
         this.description = description;
+        this.photos = photos;
     }
 
     public int getId() {
@@ -59,6 +64,14 @@ public class Property {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<PhotosURI> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<PhotosURI> photos) {
+        this.photos = photos;
     }
 }
 
