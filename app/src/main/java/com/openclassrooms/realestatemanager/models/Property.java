@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.models;
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,16 +16,17 @@ public class Property {
     private String city;
     private int price;
     private String description;
-    private List<PhotosURI> photos;
+    @Embedded
+    private ArrayList<PhotosURI> photosList;
 
     public Property(int id, String type, String city, int price, String description,
-                    List<PhotosURI> photos) {
+                    ArrayList<PhotosURI> photosList) {
         this.id = id;
         this.type = type;
         this.city = city;
         this.price = price;
         this.description = description;
-        this.photos = photos;
+        this.photosList = photosList;
     }
 
     public int getId() {
@@ -66,12 +69,12 @@ public class Property {
         this.description = description;
     }
 
-    public List<PhotosURI> getPhotos() {
-        return photos;
+    public ArrayList<PhotosURI> getPhotosList() {
+        return photosList;
     }
 
-    public void setPhotos(List<PhotosURI> photos) {
-        this.photos = photos;
+    public void setPhotosList(ArrayList<PhotosURI> photosList) {
+        this.photosList = photosList;
     }
 }
 

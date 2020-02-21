@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 public class DetailsFragment extends Fragment {
 
     SharedViewModel sharedViewModel;
+    DetailsFragmentViewModel viewModel;
+    String propertyClicked = "";
 
     @BindView(R.id.fragment_detail_photos_rv)
     RecyclerView recyclerView;
@@ -41,14 +43,27 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
+        viewModel.photos.observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> strings) {
+                if(!propertyClicked.isEmpty()){viewModel.loadPhotos(propertyClicked);
+                    recyclerView.setAdapter(new PhotoAdapter(strings, getContext()));
+                }
+            }
+        });
+
         sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
         sharedViewModel.propertyClicked.observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                List<String> strings = new ArrayList<>();
+                propertyClicked=s;
+                viewModel.loadPhotos(propertyClicked);
+
+               /* List<String> strings = new ArrayList<>();
                 strings.add("photo 1, number of the property clicked is " + s);
                 strings.add("photo 2");
-                recyclerView.setAdapter(new PhotoAdapter(strings, getContext()));
+                recyclerView.setAdapter(new PhotoAdapter(strings, getContext()));*/
             }
         });
     }
