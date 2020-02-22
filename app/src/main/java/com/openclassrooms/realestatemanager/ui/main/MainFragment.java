@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,10 +15,10 @@ import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.ui.SharedViewModel;
-import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -75,8 +74,11 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         if (detailsFragment != null && detailsFragment.isVisible()) {
 
         } else {
-            Intent i = new Intent(getActivity(), DetailsActivity.class);
-            startActivity(i);
+            detailsFragment = new DetailsFragment();
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout_main, detailsFragment)
+                    .commit();
         }
     }
 }

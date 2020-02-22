@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
         if (detailsFragment == null && findViewById(R.id.frame_layout_detail) != null) {
             detailsFragment = new DetailsFragment();
+
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_detail, detailsFragment)
                     .commit();

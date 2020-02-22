@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.ui.SharedViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
