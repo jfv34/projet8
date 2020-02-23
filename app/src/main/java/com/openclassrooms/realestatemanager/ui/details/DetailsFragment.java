@@ -59,10 +59,7 @@ public class DetailsFragment extends Fragment {
                 propertyClicked=s;
                 viewModel.loadPhotos(propertyClicked);
 
-               /* List<String> strings = new ArrayList<>();
-                strings.add("photo 1, number of the property clicked is " + s);
-                strings.add("photo 2");
-                recyclerView.setAdapter(new PhotoAdapter(strings, getContext()));*/
+
             }
         });
     }

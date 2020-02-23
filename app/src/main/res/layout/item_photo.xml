@@ -6,22 +6,34 @@
     card_view:cardCornerRadius="@dimen/margin_small"
     card_view:cardElevation="@dimen/margin_small"
     card_view:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#ffffff"
     app:cardPreventCornerOverlap="true"
-    android:layout_width="150dp"
+    android:layout_width="match_parent"
     android:layout_height="150dp">
 
     <android.support.constraint.ConstraintLayout
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/item_photo_iv"
+            android:scaleType="centerCrop"
+            android:src="@drawable/picture_flat_exemple"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_photo_description_tv"
+            />
+        <TextView
+            android:textColor="#000000"
+            android:id="@+id/item_photo_description_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/item_photo_iv"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
 
 

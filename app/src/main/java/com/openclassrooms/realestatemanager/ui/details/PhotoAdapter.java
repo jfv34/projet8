@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.details;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         String data = items.get(position);
 
-        TextView textView = holder.itemView.findViewById(R.id.item_photo_iv);
+        TextView textView = holder.itemView.findViewById(R.id.item_photo_description_tv);
         textView.setText(data);
     }
 
