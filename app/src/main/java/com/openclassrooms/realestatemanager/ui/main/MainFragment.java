@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.SharedViewModel;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,10 +51,10 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
        viewModel = ViewModelProviders.of(this).get(MainFragmentViewModel.class);
 
-        viewModel.properties.observe(this, new Observer<List<String>>() {
+        viewModel.properties.observe(this, new Observer<ArrayList<Property>>() {
             @Override
-            public void onChanged(@Nullable List<String> strings) {
-                recyclerView.setAdapter(new PropertyAdapter(strings, getContext(), MainFragment.this));
+            public void onChanged(@Nullable ArrayList<Property> properties) {
+                recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
         });
 

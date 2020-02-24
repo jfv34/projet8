@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Property;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -17,7 +19,7 @@ import java.util.List;
 
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHolder> {
 
-    private List<String> items;
+    private List<Property> properties;
     private Context context;
     private OnPropertyClickedListener clickedListener;
     @BindView(R.id.item_type_tv) TextView type;
@@ -30,8 +32,8 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         }
     }
 
-    public PropertyAdapter(List<String> testList, Context context, OnPropertyClickedListener clickedListener) {
-        this.items = testList;
+    public PropertyAdapter(List<Property> properties, Context context, OnPropertyClickedListener clickedListener) {
+        this.properties = properties;
         this.context = context;
         this.clickedListener = clickedListener;
 
@@ -49,9 +51,17 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-
         final View itemView = holder.itemView.findViewById(R.id.item_property);
-        type.setText(items.get(position));
+        final TextView city_tv = itemView.findViewById(R.id.item_city_tv);
+        final TextView type_tv = itemView.findViewById(R.id.item_type_tv);
+        final TextView price_tv = itemView.findViewById(R.id.item_price_tv);
+
+       city_tv.setText(properties.get(position).getCity());
+        type_tv.setText(properties.get(position).getType());
+        price_tv.setText(String.valueOf(properties.get(position).getPrice()));
+
+
+
 
        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +73,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return properties.size();
     }
 }
 
