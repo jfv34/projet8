@@ -58,7 +58,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
        city_tv.setText(properties.get(position).getCity());
         type_tv.setText(properties.get(position).getType());
-        price_tv.setText(String.valueOf(properties.get(position).getPrice()));
+        price_tv.setText("$ "+String.valueOf(properties.get(position).getPrice()));
 
 
 

@@ -48,7 +48,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues.put("id", 1);
                 contentValues.put("type", "Flat");
                 contentValues.put("city", "Houston");
-                contentValues.put("price", "21250259");
+                contentValues.put("price", "17250259");
                 contentValues.put("description", "Located in a charming passage, splendid house of character where styles harmonize perfectly with the outdoor spaces: 22 m² garden and 16 m² terrace beautifully planted. Garden level: large living space with a kitchen opening onto the garden, cathedral lounge with fireplace, ceiling height over 4.5m, TV lounge on the mezzanine. 1st floor: 2 large bedrooms, shower room and office. 2nd floor: master bedroom opening onto terrace, bathroom and dressing room, toilet, utility room. Cellar. Double integrated garage.");
                 contentValues.put("id", 2);
                 contentValues.put("type", "Duplex");
