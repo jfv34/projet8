@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,24 +16,18 @@ import com.openclassrooms.realestatemanager.ui.SharedViewModel;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class DetailsFragment extends Fragment {
 
     SharedViewModel sharedViewModel;
     DetailsFragmentViewModel viewModel;
     String propertyClicked = "";
 
-    @BindView(R.id.fragment_detail_photos_rv)
-    RecyclerView recyclerView;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
-        ButterKnife.bind(this, root);
 
-        configureRecyclerView();
 
         return root;
     }
@@ -47,7 +41,7 @@ public class DetailsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<String> strings) {
                 if(!propertyClicked.isEmpty()){viewModel.loadPhotos(propertyClicked);
-                    recyclerView.setAdapter(new PhotoAdapter(strings, getContext()));
+                    viewPager.setAdapter(new PhotosPageAdapter(strings, getContext()));
                 }
             }
         });
@@ -62,11 +56,10 @@ public class DetailsFragment extends Fragment {
 
             }
         });
+        configureViewPager(view);
     }
 
-    public void configureRecyclerView() {
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+    public void configureViewPager(View view) {
+        viewPager = view.findViewById(R.id.fragment_detail_viewpager);
     }
 }

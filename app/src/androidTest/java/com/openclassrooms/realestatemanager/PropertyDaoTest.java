@@ -47,7 +47,7 @@ public class PropertyDaoTest {
     @Test
     public void getPropertyWhenNoPropertyInserted() throws InterruptedException {
         // TEST
-        List<Property> items = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperty());
+        List<Property> items = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperties());
         assertTrue(items.isEmpty());
     }
 
@@ -59,7 +59,7 @@ public class PropertyDaoTest {
         this.propertyDataBase.propertyDao().insertProperty(NEW_PROPERTY_LOS_ANGELES);
 
         // TEST
-        List<Property> properties = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperty());
+        List<Property> properties = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperties());
         assertTrue(properties.size() == 2);
     }
 
@@ -67,12 +67,12 @@ public class PropertyDaoTest {
     public void insertAndUpdateItem() throws InterruptedException {
         // BEFORE : Adding demo property. Next, update property added & re-save it
         this.propertyDataBase.propertyDao().insertProperty(NEW_PROPERTY_NEW_YORK);
-        Property propertyAdded = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperty()).get(0);
+        Property propertyAdded = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperties()).get(0);
         propertyAdded.setPrice(123456789);
         this.propertyDataBase.propertyDao().updateProperty(propertyAdded);
 
         //TEST
-        List<Property> properties = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperty());
+        List<Property> properties = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperties());
         assertTrue(properties.size() == 1 && properties.get(0).getPrice() == 123456789);
 
     }
@@ -81,12 +81,12 @@ public class PropertyDaoTest {
     public void insertAndDeleteItem() throws InterruptedException {
         // BEFORE : Adding demo property. Next, get the property added & delete it.
         this.propertyDataBase.propertyDao().insertProperty(NEW_PROPERTY_LOS_ANGELES);
-        Property propertyAdded = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperty()).get(0);
+        Property propertyAdded = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperties()).get(0);
 
         this.propertyDataBase.propertyDao().deleteProperty(propertyAdded.getId());
 
         //TEST
-        List<Property> properties = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperty());
+        List<Property> properties = LiveDataTestUtil.getValue(this.propertyDataBase.propertyDao().getProperties());
         assertTrue(properties.isEmpty());
     }
 
