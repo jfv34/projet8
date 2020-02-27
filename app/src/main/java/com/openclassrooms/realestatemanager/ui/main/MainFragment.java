@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,10 @@ import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.SharedViewModel;
+import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +27,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
 
     private MainFragmentViewModel viewModel;
-    private SharedViewModel sharedViewModel;
-    private DetailsFragment detailsFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,17 +42,9 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainFragmentViewModel.class);
 
-
-       viewModel = ViewModelProviders.of(this).get(MainFragmentViewModel.class);
-
-        viewModel.properties.observe(this, new Observer<ArrayList<Property>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<Property> properties) {
-                recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
-            }
-        });
+        viewModel.properties.observe(this, properties -> recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this)));
 
         viewModel.loadProperties();
     }
@@ -69,18 +57,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @Override
     public void onPropertyClicked(String property) {
-        Log.i("tag_clicked",property);
-        sharedViewModel.propertyClicked.setValue(property);
-
-        detailsFragment = (DetailsFragment) getFragmentManager().findFragmentById(R.id.frame_layout_detail);
-        if (detailsFragment != null && detailsFragment.isVisible()) {
-
-        } else {
-            detailsFragment = new DetailsFragment();
-
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_layout_main, detailsFragment)
-                    .commit();
-        }
+        DetailsActivity.start(getActivity(), property);
     }
 }

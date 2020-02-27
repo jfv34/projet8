@@ -63,12 +63,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
 
 
-       itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickedListener.onPropertyClicked(String.valueOf(position));
-            }
-        });
+       itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(String.valueOf(position)));
     }
 
     @Override

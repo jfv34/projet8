@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.ui.SharedViewModel;
-
-import java.util.List;
 
 public class DetailsFragment extends Fragment {
 
-    SharedViewModel sharedViewModel;
+    public static DetailsFragment newInstance(String bundleProperty) {
+        DetailsFragment detailsFragment = new DetailsFragment();
+
+        Bundle args = new Bundle();
+        args.putString("property", bundleProperty);
+        detailsFragment.setArguments(args);
+
+        return detailsFragment;
+    }
+
     DetailsFragmentViewModel viewModel;
-    String propertyClicked = "";
+    String bundleProperty;
 
     private ViewPager viewPager;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        bundleProperty = getArguments().getString("property", "");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,25 +47,12 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
-        viewModel.photos.observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(@Nullable List<String> strings) {
-                if(!propertyClicked.isEmpty()){viewModel.loadPhotos(propertyClicked);
-                    viewPager.setAdapter(new PhotosPageAdapter(strings, getContext()));
-                }
-            }
+        viewModel.photos.observe(this, strings -> {
+
+            viewPager.setAdapter(new PhotosPageAdapter(strings, getContext()));
+
         });
-
-        sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
-        sharedViewModel.propertyClicked.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                propertyClicked=s;
-                viewModel.loadPhotos(propertyClicked);
-
-
-            }
-        });
+        viewModel.loadPhotos(bundleProperty);
         configureViewPager(view);
     }
 

@@ -12,6 +12,9 @@ public class DetailsFragmentViewModel extends ViewModel {
 
 
     public void loadPhotos(String propertyClicked) {
+
+        // propertyDataRepository.loadPhotos;
+        // mettre photos dans livedata
         if(!propertyClicked.isEmpty()){
         ArrayList<String> newPhotos = new ArrayList<>();
         newPhotos.add("photo 1 of property number " + propertyClicked);
