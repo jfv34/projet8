@@ -15,6 +15,7 @@
             android:id="@+id/fragment_detail_collapsingtoolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <android.support.v7.widget.Toolbar
@@ -22,6 +23,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
+                    app:titleTextColor="#ffffff"
                     app:title="test" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
