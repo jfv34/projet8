@@ -17,18 +17,12 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/fragment_detail_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                 />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/fragment_detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="test"
-                app:layout_collapseMode="pin" />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/fragment_detail_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:title="test" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -44,16 +38,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/fragment_detail_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+
                 <TextView
                     android:id="@+id/item_type_and_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
+                    android:text="type and city..."
                     android:textSize="25dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/fragment_detail_viewpager"/>
 
                 <TextView
                     android:id="@+id/item_description_tv"
