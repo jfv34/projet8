@@ -43,9 +43,8 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(MainFragmentViewModel.class);
-
-        viewModel.properties.observe(this, properties -> recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this)));
-
+        viewModel.properties.observe(this, properties
+                -> recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this)));
         viewModel.loadProperties();
     }
 
@@ -57,6 +56,8 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @Override
     public void onPropertyClicked(String property) {
+
+
         DetailsActivity.start(getActivity(), property);
     }
 }

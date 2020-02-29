@@ -31,12 +31,12 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void configureAndShowDetailFragment(){
-        DetailsFragment detailFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+        DetailsFragment detailFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_detail_frame_layout_detail);
 
         if (detailFragment == null) {
             detailFragment = DetailsFragment.newInstance("");
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout_detail, detailFragment)
+                    .add(R.id.activity_main_frame_layout_detail, detailFragment)
                     .commit();
         }
     }
