@@ -36,7 +36,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (detailFragment == null) {
             detailFragment = DetailsFragment.newInstance("");
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_main_frame_layout_detail, detailFragment)
+                    .add(R.id.activity_detail_frame_layout_detail, detailFragment)
                     .commit();
         }
     }

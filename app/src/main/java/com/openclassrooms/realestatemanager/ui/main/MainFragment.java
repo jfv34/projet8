@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +12,7 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
-import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +51,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @Override
     public void onPropertyClicked(String property) {
-
 
         DetailsActivity.start(getActivity(), property);
     }
