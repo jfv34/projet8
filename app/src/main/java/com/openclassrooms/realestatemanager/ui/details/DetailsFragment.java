@@ -57,6 +57,6 @@ public class DetailsFragment extends Fragment {
     }
 
     public void configureViewPager(View view) {
-        viewPager = view.findViewById(R.id.fragment_detail_viewpager);
+        //viewPager = view.findViewById(R.id.fragment_detail_viewpager);
     }
 }
