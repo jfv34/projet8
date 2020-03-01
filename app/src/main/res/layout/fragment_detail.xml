@@ -23,8 +23,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+
+
         </android.support.design.widget.CollapsingToolbarLayout>
+        <android.support.design.widget.FloatingActionButton
+
+            android:id="@+id/fragment_detail_fab"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchor="@id/fragment_detail_viewpager"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_add_24px"
+            android:translationY="40dp"
+            app:rippleColor="#ffffffff"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
     </android.support.design.widget.AppBarLayout>
+
+
     <android.support.v4.widget.NestedScrollView
             android:id="@+id/fragment_detail_nestedScrollView"
             android:layout_width="match_parent"
@@ -61,7 +80,12 @@
                     app:layout_constraintTop_toBottomOf="@id/item_type_and_city" />
 
             </android.support.constraint.ConstraintLayout>
+
+
         </android.support.v4.widget.NestedScrollView>
+
+
+
 </android.support.design.widget.CoordinatorLayout>
 
 

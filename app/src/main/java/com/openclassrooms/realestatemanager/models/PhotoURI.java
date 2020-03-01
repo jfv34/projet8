@@ -2,11 +2,11 @@ package com.openclassrooms.realestatemanager.models;
 
 import android.net.Uri;
 
-class PhotosURI {
+public class PhotoURI {
     private Uri photoUri;
     private String photoDescription;
 
-    public PhotosURI(Uri photoUri, String photoDescription) {
+    public PhotoURI(Uri photoUri, String photoDescription) {
         this.photoUri = photoUri;
         this.photoDescription = photoDescription;
     }

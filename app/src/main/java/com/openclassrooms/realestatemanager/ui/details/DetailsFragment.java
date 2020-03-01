@@ -24,14 +24,14 @@ public class DetailsFragment extends Fragment {
     }
 
     DetailsFragmentViewModel viewModel;
-    String bundleProperty;
+    Integer bundleProperty;
 
     private ViewPager viewPager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundleProperty = getArguments().getString("property", "");
+        bundleProperty = getArguments().getInt("property", 0);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class DetailsFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
         viewModel.photos.observe(this, strings -> {
 
-            viewPager.setAdapter(new PhotosPageAdapter(strings, getContext()));
+            //viewPager.setAdapter(new PhotosPageAdapter(PhotoURI, getContext()));
 
         });
         viewModel.loadPhotos(bundleProperty);

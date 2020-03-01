@@ -12,10 +12,10 @@ import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Property;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import java.util.List;
 
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHolder> {
 
@@ -61,9 +61,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         price_tv.setText("$ "+String.valueOf(properties.get(position).getPrice()));
 
 
-
-
-       itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(String.valueOf(position)));
+        itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(String.valueOf(position)));
     }
 
     @Override

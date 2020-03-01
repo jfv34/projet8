@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Property {
@@ -15,17 +16,17 @@ public class Property {
     private String city;
     private int price;
     private String description;
-    //@Embedded
-    //private ArrayList<PhotosURI> photosList;
+    @Embedded
+    private ArrayList<PhotoURI> photosURI;
 
-    public Property(int id, String type, String city, int price, String description
-                   ) {
+    public Property(int id, String type, String city, int price, String description,
+                    ArrayList<PhotoURI> photosURI) {
         this.id = id;
         this.type = type;
         this.city = city;
         this.price = price;
         this.description = description;
-        //this.photosList = photosList;
+        this.photosURI = photosURI;
     }
 
     public int getId() {
@@ -68,13 +69,14 @@ public class Property {
         this.description = description;
     }
 
-  /*  public ArrayList<PhotosURI> getPhotosList() {
-        return photosList;
+    public ArrayList<PhotoURI> getPhotosURI() {
+        return photosURI;
     }
 
-    public void setPhotosList(ArrayList<PhotosURI> photosList) {
-        this.photosList = photosList;
-    }*/
+
+    public void setPhotosURI(ArrayList<PhotoURI> photosURI) {
+        this.photosURI = photosURI;
+    }
 }
 
 

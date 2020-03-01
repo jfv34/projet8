@@ -3,29 +3,21 @@ package com.openclassrooms.realestatemanager.ui.details;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.openclassrooms.realestatemanager.models.PhotoURI;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class DetailsFragmentViewModel extends ViewModel {
 
-    MutableLiveData<List<String>> photos = new MutableLiveData<>();
+    MutableLiveData<ArrayList<PhotoURI>> photos = new MutableLiveData<>();
 
 
-    public void loadPhotos(String propertyClicked) {
+    public void loadPhotos(int propertyClicked) {
 
-        // propertyDataRepository.loadPhotos;
-        // mettre photos dans livedata
-        if(!propertyClicked.isEmpty()){
-        ArrayList<String> newPhotos = new ArrayList<>();
-        newPhotos.add("photo 1 of property number " + propertyClicked);
-        newPhotos.add("photo 2");
-        newPhotos.add("photo 3");
-        newPhotos.add("photo 4");
-        newPhotos.add("photo 5");
-        newPhotos.add("photo 6");
-        newPhotos.add("photo 7");
-        newPhotos.add("photo 8");
+        //return PropertyDataRepository.loadPhotos(propertyClicked);
 
-        photos.postValue(newPhotos);}
+        if (propertyClicked != 0) {
+            // photos.postValue(newPhotos);}
+        }
     }
 }
