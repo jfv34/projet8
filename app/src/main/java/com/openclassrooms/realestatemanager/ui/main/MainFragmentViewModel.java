@@ -1,21 +1,45 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
+import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 public class MainFragmentViewModel extends ViewModel {
 
-    MutableLiveData<ArrayList<Property>> properties = new MutableLiveData<>();
+    private final PropertyDataRepository propertyDataRepository;
+    private final Executor executor;
+    LiveData<List<Property>> properties;
+
+    public MainFragmentViewModel(PropertyDataRepository propertyDataRepository, Executor executor) {
+        this.propertyDataRepository = propertyDataRepository;
+        this.executor = executor;
+    }
+
+
+    public LiveData<List<Property>> getProperties() {
+        return propertyDataRepository.getProperties();
+    }
+
 
     public void loadProperties() {
 
-        ArrayList<Property> results = new ArrayList<>();
+        List<Property> results = getProperties().getValue();
 
-        Property property_test_1 = new Property(
+        Log.i("tag_result",results.toString());
+
+
+
+
+     /*   Property property_test_1 = new Property(
                 1,
                 "Flat",
                 "Houston",
@@ -41,7 +65,7 @@ public class MainFragmentViewModel extends ViewModel {
         results.add(property_test_1);
         results.add(property_test_2);
 
-        properties.setValue(results);
+        properties.setValue(results);*/
 
     }
     }
