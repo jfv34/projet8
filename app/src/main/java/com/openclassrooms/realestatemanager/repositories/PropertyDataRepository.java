@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.repositories;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.PhotoURI;

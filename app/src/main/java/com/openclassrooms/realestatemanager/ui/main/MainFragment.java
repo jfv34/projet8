@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 
 import butterknife.BindView;
@@ -36,6 +37,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        PropertyDataBase.getInstance(getContext());
 
         viewModel = ViewModelProviders.of(this).get(MainFragmentViewModel.class);
         viewModel.properties.observe(this, properties

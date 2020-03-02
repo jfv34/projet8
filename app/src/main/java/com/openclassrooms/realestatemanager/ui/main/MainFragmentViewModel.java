@@ -1,38 +1,27 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 public class MainFragmentViewModel extends ViewModel {
 
-    private final PropertyDataRepository propertyDataRepository;
-    private final Executor executor;
+    //private final PropertyDataRepository propertyDataRepository;
+    //private final Executor executor;
     LiveData<List<Property>> properties;
 
-    public MainFragmentViewModel(PropertyDataRepository propertyDataRepository, Executor executor) {
-        this.propertyDataRepository = propertyDataRepository;
-        this.executor = executor;
+    public MainFragmentViewModel() {
+        //this.propertyDataRepository = propertyDataRepository;
+       //this.executor = executor;
     }
-
-
-    public LiveData<List<Property>> getProperties() {
-        return propertyDataRepository.getProperties();
-    }
-
 
     public void loadProperties() {
 
-        List<Property> results = getProperties().getValue();
+        List<Property> results =  properties.getValue();
 
         Log.i("tag_result",results.toString());
 
