@@ -1,14 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
@@ -20,7 +21,8 @@ import butterknife.ButterKnife;
 
 public class MainFragment extends Fragment implements OnPropertyClickedListener {
 
-    @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.fragment_main_recyclerView)
+    RecyclerView recyclerView;
 
     private MainFragmentViewModel viewModel;
 
@@ -39,9 +41,14 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = ViewModelProviders.of(this).get(MainFragmentViewModel.class);
-        viewModel.properties.observe(this, properties
-                -> recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this)));
+        viewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
+
+        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+            if (properties != null) {
+                recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
+            }
+        });
+
         viewModel.loadProperties();
     }
 

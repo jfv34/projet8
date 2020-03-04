@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.repositories;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.PhotoURI;
@@ -18,7 +18,6 @@ public class PropertyDataRepository {
     }
 
     public ArrayList<PhotoURI> loadPhotos(int propertyId) {
-
         ArrayList<PhotoURI> photosURI = this.propertyDao.getProperties().getValue().get(propertyId).getPhotosURI();
         return photosURI;
     }

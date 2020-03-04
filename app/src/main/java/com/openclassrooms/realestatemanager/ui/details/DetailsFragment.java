@@ -1,13 +1,14 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.openclassrooms.realestatemanager.R;
 
@@ -46,10 +47,10 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(DetailsFragmentViewModel.class);
-        viewModel.photos.observe(this, strings -> {
+        viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
+        viewModel.photos.observe(getViewLifecycleOwner(), strings -> {
 
-            //viewPager.setAdapter(new PhotosPageAdapter(PhotoURI, getContext()));
+            //  viewPager.setAdapter(new PhotosPageAdapter(PhotoURI, getContext()));
 
         });
         viewModel.loadPhotos(bundleProperty);
