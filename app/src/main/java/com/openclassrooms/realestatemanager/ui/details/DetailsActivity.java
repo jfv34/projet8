@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.details;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,12 +11,12 @@ import com.openclassrooms.realestatemanager.R;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    String bundleProperty;
+    int bundleProperty;
 
-    public static void start(Activity activity, String property){
+    public static void start(Activity activity, int property){
         Intent intent = new Intent(activity, DetailsActivity.class);
         Bundle b = new Bundle();
-        b.putString("property", property);
+        b.putInt("property", property);
         intent.putExtras(b);
         activity.startActivity(intent);
     }
@@ -26,8 +27,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Bundle b = getIntent().getExtras();
-        if(b != null) bundleProperty = b.getString("property");
-
+        if(b != null) bundleProperty = b.getInt("property");
         configureAndShowDetailFragment();
     }
 
@@ -35,7 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
         DetailsFragment detailFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_detail_frame_layout_detail);
 
         if (detailFragment == null) {
-            detailFragment = DetailsFragment.newInstance("");
+            detailFragment = DetailsFragment.newInstance(bundleProperty);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_detail_frame_layout_detail, detailFragment)
                     .commit();

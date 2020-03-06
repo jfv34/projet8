@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,18 +16,18 @@ import com.openclassrooms.realestatemanager.R;
 
 public class DetailsFragment extends Fragment {
 
-    public static DetailsFragment newInstance(String bundleProperty) {
+    public static DetailsFragment newInstance(int bundleProperty) {
         DetailsFragment detailsFragment = new DetailsFragment();
 
         Bundle args = new Bundle();
-        args.putString("property", bundleProperty);
+        args.putInt("property", bundleProperty);
         detailsFragment.setArguments(args);
 
         return detailsFragment;
     }
 
     DetailsFragmentViewModel viewModel;
-    Integer bundleProperty;
+    int bundleProperty;
 
     private ViewPager viewPager;
 
@@ -33,6 +35,7 @@ public class DetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundleProperty = getArguments().getInt("property", 0);
+        Log.i("tag_propertyInt",String.valueOf(bundleProperty));
     }
 
     @Override
@@ -48,12 +51,23 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
-        viewModel.photos.observe(getViewLifecycleOwner(), strings -> {
+       /* viewModel.photos.observe(getViewLifecycleOwner(), strings -> {
 
             //  viewPager.setAdapter(new PhotosPageAdapter(PhotoURI, getContext()));
 
+        });*/
+
+        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+            if (properties != null) {
+                TextView typeAndCity = view.findViewById(R.id.item_type_and_city);
+                typeAndCity.setText(properties.get(bundleProperty).getCity());
+            }
         });
+
+
         viewModel.loadPhotos(bundleProperty);
+
+
         configureViewPager(view);
     }
 

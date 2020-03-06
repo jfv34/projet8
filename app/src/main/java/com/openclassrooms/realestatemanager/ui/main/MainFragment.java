@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     }
 
     @Override
-    public void onPropertyClicked(String property) {
-
+    public void onPropertyClicked(int property) {
         DetailsActivity.start(getActivity(), property);
     }
 

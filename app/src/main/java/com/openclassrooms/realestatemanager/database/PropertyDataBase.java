@@ -60,9 +60,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues.put("price","2439531");
                 contentValues.put("description", "Exceptional 8-room townhouse of 353 m² with roof terrace of 70 m². On 4 levels, this house renovated with passion and taste by its owners consists of: - A basement: cellar, wine cellar, laundry room and technical room. - On the ground floor: Entrance, living room with ethanol fireplace, dining room, semi-open kitchen, reception mezzanine. - On the 1st floor: a large parental space of 65 m² with office - On the 2nd and 3rd floor: 2 bedrooms and 2 bathrooms All served by an elevator giving access to an exceptional roof terrace with trees of over 70 m². Air conditioning, sauna / hammam, very neat decoration with luxurious materials make this house an exceptional property. Shops, very good schools, 3 metro lines nearby. BOX Possible optional price. CONTACT: Arnaud LAVIGNE of which 2.57% fees including VAT borne by the buyer.");
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues);
-
             }
         };
     }
-
 }

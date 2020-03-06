@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,8 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         price_tv.setText("$ "+String.valueOf(properties.get(position).getPrice()));
 
 
-        itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(String.valueOf(position)));
+        itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(position));
+
     }
 
     @Override
