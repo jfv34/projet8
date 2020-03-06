@@ -1,9 +1,15 @@
+/*
 package com.openclassrooms.realestatemanager;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.room.Room;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -40,8 +46,8 @@ public class PropertyDaoTest {
     }
 
     // DATA SET FOR TEST
-    private static Property NEW_PROPERTY_NEW_YORK = new Property(1001, "House", "Newy York", 13525205, "Magnificent architect-designed house of 353m² on 5 levels with lift and roof terrace, bright, contemporary style and furnished with quality materials. Ground floor: entrance, living room with ethanol fireplace, dining room, semi-open kitchen, mezzanine office. 1st floor: parental suite of 65m² with office. 2nd floor: 2 bedrooms, 2 bathrooms. 3rd floor: 2 bedrooms, 2 bathrooms and sauna. 4th floor: 70 m² tree-shaded terrace. Basement: cellar, wine cellar, laundry room and technical room. General air conditioning. Possibility of acquiring a box in supplement.");
-    private static Property NEW_PROPERTY_LOS_ANGELES = new Property(1002, "House", "Los Angeles", 36353949, "In the immediate vicinity of Montsouris Park, superb 195m² house, on 4 levels, recently renovated, having kept all its character and with a garden-terrace and beautiful light with south-west exposure. Ground floor: office open onto the terrace. 1st floor: large living room with fireplace, fully fitted open kitchen. 2nd floor: master bedroom, dressing room, bathroom and shower. On the 3rd floor: 2 bedrooms. On the 4th floor: large bedroom. 3 toilets. Laundry. Reversible climate control.");
+    private static Property NEW_PROPERTY_NEW_YORK = new Property(1001, "House", "Newy York", 13525205, "Magnificent architect-designed house of 353m² on 5 levels with lift and roof terrace, bright, contemporary style and furnished with quality materials. Ground floor: entrance, living room with ethanol fireplace, dining room, semi-open kitchen, mezzanine office. 1st floor: parental suite of 65m² with office. 2nd floor: 2 bedrooms, 2 bathrooms. 3rd floor: 2 bedrooms, 2 bathrooms and sauna. 4th floor: 70 m² tree-shaded terrace. Basement: cellar, wine cellar, laundry room and technical room. General air conditioning. Possibility of acquiring a box in supplement.",null);
+    private static Property NEW_PROPERTY_LOS_ANGELES = new Property(1002, "House", "Los Angeles", 36353949, "In the immediate vicinity of Montsouris Park, superb 195m² house, on 4 levels, recently renovated, having kept all its character and with a garden-terrace and beautiful light with south-west exposure. Ground floor: office open onto the terrace. 1st floor: large living room with fireplace, fully fitted open kitchen. 2nd floor: master bedroom, dressing room, bathroom and shower. On the 3rd floor: 2 bedrooms. On the 4th floor: large bedroom. 3 toilets. Laundry. Reversible climate control.",null);
 
 
     @Test
@@ -93,3 +99,4 @@ public class PropertyDaoTest {
 
 }
 
+*/

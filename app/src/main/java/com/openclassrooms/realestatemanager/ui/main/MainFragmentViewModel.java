@@ -13,20 +13,7 @@ import java.util.List;
 
 public class MainFragmentViewModel extends ViewModel {
 
-    private final PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
-    //private final PropertyRepository repository = new FakePropertiesRepository();
+    private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
-    //private final PropertyDataRepository propertyDataRepository;
-    //private final Executor executor;
     LiveData<List<Property>> properties = repository.getProperties();
-
-    public MainFragmentViewModel() {
-        //this.propertyDataRepository = propertyDataRepository;
-       //this.executor = executor;
-    }
-
-    public void loadProperties() {
-        //List<Property> results = repository.getProperties();
-        //properties.setValue(results);
-    }
 }

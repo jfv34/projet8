@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         configureAndShowMainFragment();
+
     }
 
     private void configureAndShowMainFragment() {
@@ -28,4 +29,6 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
+
 }

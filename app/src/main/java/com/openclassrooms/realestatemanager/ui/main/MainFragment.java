@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -45,11 +46,13 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
+                if (properties.isEmpty()){toast("No datas to display");}
                 recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
+
         });
 
-        viewModel.loadProperties();
+
     }
 
     public void configureRecyclerView() {
@@ -62,5 +65,14 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onPropertyClicked(String property) {
 
         DetailsActivity.start(getActivity(), property);
+    }
+
+    private void toast(int message) {
+        Toast toast = Toast.makeText(getActivity(), getString(message), Toast.LENGTH_LONG);
+        toast.show();
+    }
+    private void toast(String message) {
+        Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
+        toast.show();
     }
 }
