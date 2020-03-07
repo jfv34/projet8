@@ -17,10 +17,10 @@ public class PropertyDataRepository {
         this.propertyDao = propertyDao;
     }
 
-    public ArrayList<PhotoURI> loadPhotos(int propertyId) {
+  /*  public ArrayList<PhotoURI> loadPhotos(int propertyId) {
         ArrayList<PhotoURI> photosURI = this.propertyDao.getProperties().getValue().get(propertyId).getPhotosURI();
         return photosURI;
-    }
+    }*/
 
     // --- GET ---
 

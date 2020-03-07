@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.base;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.facebook.flipper.android.AndroidFlipperClient;
 import com.facebook.flipper.android.utils.FlipperUtils;
@@ -12,8 +11,6 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping;
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin;
 import com.facebook.soloader.SoLoader;
 import com.openclassrooms.realestatemanager.BuildConfig;
-import com.openclassrooms.realestatemanager.database.PropertyDataBase;
-import com.openclassrooms.realestatemanager.models.Property;
 
 public class BaseApplication extends Application {
 
@@ -33,7 +30,7 @@ public class BaseApplication extends Application {
 
         }
 
-        new AsyncTask(){
+       /* new AsyncTask(){
 
             @Override
             protected Object doInBackground(Object[] objects) {
@@ -49,7 +46,7 @@ public class BaseApplication extends Application {
                 );
                 return null;
             }
-        };
+        };*/
     }
 
     public static Context getAppContext() {

@@ -58,7 +58,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView type_tv = itemView.findViewById(R.id.item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.item_price_tv);
 
-       city_tv.setText(properties.get(position).getCity());
+       city_tv.setText(properties.get(position).getAddress());
         type_tv.setText(properties.get(position).getType());
         price_tv.setText("$ "+String.valueOf(properties.get(position).getPrice()));
 

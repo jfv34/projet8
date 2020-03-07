@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Entity
 public class Property {
@@ -13,19 +14,38 @@ public class Property {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String type;
-    private String city;
     private int price;
+    //@Embedded
+    //private AddressProperty address;
+    private String address;
+    private int surface;
+    private int numberOfPieces;
     private String description;
-    @Embedded
-    private ArrayList<PhotoURI> photosURI;
+    private String interestPoint;
+    private boolean solded;
+    private String status;
+    private String entryDate;
+    private String saleDate;
+    private String agentName;
+    //@Embedded
+    //private ArrayList<PhotoURI> photosURI;
+    private String photosURI;
 
-    public Property(int id, String type, String city, int price, String description,
-                    ArrayList<PhotoURI> photosURI) {
+    public Property(int id, String type, int price, String address, int surface, int numberOfPieces,
+                    String description, String interestPoint, boolean solded, String entryDate,
+                    String saleDate, String agentName, String photosURI) {
         this.id = id;
         this.type = type;
-        this.city = city;
         this.price = price;
+        this.address = address;
+        this.surface=surface;
+        this.numberOfPieces = numberOfPieces;
         this.description = description;
+        this.interestPoint = interestPoint;
+        this.solded=solded;
+        this.entryDate=entryDate;
+        this.saleDate=saleDate;
+        this.agentName=agentName;
         this.photosURI = photosURI;
     }
 
@@ -45,20 +65,36 @@ public class Property {
         this.type = type;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public int getPrice() {
         return price;
     }
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getSurface() {
+        return surface;
+    }
+
+    public void setSurface(int surface) {
+        this.surface = surface;
+    }
+
+    public int getNumberOfPieces() {
+        return numberOfPieces;
+    }
+
+    public void setNumberOfPieces(int numberOfPieces) {
+        this.numberOfPieces = numberOfPieces;
     }
 
     public String getDescription() {
@@ -69,18 +105,59 @@ public class Property {
         this.description = description;
     }
 
-    public ArrayList<PhotoURI> getPhotosURI() {
+    public String getInterestPoint() {
+        return interestPoint;
+    }
+
+    public void setInterestPoint(String interestPoint) {
+        this.interestPoint = interestPoint;
+    }
+
+    public boolean isSolded() {
+        return solded;
+    }
+
+    public void setSolded(boolean solded) {
+        this.solded = solded;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(String entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public String getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(String saleDate) {
+        this.saleDate = saleDate;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+
+    public String getPhotosURI() {
         return photosURI;
     }
 
-
-    public void setPhotosURI(ArrayList<PhotoURI> photosURI) {
+    public void setPhotosURI(String photosURI) {
         this.photosURI = photosURI;
     }
 }
-
-
-
-
-
-

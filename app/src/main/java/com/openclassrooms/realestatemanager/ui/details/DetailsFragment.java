@@ -60,7 +60,7 @@ public class DetailsFragment extends Fragment {
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 TextView typeAndCity = view.findViewById(R.id.item_type_and_city);
-                typeAndCity.setText(properties.get(bundleProperty).getCity());
+                typeAndCity.setText(properties.get(bundleProperty).getAddress());
             }
         });
 
