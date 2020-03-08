@@ -13,7 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
 
-@Database(entities = {Property.class}, version = 2, exportSchema = false)
+@Database(entities = {Property.class}, version = 3, exportSchema = false)
 
 public abstract class PropertyDataBase extends RoomDatabase {
 
@@ -50,7 +50,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 ContentValues contentValues_1 = new ContentValues();
                 contentValues_1.put("id", 1);
                 contentValues_1.put("type", "Flat");
-                contentValues_1.put("price", "1250259");
+                contentValues_1.put("price", "1250252");
                 contentValues_1.put("address", "603 Bayland Avenue, Houston, TX 77009, United States");
                 contentValues_1.put("surface",170);
                 contentValues_1.put("numberOfPieces",7);

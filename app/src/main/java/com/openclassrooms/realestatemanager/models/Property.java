@@ -23,7 +23,6 @@ public class Property {
     private String description;
     private String interestPoint;
     private boolean solded;
-    private String status;
     private String entryDate;
     private String saleDate;
     private String agentName;
@@ -119,14 +118,6 @@ public class Property {
 
     public void setSolded(boolean solded) {
         this.solded = solded;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getEntryDate() {

@@ -1,10 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.PhotoURI;
 import com.openclassrooms.realestatemanager.models.Property;
 
 public class DetailsFragment extends Fragment {
@@ -28,10 +27,15 @@ public class DetailsFragment extends Fragment {
         return detailsFragment;
     }
 
-    DetailsFragmentViewModel viewModel;
-    int bundleProperty;
-
+    private DetailsFragmentViewModel viewModel;
+    private int bundleProperty;
     private ViewPager viewPager;
+    private TextView typeTv;
+    private TextView addressTv;
+    private TextView priceTv;
+    private ImageView not_soldedIv;
+    private ImageView soldedIv;
+    private TextView availabilityTv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,8 +46,12 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
-
-
+        typeTv = root.findViewById(R.id.fragment_detail_type_tv);
+        addressTv = root.findViewById(R.id.fragment_detail_address_tv);
+        priceTv = root.findViewById(R.id.fragment_detail_price_tv);
+        not_soldedIv = root.findViewById(R.id.fragment_detail_not_solded_iv);
+        soldedIv = root.findViewById(R.id.fragment_detail_solded_iv);
+        availabilityTv = root.findViewById(R.id.fragment_detail_availability_tv);
         return root;
     }
 
@@ -57,8 +65,24 @@ public class DetailsFragment extends Fragment {
             if (properties != null) {
                 Property property = properties.get(bundleProperty);
 
-                TextView typeAndCity = view.findViewById(R.id.item_type_and_city);
-                typeAndCity.setText(property.getAddress());
+                typeTv.setText(property.getType());
+                addressTv.setText(property.getAddress());
+                String price = "$ " + property.getPrice();
+                priceTv.setText(price);
+
+                if (property.isSolded()) {
+                    not_soldedIv.setVisibility(View.INVISIBLE);
+                    soldedIv.setVisibility(View.VISIBLE);
+                    String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
+                    availabilityTv.setText(availability);
+
+                } else {
+                    not_soldedIv.setVisibility(View.VISIBLE);
+                    soldedIv.setVisibility(View.INVISIBLE);
+                    String availability = getString(R.string.available_since) + " " + property.getEntryDate();
+                    availabilityTv.setText(availability);
+                }
+
 
 
                 // PhotoURI photoURI = property.getPhotosURI();
