@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.PhotoURI;
+import com.openclassrooms.realestatemanager.models.Property;
 
 public class DetailsFragment extends Fragment {
 
@@ -35,7 +37,6 @@ public class DetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundleProperty = getArguments().getInt("property", 0);
-        Log.i("tag_propertyInt",String.valueOf(bundleProperty));
     }
 
     @Override
@@ -51,22 +52,19 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
-       /* viewModel.photos.observe(getViewLifecycleOwner(), strings -> {
-
-            //  viewPager.setAdapter(new PhotosPageAdapter(PhotoURI, getContext()));
-
-        });*/
 
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
+                Property property = properties.get(bundleProperty);
+
                 TextView typeAndCity = view.findViewById(R.id.item_type_and_city);
-                typeAndCity.setText(properties.get(bundleProperty).getAddress());
+                typeAndCity.setText(property.getAddress());
+
+
+                // PhotoURI photoURI = property.getPhotosURI();
+                // viewPager.setAdapter(new PhotosPageAdapter(photoURI, getContext()));
             }
         });
-
-
-        viewModel.loadPhotos(bundleProperty);
-
 
         configureViewPager(view);
     }
