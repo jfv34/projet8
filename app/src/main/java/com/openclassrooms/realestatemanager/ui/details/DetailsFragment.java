@@ -36,6 +36,10 @@ public class DetailsFragment extends Fragment {
     private ImageView not_soldedIv;
     private ImageView soldedIv;
     private TextView availabilityTv;
+    private TextView surfaceAndPiecesTv;
+    private TextView interestsPointsTv;
+    private TextView descriptionTv;
+    private TextView agentTv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,12 +50,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
-        typeTv = root.findViewById(R.id.fragment_detail_type_tv);
-        addressTv = root.findViewById(R.id.fragment_detail_address_tv);
-        priceTv = root.findViewById(R.id.fragment_detail_price_tv);
-        not_soldedIv = root.findViewById(R.id.fragment_detail_not_solded_iv);
-        soldedIv = root.findViewById(R.id.fragment_detail_solded_iv);
-        availabilityTv = root.findViewById(R.id.fragment_detail_availability_tv);
+
         return root;
     }
 
@@ -59,41 +58,92 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
+        configureView(view);
 
+        viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 Property property = properties.get(bundleProperty);
-
-                typeTv.setText(property.getType());
-                addressTv.setText(property.getAddress());
-                String price = "$ " + property.getPrice();
-                priceTv.setText(price);
-
-                if (property.isSolded()) {
-                    not_soldedIv.setVisibility(View.INVISIBLE);
-                    soldedIv.setVisibility(View.VISIBLE);
-                    String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
-                    availabilityTv.setText(availability);
-
-                } else {
-                    not_soldedIv.setVisibility(View.VISIBLE);
-                    soldedIv.setVisibility(View.INVISIBLE);
-                    String availability = getString(R.string.available_since) + " " + property.getEntryDate();
-                    availabilityTv.setText(availability);
-                }
-
-
-
-                // PhotoURI photoURI = property.getPhotosURI();
-                // viewPager.setAdapter(new PhotosPageAdapter(photoURI, getContext()));
+                loadProperty(property);
             }
         });
-
-        configureViewPager(view);
     }
 
-    public void configureViewPager(View view) {
-        //viewPager = view.findViewById(R.id.fragment_detail_viewpager);
+    private void configureView(View view) {
+        viewPager = view.findViewById(R.id.fragment_detail_viewpager);
+        typeTv = view.findViewById(R.id.fragment_detail_type_tv);
+        addressTv = view.findViewById(R.id.fragment_detail_address_tv);
+        priceTv = view.findViewById(R.id.fragment_detail_price_tv);
+        not_soldedIv = view.findViewById(R.id.fragment_detail_not_solded_iv);
+        soldedIv = view.findViewById(R.id.fragment_detail_solded_iv);
+        availabilityTv = view.findViewById(R.id.fragment_detail_availability_tv);
+        surfaceAndPiecesTv = view.findViewById(R.id.fragment_detail_surfaceAndPieces_tv);
+        interestsPointsTv = view.findViewById(R.id.fragment_detail_interestPoints_tv);
+        descriptionTv = view.findViewById(R.id.fragment_detail_description_tv);
+        agentTv = view.findViewById(R.id.fragment_detail_agent_tv);
+    }
+
+    private void loadProperty(Property property) {
+        displayPhotos(property);
+        displayType(property);
+        displayAddress(property);
+        displayPrice(property);
+        displayAvailability(property);
+        displaySurfaceAndPieces(property);
+        displayInterestsPoints(property);
+        displayDescription(property);
+        displayAgent(property);
+    }
+
+    private void displayPhotos(Property property) {
+        // PhotoURI photoURI = property.getPhotosURI();
+        // viewPager.setAdapter(new PhotosPageAdapter(photoURI, getContext()));
+    }
+
+    private void displayAgent(Property property) {
+        agentTv.setText(property.getAgentName());
+    }
+
+    private void displayDescription(Property property) {
+        descriptionTv.setText(property.getDescription());
+    }
+
+    private void displayInterestsPoints(Property property) {
+        String interestsPoints = getString(R.string.interests_points) + " " + property.getInterestPoint();
+        interestsPointsTv.setText(interestsPoints);
+    }
+
+    private void displaySurfaceAndPieces(Property property) {
+        String surfaceAndPieces = property.getSurface() + " " + getString(R.string.square_meter)
+                + " " + property.getNumberOfPieces() + " " + getString(R.string.pieces);
+        surfaceAndPiecesTv.setText(surfaceAndPieces);
+    }
+
+    private void displayAvailability(Property property) {
+        if (property.isSolded()) {
+            not_soldedIv.setVisibility(View.INVISIBLE);
+            soldedIv.setVisibility(View.VISIBLE);
+            String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
+            availabilityTv.setText(availability);
+
+        } else {
+            not_soldedIv.setVisibility(View.VISIBLE);
+            soldedIv.setVisibility(View.INVISIBLE);
+            String availability = getString(R.string.available_since) + " " + property.getEntryDate();
+            availabilityTv.setText(availability);
+        }
+    }
+
+    private void displayPrice(Property property) {
+        String price = "$ " + property.getPrice();
+        priceTv.setText(price);
+    }
+
+    private void displayAddress(Property property) {
+        addressTv.setText(property.getAddress());
+    }
+
+    private void displayType(Property property) {
+        typeTv.setText(property.getType());
     }
 }

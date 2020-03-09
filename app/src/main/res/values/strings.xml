@@ -4,4 +4,7 @@
     <string name="app_title">Real Estate Manager</string>
     <string name="available_since">Available since</string>
     <string name="solded_since">Solded since</string>
+    <string name="square_meter">square meter,"</string>
+    <string name="pieces">pieces"</string>
+    <string name="interests_points">Interests points:</string>
 </resources>

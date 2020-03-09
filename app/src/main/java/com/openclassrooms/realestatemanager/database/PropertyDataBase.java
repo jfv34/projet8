@@ -81,19 +81,6 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_1);
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_2);
 
-               /* this.id = id;
-                this.type = type;
-                this.price = price;
-                this.address = address;
-                this.surface=surface;
-                this.numberOfPieces = numberOfPieces;
-                this.description = description;
-                this.interestPoint = interestPoint;
-                this.solded=solded;
-                this.entryDate=entryDate;
-                this.saleDate=saleDate;
-                this.agentName=agentName;
-                this.photosURI = photosURI;*/
             }
         };
     }
