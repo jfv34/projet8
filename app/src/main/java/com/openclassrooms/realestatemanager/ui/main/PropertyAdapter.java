@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         final View itemView = holder.itemView.findViewById(R.id.item_property);
-        final TextView city_tv = itemView.findViewById(R.id.item_city_tv);
+        final TextView city_tv = itemView.findViewById(R.id.item_address_tv);
         final TextView type_tv = itemView.findViewById(R.id.item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.item_price_tv);
 

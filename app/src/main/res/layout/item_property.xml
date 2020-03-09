@@ -36,11 +36,11 @@
 
         <TextView
             android:layout_marginStart="20dp"
-            android:id="@+id/item_city_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/item_address_tv"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Test-City"
             android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_image_iv"
             app:layout_constraintTop_toBottomOf="@id/item_type_tv" />
 
@@ -55,7 +55,7 @@
             android:text="$12,345,678"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/item_image_iv"
-            app:layout_constraintTop_toBottomOf="@id/item_city_tv" />
+            app:layout_constraintTop_toBottomOf="@id/item_address_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

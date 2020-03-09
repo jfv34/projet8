@@ -1,6 +1,12 @@
 package com.openclassrooms.realestatemanager.models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class AddressProperty {
+    @PrimaryKey(autoGenerate = true)
+    private int addressId;
     private int number;
     private String street;
     private String addressComplement;

@@ -8,4 +8,9 @@ import java.util.List;
 
 public interface PropertyRepository {
     LiveData<List<Property>> getProperties();
+
+    void createProperty(Property property);
+
+    void suppressProperty(int id);
 }
+

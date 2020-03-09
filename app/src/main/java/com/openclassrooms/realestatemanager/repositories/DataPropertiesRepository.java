@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.PropertyAndAddressProperty;
 
 import java.util.List;
 
@@ -19,4 +20,12 @@ public class DataPropertiesRepository implements PropertyRepository {
     public LiveData<List<Property>> getProperties() {
         return propertyDao.getProperties();
     }
+
+    @Override
+    public void createProperty(Property property){ propertyDao.insertProperty(property); }
+
+    @Override
+    public void suppressProperty(int id){ propertyDao.deleteProperty(id); }
+
+
 }

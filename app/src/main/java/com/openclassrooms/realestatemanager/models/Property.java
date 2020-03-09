@@ -1,12 +1,8 @@
 package com.openclassrooms.realestatemanager.models;
 
 
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 @Entity
 public class Property {
@@ -15,8 +11,6 @@ public class Property {
     private int id;
     private String type;
     private int price;
-    //@Embedded
-    //private AddressProperty address;
     private String address;
     private int surface;
     private int numberOfPieces;
@@ -30,7 +24,7 @@ public class Property {
     //private ArrayList<PhotoURI> photosURI;
     private String photosURI;
 
-    public Property(int id, String type, int price, String address, int surface, int numberOfPieces,
+    public Property(final int id, String type, int price, final String address, int surface, int numberOfPieces,
                     String description, String interestPoint, boolean solded, String entryDate,
                     String saleDate, String agentName, String photosURI) {
         this.id = id;
@@ -152,3 +146,4 @@ public class Property {
         this.photosURI = photosURI;
     }
 }
+

@@ -16,4 +16,12 @@ public class MainFragmentViewModel extends ViewModel {
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
     LiveData<List<Property>> properties = repository.getProperties();
+
+    public void setProperty(Property property){
+        repository.createProperty(property);
+    }
+    public void suppressProperty(int id){
+        repository.suppressProperty(id);
+    }
+
 }
