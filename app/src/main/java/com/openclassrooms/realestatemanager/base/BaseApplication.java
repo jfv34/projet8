@@ -25,8 +25,10 @@ public class BaseApplication extends Application {
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
             final FlipperClient client = AndroidFlipperClient.getInstance(this);
             client.addPlugin(new InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()));
-            client.addPlugin(new DatabasesFlipperPlugin(context));
+            client.addPlugin(new DatabasesFlipperPlugin(this));
             client.start();
+
+
 
         }
 

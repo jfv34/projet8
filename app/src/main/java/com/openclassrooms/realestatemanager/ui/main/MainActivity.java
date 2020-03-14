@@ -1,15 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.ui.InsertPropertyFragment;
 
 public class MainActivity extends AppCompatActivity {
 

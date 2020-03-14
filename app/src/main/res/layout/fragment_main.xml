@@ -16,6 +16,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/fragment_main_toolbar"
+            android:background="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_main_recyclerView"
             android:layout_width="match_parent"
@@ -48,6 +54,5 @@
             android:text="Test replace fragment)" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

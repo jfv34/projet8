@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -20,8 +22,11 @@ public class MainFragmentViewModel extends ViewModel {
     public void setProperty(Property property){
         repository.createProperty(property);
     }
+
     public void suppressProperty(int id){
-        repository.suppressProperty(id);
+        AsyncTask.execute(() ->
+                repository.suppressProperty(id)
+        );
     }
 
 }
