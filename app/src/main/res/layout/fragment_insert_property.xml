@@ -34,9 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="label"
-        app:counterEnabled="true"
-        app:helperText="helper_text"
-        app:helperTextEnabled="true"
         app:startIconContentDescription="icon_content_desc">
 
         <com.google.android.material.textfield.TextInputEditText
