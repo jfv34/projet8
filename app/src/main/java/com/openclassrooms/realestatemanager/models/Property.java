@@ -24,10 +24,9 @@ public class Property {
     //private ArrayList<PhotoURI> photosURI;
     private String photosURI;
 
-    public Property(final int id, String type, int price, final String address, int surface, int numberOfPieces,
+    public Property(String type, int price, final String address, int surface, int numberOfPieces,
                     String description, String interestPoint, boolean solded, String entryDate,
                     String saleDate, String agentName, String photosURI) {
-        this.id = id;
         this.type = type;
         this.price = price;
         this.address = address;

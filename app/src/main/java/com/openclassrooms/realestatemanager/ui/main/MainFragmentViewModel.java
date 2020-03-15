@@ -19,14 +19,15 @@ public class MainFragmentViewModel extends ViewModel {
 
     LiveData<List<Property>> properties = repository.getProperties();
 
-    public void setProperty(Property property){
-        repository.createProperty(property);
-    }
-
-    public void suppressProperty(int id){
+    public void setProperty(Property property) {
         AsyncTask.execute(() ->
-                repository.suppressProperty(id)
+                repository.createProperty(property)
         );
     }
 
+    public void suppressProperty(int id){
+            AsyncTask.execute(() ->
+                    repository.suppressProperty(id)
+            );
+        }
 }

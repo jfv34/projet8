@@ -87,7 +87,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
             String testAddress = editText.getText().toString();
             Property property = new Property(
-                    15,
                     "lkhllgjhkg",
                     353353,
                     testAddress,
