@@ -29,24 +29,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/test_property_et"
-                android:textColor="#000000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/test_adding_property_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test insert new property" />
-
-            <Button
-                android:id="@+id/test_suppress_property_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test suppress property" />
-
             <Button
                 android:id="@+id/test_replace_fragment_button"
                 android:layout_width="wrap_content"

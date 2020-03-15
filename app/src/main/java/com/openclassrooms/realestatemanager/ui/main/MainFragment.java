@@ -62,48 +62,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         });
 
         configure_test_button_for_replace_fragment(view);
-        configure_test_insert_property_editText(view);
-        configure_test_suppress_property(view);
-
-    }
-
-    private void configure_test_suppress_property(View view) {
-        EditText editText = view.findViewById(R.id.test_property_et);
-        Button button = view.findViewById(R.id.test_suppress_property_button);
-        button.setOnClickListener(v -> {
-            String testId = editText.getText().toString();
-
-
-            viewModel.suppressProperty(Integer.parseInt(testId));
-        });
-    }
-
-    private void configure_test_insert_property_editText(View view) {
-
-        EditText editText = view.findViewById(R.id.test_property_et);
-
-        Button button = view.findViewById(R.id.test_adding_property_button);
-        button.setOnClickListener(v -> {
-
-            String testAddress = editText.getText().toString();
-            Property property = new Property(
-                    "lkhllgjhkg",
-                    353353,
-                    testAddress,
-                    1234,
-                    4,
-                    "kjhjkhkh",
-                    "kjhkjhkjhkjhkh",
-                    true,
-                    "12/12/12",
-                    "14/11/14",
-                    "ljlkjlkjlkj",
-                    null);
-
-
-            viewModel.setProperty(property);
-
-        });
 
     }
 
