@@ -10,12 +10,16 @@ public class Property {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String type;
-    private int price;
+    private String price;
     private String address;
-    private int surface;
-    private int numberOfPieces;
-    private String description;
+    private String city;
+    private String state;
+    private String zip;
+    private String area;
+    private String pieces;
     private String interestPoint;
+    private String description;
+    private String photo;
     private boolean solded;
     private String entryDate;
     private String saleDate;
@@ -24,21 +28,25 @@ public class Property {
     //private ArrayList<PhotoURI> photosURI;
     private String photosURI;
 
-    public Property(String type, int price, final String address, int surface, int numberOfPieces,
-                    String description, String interestPoint, boolean solded, String entryDate,
-                    String saleDate, String agentName, String photosURI) {
+    public Property(String type, String price, String address, String city, String state, String zip,
+                    String area, String pieces, String interestPoint, String description,
+                    String photo, boolean solded, String entryDate, String saleDate, String agentName
+    ) {
         this.type = type;
         this.price = price;
         this.address = address;
-        this.surface=surface;
-        this.numberOfPieces = numberOfPieces;
-        this.description = description;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.area = area;
+        this.pieces = pieces;
         this.interestPoint = interestPoint;
+        this.description = description;
+        this.photo = photo;
         this.solded=solded;
         this.entryDate=entryDate;
         this.saleDate=saleDate;
         this.agentName=agentName;
-        this.photosURI = photosURI;
     }
 
     public int getId() {
@@ -57,11 +65,11 @@ public class Property {
         this.type = type;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -73,20 +81,52 @@ public class Property {
         this.address = address;
     }
 
-    public int getSurface() {
-        return surface;
+    public String getCity() {
+        return city;
     }
 
-    public void setSurface(int surface) {
-        this.surface = surface;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public int getNumberOfPieces() {
-        return numberOfPieces;
+    public String getState() {
+        return state;
     }
 
-    public void setNumberOfPieces(int numberOfPieces) {
-        this.numberOfPieces = numberOfPieces;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getPieces() {
+        return pieces;
+    }
+
+    public void setPieces(String pieces) {
+        this.pieces = pieces;
+    }
+
+    public String getInterestPoint() {
+        return interestPoint;
+    }
+
+    public void setInterestPoint(String interestPoint) {
+        this.interestPoint = interestPoint;
     }
 
     public String getDescription() {
@@ -97,12 +137,12 @@ public class Property {
         this.description = description;
     }
 
-    public String getInterestPoint() {
-        return interestPoint;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setInterestPoint(String interestPoint) {
-        this.interestPoint = interestPoint;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public boolean isSolded() {

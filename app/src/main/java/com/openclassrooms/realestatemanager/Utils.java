@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,4 +53,15 @@ public class Utils {
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
     }
+
+    public static void toast(Context context, int message) {
+        Toast toast = Toast.makeText(context, context.getString(message), Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public static void toast(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
 }

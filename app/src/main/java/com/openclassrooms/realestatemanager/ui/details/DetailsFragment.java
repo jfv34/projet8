@@ -114,8 +114,8 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displaySurfaceAndPieces(Property property) {
-        String surfaceAndPieces = property.getSurface() + " " + getString(R.string.square_meter)
-                + " " + property.getNumberOfPieces() + " " + getString(R.string.pieces);
+        String surfaceAndPieces = property.getArea() + " " + getString(R.string.square_meter)
+                + " " + property.getPieces() + " " + getString(R.string.pieces);
         surfaceAndPiecesTv.setText(surfaceAndPieces);
     }
 

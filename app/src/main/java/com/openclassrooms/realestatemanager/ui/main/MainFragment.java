@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.InsertPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
@@ -32,6 +31,10 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
     private MainFragmentViewModel viewModel;
+
+    public static MainFragment newInstance() {
+        return new MainFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +57,9 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
-                if (properties.isEmpty()){toast("No datas to display");}
+                if (properties.isEmpty()) {
+                    Utils.toast(getActivity(), "No datas to display");
+                }
                 recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
         });
@@ -82,14 +87,5 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public void onPropertyClicked(int property) {
         DetailsActivity.start(getActivity(), property);
-    }
-
-    private void toast(int message) {
-        Toast toast = Toast.makeText(getActivity(), getString(message), Toast.LENGTH_LONG);
-        toast.show();
-    }
-    private void toast(String message) {
-        Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
-        toast.show();
     }
 }

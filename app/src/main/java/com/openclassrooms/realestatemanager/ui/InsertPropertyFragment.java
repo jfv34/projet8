@@ -10,15 +10,20 @@ import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 import com.openclassrooms.realestatemanager.ui.main.MainFragmentViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class InsertPropertyFragment extends Fragment {
 
@@ -67,22 +72,9 @@ public class InsertPropertyFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
         configure_autoCompleteTextView();
-        getNewProperty();
-    }
 
-    private void getNewProperty() {
-        String type = newProperty_type.getEditText().getText().toString();
-        String price = newProperty_price.getEditText().getText().toString() + "";
-        String address = newProperty_address.getEditText().getText().toString();
-        int priceInt = 0;
-        if (!price.isEmpty()) {
-            priceInt = Integer.parseInt(price);
-        }
-        Log.i("tag_price", String.valueOf(priceInt));
     }
-
     private void configure_autoCompleteTextView() {
-
         final String[] TYPE = new String[]{
                 "House", "Flat", "Duplex", "Triplex", "Penthouse", "Loft"};
 
@@ -93,32 +85,43 @@ public class InsertPropertyFragment extends Fragment {
         textView.setAdapter(adapter);
     }
 
-    private void configure_test_insert_property_editText(View view) {
+    @OnClick(R.id.fragment_insert_property_button)
+    public void insert_property() {
+        Log.i("tag_validate", "ok");
 
+        String type = newProperty_type.getEditText().getText().toString();
+        String price = newProperty_price.getEditText().getText().toString();
+        String address = newProperty_address.getEditText().getText().toString();
+        String city = newProperty_city.getEditText().getText().toString();
+        String state = newProperty_state.getEditText().getText().toString();
+        String zip = newProperty_zip.getEditText().getText().toString();
+        String area = newProperty_area.getEditText().getText().toString();
+        String pieces = newProperty_pieces.getEditText().getText().toString();
+        String interestPoints = newProperty_interestPoints.getEditText().getText().toString();
+        String description = newProperty_description.getEditText().getText().toString();
 
+        Property property = new Property(
+                type,
+                price,
+                address,
+                city,
+                state,
+                zip,
+                area,
+                pieces,
+                interestPoints,
+                description,
+                "",
+                false,
+                "",
+                "",
+                ""
+        );
 
-          /*  Property property = new Property(
-
-
-
-                    ,
-                    testAddress,
-                    1234,
-                    4,
-                    "kjhjkhkh",
-                    "kjhkjhkjhkjhkh",
-                    true,
-                    "12/12/12",
-                    "14/11/14",
-                    "ljlkjlkjlkj",
-                    null);*/
-
-
-        //viewModel.setProperty(property);
-
-        ;
-
+        viewModel.setProperty(property);
+        Utils.toast(getActivity(),"Property added");
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment mainFragment = MainFragment.newInstance();
+        transaction.replace(R.id.frame_layout_main, mainFragment).commit();
     }
-
 }
-
