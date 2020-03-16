@@ -7,4 +7,15 @@
     <string name="square_meter">square meter,"</string>
     <string name="pieces">pieces"</string>
     <string name="interests_points">Interests points:</string>
+    <string name="price">Price</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip">Zip</string>
+    <string name="area">Area</string>
+    <string name="pieces_">Pieces</string>
+    <string name="interest_points">Interest Points</string>
+    <string name="description">Description</string>
+    <string name="validate">Validate</string>
+    <string name="type">Type</string>
 </resources>

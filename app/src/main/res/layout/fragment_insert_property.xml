@@ -16,26 +16,29 @@
         android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/filledTextField_type"
+        android:id="@+id/fragment_insert_property_TextField_type"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:hint="(Type))"
+        android:hint="@string/type"
         app:startIconDrawable="@drawable/ic_home_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:startIconContentDescription="icon_content_desc">
-        <com.google.android.material.textfield.TextInputEditText
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/fragment_insert_property_TextField_type_dropdown"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_price"
+            android:id="@+id/fragment_insert_property_TextField_price"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_marginStart="20dp"
@@ -43,11 +46,10 @@
             app:startIconDrawable="@drawable/ic_money_24px"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="Price"
-
+            android:hint="@string/price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_type"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_type"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -56,18 +58,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_1"
+            android:id="@+id/fragment_insert_property_TextField_1"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="Address"
+            android:hint="@string/address"
             app:startIconDrawable="@drawable/ic_location_on_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_price"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_price"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -76,17 +78,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_city"
+            android:id="@+id/fragment_insert_property_TextField_city"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="City"
+            android:hint="@string/city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_1"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_1"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -95,17 +97,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_state"
+            android:id="@+id/fragment_insert_property_TextField_state"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="State"
-            app:layout_constraintEnd_toStartOf="@id/filledTextField_address_zip"
+            android:hint="@string/state"
+            app:layout_constraintEnd_toStartOf="@id/fragment_insert_property_TextField_zip"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_city"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_city"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -114,16 +116,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_zip"
+            android:id="@+id/fragment_insert_property_TextField_zip"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="Zip"
+            android:hint="@string/zip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/filledTextField_address_state"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_city"
+            app:layout_constraintStart_toEndOf="@id/fragment_insert_property_TextField_state"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_city"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -133,7 +135,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_area"
+            android:id="@+id/fragment_insert_property_TextField_area"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -141,10 +143,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             app:startIconDrawable="@drawable/ic_aspect_ratio_24px"
-            android:hint="Area"
-            app:layout_constraintEnd_toStartOf="@id/filledTextField_address_pieces"
+            android:hint="@string/area"
+            app:layout_constraintEnd_toStartOf="@id/fragment_insert_property_TextField_pieces"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_state"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_state"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -153,17 +155,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_pieces"
+            android:id="@+id/fragment_insert_property_TextField_pieces"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="Pieces"
+            android:hint="@string/pieces_"
             app:startIconDrawable="@drawable/ic_pieces_24px"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/filledTextField_address_area"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_zip"
+            app:layout_constraintStart_toEndOf="@id/fragment_insert_property_TextField_area"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_zip"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -172,18 +174,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_interestPoints"
+            android:id="@+id/fragment_insert_property_TextField_interestPoints"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="Interest Points"
+            android:hint="@string/interest_points"
             app:startIconDrawable="@drawable/ic_landscape_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_area"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_area"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -192,23 +194,25 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField_address_description"
+            android:id="@+id/fragment_insert_property_TextField_description"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="Description"
+            android:hint="@string/description"
             app:startIconDrawable="@drawable/ic_notes_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_interestPoints"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_interestPoints"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -217,9 +221,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:text="Validate"
+            android:text="@string/validate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filledTextField_address_description" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

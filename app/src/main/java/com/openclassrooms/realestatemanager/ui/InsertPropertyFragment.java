@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,8 @@ import com.openclassrooms.realestatemanager.ui.main.MainFragmentViewModel;
 public class InsertPropertyFragment extends Fragment {
 
     private MainFragmentViewModel viewModel;
+    View root;
+
     public static Fragment newInstance() {
         InsertPropertyFragment insertPropertyFragment = new InsertPropertyFragment();
         return insertPropertyFragment;
@@ -24,7 +28,7 @@ public class InsertPropertyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_insert_property, container, false);
+        root = inflater.inflate(R.layout.fragment_insert_property, container, false);
 
         return root;
     }
@@ -35,12 +39,20 @@ public class InsertPropertyFragment extends Fragment {
         PropertyDataBase.getInstance(getContext());
 
         viewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
-
-
-
+        configure_autoCompleteTextView();
     }
 
+    private void configure_autoCompleteTextView() {
 
+        final String[] TYPE = new String[]{
+                "House", "Flat", "Duplex", "Triplex", "Penthouse", "Loft"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, TYPE);
+        AutoCompleteTextView textView = (AutoCompleteTextView)
+                root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
+        textView.setAdapter(adapter);
+    }
 
     private void configure_test_insert_property_editText(View view) {
 
