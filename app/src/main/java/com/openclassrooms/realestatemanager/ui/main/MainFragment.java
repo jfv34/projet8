@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,12 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
-import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.InsertPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainFragment extends Fragment implements OnPropertyClickedListener {
 
@@ -58,20 +57,16 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
                 if (properties.isEmpty()){toast("No datas to display");}
                 recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
-
         });
-
-        configure_test_button_for_replace_fragment(view);
-
     }
 
-    private void configure_test_button_for_replace_fragment(View view) {
-        Button button = view.findViewById(R.id.test_replace_fragment_button);
-        button.setOnClickListener(v -> {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
-            transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
-        });
+    @OnClick(R.id.test_replace_fragment_button)
+    public void configure_test_button_for_replace_fragment() {
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
+        transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
+
     }
 
     public void configureRecyclerView() {

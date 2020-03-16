@@ -58,7 +58,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragment_insert_property_TextField_1"
+            android:id="@+id/fragment_insert_property_TextField_address"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:hint="@string/city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_1"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_address"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -216,7 +216,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/insertProperty_adding_button"
+            android:id="@+id/fragment_insert_property_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

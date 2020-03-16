@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,39 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.main.MainFragmentViewModel;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class InsertPropertyFragment extends Fragment {
 
     private MainFragmentViewModel viewModel;
     View root;
+    @BindView(R.id.fragment_insert_property_TextField_type)
+    TextInputLayout newProperty_type;
+    @BindView(R.id.fragment_insert_property_TextField_price)
+    TextInputLayout newProperty_price;
+    @BindView(R.id.fragment_insert_property_TextField_address)
+    TextInputLayout newProperty_address;
+    @BindView(R.id.fragment_insert_property_TextField_city)
+    TextInputLayout newProperty_city;
+    @BindView(R.id.fragment_insert_property_TextField_state)
+    TextInputLayout newProperty_state;
+    @BindView(R.id.fragment_insert_property_TextField_zip)
+    TextInputLayout newProperty_zip;
+    @BindView(R.id.fragment_insert_property_TextField_area)
+    TextInputLayout newProperty_area;
+    @BindView(R.id.fragment_insert_property_TextField_pieces)
+    TextInputLayout newProperty_pieces;
+    @BindView(R.id.fragment_insert_property_TextField_interestPoints)
+    TextInputLayout newProperty_interestPoints;
+    @BindView(R.id.fragment_insert_property_TextField_description)
+    TextInputLayout newProperty_description;
+
 
     public static Fragment newInstance() {
         InsertPropertyFragment insertPropertyFragment = new InsertPropertyFragment();
@@ -29,6 +55,7 @@ public class InsertPropertyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_insert_property, container, false);
+        ButterKnife.bind(this, root);
 
         return root;
     }
@@ -40,6 +67,18 @@ public class InsertPropertyFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
         configure_autoCompleteTextView();
+        getNewProperty();
+    }
+
+    private void getNewProperty() {
+        String type = newProperty_type.getEditText().getText().toString();
+        String price = newProperty_price.getEditText().getText().toString() + "";
+        String address = newProperty_address.getEditText().getText().toString();
+        int priceInt = 0;
+        if (!price.isEmpty()) {
+            priceInt = Integer.parseInt(price);
+        }
+        Log.i("tag_price", String.valueOf(priceInt));
     }
 
     private void configure_autoCompleteTextView() {
@@ -56,15 +95,13 @@ public class InsertPropertyFragment extends Fragment {
 
     private void configure_test_insert_property_editText(View view) {
 
-      /*  EditText editText = view.findViewById(R.id.insertProperty_test_et);
 
-        Button button = view.findViewById(R.id.insertProperty_test_adding_button);
-        button.setOnClickListener(v -> {
 
-            String testAddress = editText.getText().toString();
-            Property property = new Property(
-                    "lkhllgjhkg",
-                    353353,
+          /*  Property property = new Property(
+
+
+
+                    ,
                     testAddress,
                     1234,
                     4,
@@ -74,12 +111,12 @@ public class InsertPropertyFragment extends Fragment {
                     "12/12/12",
                     "14/11/14",
                     "ljlkjlkjlkj",
-                    null);
+                    null);*/
 
 
-            viewModel.setProperty(property);
+        //viewModel.setProperty(property);
 
-        });*/
+        ;
 
     }
 
