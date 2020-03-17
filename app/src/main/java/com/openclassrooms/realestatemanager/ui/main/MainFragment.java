@@ -65,7 +65,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         });
     }
 
-    @OnClick(R.id.test_replace_fragment_button)
+    @OnClick(R.id.insert_property_button)
     public void configure_test_button_for_replace_fragment() {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

@@ -18,23 +18,25 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:id="@+id/fragment_main_toolbar"
             app:titleTextColor="#ffffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/test_replace_fragment_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test replace fragment)" />
-            </LinearLayout>
+
+                <ImageButton
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="right"
+                    android:background="@color/colorPrimary"
+                    android:tint="@color/colorAccent"
+                    android:src="@drawable/ic_add"
+                    android:id="@+id/insert_property_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
 
         </androidx.appcompat.widget.Toolbar>
 
