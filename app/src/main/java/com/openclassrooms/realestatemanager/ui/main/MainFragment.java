@@ -71,7 +71,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
         transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
-
     }
 
     public void configureRecyclerView() {

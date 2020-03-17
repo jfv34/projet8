@@ -30,25 +30,10 @@ public class BaseApplication extends Application {
 
 
 
+
+
         }
 
-       /* new AsyncTask(){
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                PropertyDataBase.getInstance(BaseApplication.this).propertyDao().insertProperty(
-                        new Property(
-                                1,
-                                "Inserted",
-                                "NY",
-                                17250259,
-                                "Description",
-                                null
-                        )
-                );
-                return null;
-            }
-        };*/
     }
 
     public static Context getAppContext() {

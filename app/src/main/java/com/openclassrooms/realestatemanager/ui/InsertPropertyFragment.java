@@ -76,7 +76,7 @@ public class InsertPropertyFragment extends Fragment {
     }
     private void configure_autoCompleteTextView() {
         final String[] TYPE = new String[]{
-                "House", "Flat", "Duplex", "Triplex", "Penthouse", "Loft"};
+                "Duplex", "Loft", "Penthouse", "Manor"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);

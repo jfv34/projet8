@@ -140,7 +140,8 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayAddress(Property property) {
-        addressTv.setText(property.getAddress());
+        String address = property.getAddress()+", "+ property.getCity()+", "+property.getState();
+        addressTv.setText(address);
     }
 
     private void displayType(Property property) {

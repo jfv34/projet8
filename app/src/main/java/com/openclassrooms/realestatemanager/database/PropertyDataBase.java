@@ -73,8 +73,8 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_2.put("type", "Duplex");
                 contentValues_2.put("price", "34725029");
                 contentValues_2.put("address", "2799 Broadway");
-                contentValues_2.put("city","United States");
-                contentValues_2.put("state","San Francisco");
+                contentValues_2.put("city","San Francisco");
+                contentValues_2.put("state","United States");
                 contentValues_2.put("zip","CA 94115");
                 contentValues_2.put("area","1077");
                 contentValues_2.put("pieces","15");

@@ -11,6 +11,5 @@ public interface PropertyRepository {
 
     void createProperty(Property property);
 
-    void suppressProperty(int id);
 }
 

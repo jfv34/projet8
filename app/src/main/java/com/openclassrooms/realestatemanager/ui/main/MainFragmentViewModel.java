@@ -24,10 +24,4 @@ public class MainFragmentViewModel extends ViewModel {
                 repository.createProperty(property)
         );
     }
-
-    public void suppressProperty(int id){
-            AsyncTask.execute(() ->
-                    repository.suppressProperty(id)
-            );
-        }
 }
