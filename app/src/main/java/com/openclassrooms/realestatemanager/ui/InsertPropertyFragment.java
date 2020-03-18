@@ -1,5 +1,8 @@
 package com.openclassrooms.realestatemanager.ui;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,7 +32,7 @@ import butterknife.OnClick;
 public class InsertPropertyFragment extends Fragment {
 
     private MainFragmentViewModel viewModel;
-    View root;
+    private View root;
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout newProperty_type;
     @BindView(R.id.fragment_insert_property_TextField_price)
@@ -49,7 +53,6 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_interestPoints;
     @BindView(R.id.fragment_insert_property_TextField_description)
     TextInputLayout newProperty_description;
-
 
     public static Fragment newInstance() {
         InsertPropertyFragment insertPropertyFragment = new InsertPropertyFragment();
@@ -87,7 +90,27 @@ public class InsertPropertyFragment extends Fragment {
 
     @OnClick(R.id.fragment_insert_property_button)
     public void insert_property() {
-        Log.i("tag_validate", "ok");
+
+        viewModel.setProperty(newProperty());
+        Utils.toast(getActivity(),"Property added");
+        notification_property_added();
+        displayMainFragment();
+
+    }
+
+    private void notification_property_added() {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
+                .setSmallIcon(R.drawable.ic_home_24px)
+                .setContentTitle("Property added")
+                .setContentText("The new property has been added")
+                .setPriority(Notification.PRIORITY_MAX);
+
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notificationBuilder.build());
+
+    }
+
+    private Property newProperty() {
 
         String type = newProperty_type.getEditText().getText().toString();
         String price = newProperty_price.getEditText().getText().toString();
@@ -117,9 +140,10 @@ public class InsertPropertyFragment extends Fragment {
                 "",
                 ""
         );
+        return property;
+    }
 
-        viewModel.setProperty(property);
-        Utils.toast(getActivity(),"Property added");
+    private void displayMainFragment() {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment mainFragment = MainFragment.newInstance();
         transaction.replace(R.id.frame_layout_main, mainFragment).commit();
