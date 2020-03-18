@@ -216,7 +216,7 @@
 
         <Button
             style="@style/AppTheme.Button_notColored"
-            android:id="@+id/fragment_insert_property_addingImage_button"
+            android:id="@+id/fragment_insert_property_addingImages_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="photos"
@@ -235,7 +235,7 @@
             android:layout_marginEnd="20dp"
             android:text="@string/validate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_addingImage_button"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_addingImages_button"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

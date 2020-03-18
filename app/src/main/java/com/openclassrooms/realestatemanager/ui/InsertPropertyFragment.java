@@ -3,14 +3,23 @@ package com.openclassrooms.realestatemanager.ui;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,6 +36,9 @@ import com.openclassrooms.realestatemanager.ui.main.MainFragmentViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class InsertPropertyFragment extends Fragment {
 
@@ -95,6 +107,71 @@ public class InsertPropertyFragment extends Fragment {
         displayMainFragment();
     }
 
+    @OnClick(R.id.fragment_insert_property_addingImages_button)
+    public void selectImage() {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Choose your profile picture");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo")) {
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 0);
+
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, 1);
+
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_CANCELED) {
+            Bitmap photo=null;
+            switch (requestCode) {
+                case 0:
+                    if (resultCode == RESULT_OK && data != null) {
+                        photo = (Bitmap) data.getExtras().get("data");
+                        // photo.setImageBitmap(selectedImage);
+                    }
+
+                    break;
+                case 1:
+                    if (resultCode == RESULT_OK && data != null) {
+                        Uri selectedImage = data.getData();
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        if (selectedImage != null) {
+                            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                                    filePathColumn, null, null, null);
+                            if (cursor != null) {
+                                cursor.moveToFirst();
+
+                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                                String picturePath = cursor.getString(columnIndex);
+                                photo = BitmapFactory.decodeFile(picturePath);
+                                //photo.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                                cursor.close();
+                            }
+                        }
+
+                    }
+                    break;
+            }
+            if(photo!=null){display_photoToAdd_Fragment(photo);}
+        }
+    }
+
     private void notification_property_added() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
                 .setSmallIcon(R.drawable.ic_home_24px)
@@ -143,5 +220,11 @@ public class InsertPropertyFragment extends Fragment {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment mainFragment = MainFragment.newInstance();
         transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+    }
+
+    private void display_photoToAdd_Fragment(Bitmap photo) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment photoToAdd_Fragment = PhotoToAddFragment.newInstance();
+        transaction.replace(R.id.frame_layout_main, photoToAdd_Fragment).commit();
     }
 }
