@@ -213,6 +213,20 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <Button
+            style="@style/AppTheme.Button_notColored"
+            android:id="@+id/fragment_insert_property_addingImage_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="photos"
+            android:drawableLeft="@drawable/ic_photo_camera_24px"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description"
+            />
+
         <Button
             android:id="@+id/fragment_insert_property_button"
             android:layout_width="wrap_content"
@@ -221,7 +235,8 @@
             android:layout_marginEnd="20dp"
             android:text="@string/validate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_addingImage_button"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +54,7 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_description;
 
     public static Fragment newInstance() {
-        InsertPropertyFragment insertPropertyFragment = new InsertPropertyFragment();
-        return insertPropertyFragment;
+        return new InsertPropertyFragment();
     }
 
     @Override
@@ -95,7 +93,6 @@ public class InsertPropertyFragment extends Fragment {
         Utils.toast(getActivity(),"Property added");
         notification_property_added();
         displayMainFragment();
-
     }
 
     private void notification_property_added() {
@@ -107,7 +104,6 @@ public class InsertPropertyFragment extends Fragment {
 
         NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notificationBuilder.build());
-
     }
 
     private Property newProperty() {
