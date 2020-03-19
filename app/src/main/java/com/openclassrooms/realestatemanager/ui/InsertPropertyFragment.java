@@ -207,7 +207,7 @@ public class InsertPropertyFragment extends Fragment {
                 pieces,
                 interestPoints,
                 description,
-                "",
+                null,
                 false,
                 "",
                 "",

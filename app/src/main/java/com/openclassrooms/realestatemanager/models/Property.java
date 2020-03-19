@@ -4,6 +4,8 @@ package com.openclassrooms.realestatemanager.models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+
 @Entity
 public class Property {
 
@@ -19,18 +21,15 @@ public class Property {
     private String pieces;
     private String interestPoint;
     private String description;
-    private String photo;
+    private ArrayList<PhotoURI> photos;
     private boolean solded;
     private String entryDate;
     private String saleDate;
     private String agentName;
-    //@Embedded
-    //private ArrayList<PhotoURI> photosURI;
-    private String photosURI;
 
     public Property(String type, String price, String address, String city, String state, String zip,
                     String area, String pieces, String interestPoint, String description,
-                    String photo, boolean solded, String entryDate, String saleDate, String agentName
+                    ArrayList<PhotoURI> photos, boolean solded, String entryDate, String saleDate, String agentName
     ) {
         this.type = type;
         this.price = price;
@@ -42,7 +41,7 @@ public class Property {
         this.pieces = pieces;
         this.interestPoint = interestPoint;
         this.description = description;
-        this.photo = photo;
+        this.photos = photos;
         this.solded=solded;
         this.entryDate=entryDate;
         this.saleDate=saleDate;
@@ -137,12 +136,12 @@ public class Property {
         this.description = description;
     }
 
-    public String getPhoto() {
-        return photo;
+    public ArrayList<PhotoURI> getPhotos() {
+        return photos;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhoto(ArrayList<PhotoURI> photos) {
+        this.photos = photos;
     }
 
     public boolean isSolded() {
@@ -177,12 +176,5 @@ public class Property {
         this.agentName = agentName;
     }
 
-    public String getPhotosURI() {
-        return photosURI;
-    }
-
-    public void setPhotosURI(String photosURI) {
-        this.photosURI = photosURI;
-    }
 }
 

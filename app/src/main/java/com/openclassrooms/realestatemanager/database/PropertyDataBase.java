@@ -8,13 +8,15 @@ import androidx.room.Database;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
 
-@Database(entities = {Property.class}, version = 3, exportSchema = false)
+@Database(entities = {Property.class}, version = 4, exportSchema = false)
 
+@TypeConverters({Converters.class})
 public abstract class PropertyDataBase extends RoomDatabase {
 
     // --- SINGLETON ---
@@ -61,7 +63,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_1.put("pieces","7");
                 contentValues_1.put("interestPoint","Woodland Park and Houston Zoo");
                 contentValues_1.put("description", "Located in a charming passage, splendid house of character where styles harmonize perfectly with the outdoor spaces: 22 m² garden and 16 m² terrace beautifully planted. Garden level: large living space with a kitchen opening onto the garden, cathedral lounge with fireplace, ceiling height over 4.5m, TV lounge on the mezzanine. 1st floor: 2 large bedrooms, shower room and office. 2nd floor: master bedroom opening onto terrace, bathroom and dressing room, toilet, utility room. Cellar. Double integrated garage.");
-                contentValues_1.put("photo","");
+                contentValues_1.put("photos", "");
                 contentValues_1.put("solded", false);
                 contentValues_1.put("entryDate", "12/01/20");
                 contentValues_1.put("saleDate","");
@@ -80,7 +82,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_2.put("pieces","15");
                 contentValues_2.put("interestPoint","Crissy Field and Baker Beach");
                 contentValues_2.put("description", "On a corner lot overlooking the city and the bay, a rare opportunity to own a tailor-made residence in a world class location. The centerpiece of the house is a spectacular serpentine staircase with ornate handrails designed by Italian artisans.");
-                contentValues_2.put("photo","");
+                contentValues_2.put("photos","");
                 contentValues_2.put("solded", true);
                 contentValues_2.put("entryDate", "");
                 contentValues_2.put("saleDate","05/03/20");
