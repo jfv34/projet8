@@ -100,8 +100,7 @@ public class Utils {
                 e.printStackTrace();
             }
         }
-        Photo photo = new Photo(directory.getAbsoluteFile().toString(), photoName, description);
-        return photo;
+        return new Photo(directory.getAbsoluteFile().toString(), photoName, description);
     }
 
     public static Bitmap loadImageFromStorage(String path, String photoName) {

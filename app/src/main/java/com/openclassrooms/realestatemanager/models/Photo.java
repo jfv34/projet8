@@ -21,7 +21,7 @@ public class Photo {
         this.path = path;
     }
 
-    public String getPhotoName() {
+    public String getPhotoFileName() {
         return fileName;
     }
 
@@ -37,4 +37,3 @@ public class Photo {
         this.photoDescription = photoDescription;
     }
 }
-

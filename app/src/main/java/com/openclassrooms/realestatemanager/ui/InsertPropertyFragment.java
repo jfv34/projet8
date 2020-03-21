@@ -204,6 +204,9 @@ public class InsertPropertyFragment extends Fragment {
 
         ArrayList<Photo> photos = new ArrayList<>();
         photos.add(photo);
+        photos.add(photo); // The same photo to test
+        photos.add(photo); // The same photo to test
+        photos.add(photo); // The same photo to test
 
         return new Property(
                 type,

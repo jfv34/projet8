@@ -97,8 +97,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayPhotos(Property property) {
-         //Photo photoURI = property.getPhotosURI();
-        viewPager.setAdapter(new PhotosPageAdapter((getActivity())));
+        viewPager.setAdapter(new PhotosPageAdapter(getActivity(),property.getPhotos()));
     }
 
     private void displayAgent(Property property) {
