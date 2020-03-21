@@ -1,9 +1,12 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
 import java.util.List;
@@ -23,7 +27,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     private List<Property> properties;
     private Context context;
     private OnPropertyClickedListener clickedListener;
-    @BindView(R.id.item_type_tv) TextView type;
+    @BindView(R.id.main_item_type_tv) TextView type;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -53,13 +57,22 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         final View itemView = holder.itemView.findViewById(R.id.item_property);
-        final TextView city_tv = itemView.findViewById(R.id.item_address_tv);
-        final TextView type_tv = itemView.findViewById(R.id.item_type_tv);
-        final TextView price_tv = itemView.findViewById(R.id.item_price_tv);
+        final TextView city_tv = itemView.findViewById(R.id.main_item_address_tv);
+        final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
+        final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
+        final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
 
        city_tv.setText(properties.get(position).getCity());
         type_tv.setText(properties.get(position).getType());
         price_tv.setText("$ "+String.valueOf(properties.get(position).getPrice()));
+
+        if (properties.get(position).getPhotos() != null) {
+                Photo photoAndDescription = properties.get(position).getPhotos().get(0);
+                Bitmap photoBMP = photoAndDescription.getPhotoBMP();
+                Log.i("tag_photoBMP ", position + "   "+photoBMP.getHeight()+"<");
+                photo_iv.setImageBitmap(photoBMP);
+
+        }
 
         itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(position));
 

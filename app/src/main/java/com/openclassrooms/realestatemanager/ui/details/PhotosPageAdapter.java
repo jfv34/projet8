@@ -16,20 +16,19 @@ import java.util.List;
 public class PhotosPageAdapter extends PagerAdapter {
 
     private Context context;
-    private List<String> strings;
 
-    public PhotosPageAdapter(List<String> strings, Context context) {
+    public PhotosPageAdapter(Context context) {
         this.context = context;
-        this.strings = strings;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_photo, container,false);
-        ImageView imageView = view.findViewById(R.id.item_photo_iv);
+        ImageView imageView = view.findViewById(R.id.detail_item_photo_iv);
         imageView.setImageDrawable(context.getResources().getDrawable(getImageAt(position)));
         container.addView(view);
         return view;
+
     }
 
     @Override
@@ -46,11 +45,11 @@ public class PhotosPageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return strings.size();
+        return 2;
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return false;
+        return object == view;
     }
 }

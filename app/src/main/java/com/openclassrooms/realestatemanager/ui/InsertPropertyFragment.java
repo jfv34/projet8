@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,9 +28,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 import com.openclassrooms.realestatemanager.ui.main.MainFragmentViewModel;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +46,8 @@ public class InsertPropertyFragment extends Fragment {
 
     private MainFragmentViewModel viewModel;
     private View root;
+    private Bitmap photo=null;
+
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout newProperty_type;
     @BindView(R.id.fragment_insert_property_TextField_price)
@@ -138,7 +142,7 @@ public class InsertPropertyFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_CANCELED) {
-            Bitmap photo=null;
+
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
@@ -196,6 +200,13 @@ public class InsertPropertyFragment extends Fragment {
         String interestPoints = newProperty_interestPoints.getEditText().getText().toString();
         String description = newProperty_description.getEditText().getText().toString();
 
+        ArrayList<Photo> photos = new ArrayList<>();
+        Photo photoAndDescription = new Photo(
+                photo,
+                "description exemple"
+        );
+
+       photos.add(photoAndDescription);
         Property property = new Property(
                 type,
                 price,
@@ -207,7 +218,7 @@ public class InsertPropertyFragment extends Fragment {
                 pieces,
                 interestPoints,
                 description,
-                null,
+                photos,
                 false,
                 "",
                 "",
@@ -223,8 +234,8 @@ public class InsertPropertyFragment extends Fragment {
     }
 
     private void display_photoToAdd_Fragment(Bitmap photo) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment photoToAdd_Fragment = PhotoToAddFragment.newInstance();
-        transaction.replace(R.id.frame_layout_main, photoToAdd_Fragment).commit();
+        transaction.replace(R.id.frame_layout_main, photoToAdd_Fragment).commit();*/
     }
 }

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,8 +97,8 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayPhotos(Property property) {
-        // PhotoURI photoURI = property.getPhotosURI();
-        // viewPager.setAdapter(new PhotosPageAdapter(photoURI, getContext()));
+         //Photo photoURI = property.getPhotosURI();
+        viewPager.setAdapter(new PhotosPageAdapter((getActivity())));
     }
 
     private void displayAgent(Property property) {

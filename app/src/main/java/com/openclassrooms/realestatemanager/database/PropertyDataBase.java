@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
 
-@Database(entities = {Property.class}, version = 4, exportSchema = false)
+@Database(entities = {Property.class}, version = 5, exportSchema = false)
 
 @TypeConverters({Converters.class})
 public abstract class PropertyDataBase extends RoomDatabase {

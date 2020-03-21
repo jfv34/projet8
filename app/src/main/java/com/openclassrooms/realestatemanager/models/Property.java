@@ -21,7 +21,7 @@ public class Property {
     private String pieces;
     private String interestPoint;
     private String description;
-    private ArrayList<PhotoURI> photos;
+    private ArrayList<Photo> photos;
     private boolean solded;
     private String entryDate;
     private String saleDate;
@@ -29,7 +29,7 @@ public class Property {
 
     public Property(String type, String price, String address, String city, String state, String zip,
                     String area, String pieces, String interestPoint, String description,
-                    ArrayList<PhotoURI> photos, boolean solded, String entryDate, String saleDate, String agentName
+                    ArrayList<Photo> photos, boolean solded, String entryDate, String saleDate, String agentName
     ) {
         this.type = type;
         this.price = price;
@@ -136,11 +136,11 @@ public class Property {
         this.description = description;
     }
 
-    public ArrayList<PhotoURI> getPhotos() {
+    public ArrayList<Photo> getPhotos() {
         return photos;
     }
 
-    public void setPhoto(ArrayList<PhotoURI> photos) {
+    public void setPhoto(ArrayList<Photo> photos) {
         this.photos = photos;
     }
 
