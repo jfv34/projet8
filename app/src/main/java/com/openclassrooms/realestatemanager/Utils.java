@@ -1,12 +1,24 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.openclassrooms.realestatemanager.models.Photo;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -64,4 +76,43 @@ public class Utils {
         toast.show();
     }
 
+    public static Photo saveToInternalStorage(Bitmap bitmapImage, String description, Context context) {
+        ContextWrapper cw = new ContextWrapper(context);
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        String uniqueString = UUID.randomUUID().toString();
+        String photoName = "photo_" + uniqueString;
+        File mypath = new File(directory, photoName);
+        Log.i("tag_mypath: ", mypath.toString());
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Photo photo = new Photo(directory.getAbsoluteFile().toString(), photoName, description);
+        return photo;
+    }
+
+    public static Bitmap loadImageFromStorage(String path, String photoName) {
+        Bitmap photo = null;
+        try {
+            File f = new File(path, photoName);
+            photo = BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return photo;
+    }
 }

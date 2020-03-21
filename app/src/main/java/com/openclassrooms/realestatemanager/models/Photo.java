@@ -1,22 +1,32 @@
 package com.openclassrooms.realestatemanager.models;
 
-import android.graphics.Bitmap;
+import java.io.File;
 
 public class Photo {
-    private Bitmap photoBMP;
+    private String path;
+    private String fileName;
     private String photoDescription;
 
-    public Photo(Bitmap photoBMP, String photoDescription) {
-        this.photoBMP = photoBMP;
+    public Photo(String path, String fileName, String photoDescription) {
+        this.path = path;
+        this.fileName = fileName;
         this.photoDescription = photoDescription;
     }
 
-    public Bitmap getPhotoBMP() {
-        return photoBMP;
+    public String getPath() {
+        return path;
     }
 
-    public void setPhotoBMP(Bitmap photoBMP) {
-        this.photoBMP = photoBMP;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPhotoName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getPhotoDescription() {

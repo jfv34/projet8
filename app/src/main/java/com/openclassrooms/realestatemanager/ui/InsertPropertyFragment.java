@@ -46,7 +46,9 @@ public class InsertPropertyFragment extends Fragment {
 
     private MainFragmentViewModel viewModel;
     private View root;
-    private Bitmap photo=null;
+    private Bitmap photoBM = null;
+    private Photo photo;
+
 
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout newProperty_type;
@@ -106,7 +108,6 @@ public class InsertPropertyFragment extends Fragment {
     public void insert_property() {
 
         viewModel.setProperty(newProperty());
-        Utils.toast(getActivity(),"Property added");
         notification_property_added();
         displayMainFragment();
     }
@@ -146,8 +147,7 @@ public class InsertPropertyFragment extends Fragment {
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
-                        photo = (Bitmap) data.getExtras().get("data");
-                        // photo.setImageBitmap(selectedImage);
+                        photoBM = (Bitmap) data.getExtras().get("data");
                     }
 
                     break;
@@ -163,8 +163,7 @@ public class InsertPropertyFragment extends Fragment {
 
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
-                                photo = BitmapFactory.decodeFile(picturePath);
-                                //photo.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                                photoBM = BitmapFactory.decodeFile(picturePath);
                                 cursor.close();
                             }
                         }
@@ -172,9 +171,12 @@ public class InsertPropertyFragment extends Fragment {
                     }
                     break;
             }
-            if(photo!=null){display_photoToAdd_Fragment(photo);}
+            String description = "description exemple";
+            photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
+            //if(photo!=null){display_photoToAdd_Fragment(photo);}
         }
     }
+
 
     private void notification_property_added() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
@@ -201,13 +203,9 @@ public class InsertPropertyFragment extends Fragment {
         String description = newProperty_description.getEditText().getText().toString();
 
         ArrayList<Photo> photos = new ArrayList<>();
-        Photo photoAndDescription = new Photo(
-                photo,
-                "description exemple"
-        );
+        photos.add(photo);
 
-       photos.add(photoAndDescription);
-        Property property = new Property(
+        return new Property(
                 type,
                 price,
                 address,
@@ -224,7 +222,6 @@ public class InsertPropertyFragment extends Fragment {
                 "",
                 ""
         );
-        return property;
     }
 
     private void displayMainFragment() {

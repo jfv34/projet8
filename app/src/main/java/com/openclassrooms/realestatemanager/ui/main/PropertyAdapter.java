@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,7 +42,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         this.properties = properties;
         this.context = context;
         this.clickedListener = clickedListener;
-
     }
 
     @NonNull
@@ -62,17 +62,19 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
         final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
 
-       city_tv.setText(properties.get(position).getCity());
-        type_tv.setText(properties.get(position).getType());
-        price_tv.setText("$ "+String.valueOf(properties.get(position).getPrice()));
+        Property property = properties.get(position);
 
-        if (properties.get(position).getPhotos() != null) {
-                Photo photoAndDescription = properties.get(position).getPhotos().get(0);
-                Bitmap photoBMP = photoAndDescription.getPhotoBMP();
-                Log.i("tag_photoBMP ", position + "   "+photoBMP.getHeight()+"<");
-                photo_iv.setImageBitmap(photoBMP);
+        city_tv.setText(property.getCity());
+        type_tv.setText(property.getType());
+        price_tv.setText("$ " + String.valueOf(property.getPrice()));
 
-        }
+        if(property.getPhotos()!=null){Photo photo = property.getPhotos().get(0);
+        String filePhoto = photo.getPath();
+        String namePhoto = photo.getPhotoName();
+        String descriptionPhoto = photo.getPhotoDescription();
+
+            Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
+            photo_iv.setImageBitmap(photoBM);}
 
         itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(position));
 
