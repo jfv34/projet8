@@ -46,7 +46,7 @@ public class PhotosPageAdapter extends PagerAdapter {
 
     private Bitmap getImage(int position) {
         Photo photo = photos.get(position);
-        Bitmap photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getPhotoFileName());
+        Bitmap photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
 
         return photoBM;
 

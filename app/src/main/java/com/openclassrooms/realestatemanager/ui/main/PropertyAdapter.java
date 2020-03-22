@@ -69,7 +69,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
         if(property.getPhotos()!=null){Photo photo = property.getPhotos().get(0);
         String filePhoto = photo.getPath();
-        String namePhoto = photo.getPhotoFileName();
+        String namePhoto = photo.getFileNamePhoto();
         String descriptionPhoto = photo.getPhotoDescription();
 
             Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
