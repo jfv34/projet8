@@ -26,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -172,8 +171,10 @@ public class InsertPropertyFragment extends Fragment {
                     break;
             }
             String description = "description exemple";
-            photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
-            //if(photo!=null){display_photoToAdd_Fragment(photo);}
+            //photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
+            if (photoBM != null) {
+                display_photoToAdd_Fragment(photoBM);
+            }
         }
     }
 
@@ -234,8 +235,8 @@ public class InsertPropertyFragment extends Fragment {
     }
 
     private void display_photoToAdd_Fragment(Bitmap photo) {
-        /*FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment photoToAdd_Fragment = PhotoToAddFragment.newInstance();
-        transaction.replace(R.id.frame_layout_main, photoToAdd_Fragment).commit();*/
+        transaction.replace(R.id.frame_layout_main, photoToAdd_Fragment).commit();
     }
 }

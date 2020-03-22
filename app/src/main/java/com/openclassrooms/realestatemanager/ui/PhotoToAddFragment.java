@@ -24,12 +24,12 @@ public class PhotoToAddFragment extends Fragment {
         }
 
 
- /*   @Override
+   @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_photo_to_add, container, false);
     }
-*/
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
