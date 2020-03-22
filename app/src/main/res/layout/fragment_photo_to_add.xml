@@ -16,18 +16,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-
         android:id="@+id/fragment_photo_to_add_adding_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
         android:background="#ffffff"
-        android:src="@drawable/ic_done_24px"
+        android:src="@drawable/ic_add_24px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_photo_to_add_iv" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_photo_to_add_adding_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -48,13 +48,13 @@
         app:layout_constraintTop_toBottomOf="@id/fragment_photo_to_add_adding_icon" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_photo_to_add_validate_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/completed"
+        android:text="@string/validate"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/fragment_photo_to_add_validate_icon"
         app:layout_constraintStart_toEndOf="@id/fragment_photo_to_add_validate_icon" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

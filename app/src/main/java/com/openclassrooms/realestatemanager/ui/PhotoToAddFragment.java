@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class PhotoToAddFragment extends Fragment {
 
     public static Fragment newInstance() {
@@ -34,9 +37,9 @@ public class PhotoToAddFragment extends Fragment {
    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       String myValue = this.getArguments().getString("message");
-
-        return inflater.inflate(R.layout.fragment_photo_to_add, container, false);
+       View root = inflater.inflate(R.layout.fragment_photo_to_add, container, false);
+       ButterKnife.bind(this, root);
+       return root;
     }
 
     @Override
@@ -46,6 +49,26 @@ public class PhotoToAddFragment extends Fragment {
         photoIV = view.findViewById(R.id.fragment_photo_to_add_iv);
         Bitmap photo = Utils.loadImageFromStorage(pathPhoto, fileNamePhoto);
         photoIV.setImageBitmap(photo);
+    }
+
+    @OnClick(R.id.fragment_photo_to_add_adding_icon)
+    public void a() {
 
     }
+
+    @OnClick(R.id.fragment_photo_to_add_adding_textView)
+    public void b() {
+
+    }
+
+    @OnClick(R.id.fragment_photo_to_add_validate_icon)
+    public void c() {
+
+    }
+
+    @OnClick(R.id.fragment_photo_to_add_validate_textView)
+    public void d() {
+
+    }
+
 }

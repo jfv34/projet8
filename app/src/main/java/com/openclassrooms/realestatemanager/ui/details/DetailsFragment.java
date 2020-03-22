@@ -1,10 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Property;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class DetailsFragment extends Fragment {
 
@@ -30,17 +34,39 @@ public class DetailsFragment extends Fragment {
 
     private DetailsFragmentViewModel viewModel;
     private int bundleProperty;
-    private ViewPager viewPager;
-    private TextView typeTv;
-    private TextView addressTv;
-    private TextView priceTv;
-    private ImageView not_soldedIv;
-    private ImageView soldedIv;
-    private TextView availabilityTv;
-    private TextView surfaceAndPiecesTv;
-    private TextView interestsPointsTv;
-    private TextView descriptionTv;
-    private TextView agentTv;
+
+    @BindView(R.id.fragment_detail_viewpager)
+    ViewPager viewPager;
+
+    @BindView(R.id.fragment_detail_type_tv)
+    TextView typeTv;
+
+    @BindView(R.id.fragment_detail_address_tv)
+    TextView addressTv;
+
+    @BindView(R.id.fragment_detail_price_tv)
+    TextView priceTv;
+
+    @BindView(R.id.fragment_detail_not_solded_iv)
+    ImageView not_soldedIv;
+
+    @BindView(R.id.fragment_detail_solded_iv)
+    ImageView soldedIv;
+
+    @BindView(R.id.fragment_detail_availability_tv)
+    TextView availabilityTv;
+
+    @BindView(R.id.fragment_detail_surfaceAndPieces_tv)
+    TextView surfaceAndPiecesTv;
+
+    @BindView(R.id.fragment_detail_interestPoints_tv)
+    TextView interestsPointsTv;
+
+    @BindView(R.id.fragment_detail_description_tv)
+    TextView descriptionTv;
+
+    @BindView(R.id.fragment_detail_agent_tv)
+    TextView agentTv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +77,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
+        ButterKnife.bind(this, root);
 
         return root;
     }
@@ -59,8 +86,6 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        configureView(view);
-
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
@@ -68,20 +93,6 @@ public class DetailsFragment extends Fragment {
                 loadProperty(property);
             }
         });
-    }
-
-    private void configureView(View view) {
-        viewPager = view.findViewById(R.id.fragment_detail_viewpager);
-        typeTv = view.findViewById(R.id.fragment_detail_type_tv);
-        addressTv = view.findViewById(R.id.fragment_detail_address_tv);
-        priceTv = view.findViewById(R.id.fragment_detail_price_tv);
-        not_soldedIv = view.findViewById(R.id.fragment_detail_not_solded_iv);
-        soldedIv = view.findViewById(R.id.fragment_detail_solded_iv);
-        availabilityTv = view.findViewById(R.id.fragment_detail_availability_tv);
-        surfaceAndPiecesTv = view.findViewById(R.id.fragment_detail_surfaceAndPieces_tv);
-        interestsPointsTv = view.findViewById(R.id.fragment_detail_interestPoints_tv);
-        descriptionTv = view.findViewById(R.id.fragment_detail_description_tv);
-        agentTv = view.findViewById(R.id.fragment_detail_agent_tv);
     }
 
     private void loadProperty(Property property) {
