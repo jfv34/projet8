@@ -85,7 +85,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void loadProperty(Property property) {
-        displayPhotos(property);
+        if(property.getPhotos()!=null){displayPhotos(property);}
         displayType(property);
         displayAddress(property);
         displayPrice(property);
@@ -97,6 +97,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayPhotos(Property property) {
+
         viewPager.setAdapter(new PhotosPageAdapter(getActivity(),property.getPhotos()));
     }
 
