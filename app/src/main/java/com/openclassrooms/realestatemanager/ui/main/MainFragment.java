@@ -18,7 +18,7 @@ import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
-import com.openclassrooms.realestatemanager.ui.InsertPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.insertPropertyFragment.InsertPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 
 import butterknife.BindView;

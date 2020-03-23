@@ -2,8 +2,10 @@ package com.openclassrooms.realestatemanager.repositories;
 
 import androidx.lifecycle.LiveData;
 
+import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface PropertyRepository {
@@ -12,6 +14,10 @@ public interface PropertyRepository {
     void createProperty(Property property);
 
     void updateProperty(Property property);
+
+    void setPhotosTemporary(ArrayList<Photo> photos);
+
+    ArrayList<Photo> getPhotosTemporary();
 
 }
 

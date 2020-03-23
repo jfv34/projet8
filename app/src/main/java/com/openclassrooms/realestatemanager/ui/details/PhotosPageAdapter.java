@@ -32,7 +32,8 @@ public class PhotosPageAdapter extends PagerAdapter {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_photo, container,false);
         ImageView imageView = view.findViewById(R.id.detail_item_photo_iv);
         Bitmap image = getImage(position);
-        imageView.setImageBitmap(image);
+        if(image!=null){
+        imageView.setImageBitmap(image);}
         container.addView(view);
         return view;
 
@@ -46,9 +47,11 @@ public class PhotosPageAdapter extends PagerAdapter {
 
     private Bitmap getImage(int position) {
         Photo photo = photos.get(position);
-        Bitmap photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
-
-        return photoBM;
+        if(photo!=null) {
+            Bitmap photoBM = Utils.loadImageFromStorage(photo.getPath(), photo.getFileNamePhoto());
+       return photoBM;
+        }
+        return null;
 
     }
 

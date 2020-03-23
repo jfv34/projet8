@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.photo_to_add;
+package com.openclassrooms.realestatemanager.ui.insertPropertyFragment;
 
 import android.os.AsyncTask;
 
@@ -15,17 +15,19 @@ import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoToAddFragmentViewModel extends ViewModel {
+public class InsertPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
-    public void setPhotosTemporary(ArrayList<Photo> photos){
-        repository.setPhotosTemporary(photos);
-    }
+    LiveData<List<Property>> properties = repository.getProperties();
 
     public void setProperty(Property property) {
         AsyncTask.execute(() ->
                 repository.createProperty(property)
         );
+    }
+
+    public ArrayList<Photo> getPhotosTemporary() {
+        return repository.getPhotosTemporary();
     }
 }
