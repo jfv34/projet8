@@ -16,11 +16,10 @@
     <string name="pieces_">Pieces</string>
     <string name="interest_points">Interest Points</string>
     <string name="description">Description</string>
-    <string name="validate">Validate</string>
     <string name="type">Type</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="photos">photos</string>
     <string name="completed">Completed</string>
+    <string name="photo_description">Photo description</string>
+    <string name="validate">Validate</string>
 </resources>

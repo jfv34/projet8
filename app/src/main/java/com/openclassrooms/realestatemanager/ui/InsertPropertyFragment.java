@@ -32,6 +32,7 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 import com.openclassrooms.realestatemanager.ui.main.MainFragmentViewModel;
+import com.openclassrooms.realestatemanager.ui.photo_to_add.PhotoToAddFragment;
 
 import java.util.ArrayList;
 

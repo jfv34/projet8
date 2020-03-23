@@ -23,4 +23,7 @@ public class DataPropertiesRepository implements PropertyRepository {
     @Override
     public void createProperty(Property property){ propertyDao.insertProperty(property); }
 
+    @Override
+    public void updateProperty(Property property){ propertyDao.updateProperty(property); }
+
 }

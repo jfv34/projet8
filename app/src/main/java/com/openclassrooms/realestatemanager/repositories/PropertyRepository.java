@@ -11,5 +11,7 @@ public interface PropertyRepository {
 
     void createProperty(Property property);
 
+    void updateProperty(Property property);
+
 }
 
