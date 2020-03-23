@@ -11,6 +11,7 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
+import com.openclassrooms.realestatemanager.ui.insertPropertyFragment.InsertPropertyViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,11 @@ import java.util.List;
 public class PhotoToAddFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
+    private InsertPropertyViewModel insertPropertyViewModel;
+
+    public PhotoToAddFragmentViewModel(InsertPropertyViewModel insertPropertyViewModel) {
+        this.insertPropertyViewModel = insertPropertyViewModel;
+    }
 
     public void setPhotosTemporary(ArrayList<Photo> photos){
         repository.setPhotosTemporary(photos);
@@ -28,4 +34,6 @@ public class PhotoToAddFragmentViewModel extends ViewModel {
                 repository.createProperty(property)
         );
     }
+
+
 }

@@ -92,6 +92,8 @@ public class PhotoToAddFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(PhotoToAddFragmentViewModel.class);
+
+
         //Bitmap photo = Utils.loadImageFromStorage(pathPhoto, fileNamePhoto);
         //photoIV.setImageBitmap(photo);
 
