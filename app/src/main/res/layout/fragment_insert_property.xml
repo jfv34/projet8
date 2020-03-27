@@ -14,6 +14,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:id="@+id/fragment_insert_property_toolbar"
         app:titleTextColor="#ffffffff"
+        app:navigationIcon="@drawable/ic_arrow_back_24px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
