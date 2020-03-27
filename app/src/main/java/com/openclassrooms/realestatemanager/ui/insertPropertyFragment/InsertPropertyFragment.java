@@ -181,7 +181,6 @@ public class InsertPropertyFragment extends Fragment {
 
             viewModel.setPhoto(photoBM,"",getActivity().getApplicationContext());
 
-            // photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
             if (photoBM != null) {
 
                 photos.add(viewModel.getPhoto());

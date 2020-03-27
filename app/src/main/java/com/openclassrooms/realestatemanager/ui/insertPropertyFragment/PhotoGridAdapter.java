@@ -44,12 +44,14 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         Bitmap photoBM = Utils.loadImageFromStorage(photos.get(position).getPath(), photos.get(position).getFileNamePhoto());
-        photoIV = holder.itemView.findViewById(R.id.item_photo_for_grid_iv);
+        photoIV = holder.itemView.findViewById(R.id.item_photo_for_grid_photo_iv);
         photoIV.setImageBitmap(photoBM);
-        holder.itemView.setOnClickListener(view -> {
-         /*   Intent intent = new Intent(context, SecondActivity.class);
-            intent.putExtra("image", personImages.get(position)); // put image data in Intent
-            context.startActivity(intent); // start Intent*/
+        ImageView delete_icon = holder.itemView.findViewById(R.id.item_photo_for_grid_delete_iv);
+        delete_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo suppress photo
+            }
         });
     }
 

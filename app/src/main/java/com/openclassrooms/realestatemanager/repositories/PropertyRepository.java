@@ -15,9 +15,5 @@ public interface PropertyRepository {
 
     void updateProperty(Property property);
 
-    void setPhotosTemporary(ArrayList<Photo> photos);
-
-    ArrayList<Photo> getPhotosTemporary();
-
 }
 
