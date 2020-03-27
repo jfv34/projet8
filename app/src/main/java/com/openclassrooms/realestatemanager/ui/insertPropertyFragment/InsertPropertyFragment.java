@@ -16,12 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,7 +34,6 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.main.MainActivity;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
@@ -54,7 +52,8 @@ public class InsertPropertyFragment extends Fragment {
     private Bitmap photoBM = null;
     private Photo photo;
     private ArrayList<Photo> photos = new ArrayList<>();
-
+    @BindView(R.id.fragment_insert_property_toolbar)
+    Toolbar toolbar;
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout newProperty_type;
     @BindView(R.id.fragment_insert_property_TextField_price)
@@ -86,6 +85,7 @@ public class InsertPropertyFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_insert_property, container, false);
         ButterKnife.bind(this, root);
+        configureToolBar();
 
         return root;
     }
@@ -213,8 +213,6 @@ public class InsertPropertyFragment extends Fragment {
         String interestPoints = newProperty_interestPoints.getEditText().getText().toString();
         String description = newProperty_description.getEditText().getText().toString();
 
-        ArrayList<Photo> photos = viewModel.getPhotosTemporary();
-
         return new Property(
                 type,
                 price,
@@ -238,5 +236,10 @@ public class InsertPropertyFragment extends Fragment {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment mainFragment = MainFragment.newInstance();
         transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+    }
+
+    private void configureToolBar() {
+        toolbar.setTitle("Adding a new property");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 }
