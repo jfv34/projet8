@@ -214,6 +214,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/fragment_insert_property_photos_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description" />
+
         <Button
             style="@style/AppTheme.Button_notColored"
             android:id="@+id/fragment_insert_property_addingImages_button"
@@ -224,7 +236,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="18dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_photos_recyclerView"
             />
 
         <Button
@@ -237,15 +249,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_addingImages_button"
             />
-
-        <ImageView
-            android:id="@+id/fragment_insert_property_photo_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="#6A2929"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

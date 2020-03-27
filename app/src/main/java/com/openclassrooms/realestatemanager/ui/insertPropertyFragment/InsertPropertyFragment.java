@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -24,6 +26,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
@@ -31,6 +35,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.main.MainActivity;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
@@ -48,7 +53,7 @@ public class InsertPropertyFragment extends Fragment {
     private View root;
     private Bitmap photoBM = null;
     private Photo photo;
-
+    private ArrayList<Photo> photos = new ArrayList<>();
 
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout newProperty_type;
@@ -70,8 +75,7 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_interestPoints;
     @BindView(R.id.fragment_insert_property_TextField_description)
     TextInputLayout newProperty_description;
-    @BindView(R.id.fragment_insert_property_photo_iv)
-    ImageView photo_iv;
+
 
     public static Fragment newInstance() {
         return new InsertPropertyFragment();
@@ -174,12 +178,16 @@ public class InsertPropertyFragment extends Fragment {
                     break;
             }
             photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
-            photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
             if (photoBM != null) {
-                photo_iv.setImageBitmap(photoBM);
-            }
+
+                photos.add(photo);
+                    RecyclerView photosRecyclerView = root.findViewById(R.id.fragment_insert_property_photos_recyclerView);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),1,GridLayoutManager.HORIZONTAL,false);
+                    photosRecyclerView.setLayoutManager(gridLayoutManager);
+                    PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
+                    photosRecyclerView.setAdapter(photoGridAdapter);
         }
-    }
+    }}
 
     private void notification_property_added() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
