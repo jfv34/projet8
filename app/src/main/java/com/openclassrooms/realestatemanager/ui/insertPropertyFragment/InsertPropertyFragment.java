@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -54,7 +52,7 @@ public class InsertPropertyFragment extends Fragment {
     private InsertPropertyFragmentViewModel viewModel;
     private View root;
     private Bitmap photoBM = null;
-    private Photo photo;
+    // private Photo photo;
     private ArrayList<Photo> photos = new ArrayList<>();
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -109,8 +107,7 @@ public class InsertPropertyFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);
-        AutoCompleteTextView textView = (AutoCompleteTextView)
-                root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
+        AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
         textView.setAdapter(adapter);
     }
 
@@ -181,10 +178,13 @@ public class InsertPropertyFragment extends Fragment {
                     }
                     break;
             }
-            photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
+
+            viewModel.setPhoto(photoBM,"",getActivity().getApplicationContext());
+
+            // photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
             if (photoBM != null) {
 
-                photos.add(photo);
+                photos.add(viewModel.getPhoto());
                     RecyclerView photosRecyclerView = root.findViewById(R.id.fragment_insert_property_photos_recyclerView);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),1,GridLayoutManager.HORIZONTAL,false);
                     photosRecyclerView.setLayoutManager(gridLayoutManager);
