@@ -48,7 +48,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class UpdatePropertyFragment extends Fragment {
 
-    private propertyFragmentViewModel viewModel;
+    private PropertyFragmentViewModel viewModel;
     private int bundleProperty;
     private View root;
     private Bitmap photoBM = null;
@@ -93,6 +93,7 @@ public class UpdatePropertyFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
         bundleProperty = getArguments().getInt("property", 0);
     }
 
@@ -111,7 +112,7 @@ public class UpdatePropertyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = new ViewModelProvider(this).get(propertyFragmentViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PropertyFragmentViewModel.class);
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 property = properties.get(bundleProperty);

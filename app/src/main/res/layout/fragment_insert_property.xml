@@ -227,10 +227,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-
+            android:layout_margin="16dp"
             android:id="@+id/fragment_insert_property_photos_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description" />
 
@@ -253,11 +253,11 @@
         android:id="@+id/fragment_insert_property_addingImages_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="570dp"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="16dp"
+
+
         android:text="Adding photos"
         app:icon="@drawable/ic_photo_camera_24px"
-        app:layout_anchorGravity="bottom|right|end" />
+         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

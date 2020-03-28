@@ -47,7 +47,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class InsertPropertyFragment extends Fragment {
 
-    private propertyFragmentViewModel viewModel;
+    private PropertyFragmentViewModel viewModel;
     private View root;
     private Bitmap photoBM = null;
     private ArrayList<Photo> photos = new ArrayList<>();
@@ -95,7 +95,7 @@ public class InsertPropertyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = new ViewModelProvider(this).get(propertyFragmentViewModel.class);
+        viewModel = new ViewModelProvider(this).get(PropertyFragmentViewModel.class);
         configure_autoCompleteTextView();
 
     }
@@ -183,7 +183,7 @@ public class InsertPropertyFragment extends Fragment {
 
                 photos.add(viewModel.getPhoto());
                     RecyclerView photosRecyclerView = root.findViewById(R.id.fragment_insert_property_photos_recyclerView);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),1,GridLayoutManager.HORIZONTAL,false);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
                     photosRecyclerView.setLayoutManager(gridLayoutManager);
                     PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
                     photosRecyclerView.setAdapter(photoGridAdapter);
