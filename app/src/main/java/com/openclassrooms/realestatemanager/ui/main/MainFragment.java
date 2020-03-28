@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +18,8 @@ import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
-import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
+import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
+import com.openclassrooms.realestatemanager.ui.insertProperty.InsertPropertyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
     private MainFragmentViewModel viewModel;
+    private View root;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -37,7 +40,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        root = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this,root);
 
         configureToolBar();
@@ -75,14 +78,31 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @Override
     public void onPropertyClicked(int property) {
-        DetailsActivity.start(getActivity(), property, "DISPLAY_PROPERTY");
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment detailsFragment = DetailsFragment.newInstance(property);
+
+        final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
+
+        if (screenWidthInDp > 600) {
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, detailsFragment).commit();
+        } else {
+            transaction.replace(R.id.frame_layout_main, detailsFragment).commit();
+        }
     }
 
     @OnClick(R.id.insert_property_button)
     public void onInsertPropertyClicked() {
-        DetailsActivity.start(getActivity(), -1, "CREATE_PROPERTY");
-   /*     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
-        transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();*/
+
+        final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
+
+        if (screenWidthInDp > 600) {
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, insertPropertyFragment).commit();
+        } else {
+            transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
+        }
     }
-}
+    }
