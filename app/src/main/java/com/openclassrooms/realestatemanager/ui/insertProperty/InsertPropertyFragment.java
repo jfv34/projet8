@@ -25,7 +25,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +35,6 @@ import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainActivity;
-import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 
@@ -50,9 +48,9 @@ import static android.app.Activity.RESULT_OK;
 public class InsertPropertyFragment extends Fragment {
 
     private InsertPropertyFragmentViewModel viewModel;
+    private int bundleProperty;
     private View root;
     private Bitmap photoBM = null;
-    // private Photo photo;
     private ArrayList<Photo> photos = new ArrayList<>();
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -78,9 +76,20 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_description;
 
 
-    public static InsertPropertyFragment newInstance() {
+    public static InsertPropertyFragment newInstance(int bundleProperty) {
+        InsertPropertyFragment insertPropertyFragment = new InsertPropertyFragment();
 
-        return new InsertPropertyFragment();
+        Bundle args = new Bundle();
+        args.putInt("property", bundleProperty);
+        insertPropertyFragment.setArguments(args);
+
+        return insertPropertyFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        bundleProperty = getArguments().getInt("property", 0);
     }
 
     @Override

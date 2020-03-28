@@ -95,7 +95,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onInsertPropertyClicked() {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
+        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance(-1);
 
         final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
 

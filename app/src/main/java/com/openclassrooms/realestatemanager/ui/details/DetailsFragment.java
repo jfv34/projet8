@@ -9,14 +9,18 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.insertProperty.InsertPropertyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetailsFragment extends Fragment {
 
@@ -32,6 +36,7 @@ public class DetailsFragment extends Fragment {
 
     private DetailsFragmentViewModel viewModel;
     private int bundleProperty;
+    private Property property;
 
     @BindView(R.id.fragment_detail_viewpager)
     ViewPager viewPager;
@@ -66,6 +71,7 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_agent_tv)
     TextView agentTv;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +93,7 @@ public class DetailsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
-                Property property = properties.get(bundleProperty);
+                property = properties.get(bundleProperty);
                 loadProperty(property);
             }
         });
@@ -156,5 +162,19 @@ public class DetailsFragment extends Fragment {
 
     private void displayType(Property property) {
         typeTv.setText(property.getType());
+    }
+
+    @OnClick(R.id.fragment_detail_edit_bt)
+    public void onUpdatePropertyclicked() {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance(property.getId());
+
+        final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
+
+        if (screenWidthInDp > 600) {
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, insertPropertyFragment).commit();
+        } else {
+            transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
+        }
     }
 }
