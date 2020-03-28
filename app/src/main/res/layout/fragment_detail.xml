@@ -3,8 +3,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:ndroid="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/fragment_detail_appbar"
@@ -185,15 +184,25 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_detail_description_tv" />
 
+                <Button
+                    android:id="@+id/fragment_detail_edit_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:drawableStart="@drawable/ic_edit_24px"
+                    android:paddingStart="40dp"
+                    android:text="@string/edit_property"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_detail_agent_iv" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
 
         android:id="@+id/fragment_detail_fab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:clickable="true"
         android:focusable="auto"
         android:src="@drawable/ic_place_24px"
