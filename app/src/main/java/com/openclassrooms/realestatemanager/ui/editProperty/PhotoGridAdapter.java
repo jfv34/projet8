@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.insertProperty;
+package com.openclassrooms.realestatemanager.ui.editProperty;
 
 import android.content.Context;
 import android.graphics.Bitmap;

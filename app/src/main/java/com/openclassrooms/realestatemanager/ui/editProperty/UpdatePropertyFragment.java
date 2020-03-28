@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.insertProperty;
+package com.openclassrooms.realestatemanager.ui.editProperty;
 
 
 import android.app.Notification;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -45,13 +46,14 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class InsertPropertyFragment extends Fragment {
+public class UpdatePropertyFragment extends Fragment {
 
-    private InsertPropertyFragmentViewModel viewModel;
+    private propertyFragmentViewModel viewModel;
     private int bundleProperty;
     private View root;
     private Bitmap photoBM = null;
     private ArrayList<Photo> photos = new ArrayList<>();
+    private Property property;
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
     @BindView(R.id.fragment_insert_property_TextField_type)
@@ -62,6 +64,8 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_address;
     @BindView(R.id.fragment_insert_property_TextField_city)
     TextInputLayout newProperty_city;
+    @BindView(R.id.fragment_insert_property_city_et)
+    EditText property_city_et;
     @BindView(R.id.fragment_insert_property_TextField_state)
     TextInputLayout newProperty_state;
     @BindView(R.id.fragment_insert_property_TextField_zip)
@@ -76,14 +80,14 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_description;
 
 
-    public static InsertPropertyFragment newInstance(int bundleProperty) {
-        InsertPropertyFragment insertPropertyFragment = new InsertPropertyFragment();
+    public static UpdatePropertyFragment newInstance(int bundleProperty) {
+        UpdatePropertyFragment updatePropertyFragment = new UpdatePropertyFragment();
 
         Bundle args = new Bundle();
         args.putInt("property", bundleProperty);
-        insertPropertyFragment.setArguments(args);
+        updatePropertyFragment.setArguments(args);
 
-        return insertPropertyFragment;
+        return updatePropertyFragment;
     }
 
     @Override
@@ -107,10 +111,21 @@ public class InsertPropertyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = new ViewModelProvider(this).get(InsertPropertyFragmentViewModel.class);
-        configure_autoCompleteTextView();
+        viewModel = new ViewModelProvider(this).get(propertyFragmentViewModel.class);
+        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+            if (properties != null) {
+                property = properties.get(bundleProperty);
+                configure_autoCompleteTextView();
+                loadProperty();
+            }
+        });
 
     }
+
+    private void loadProperty() {
+    property_city_et.setText(property.getCity());
+    }
+
     private void configure_autoCompleteTextView() {
         final String[] TYPE = new String[]{
                 "Duplex", "Loft", "Penthouse", "Manor"};
@@ -119,6 +134,7 @@ public class InsertPropertyFragment extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
         textView.setAdapter(adapter);
+        textView.setText(property.getType());
     }
 
     @OnClick(R.id.fragment_insert_property_button)
@@ -142,11 +158,11 @@ public class InsertPropertyFragment extends Fragment {
             public void onClick(DialogInterface dialog, int item) {
 
                 if (options[item].equals("Take Photo")) {
-                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
 
                 } else if (options[item].equals("Choose from Gallery")) {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto, 1);
 
                 } else if (options[item].equals("Cancel")) {

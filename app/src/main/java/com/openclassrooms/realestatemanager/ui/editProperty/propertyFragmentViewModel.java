@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.insertProperty;
+package com.openclassrooms.realestatemanager.ui.editProperty;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +17,7 @@ import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.List;
 
-public class InsertPropertyFragmentViewModel extends ViewModel {
+public class propertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 

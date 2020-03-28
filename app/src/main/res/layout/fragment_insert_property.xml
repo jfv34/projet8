@@ -103,6 +103,7 @@
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_insert_property_city_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
