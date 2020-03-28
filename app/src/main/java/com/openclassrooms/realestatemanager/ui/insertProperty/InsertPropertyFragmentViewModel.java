@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.insertPropertyFragment;
+package com.openclassrooms.realestatemanager.ui.insertProperty;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,7 +15,6 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InsertPropertyFragmentViewModel extends ViewModel {

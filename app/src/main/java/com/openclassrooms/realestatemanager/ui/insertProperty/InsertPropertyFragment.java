@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.insertPropertyFragment;
+package com.openclassrooms.realestatemanager.ui.insertProperty;
 
 
 import android.app.Notification;
@@ -32,10 +32,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.main.MainActivity;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
@@ -78,7 +78,8 @@ public class InsertPropertyFragment extends Fragment {
     TextInputLayout newProperty_description;
 
 
-    public static Fragment newInstance() {
+    public static InsertPropertyFragment newInstance() {
+
         return new InsertPropertyFragment();
     }
 
@@ -236,9 +237,12 @@ public class InsertPropertyFragment extends Fragment {
     }
 
     private void displayMainFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+
+      /*  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment mainFragment = MainFragment.newInstance();
-        transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+        transaction.replace(R.id.frame_layout_main, mainFragment).commit();*/
     }
 
     private void configureToolBar() {

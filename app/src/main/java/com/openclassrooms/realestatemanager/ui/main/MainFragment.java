@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
-import com.openclassrooms.realestatemanager.ui.insertPropertyFragment.InsertPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.details.DetailsActivity;
 
 import butterknife.BindView;
@@ -65,14 +63,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         });
     }
 
-    @OnClick(R.id.insert_property_button)
-    public void configure_test_button_for_replace_fragment() {
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
-        transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
-    }
-
     public void configureRecyclerView() {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -85,6 +75,14 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @Override
     public void onPropertyClicked(int property) {
-        DetailsActivity.start(getActivity(), property);
+        DetailsActivity.start(getActivity(), property, "DISPLAY_PROPERTY");
+    }
+
+    @OnClick(R.id.insert_property_button)
+    public void onInsertPropertyClicked() {
+        DetailsActivity.start(getActivity(), -1, "CREATE_PROPERTY");
+   /*     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
+        transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();*/
     }
 }
