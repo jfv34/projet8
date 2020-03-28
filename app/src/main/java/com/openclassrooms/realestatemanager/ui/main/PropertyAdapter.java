@@ -67,13 +67,17 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         type_tv.setText(property.getType());
         price_tv.setText("$ " + String.valueOf(property.getPrice()));
 
-        if(property.getPhotos()!=null && property.getPhotos().get(0)!=null){Photo photo = property.getPhotos().get(0);
+        if (property.getPhotos() != null) {
+            if (property.getPhotos().size() >0) {
+                Photo photo = property.getPhotos().get(0);
         String filePhoto = photo.getPath();
         String namePhoto = photo.getFileNamePhoto();
         String descriptionPhoto = photo.getPhotoDescription();
 
             Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
-            photo_iv.setImageBitmap(photoBM);}
+                photo_iv.setImageBitmap(photoBM);
+            }
+        }
 
         itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(position));
 
