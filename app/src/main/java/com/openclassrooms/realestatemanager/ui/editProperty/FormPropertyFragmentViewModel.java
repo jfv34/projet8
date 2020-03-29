@@ -32,6 +32,14 @@ public class FormPropertyFragmentViewModel extends ViewModel {
                 repository.createProperty(property)
         );
     }
+
+    public void updateProperty(Property property, int id) {
+        property.setId(id);
+        AsyncTask.execute(() ->
+                repository.updateProperty(property)
+        );
+    }
+
     public Property loadProperty(int id){
         return properties.getValue().get(id);
     }

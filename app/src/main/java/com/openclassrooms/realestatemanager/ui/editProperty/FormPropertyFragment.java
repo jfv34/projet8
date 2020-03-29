@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,7 +36,6 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.main.MainActivity;
 
 import java.util.ArrayList;
 
@@ -119,9 +120,6 @@ public class FormPropertyFragment extends Fragment {
             if (properties != null) {
                 property = viewModel.loadProperty(bundleProperty);
 
-                property_city.getEditText().setText(property.getCity());
-
-
                 property_type.getEditText().setText(property.getType());
                 property_price.getEditText().setText(property.getPrice());
                 property_address.getEditText().setText(property.getAddress());
@@ -132,9 +130,6 @@ public class FormPropertyFragment extends Fragment {
                 property_pieces.getEditText().setText(property.getPieces());
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
-
-
-
             }
         });
     }
@@ -152,9 +147,17 @@ public class FormPropertyFragment extends Fragment {
     @OnClick(R.id.fragment_insert_property_button)
     public void insert_property() {
 
-        viewModel.setProperty(newProperty());
-        notification_property_added();
-        displayMainFragment();
+        if (bundleProperty == -1) {
+            viewModel.setProperty(newProperty());
+            Log.i("tag_update","no");
+            notification_property_added();
+        } else {
+            newProperty();
+            viewModel.updateProperty(newProperty(), property.getId());
+            Log.i("tag_update","ok");
+        }
+
+        removeFragment();
     }
 
     @OnClick(R.id.fragment_insert_property_addingImages_button)
@@ -273,13 +276,12 @@ public class FormPropertyFragment extends Fragment {
         );
     }
 
-    private void displayMainFragment() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
+    private void removeFragment() {
+        //Intent intent = new Intent(getActivity(), MainActivity.class);
+        //startActivity(intent);
 
-      /*  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment mainFragment = MainFragment.newInstance();
-        transaction.replace(R.id.frame_layout_main, mainFragment).commit();*/
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.remove(this).commit();
     }
 
     private void configureToolBar() {
@@ -292,7 +294,7 @@ public class FormPropertyFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayMainFragment();
+                removeFragment();
             }
     });
 }}
