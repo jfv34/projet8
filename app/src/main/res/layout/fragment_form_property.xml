@@ -206,18 +206,39 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragment_insert_property_TextField_description"
+        android:id="@+id/fragment_insert_property_TextField_description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/description"
+        app:startIconDrawable="@drawable/ic_notes_24px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_interestPoints"
+        app:startIconContentDescription="icon_content_desc">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fragment_insert_property_TextField_agent"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="@string/description"
+            android:hint="@string/agent"
             app:startIconDrawable="@drawable/ic_notes_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_interestPoints"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description"
             app:startIconContentDescription="icon_content_desc">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -227,21 +248,21 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="16dp"
+            android:layout_margin="20dp"
             android:id="@+id/fragment_insert_property_photos_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description" />
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_agent" />
 
         <Button
-            android:id="@+id/fragment_insert_property_button"
+            android:id="@+id/fragment_form_property_photos_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/validate"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:text="Adding photos"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_photos_recyclerView"
             />
 
@@ -250,14 +271,12 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fragment_insert_property_addingImages_button"
+        android:id="@+id/fragment_form_property_validate_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-
-
-        android:text="Adding photos"
-        app:icon="@drawable/ic_photo_camera_24px"
+        android:text="@string/validate"
+        app:icon="@drawable/ic_done_24px"
          />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

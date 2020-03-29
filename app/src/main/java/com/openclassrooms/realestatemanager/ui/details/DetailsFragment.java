@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayInterestsPoints(Property property) {
-        String interestsPoints = getString(R.string.interests_points) + " " + property.getInterestPoint();
+        String interestsPoints = property.getInterestPoint();
         interestsPointsTv.setText(interestsPoints);
     }
 

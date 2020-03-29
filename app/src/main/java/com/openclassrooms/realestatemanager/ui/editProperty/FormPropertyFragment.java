@@ -76,7 +76,8 @@ public class FormPropertyFragment extends Fragment {
     TextInputLayout property_interestPoints;
     @BindView(R.id.fragment_insert_property_TextField_description)
     TextInputLayout property_description;
-
+    @BindView(R.id.fragment_insert_property_TextField_agent)
+    TextInputLayout property_agent;
 
     public static FormPropertyFragment newInstance(int bundleProperty) {
         FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
@@ -130,6 +131,7 @@ public class FormPropertyFragment extends Fragment {
                 property_pieces.getEditText().setText(property.getPieces());
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
+                property_agent.getEditText().setText(property.getAgentName());
             }
         });
     }
@@ -144,7 +146,7 @@ public class FormPropertyFragment extends Fragment {
         textView.setAdapter(adapter);
     }
 
-    @OnClick(R.id.fragment_insert_property_button)
+    @OnClick(R.id.fragment_form_property_validate_bt)
     public void insert_property() {
 
         if (bundleProperty == -1) {
@@ -160,7 +162,7 @@ public class FormPropertyFragment extends Fragment {
         removeFragment();
     }
 
-    @OnClick(R.id.fragment_insert_property_addingImages_button)
+    @OnClick(R.id.fragment_form_property_photos_bt)
     public void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
 
@@ -256,6 +258,7 @@ public class FormPropertyFragment extends Fragment {
         String pieces = property_pieces.getEditText().getText().toString();
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
+        String agent = property_agent.getEditText().getText().toString();
 
         return new Property(
                 type,
@@ -272,7 +275,7 @@ public class FormPropertyFragment extends Fragment {
                 false,
                 "",
                 "",
-                ""
+                agent
         );
     }
 
