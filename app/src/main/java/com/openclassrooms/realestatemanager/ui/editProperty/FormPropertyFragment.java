@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -57,27 +56,25 @@ public class FormPropertyFragment extends Fragment {
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
     @BindView(R.id.fragment_insert_property_TextField_type)
-    TextInputLayout newProperty_type;
+    TextInputLayout property_type;
     @BindView(R.id.fragment_insert_property_TextField_price)
-    TextInputLayout newProperty_price;
+    TextInputLayout property_price;
     @BindView(R.id.fragment_insert_property_TextField_address)
-    TextInputLayout newProperty_address;
+    TextInputLayout property_address;
     @BindView(R.id.fragment_insert_property_TextField_city)
-    TextInputLayout newProperty_city;
-    @BindView(R.id.fragment_insert_property_city_et)
-    EditText property_city_et;
+    TextInputLayout property_city;
     @BindView(R.id.fragment_insert_property_TextField_state)
-    TextInputLayout newProperty_state;
+    TextInputLayout property_state;
     @BindView(R.id.fragment_insert_property_TextField_zip)
-    TextInputLayout newProperty_zip;
+    TextInputLayout property_zip;
     @BindView(R.id.fragment_insert_property_TextField_area)
-    TextInputLayout newProperty_area;
+    TextInputLayout property_area;
     @BindView(R.id.fragment_insert_property_TextField_pieces)
-    TextInputLayout newProperty_pieces;
+    TextInputLayout property_pieces;
     @BindView(R.id.fragment_insert_property_TextField_interestPoints)
-    TextInputLayout newProperty_interestPoints;
+    TextInputLayout property_interestPoints;
     @BindView(R.id.fragment_insert_property_TextField_description)
-    TextInputLayout newProperty_description;
+    TextInputLayout property_description;
 
 
     public static FormPropertyFragment newInstance(int bundleProperty) {
@@ -111,20 +108,33 @@ public class FormPropertyFragment extends Fragment {
         PropertyDataBase.getInstance(getContext());
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
-
-       ;
                 configure_autoCompleteTextView();
-                loadProperty();
-
-
-
+        if (bundleProperty != -1) {
+            loadProperty();
+        }
     }
 
     private void loadProperty() {
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 property = viewModel.loadProperty(bundleProperty);
-                property_city_et.setText(property.getCity());
+
+                property_city.getEditText().setText(property.getCity());
+
+
+                property_type.getEditText().setText(property.getType());
+                property_price.getEditText().setText(property.getPrice());
+                property_address.getEditText().setText(property.getAddress());
+                property_city.getEditText().setText(property.getCity());
+                property_state.getEditText().setText(property.getState());
+                property_zip.getEditText().setText(property.getZip());
+                property_area.getEditText().setText(property.getArea());
+                property_pieces.getEditText().setText(property.getPieces());
+                property_interestPoints.getEditText().setText(property.getInterestPoint());
+                property_description.getEditText().setText(property.getDescription());
+
+
+
             }
         });
     }
@@ -233,16 +243,16 @@ public class FormPropertyFragment extends Fragment {
 
     private Property newProperty() {
 
-        String type = newProperty_type.getEditText().getText().toString();
-        String price = newProperty_price.getEditText().getText().toString();
-        String address = newProperty_address.getEditText().getText().toString();
-        String city = newProperty_city.getEditText().getText().toString();
-        String state = newProperty_state.getEditText().getText().toString();
-        String zip = newProperty_zip.getEditText().getText().toString();
-        String area = newProperty_area.getEditText().getText().toString();
-        String pieces = newProperty_pieces.getEditText().getText().toString();
-        String interestPoints = newProperty_interestPoints.getEditText().getText().toString();
-        String description = newProperty_description.getEditText().getText().toString();
+        String type = property_type.getEditText().getText().toString();
+        String price = property_price.getEditText().getText().toString();
+        String address = property_address.getEditText().getText().toString();
+        String city = property_city.getEditText().getText().toString();
+        String state = property_state.getEditText().getText().toString();
+        String zip = property_zip.getEditText().getText().toString();
+        String area = property_area.getEditText().getText().toString();
+        String pieces = property_pieces.getEditText().getText().toString();
+        String interestPoints = property_interestPoints.getEditText().getText().toString();
+        String description = property_description.getEditText().getText().toString();
 
         return new Property(
                 type,

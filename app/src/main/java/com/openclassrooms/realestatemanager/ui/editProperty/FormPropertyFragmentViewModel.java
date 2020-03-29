@@ -33,8 +33,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
     public Property loadProperty(int id){
-        //List<Property> properties = repository.getProperties().getValue();
-
         return properties.getValue().get(id);
     }
 
