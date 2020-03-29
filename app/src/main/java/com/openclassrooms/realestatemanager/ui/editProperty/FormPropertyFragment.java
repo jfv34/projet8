@@ -46,14 +46,14 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class UpdatePropertyFragment extends Fragment {
+public class FormPropertyFragment extends Fragment {
 
-    private PropertyFragmentViewModel viewModel;
     private int bundleProperty;
+    private FormPropertyFragmentViewModel viewModel;
     private View root;
     private Bitmap photoBM = null;
-    private ArrayList<Photo> photos = new ArrayList<>();
     private Property property;
+    private ArrayList<Photo> photos = new ArrayList<>();
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
     @BindView(R.id.fragment_insert_property_TextField_type)
@@ -80,27 +80,25 @@ public class UpdatePropertyFragment extends Fragment {
     TextInputLayout newProperty_description;
 
 
-    public static UpdatePropertyFragment newInstance(int bundleProperty) {
-        UpdatePropertyFragment updatePropertyFragment = new UpdatePropertyFragment();
+    public static FormPropertyFragment newInstance(int bundleProperty) {
+        FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
 
         Bundle args = new Bundle();
         args.putInt("property", bundleProperty);
-        updatePropertyFragment.setArguments(args);
+        formPropertyFragment.setArguments(args);
 
-        return updatePropertyFragment;
+        return formPropertyFragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
         bundleProperty = getArguments().getInt("property", 0);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_insert_property, container, false);
+        root = inflater.inflate(R.layout.fragment_form_property, container, false);
         ButterKnife.bind(this, root);
         configureToolBar();
 
@@ -112,19 +110,23 @@ public class UpdatePropertyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = new ViewModelProvider(this).get(PropertyFragmentViewModel.class);
-        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
-            if (properties != null) {
-                property = properties.get(bundleProperty);
+        viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
+
+       ;
                 configure_autoCompleteTextView();
                 loadProperty();
-            }
-        });
+
+
 
     }
 
     private void loadProperty() {
-    property_city_et.setText(property.getCity());
+        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+            if (properties != null) {
+                property = viewModel.loadProperty(bundleProperty);
+                property_city_et.setText(property.getCity());
+            }
+        });
     }
 
     private void configure_autoCompleteTextView() {
@@ -135,7 +137,6 @@ public class UpdatePropertyFragment extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
         textView.setAdapter(adapter);
-        textView.setText(property.getType());
     }
 
     @OnClick(R.id.fragment_insert_property_button)
@@ -159,11 +160,11 @@ public class UpdatePropertyFragment extends Fragment {
             public void onClick(DialogInterface dialog, int item) {
 
                 if (options[item].equals("Take Photo")) {
-                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
 
                 } else if (options[item].equals("Choose from Gallery")) {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto, 1);
 
                 } else if (options[item].equals("Cancel")) {
@@ -212,7 +213,7 @@ public class UpdatePropertyFragment extends Fragment {
 
                 photos.add(viewModel.getPhoto());
                     RecyclerView photosRecyclerView = root.findViewById(R.id.fragment_insert_property_photos_recyclerView);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),1,GridLayoutManager.HORIZONTAL,false);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
                     photosRecyclerView.setLayoutManager(gridLayoutManager);
                     PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
                     photosRecyclerView.setAdapter(photoGridAdapter);

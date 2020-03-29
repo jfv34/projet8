@@ -16,7 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.editProperty.UpdatePropertyFragment;
+import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -167,14 +167,14 @@ public class DetailsFragment extends Fragment {
     @OnClick(R.id.fragment_detail_edit_bt)
     public void onUpdatePropertyclicked() {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment upDatePropertyFragment = UpdatePropertyFragment.newInstance(property.getId());
+        Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
 
         final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
 
         if (screenWidthInDp > 600) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, upDatePropertyFragment).commit();
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, formPropertyFragment).commit();
         } else {
-            transaction.replace(R.id.frame_layout_main, upDatePropertyFragment).commit();
+            transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();
         }
     }
 }

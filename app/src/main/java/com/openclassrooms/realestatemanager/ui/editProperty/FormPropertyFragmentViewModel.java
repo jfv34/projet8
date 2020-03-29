@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -17,8 +18,9 @@ import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
-public class PropertyFragmentViewModel extends ViewModel {
+public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
@@ -30,10 +32,11 @@ public class PropertyFragmentViewModel extends ViewModel {
                 repository.createProperty(property)
         );
     }
+    public Property loadProperty(int id){
+        //List<Property> properties = repository.getProperties().getValue();
 
-  /*  public void loadProperty(int id){
-        ArrayList<Property> properties = repository.getProperties().getValue();
-    }*/
+        return properties.getValue().get(id);
+    }
 
     public Photo setPhoto(Bitmap photoBM, String description, Context context) {
         this.photo = Utils.saveToInternalStorage(photoBM, description,context);

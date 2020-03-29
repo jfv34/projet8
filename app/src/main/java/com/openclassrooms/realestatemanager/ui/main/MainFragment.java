@@ -19,7 +19,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
-import com.openclassrooms.realestatemanager.ui.editProperty.InsertPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,7 +95,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onInsertPropertyClicked() {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment insertPropertyFragment = InsertPropertyFragment.newInstance();
+        Fragment insertPropertyFragment = FormPropertyFragment.newInstance(-1);
 
         final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
 

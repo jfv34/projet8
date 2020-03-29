@@ -16,4 +16,6 @@ public class DetailsFragmentViewModel extends ViewModel {
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     LiveData<List<Property>> properties = repository.getProperties();
 
+
+
 }
