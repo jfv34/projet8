@@ -271,7 +271,7 @@ public class FormPropertyFragment extends Fragment {
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
         String agent = property_agent.getEditText().getText().toString();
-        ArrayList<Photo> photos = (ArrayList<Photo>) viewModel.getPhotos();
+        ArrayList<Photo> photos = viewModel.getPhotos();
 
         return new Property(
                 type,

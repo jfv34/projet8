@@ -24,7 +24,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
     LiveData<List<Property>> properties = repository.getProperties();
-    MutableLiveData<List<Photo>> photos= new MutableLiveData<>();
+    MutableLiveData<ArrayList<Photo>> photos= new MutableLiveData<>();
     Photo photo;
 
     public void setProperty(Property property) {
@@ -56,13 +56,22 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     }
 
 
-    public List<Photo> getPhotos() {
+    public ArrayList<Photo> getPhotos() {
         return photos.getValue();
     }
 
     public void loadPhotos(int property) {
-        List<Photo> photosToAdd;
+        ArrayList<Photo> photosToAdd;
         photosToAdd = loadProperty(property).getPhotos();
         photos.setValue(photosToAdd);
     }
-}
+
+    public void deletePhoto(int position) {
+        ArrayList newPhotos = new ArrayList();
+        int size = photos.getValue().size();
+        for(int i=0; i<size;i++){
+            if(i!=position){newPhotos.add(photos.getValue().get(position));
+            }
+        photos.postValue(newPhotos);
+    }
+}}

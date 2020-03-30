@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
@@ -35,7 +36,7 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
     public PhotoGridAdapter(Context context, List<Photo> photos) {
         this.context = context;
         this.photos = photos;
-        viewModel = new ViewModelProvider((FragmentActivity) context).get(FormPropertyFragmentViewModel.class);
+
     }
 
     @NonNull
@@ -53,7 +54,8 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
         photoIV.setImageBitmap(photoBM);
         ImageView delete_icon = holder.itemView.findViewById(R.id.item_photo_for_grid_delete_iv);
         delete_icon.setOnClickListener(v -> {
-            // todo delete photo
+
+            viewModel.deletePhoto(position);
         });
     }
 
