@@ -23,4 +23,10 @@
     <string name="validate">Validate</string>
     <string name="edit_property">Edit property</string>
     <string name="agent">Agent</string>
+    <string name="chooseyourprofilepicture">Choose your profile picture</string>
+    <string name="choosefromgallery">Choose from Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="takephoto">Take Photo</string>
+    <string name="propertyadded">Property added</string>
+    <string name="thenewpropertyhasbeenadded">The new property has been added</string>
 </resources>

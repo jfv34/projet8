@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -54,8 +54,11 @@ public class FormPropertyFragment extends Fragment {
     private Bitmap photoBM = null;
     private Property property;
     private ArrayList<Photo> photos = new ArrayList<>();
+
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.fragment_insert_property_photos_recyclerView)
+    RecyclerView photosRecyclerView;
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout property_type;
     @BindView(R.id.fragment_insert_property_TextField_price)
@@ -132,14 +135,15 @@ public class FormPropertyFragment extends Fragment {
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
                 property_agent.getEditText().setText(property.getAgentName());
+
+
             }
         });
     }
 
     private void configure_autoCompleteTextView() {
-        final String[] TYPE = new String[]{
-                "Duplex", "Loft", "Penthouse", "Manor"};
 
+        final String[] TYPE = viewModel.loadType();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
@@ -151,38 +155,35 @@ public class FormPropertyFragment extends Fragment {
 
         if (bundleProperty == -1) {
             viewModel.setProperty(newProperty());
-            Log.i("tag_update","no");
             notification_property_added();
         } else {
             newProperty();
             viewModel.updateProperty(newProperty(), property.getId());
-            Log.i("tag_update","ok");
         }
-
         removeFragment();
     }
 
     @OnClick(R.id.fragment_form_property_photos_bt)
     public void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        final CharSequence[] options = {getString(R.string.takephoto), getString(R.string.choosefromgallery), getString(R.string.cancel)};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose your profile picture");
+        builder.setTitle(R.string.chooseyourprofilepicture);
 
         builder.setItems(options, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
 
-                if (options[item].equals("Take Photo")) {
+                if (options[item].equals(getString(R.string.takephoto))) {
                     Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
 
-                } else if (options[item].equals("Choose from Gallery")) {
+                } else if (options[item].equals(R.string.choosefromgallery)) {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto, 1);
 
-                } else if (options[item].equals("Cancel")) {
+                } else if (options[item].equals(R.string.cancel)) {
                     dialog.dismiss();
                 }
             }
@@ -210,7 +211,6 @@ public class FormPropertyFragment extends Fragment {
                                     filePathColumn, null, null, null);
                             if (cursor != null) {
                                 cursor.moveToFirst();
-
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
                                 photoBM = BitmapFactory.decodeFile(picturePath);
@@ -222,24 +222,25 @@ public class FormPropertyFragment extends Fragment {
                     break;
             }
 
-            viewModel.setPhoto(photoBM,"",getActivity().getApplicationContext());
-
             if (photoBM != null) {
-
-                photos.add(viewModel.getPhoto());
-                    RecyclerView photosRecyclerView = root.findViewById(R.id.fragment_insert_property_photos_recyclerView);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
-                    photosRecyclerView.setLayoutManager(gridLayoutManager);
-                    PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
-                    photosRecyclerView.setAdapter(photoGridAdapter);
+                Photo photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
+                photos.add(photo);
+                displayPhotos();
         }
     }}
+
+    private void displayPhotos() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
+        photosRecyclerView.setLayoutManager(gridLayoutManager);
+        PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
+        photosRecyclerView.setAdapter(photoGridAdapter);
+    }
 
     private void notification_property_added() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
                 .setSmallIcon(R.drawable.ic_home_24px)
-                .setContentTitle("Property added")
-                .setContentText("The new property has been added")
+                .setContentTitle(getString(R.string.propertyadded))
+                .setContentText(getString(R.string.thenewpropertyhasbeenadded))
                 .setPriority(Notification.PRIORITY_MAX);
 
         NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -280,9 +281,6 @@ public class FormPropertyFragment extends Fragment {
     }
 
     private void removeFragment() {
-        //Intent intent = new Intent(getActivity(), MainActivity.class);
-        //startActivity(intent);
-
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.remove(this).commit();
     }
@@ -290,14 +288,7 @@ public class FormPropertyFragment extends Fragment {
     private void configureToolBar() {
         toolbar.setTitle("Adding a new property");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeFragment();
-            }
-    });
+        toolbar.setNavigationOnClickListener(v -> removeFragment());
 }}
