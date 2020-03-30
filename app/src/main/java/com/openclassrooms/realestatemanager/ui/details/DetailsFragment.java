@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,9 +94,18 @@ public class DetailsFragment extends Fragment {
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 property = properties.get(bundleProperty);
+                if (property.getPhotos().isEmpty()) {
+                    hideViewPager();
+                }
                 loadProperty(property);
             }
         });
+    }
+
+    private void hideViewPager() {
+        ViewGroup.LayoutParams params = viewPager.getLayoutParams();
+        params.height = 0;
+        viewPager.requestLayout();
     }
 
     private void loadProperty(Property property) {
