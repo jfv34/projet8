@@ -135,6 +135,8 @@ public class FormPropertyFragment extends Fragment {
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
                 property_agent.getEditText().setText(property.getAgentName());
+                photos=property.getPhotos();
+                displayPhotos();
 
 
             }
