@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
@@ -15,10 +17,12 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoGridAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<Photo> photos;
+    private FormPropertyFragmentViewModel viewModel;
+    private List<Photo> photos;
     private Context context;
     private ImageView photoIV;
 
@@ -28,9 +32,10 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public PhotoGridAdapter(Context context, ArrayList<Photo> photos) {
+    public PhotoGridAdapter(Context context, List<Photo> photos) {
         this.context = context;
         this.photos = photos;
+        viewModel = new ViewModelProvider((FragmentActivity) context).get(FormPropertyFragmentViewModel.class);
     }
 
     @NonNull
@@ -47,11 +52,8 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
         photoIV = holder.itemView.findViewById(R.id.item_photo_for_grid_photo_iv);
         photoIV.setImageBitmap(photoBM);
         ImageView delete_icon = holder.itemView.findViewById(R.id.item_photo_for_grid_delete_iv);
-        delete_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // todo suppress photo
-            }
+        delete_icon.setOnClickListener(v -> {
+            // todo delete photo
         });
     }
 

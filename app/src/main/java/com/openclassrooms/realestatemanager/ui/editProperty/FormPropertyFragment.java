@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,8 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Observer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +57,7 @@ public class FormPropertyFragment extends Fragment {
     private View root;
     private Bitmap photoBM = null;
     private Property property;
-    private ArrayList<Photo> photos = new ArrayList<>();
+    //private ArrayList<Photo> photos = new ArrayList<>();
 
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -135,10 +139,8 @@ public class FormPropertyFragment extends Fragment {
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
                 property_agent.getEditText().setText(property.getAgentName());
-                photos=property.getPhotos();
+                viewModel.loadPhotos(bundleProperty);
                 displayPhotos();
-
-
             }
         });
     }
@@ -226,16 +228,23 @@ public class FormPropertyFragment extends Fragment {
 
             if (photoBM != null) {
                 Photo photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
-                photos.add(photo);
+                viewModel.setPhoto(photo);
                 displayPhotos();
         }
     }}
 
     private void displayPhotos() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
-        photosRecyclerView.setLayoutManager(gridLayoutManager);
-        PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
-        photosRecyclerView.setAdapter(photoGridAdapter);
+        Context context = getActivity();
+        if(viewModel.photos!=null){
+       viewModel.photos.observe(getViewLifecycleOwner(),photos ->
+        {
+            if (photos != null) {
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
+                photosRecyclerView.setLayoutManager(gridLayoutManager);
+                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(context, photos);
+                photosRecyclerView.setAdapter(photoGridAdapter);
+            }
+        });}
     }
 
     private void notification_property_added() {
@@ -262,6 +271,7 @@ public class FormPropertyFragment extends Fragment {
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
         String agent = property_agent.getEditText().getText().toString();
+        ArrayList<Photo> photos = (ArrayList<Photo>) viewModel.getPhotos();
 
         return new Property(
                 type,
