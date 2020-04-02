@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -27,7 +26,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,8 +38,6 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Observer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -234,17 +230,26 @@ public class FormPropertyFragment extends Fragment {
     }}
 
     private void displayPhotos() {
+
         Context context = getActivity();
         if(viewModel.photos!=null){
        viewModel.photos.observe(getViewLifecycleOwner(),photos ->
         {
-            if (photos != null) {
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),5);
+            if (!photos.isEmpty()) {
+
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
                 photosRecyclerView.setLayoutManager(gridLayoutManager);
                 PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(context, photos);
                 photosRecyclerView.setAdapter(photoGridAdapter);
             }
         });}
+    }
+
+    private int spanCount() {
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            return 5;
+        } else return 3;
     }
 
     private void notification_property_added() {

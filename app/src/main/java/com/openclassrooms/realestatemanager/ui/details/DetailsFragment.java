@@ -94,7 +94,7 @@ public class DetailsFragment extends Fragment {
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 property = properties.get(bundleProperty);
-                if (property.getPhotos().isEmpty()) {
+                if (property.getPhotos()!=null) {
                     hideViewPager();
                 }
                 loadProperty(property);

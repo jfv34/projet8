@@ -32,7 +32,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             PropertyDataBase.class, "MyDatabase.db")
-                            .addCallback(prepopulateDatabase())
+                            //.addCallback(prepopulateDatabase())
                             .build();
                 }
             }

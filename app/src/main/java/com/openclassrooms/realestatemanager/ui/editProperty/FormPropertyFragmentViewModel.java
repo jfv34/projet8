@@ -1,14 +1,11 @@
 package com.openclassrooms.realestatemanager.ui.editProperty;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
@@ -45,8 +42,21 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     }
 
     public void setPhoto(Photo photo) {
-        photos.getValue().add(photo);
+        ArrayList newPhotos = new ArrayList();
+        int size;
+        if (photos.getValue() == null) {size = 0;}
+        else {
+            size = photos.getValue().size();
+        }
+
+
+        for (int i = 0; i < size; i++) {
+            newPhotos.add(photos.getValue().get(i));
+        }
+        newPhotos.add(photo);
+        photos.postValue(newPhotos);
     }
+
     public Photo getPhoto() {
         return photo;
     }
@@ -69,8 +79,10 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public void deletePhoto(int position) {
         ArrayList newPhotos = new ArrayList();
         int size = photos.getValue().size();
-        for(int i=0; i<size;i++){
-            if(i!=position){newPhotos.add(photos.getValue().get(position));
+
+        for(int i=0; i< size;i++){
+            if (i != position) {
+                newPhotos.add(photos.getValue().get(i));
             }
         photos.postValue(newPhotos);
     }
