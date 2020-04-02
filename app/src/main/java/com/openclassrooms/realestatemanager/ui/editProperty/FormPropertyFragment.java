@@ -174,6 +174,10 @@ public class FormPropertyFragment extends Fragment {
             viewModel.updateProperty(newProperty(), property.getId());
         }
 
+        backToMain();
+    }
+
+    private void backToMain() {
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
             removeFragment();
@@ -355,5 +359,5 @@ public class FormPropertyFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> removeFragment());
+        toolbar.setNavigationOnClickListener(v -> backToMain());
 }}
