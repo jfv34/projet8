@@ -153,7 +153,11 @@ public class Property {
     }
 
     public String getEntryDate() {
-        return entryDate;
+        if (entryDate == null) {
+            return "";
+        } else {
+            return entryDate;
+        }
     }
 
     public void setEntryDate(String entryDate) {
@@ -161,7 +165,11 @@ public class Property {
     }
 
     public String getSaleDate() {
-        return saleDate;
+        if (saleDate == null) {
+            return "";
+        } else {
+            return saleDate;
+        }
     }
 
     public void setSaleDate(String saleDate) {

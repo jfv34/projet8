@@ -29,4 +29,7 @@
     <string name="takephoto">Take Photo</string>
     <string name="propertyadded">Property added</string>
     <string name="thenewpropertyhasbeenadded">The new property has been added</string>
+    <string name="available">Available</string>
+    <string name="solded">Solded</string>
+    <string name="status">status</string>
 </resources>

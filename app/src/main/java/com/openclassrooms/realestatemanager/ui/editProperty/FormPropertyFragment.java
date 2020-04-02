@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +82,10 @@ public class FormPropertyFragment extends Fragment {
     TextInputLayout property_description;
     @BindView(R.id.fragment_insert_property_TextField_agent)
     TextInputLayout property_agent;
+    @BindView(R.id.fragment_insert_property_TextField_status_notSolded_tv)
+    TextInputLayout property_status_notSolded_iv;
+    @BindView(R.id.fragment_insert_property_TextField_status_solded_tv)
+    TextInputLayout property_status_solded_iv;
 
     public static FormPropertyFragment newInstance(int bundleProperty) {
         FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
@@ -137,6 +140,14 @@ public class FormPropertyFragment extends Fragment {
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
                 property_agent.getEditText().setText(property.getAgentName());
+                if (property.isSolded()) {
+                    property_status_solded_iv.setVisibility(View.VISIBLE);
+                    property_status_notSolded_iv.setVisibility(View.INVISIBLE);
+                }
+                if (!property.isSolded()) {
+                    property_status_solded_iv.setVisibility(View.INVISIBLE);
+                    property_status_notSolded_iv.setVisibility(View.VISIBLE);
+                }
                 viewModel.loadPhotos(bundleProperty);
                 displayPhotos();
             }
@@ -253,6 +264,34 @@ public class FormPropertyFragment extends Fragment {
             }
         });}
     }
+
+
+    @OnClick(R.id.fragment_form_property_available_radioButton)
+    public void available_radiobutton() {
+        property_status_notSolded_iv.setVisibility(View.VISIBLE);
+        property_status_solded_iv.setVisibility(View.INVISIBLE);
+        String text;
+        if (property.getEntryDate().isEmpty()) {
+            text = "Available";
+        } else {
+            text = "Available since " + property.getEntryDate();
+        }
+        property_status_notSolded_iv.getEditText().setText(text);
+    }
+
+    @OnClick(R.id.fragment_form_property_solded_radioButton)
+    public void solded_radiobutton() {
+        property_status_notSolded_iv.setVisibility(View.INVISIBLE);
+        property_status_solded_iv.setVisibility(View.VISIBLE);
+        String text;
+        if (property.getSaleDate().isEmpty()) {
+            text = "Solded";
+        } else {
+            text = "Solded since " + property.getSaleDate();
+        }
+        property_status_solded_iv.getEditText().setText(text);
+    }
+
 
     private int spanCount() {
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
