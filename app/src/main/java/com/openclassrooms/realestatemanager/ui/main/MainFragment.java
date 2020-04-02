@@ -97,12 +97,9 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment insertPropertyFragment = FormPropertyFragment.newInstance(-1);
 
-        final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
-
-        if (screenWidthInDp > 600) {
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
             transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, insertPropertyFragment).commit();
-        } else {
-            transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
-        }
+        } else transaction.replace(R.id.frame_layout_main, insertPropertyFragment).commit();
     }
     }

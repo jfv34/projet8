@@ -248,9 +248,9 @@ public class FormPropertyFragment extends Fragment {
     private int spanCount() {
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
-            return 5;
-        } else return 3;
-    }
+        return 5;
+    } else return 3;
+}
 
     private void notification_property_added() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
