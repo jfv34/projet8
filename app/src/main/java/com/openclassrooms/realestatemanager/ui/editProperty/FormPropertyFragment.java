@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 
@@ -160,7 +162,14 @@ public class FormPropertyFragment extends Fragment {
             newProperty();
             viewModel.updateProperty(newProperty(), property.getId());
         }
-        removeFragment();
+
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            removeFragment();
+        } else {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment mainFragment = MainFragment.newInstance();
+            transaction.replace(R.id.frame_layout_main, mainFragment).commit();}
     }
 
     @OnClick(R.id.fragment_form_property_photos_bt)

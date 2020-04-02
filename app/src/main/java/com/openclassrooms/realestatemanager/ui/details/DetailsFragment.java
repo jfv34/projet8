@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
@@ -178,12 +177,11 @@ public class DetailsFragment extends Fragment {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
 
-        final float screenWidthInDp = Utils.getScreenWidthInDp(getActivity());
-
-        if (screenWidthInDp > 600) {
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
             transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, formPropertyFragment).commit();
         } else {
             transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();
-        }
+    }
     }
 }
