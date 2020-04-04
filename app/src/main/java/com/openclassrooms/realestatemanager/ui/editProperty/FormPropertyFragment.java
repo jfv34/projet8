@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.openclassrooms.realestatemanager.OnPhotoDeleteClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
@@ -45,7 +46,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class FormPropertyFragment extends Fragment {
+public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener {
 
     private int bundleProperty;
     private FormPropertyFragmentViewModel viewModel;
@@ -157,7 +158,7 @@ public class FormPropertyFragment extends Fragment {
             if (photos!=null) {
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
                 photosRecyclerView.setLayoutManager(gridLayoutManager);
-                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
+                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos, FormPropertyFragment.this);
                 photosRecyclerView.setAdapter(photoGridAdapter);
             }
         });
@@ -182,7 +183,6 @@ public class FormPropertyFragment extends Fragment {
             newProperty();
             viewModel.updateProperty(newProperty(), bundleProperty);
         }
-
         backToMain();
     }
 
@@ -351,4 +351,10 @@ public class FormPropertyFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> backToMain());
-}}
+}
+
+    @Override
+    public void onPhotoDeleteClicked(int photo) {
+        viewModel.deletePhoto(photo);
+    }
+}

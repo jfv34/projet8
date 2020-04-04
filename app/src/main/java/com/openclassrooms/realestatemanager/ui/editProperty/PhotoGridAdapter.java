@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.openclassrooms.realestatemanager.OnPhotoDeleteClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;
@@ -18,10 +19,10 @@ import java.util.List;
 
 public class PhotoGridAdapter extends RecyclerView.Adapter {
 
-    //private FormPropertyFragmentViewModel viewModel;
     private List<Photo> photos;
     private Context context;
     private ImageView photoIV;
+    private OnPhotoDeleteClickedListener clickedListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
@@ -29,9 +30,10 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public PhotoGridAdapter(Context context, List<Photo> photos) {
+    public PhotoGridAdapter(Context context, List<Photo> photos, OnPhotoDeleteClickedListener clickedListener) {
         this.context = context;
         this.photos = photos;
+        this.clickedListener = clickedListener;
 
     }
 
@@ -50,8 +52,7 @@ public class PhotoGridAdapter extends RecyclerView.Adapter {
         photoIV.setImageBitmap(photoBM);
         ImageView delete_icon = holder.itemView.findViewById(R.id.item_photo_for_grid_delete_iv);
         delete_icon.setOnClickListener(v -> {
-
-            //viewModel.deletePhoto(position);
+            clickedListener.onPhotoDeleteClicked(position);
         });
     }
 
