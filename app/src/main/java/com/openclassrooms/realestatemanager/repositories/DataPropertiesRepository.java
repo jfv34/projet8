@@ -16,7 +16,7 @@ public class DataPropertiesRepository implements PropertyRepository {
     }
 
     @Override
-    public LiveData<List<Property>> getProperties() {
+    public List<Property> getProperties() {
         return propertyDao.getProperties();
     }
 
@@ -25,5 +25,11 @@ public class DataPropertiesRepository implements PropertyRepository {
 
     @Override
     public void updateProperty(Property property){ propertyDao.updateProperty(property); }
+
+    @Override
+    public Property getProperty(int id) {
+
+        return propertyDao.getProperty(id);
+    }
 
 }

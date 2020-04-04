@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.editProperty;
 
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -14,14 +13,14 @@ import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepositor
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
-    LiveData<List<Property>> properties = repository.getProperties();
-    MutableLiveData<ArrayList<Photo>> photos= new MutableLiveData<>();
+
+    public MutableLiveData<Property> property = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     Photo photo;
 
     public void setProperty(Property property) {
@@ -37,8 +36,13 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
 
-    public Property loadProperty(int id){
-        return properties.getValue().get(id);
+    public void loadProperty(int id) {
+        AsyncTask.execute(() -> {
+                    Property result = repository.getProperty(id);
+                    property.postValue(result);
+                    photos.postValue(result.getPhotos());
+                }
+        );
     }
 
     public void setPhoto(Photo photo) {
@@ -68,12 +72,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public ArrayList<Photo> getPhotos() {
         return photos.getValue();
-    }
-
-    public void loadPhotos(int property) {
-        ArrayList<Photo> photosToAdd;
-        photosToAdd = loadProperty(property).getPhotos();
-        photos.setValue(photosToAdd);
     }
 
     public void deletePhoto(int position) {

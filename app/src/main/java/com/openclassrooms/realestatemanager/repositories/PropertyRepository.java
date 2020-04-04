@@ -7,11 +7,14 @@ import com.openclassrooms.realestatemanager.models.Property;
 import java.util.List;
 
 public interface PropertyRepository {
-    LiveData<List<Property>> getProperties();
+    List<Property> getProperties();
 
     void createProperty(Property property);
 
     void updateProperty(Property property);
+
+    Property getProperty(int id);
+
 
 }
 

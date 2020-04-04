@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.base.BaseApplication;
@@ -17,7 +17,13 @@ public class MainFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
-    LiveData<List<Property>> properties = repository.getProperties();
+    MutableLiveData<List<Property>> properties = new MutableLiveData<>();
+
+    public void loadProperties() {
+        AsyncTask.execute(() ->
+                properties.postValue(repository.getProperties())
+        );
+    }
 
     public void setProperty(Property property) {
         AsyncTask.execute(() ->

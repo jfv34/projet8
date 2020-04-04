@@ -15,7 +15,7 @@ import java.util.List;
 public interface PropertyDao {
 
     @Query("SELECT * FROM Property")
-    LiveData<List<Property>> getProperties();
+    List<Property> getProperties();
 
     @Insert
     long insertProperty(Property property);
@@ -25,5 +25,8 @@ public interface PropertyDao {
 
     @Query("DELETE FROM Property WHERE id = :id")
     int deleteProperty(int id);
+
+    @Query("SELECT * FROM Property WHERE id = :id")
+    Property getProperty(int id);
 
 }

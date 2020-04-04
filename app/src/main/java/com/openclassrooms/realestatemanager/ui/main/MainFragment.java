@@ -55,6 +55,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         PropertyDataBase.getInstance(getContext());
 
         viewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
+        viewModel.loadProperties();
 
         viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {

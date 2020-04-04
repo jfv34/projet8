@@ -102,6 +102,7 @@ public class FormPropertyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         bundleProperty = getArguments().getInt("property", 0);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -118,16 +119,18 @@ public class FormPropertyFragment extends Fragment {
         PropertyDataBase.getInstance(getContext());
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
-                configure_autoCompleteTextView();
+        configure_autoCompleteTextView();
         if (bundleProperty != -1) {
             loadProperty();
         }
     }
 
     private void loadProperty() {
-        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
-            if (properties != null) {
-                property = viewModel.loadProperty(bundleProperty);
+        viewModel.loadProperty(bundleProperty);
+        observePhotos();
+        viewModel.property.observe(getViewLifecycleOwner(), property -> {
+            if (property != null) {
+
 
                 property_type.getEditText().setText(property.getType());
                 property_price.getEditText().setText(property.getPrice());
@@ -148,8 +151,6 @@ public class FormPropertyFragment extends Fragment {
                     property_status_solded_iv.setVisibility(View.INVISIBLE);
                     property_status_notSolded_iv.setVisibility(View.VISIBLE);
                 }
-                viewModel.loadPhotos(bundleProperty);
-                displayPhotos();
             }
         });
     }
@@ -249,26 +250,21 @@ public class FormPropertyFragment extends Fragment {
             if (photoBM != null) {
                 Photo photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
                 viewModel.setPhoto(photo);
-                displayPhotos();
+                observePhotos();
         }
     }}
 
-    private void displayPhotos() {
-
-        Context context = getActivity();
-        if(viewModel.photos!=null){
-       viewModel.photos.observe(getViewLifecycleOwner(),photos ->
+    private void observePhotos() {
+        viewModel.photos.observe(getViewLifecycleOwner(),photos ->
         {
             if (!photos.isEmpty()) {
-
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
                 photosRecyclerView.setLayoutManager(gridLayoutManager);
-                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(context, photos);
+                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
                 photosRecyclerView.setAdapter(photoGridAdapter);
             }
-        });}
+        });
     }
-
 
     @OnClick(R.id.fragment_form_property_available_radioButton)
     public void available_radiobutton() {

@@ -90,7 +90,9 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
-        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+
+
+       /* viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 property = properties.get(bundleProperty);
                 if (property.getPhotos()!=null) {
@@ -98,7 +100,7 @@ public class DetailsFragment extends Fragment {
                 }
                 loadProperty(property);
             }
-        });
+        });*/
     }
 
     private void hideViewPager() {
