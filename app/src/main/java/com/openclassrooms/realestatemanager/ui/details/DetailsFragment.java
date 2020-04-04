@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,19 +89,8 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
-
-
-       /* viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
-            if (properties != null) {
-                property = properties.get(bundleProperty);
-                if (property.getPhotos()!=null) {
-                    hideViewPager();
-                }
-                loadProperty(property);
-            }
-        });*/
+        loadProperty();
     }
 
     private void hideViewPager() {
@@ -109,21 +99,27 @@ public class DetailsFragment extends Fragment {
         viewPager.requestLayout();
     }
 
-    private void loadProperty(Property property) {
-        if(property.getPhotos()!=null){displayPhotos(property);}
-        displayType(property);
-        displayAddress(property);
-        displayPrice(property);
-        displayAvailability(property);
-        displaySurfaceAndPieces(property);
-        displayInterestsPoints(property);
-        displayDescription(property);
-        displayAgent(property);
+    private void loadProperty() {
+        viewModel.loadProperty(bundleProperty);
+        observePhotos();
+        viewModel.property.observe(getViewLifecycleOwner(), property -> {
+
+            displayType(property);
+            displayAddress(property);
+            displayPrice(property);
+            displayAvailability(property);
+            displaySurfaceAndPieces(property);
+            displayInterestsPoints(property);
+            displayDescription(property);
+            displayAgent(property);
+        });
     }
 
-    private void displayPhotos(Property property) {
+    private void observePhotos() {
 
-        viewPager.setAdapter(new PhotosPageAdapter(getActivity(),property.getPhotos()));
+        viewModel.photos.observe(getViewLifecycleOwner(), photos -> {
+            viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));
+        });
     }
 
     private void displayAgent(Property property) {

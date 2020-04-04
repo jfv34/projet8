@@ -79,7 +79,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             }
         }
 
-        itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(position));
+        itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(position+1));
 
     }
 

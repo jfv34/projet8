@@ -38,8 +38,6 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,7 +52,6 @@ public class FormPropertyFragment extends Fragment {
     private View root;
     private Bitmap photoBM = null;
     private Property property;
-    //private ArrayList<Photo> photos = new ArrayList<>();
 
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -131,7 +128,6 @@ public class FormPropertyFragment extends Fragment {
         viewModel.property.observe(getViewLifecycleOwner(), property -> {
             if (property != null) {
 
-
                 property_type.getEditText().setText(property.getType());
                 property_price.getEditText().setText(property.getPrice());
                 property_address.getEditText().setText(property.getAddress());
@@ -155,6 +151,18 @@ public class FormPropertyFragment extends Fragment {
         });
     }
 
+    private void observePhotos() {
+        viewModel.photos.observe(getViewLifecycleOwner(), photos ->
+        {
+            if (photos!=null) {
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
+                photosRecyclerView.setLayoutManager(gridLayoutManager);
+                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
+                photosRecyclerView.setAdapter(photoGridAdapter);
+            }
+        });
+    }
+
     private void configure_autoCompleteTextView() {
 
         final String[] TYPE = viewModel.loadType();
@@ -172,7 +180,7 @@ public class FormPropertyFragment extends Fragment {
             notification_property_added();
         } else {
             newProperty();
-            viewModel.updateProperty(newProperty(), property.getId());
+            viewModel.updateProperty(newProperty(), bundleProperty);
         }
 
         backToMain();
@@ -254,18 +262,6 @@ public class FormPropertyFragment extends Fragment {
         }
     }}
 
-    private void observePhotos() {
-        viewModel.photos.observe(getViewLifecycleOwner(),photos ->
-        {
-            if (!photos.isEmpty()) {
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
-                photosRecyclerView.setLayoutManager(gridLayoutManager);
-                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos);
-                photosRecyclerView.setAdapter(photoGridAdapter);
-            }
-        });
-    }
-
     @OnClick(R.id.fragment_form_property_available_radioButton)
     public void available_radiobutton() {
         property_status_notSolded_iv.setVisibility(View.VISIBLE);
@@ -324,7 +320,6 @@ public class FormPropertyFragment extends Fragment {
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
         String agent = property_agent.getEditText().getText().toString();
-        ArrayList<Photo> photos = viewModel.getPhotos();
 
         return new Property(
                 type,
@@ -337,7 +332,7 @@ public class FormPropertyFragment extends Fragment {
                 pieces,
                 interestPoints,
                 description,
-                photos,
+                viewModel.getPhotos(),
                 false,
                 "",
                 "",

@@ -40,7 +40,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         AsyncTask.execute(() -> {
                     Property result = repository.getProperty(id);
                     property.postValue(result);
-                    photos.postValue(result.getPhotos());
+                photos.postValue(result.getPhotos());
                 }
         );
     }
