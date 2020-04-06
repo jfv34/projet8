@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.editProperty;
 
 
+import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -39,6 +41,12 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,7 +54,11 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener {
+public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener, DatePickerDialog.OnDateSetListener {
+
+    private static Calendar calendar = Calendar.getInstance();
+
+
 
     private int bundleProperty;
     private FormPropertyFragmentViewModel viewModel;
@@ -80,10 +92,10 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     TextInputLayout property_description;
     @BindView(R.id.fragment_insert_property_TextField_agent)
     TextInputLayout property_agent;
-    @BindView(R.id.fragment_insert_property_TextField_status_notSolded_tv)
-    TextInputLayout property_status_notSolded_iv;
-    @BindView(R.id.fragment_insert_property_TextField_status_solded_tv)
-    TextInputLayout property_status_solded_iv;
+    @BindView(R.id.fragment_form_property_availability)
+    TextInputLayout property_availability;
+    @BindView(R.id.fragment_form_property_availability_dropdown)
+    AutoCompleteTextView property_availability_dropdown;
 
     public static FormPropertyFragment newInstance(int bundleProperty) {
         FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
@@ -91,7 +103,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         Bundle args = new Bundle();
         args.putInt("property", bundleProperty);
         formPropertyFragment.setArguments(args);
-
         return formPropertyFragment;
     }
 
@@ -107,7 +118,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         root = inflater.inflate(R.layout.fragment_form_property, container, false);
         ButterKnife.bind(this, root);
         configureToolBar();
-
         return root;
     }
 
@@ -118,6 +128,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         configure_autoCompleteTextView();
+        configure_availability();
         if (bundleProperty != -1) {
             loadProperty();
         }
@@ -126,6 +137,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private void loadProperty() {
         viewModel.loadProperty(bundleProperty);
         observePhotos();
+        observeStatusAvailability();
+        observeDateAvailability();
         viewModel.property.observe(getViewLifecycleOwner(), property -> {
             if (property != null) {
 
@@ -140,14 +153,25 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
                 property_agent.getEditText().setText(property.getAgentName());
-                if (property.isSolded()) {
-                    property_status_solded_iv.setVisibility(View.VISIBLE);
-                    property_status_notSolded_iv.setVisibility(View.INVISIBLE);
+
+            }
+        });
+    }
+
+    private void observeStatusAvailability() {
+        viewModel.isSolded.observe(getViewLifecycleOwner(), isSolded -> {
+                    ;//todo ?
                 }
-                if (!property.isSolded()) {
-                    property_status_solded_iv.setVisibility(View.INVISIBLE);
-                    property_status_notSolded_iv.setVisibility(View.VISIBLE);
-                }
+        );
+    }
+
+    private void observeDateAvailability() {
+        viewModel.availability.observe(getViewLifecycleOwner(), availability ->
+        {
+            if (availability != null) {
+
+                property_availability.getEditText().setText(availability);
+
             }
         });
     }
@@ -155,7 +179,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private void observePhotos() {
         viewModel.photos.observe(getViewLifecycleOwner(), photos ->
         {
-            if (photos!=null) {
+            if (photos != null) {
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
                 photosRecyclerView.setLayoutManager(gridLayoutManager);
                 PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos, FormPropertyFragment.this);
@@ -171,6 +195,49 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
         textView.setAdapter(adapter);
+    }
+
+    private void configure_availability() {
+        final String[] TYPE = viewModel.loadAvailability();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, TYPE);
+        AutoCompleteTextView textView = root.findViewById(R.id.fragment_form_property_availability_dropdown);
+        textView.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.TEST_PICKER)
+    public void date_picker_click() {
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                getActivity(),
+                FormPropertyFragment.this,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+        dialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int yearSelected, int monthSelected, int daySelected) {
+
+        StringBuilder frenchDate = new StringBuilder();
+        frenchDate.append(daySelected >= 10 ? daySelected : "0" + daySelected);
+        frenchDate.append("/");
+        frenchDate.append(monthSelected + 1);
+        frenchDate.append("/");
+        frenchDate.append(yearSelected);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        Date dateSelected = null;
+        try {
+            dateSelected = simpleDateFormat.parse(frenchDate.toString());
+        } catch (ParseException e) {
+        }
+
+        String formatted_Date = simpleDateFormat.format(dateSelected);
+        viewModel.setDateAvailability(formatted_Date);
+
     }
 
     @OnClick(R.id.fragment_form_property_validate_bt)
@@ -193,7 +260,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         } else {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment mainFragment = MainFragment.newInstance();
-            transaction.replace(R.id.frame_layout_main, mainFragment).commit();}
+            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+        }
     }
 
     @OnClick(R.id.fragment_form_property_photos_bt)
@@ -259,42 +327,16 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 Photo photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
                 viewModel.setPhoto(photo);
                 observePhotos();
+            }
         }
-    }}
-
-    @OnClick(R.id.fragment_form_property_available_radioButton)
-    public void available_radiobutton() {
-        property_status_notSolded_iv.setVisibility(View.VISIBLE);
-        property_status_solded_iv.setVisibility(View.INVISIBLE);
-        String text;
-        if (property.getEntryDate().isEmpty()) {
-            text = "Available";
-        } else {
-            text = "Available since " + property.getEntryDate();
-        }
-        property_status_notSolded_iv.getEditText().setText(text);
     }
-
-    @OnClick(R.id.fragment_form_property_solded_radioButton)
-    public void solded_radiobutton() {
-        property_status_notSolded_iv.setVisibility(View.INVISIBLE);
-        property_status_solded_iv.setVisibility(View.VISIBLE);
-        String text;
-        if (property.getSaleDate().isEmpty()) {
-            text = "Solded";
-        } else {
-            text = "Solded since " + property.getSaleDate();
-        }
-        property_status_solded_iv.getEditText().setText(text);
-    }
-
 
     private int spanCount() {
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
-        return 5;
-    } else return 3;
-}
+            return 5;
+        } else return 3;
+    }
 
     private void notification_property_added() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
@@ -351,10 +393,12 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> backToMain());
-}
+    }
 
     @Override
     public void onPhotoDeleteClicked(int photo) {
         viewModel.deletePhoto(photo);
     }
+
+
 }

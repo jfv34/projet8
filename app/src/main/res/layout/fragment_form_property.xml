@@ -248,67 +248,38 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragment_insert_property_TextField_status_solded_tv"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/fragment_form_property_availability"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:hint="@string/status"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Availability"
+            app:layout_constraintEnd_toStartOf="@id/TEST_PICKER"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_agent"
-            app:startIconDrawable="@drawable/ic_clear_24px">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fragment_insert_property_TextField_status_notSolded_tv"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.7"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:hint="@string/status"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_agent"
-            app:startIconDrawable="@drawable/ic_check_circle_24px">
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:cursorVisible="true"
+                android:id="@+id/fragment_form_property_availability_dropdown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <RadioGroup
-            android:id="@id/fragment_form_property_radioButton"
+        <Button
+            android:id="@+id/TEST_PICKER"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="TEST"
+            app:layout_constraintStart_toEndOf="@id/fragment_form_property_availability"
+            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_agent"
             android:layout_marginStart="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_status_solded_tv">
-
-            <RadioButton
-                android:id="@+id/fragment_form_property_available_radioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/available" />
-
-            <RadioButton
-                android:id="@+id/fragment_form_property_solded_radioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="@string/solded" />
-        </RadioGroup>
-
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_margin="20dp"
@@ -316,7 +287,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_form_property_radioButton" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_form_property_availability" />
 
         <Button
             android:id="@+id/fragment_form_property_photos_bt"

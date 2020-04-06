@@ -18,9 +18,12 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
+    private String[] AVAILABILITY_LIST = {"Available", "Sold"};
 
     public MutableLiveData<Property> property = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
+    public MutableLiveData<String> availability = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isSolded = new MutableLiveData<>();
     Photo photo;
 
     public void setProperty(Property property) {
@@ -45,6 +48,18 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
 
+    public void setDateAvailability(String formatted_date) {
+        availability.postValue(formatted_date);
+    }
+
+    public String getDateAvailability() {
+        return availability.getValue();
+    }
+
+    public Boolean getIsSolded() {
+        return isSolded.getValue();
+    }
+
     public void setPhoto(Photo photo) {
         ArrayList newPhotos = new ArrayList();
         int size;
@@ -65,11 +80,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         return photo;
     }
 
-    public String[] loadType() {
-        return TYPE_LIST;
-    }
-
-
     public ArrayList<Photo> getPhotos() {
         return photos.getValue();
     }
@@ -84,4 +94,14 @@ public class FormPropertyFragmentViewModel extends ViewModel {
             }
         photos.postValue(newPhotos);
     }
-}}
+    }
+
+    public String[] loadAvailability() {
+        return AVAILABILITY_LIST;
+    }
+
+    public String[] loadType() {
+        return TYPE_LIST;
+    }
+
+}
