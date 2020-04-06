@@ -64,7 +64,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private FormPropertyFragmentViewModel viewModel;
     private View root;
     private Bitmap photoBM = null;
-    private Property property;
+    private boolean datePicker_is_availableDate = false;
 
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -92,10 +92,15 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     TextInputLayout property_description;
     @BindView(R.id.fragment_insert_property_TextField_agent)
     TextInputLayout property_agent;
-    @BindView(R.id.fragment_form_property_availability)
-    TextInputLayout property_availability;
+    @BindView(R.id.fragment_form_property_availability_status)
+    TextInputLayout property_availability_status;
     @BindView(R.id.fragment_form_property_availability_dropdown)
     AutoCompleteTextView property_availability_dropdown;
+    @BindView(R.id.fragment_form_property_availability_date)
+    TextInputLayout property_availability_date;
+    @BindView(R.id.fragment_form_property_sold_date)
+    TextInputLayout property_sold_date;
+
 
     public static FormPropertyFragment newInstance(int bundleProperty) {
         FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
@@ -128,7 +133,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         configure_autoCompleteTextView();
-        configure_availability();
+        configure_availability_status();
         if (bundleProperty != -1) {
             loadProperty();
         }
@@ -138,7 +143,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         viewModel.loadProperty(bundleProperty);
         observePhotos();
         observeStatusAvailability();
-        observeDateAvailability();
+
         viewModel.property.observe(getViewLifecycleOwner(), property -> {
             if (property != null) {
 
@@ -153,27 +158,21 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 property_interestPoints.getEditText().setText(property.getInterestPoint());
                 property_description.getEditText().setText(property.getDescription());
                 property_agent.getEditText().setText(property.getAgentName());
-
+                property_sold_date.getEditText().setText(property.getSaleDate());
+                property_availability_date.getEditText().setText(property.getEntryDate());
             }
         });
     }
 
     private void observeStatusAvailability() {
         viewModel.isSolded.observe(getViewLifecycleOwner(), isSolded -> {
-                    ;//todo ?
+            if (isSolded) {
+                property_availability_status.getEditText().setText(R.string.sold);
+            } else {
+                property_availability_status.getEditText().setText(R.string.available);
+            }
                 }
         );
-    }
-
-    private void observeDateAvailability() {
-        viewModel.availability.observe(getViewLifecycleOwner(), availability ->
-        {
-            if (availability != null) {
-
-                property_availability.getEditText().setText(availability);
-
-            }
-        });
     }
 
     private void observePhotos() {
@@ -197,15 +196,27 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         textView.setAdapter(adapter);
     }
 
-    private void configure_availability() {
+    private void configure_availability_status() {
         final String[] TYPE = viewModel.loadAvailability();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_form_property_availability_dropdown);
         textView.setAdapter(adapter);
+        textView.setCursorVisible(false);
     }
 
-    @OnClick(R.id.TEST_PICKER)
+    @OnClick(R.id.fragment_form_property_availability_button)
+    public void availability_button_click() {
+        datePicker_is_availableDate = true;
+        date_picker_click();
+    }
+
+    @OnClick(R.id.fragment_form_property_sold_button)
+    public void sold_button_click() {
+        datePicker_is_availableDate = false;
+        date_picker_click();
+    }
+
     public void date_picker_click() {
 
         DatePickerDialog dialog = new DatePickerDialog(
@@ -235,10 +246,15 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         } catch (ParseException e) {
         }
 
-        String formatted_Date = simpleDateFormat.format(dateSelected);
-        viewModel.setDateAvailability(formatted_Date);
+        String formattedDate = simpleDateFormat.format(dateSelected);
 
+        if (datePicker_is_availableDate) {
+            property_availability_date.getEditText().setText(formattedDate);
+        } else {
+            property_sold_date.getEditText().setText(formattedDate);
+        }
     }
+
 
     @OnClick(R.id.fragment_form_property_validate_bt)
     public void insert_property() {
@@ -362,6 +378,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
         String agent = property_agent.getEditText().getText().toString();
+        String availabilityDate = property_availability_date.getEditText().getText().toString();
+        String soldDate = property_sold_date.getEditText().getText().toString();
 
         return new Property(
                 type,
@@ -375,9 +393,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 interestPoints,
                 description,
                 viewModel.getPhotos(),
-                false,
-                "",
-                "",
+                viewModel.getIsSolded(),
+                availabilityDate,
+                soldDate,
                 agent
         );
     }

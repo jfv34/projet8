@@ -118,7 +118,8 @@ public class DetailsFragment extends Fragment {
     private void observePhotos() {
 
         viewModel.photos.observe(getViewLifecycleOwner(), photos -> {
-            viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));
+            if(photos!=null){
+            viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));}
         });
     }
 

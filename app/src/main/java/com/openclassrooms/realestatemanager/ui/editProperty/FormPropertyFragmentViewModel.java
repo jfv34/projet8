@@ -22,7 +22,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public MutableLiveData<Property> property = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
-    public MutableLiveData<String> availability = new MutableLiveData<>();
     public MutableLiveData<Boolean> isSolded = new MutableLiveData<>();
     Photo photo;
 
@@ -48,15 +47,11 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
 
-    public void setDateAvailability(String formatted_date) {
-        availability.postValue(formatted_date);
-    }
-
-    public String getDateAvailability() {
-        return availability.getValue();
-    }
-
     public Boolean getIsSolded() {
+        if (isSolded.getValue() == null) {
+            isSolded.postValue(false);
+            return false;
+        }
         return isSolded.getValue();
     }
 
@@ -103,5 +98,4 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public String[] loadType() {
         return TYPE_LIST;
     }
-
 }
