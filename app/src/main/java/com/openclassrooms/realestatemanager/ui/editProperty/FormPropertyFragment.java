@@ -176,6 +176,12 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 property_agent.getEditText().setText(property.getAgentName());
                 property_sold_date.getEditText().setText(property.getSaleDate());
                 property_availability_date.getEditText().setText(property.getEntryDate());
+
+                if (property.isSolded()) {
+                    property_availability_status.getEditText().setText(R.string.sold);
+                } else {
+                    property_availability_status.getEditText().setText(R.string.available);
+                }
             }
         });
     }
@@ -358,6 +364,13 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         String availabilityDate = property_availability_date.getEditText().getText().toString();
         String soldDate = property_sold_date.getEditText().getText().toString();
 
+        boolean isSolded;
+        if (property_availability_status.getEditText().getText().toString().equals(R.string.sold)) {
+            isSolded = true;
+        } else {
+            isSolded = false;
+        } ;
+
         return new Property(
                 type,
                 price,
@@ -370,7 +383,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 interestPoints,
                 description,
                 viewModel.getPhotos(),
-                viewModel.getIsSold(),
+                isSolded,
                 availabilityDate,
                 soldDate,
                 agent

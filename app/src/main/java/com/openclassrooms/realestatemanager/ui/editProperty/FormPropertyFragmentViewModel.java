@@ -55,13 +55,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
 
-    public Boolean getIsSold() {
-        if (isSold.getValue() == null) {
-            isSold.postValue(false);
-            return false;
-        }
-        return isSold.getValue();
-    }
 
     public void setPhoto(Photo photo) {
         ArrayList newPhotos = new ArrayList();
