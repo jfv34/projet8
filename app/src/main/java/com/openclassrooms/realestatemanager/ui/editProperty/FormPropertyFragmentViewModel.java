@@ -12,9 +12,14 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class FormPropertyFragmentViewModel extends ViewModel {
+
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
@@ -22,7 +27,9 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public MutableLiveData<Property> property = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
-    public MutableLiveData<Boolean> isSolded = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isSold = new MutableLiveData<>();
+    public MutableLiveData<String> soldDate = new MutableLiveData<>();
+    public MutableLiveData<String> availableDate = new MutableLiveData<>();
     Photo photo;
 
     public void setProperty(Property property) {
@@ -43,16 +50,17 @@ public class FormPropertyFragmentViewModel extends ViewModel {
                     Property result = repository.getProperty(id);
                     property.postValue(result);
                 photos.postValue(result.getPhotos());
+            soldDate.postValue(result.getSaleDate());
                 }
         );
     }
 
-    public Boolean getIsSolded() {
-        if (isSolded.getValue() == null) {
-            isSolded.postValue(false);
+    public Boolean getIsSold() {
+        if (isSold.getValue() == null) {
+            isSold.postValue(false);
             return false;
         }
-        return isSolded.getValue();
+        return isSold.getValue();
     }
 
     public void setPhoto(Photo photo) {
@@ -91,11 +99,55 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     }
     }
 
-    public String[] loadAvailability() {
+    public String[] getAvailabilities() {
         return AVAILABILITY_LIST;
     }
 
-    public String[] loadType() {
+    public String[] getTypes() {
         return TYPE_LIST;
+    }
+
+    public void setSoldDate(int year, int month, int dayOfMonth) {
+
+        StringBuilder frenchDate = new StringBuilder();
+        frenchDate.append(dayOfMonth >= 10 ? dayOfMonth : "0" + dayOfMonth);
+        frenchDate.append("/");
+        frenchDate.append(month + 1);
+        frenchDate.append("/");
+        frenchDate.append(year);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        Date dateSelected = null;
+        try {
+            dateSelected = simpleDateFormat.parse(frenchDate.toString());
+        } catch (ParseException e) {
+        }
+
+        String formattedDate = simpleDateFormat.format(dateSelected);
+
+        soldDate.setValue(formattedDate);
+
+    }
+
+    public void setAvailableDate(int year, int month, int dayOfMonth) {
+
+        StringBuilder frenchDate = new StringBuilder();
+        frenchDate.append(dayOfMonth >= 10 ? dayOfMonth : "0" + dayOfMonth);
+        frenchDate.append("/");
+        frenchDate.append(month + 1);
+        frenchDate.append("/");
+        frenchDate.append(year);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        Date dateSelected = null;
+        try {
+            dateSelected = simpleDateFormat.parse(frenchDate.toString());
+        } catch (ParseException e) {
+        }
+
+        String formattedDate = simpleDateFormat.format(dateSelected);
+
+        availableDate.setValue(formattedDate);
+
     }
 }

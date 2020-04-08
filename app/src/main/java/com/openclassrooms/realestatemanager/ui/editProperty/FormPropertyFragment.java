@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -41,11 +40,7 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,17 +49,13 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener, DatePickerDialog.OnDateSetListener {
+public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener {
 
     private static Calendar calendar = Calendar.getInstance();
-
-
-
     private int bundleProperty;
     private FormPropertyFragmentViewModel viewModel;
     private View root;
     private Bitmap photoBM = null;
-    private boolean datePicker_is_availableDate = false;
 
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -131,12 +122,37 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
+
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         configure_autoCompleteTextView();
         configure_availability_status();
+        configure_availabilityDate();
+        configure_soldDate();
         if (bundleProperty != -1) {
             loadProperty();
         }
+    }
+
+    private void configure_soldDate() {
+        TextInputLayout textInputLayout = root.findViewById(R.id.fragment_form_property_sold_date);
+
+        textInputLayout.getEditText().setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+                viewModel.setSoldDate(year, month, dayOfMonth)
+        ));
+        viewModel.soldDate.observe(getViewLifecycleOwner(), soldDate ->
+                textInputLayout.getEditText().setText(soldDate)
+        );
+    }
+
+    private void configure_availabilityDate() {
+        TextInputLayout availabilityDate = root.findViewById(R.id.fragment_form_property_availability_date);
+
+        availabilityDate.getEditText().setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+                viewModel.setAvailableDate(year, month, dayOfMonth)
+        ));
+        viewModel.availableDate.observe(getViewLifecycleOwner(), soldDate ->
+                availabilityDate.getEditText().setText(soldDate)
+        );
     }
 
     private void loadProperty() {
@@ -165,8 +181,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void observeStatusAvailability() {
-        viewModel.isSolded.observe(getViewLifecycleOwner(), isSolded -> {
-            if (isSolded) {
+        viewModel.isSold.observe(getViewLifecycleOwner(), isSold -> {
+            if (isSold) {
                 property_availability_status.getEditText().setText(R.string.sold);
             } else {
                 property_availability_status.getEditText().setText(R.string.available);
@@ -176,11 +192,11 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void observePhotos() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
+        photosRecyclerView.setLayoutManager(gridLayoutManager);
         viewModel.photos.observe(getViewLifecycleOwner(), photos ->
         {
             if (photos != null) {
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
-                photosRecyclerView.setLayoutManager(gridLayoutManager);
                 PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos, FormPropertyFragment.this);
                 photosRecyclerView.setAdapter(photoGridAdapter);
             }
@@ -189,7 +205,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void configure_autoCompleteTextView() {
 
-        final String[] TYPE = viewModel.loadType();
+        final String[] TYPE = viewModel.getTypes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
@@ -197,7 +213,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void configure_availability_status() {
-        final String[] TYPE = viewModel.loadAvailability();
+        final String[] TYPE = viewModel.getAvailabilities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_form_property_availability_dropdown);
@@ -205,56 +221,17 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         textView.setCursorVisible(false);
     }
 
-    @OnClick(R.id.fragment_form_property_availability_button)
-    public void availability_button_click() {
-        datePicker_is_availableDate = true;
-        date_picker_click();
-    }
-
-    @OnClick(R.id.fragment_form_property_sold_button)
-    public void sold_button_click() {
-        datePicker_is_availableDate = false;
-        date_picker_click();
-    }
-
-    public void date_picker_click() {
+    public void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
 
         DatePickerDialog dialog = new DatePickerDialog(
                 getActivity(),
-                FormPropertyFragment.this,
+                listener,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
         );
         dialog.show();
     }
-
-    @Override
-    public void onDateSet(DatePicker view, int yearSelected, int monthSelected, int daySelected) {
-
-        StringBuilder frenchDate = new StringBuilder();
-        frenchDate.append(daySelected >= 10 ? daySelected : "0" + daySelected);
-        frenchDate.append("/");
-        frenchDate.append(monthSelected + 1);
-        frenchDate.append("/");
-        frenchDate.append(yearSelected);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-        Date dateSelected = null;
-        try {
-            dateSelected = simpleDateFormat.parse(frenchDate.toString());
-        } catch (ParseException e) {
-        }
-
-        String formattedDate = simpleDateFormat.format(dateSelected);
-
-        if (datePicker_is_availableDate) {
-            property_availability_date.getEditText().setText(formattedDate);
-        } else {
-            property_sold_date.getEditText().setText(formattedDate);
-        }
-    }
-
 
     @OnClick(R.id.fragment_form_property_validate_bt)
     public void insert_property() {
@@ -393,7 +370,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 interestPoints,
                 description,
                 viewModel.getPhotos(),
-                viewModel.getIsSolded(),
+                viewModel.getIsSold(),
                 availabilityDate,
                 soldDate,
                 agent

@@ -266,81 +266,47 @@
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fragment_form_property_dates"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_form_property_availability_status">
+
 
             <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
                 android:id="@+id/fragment_form_property_availability_date"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_height="wrap_content"
                 android:hint="Availability date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7"
+                app:layout_constraintTop_toBottomOf="@id/fragment_form_property_availability_status"
                 app:startIconContentDescription="icon_content_desc">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:focusable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <Button
-                android:id="@+id/fragment_form_property_availability_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawableStart="@drawable/ic_edit_24px"
-                android:text="Date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fragment_form_property_availability_date"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.3" />
-
             <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
                 android:id="@+id/fragment_form_property_sold_date"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
+                android:layout_marginEnd="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Sold date"
-                app:layout_constraintEnd_toStartOf="@id/fragment_form_property_sold_button"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fragment_form_property_availability_date"
-                app:layout_constraintWidth_percent="0.7"
                 app:startIconContentDescription="icon_content_desc">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:focusable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <Button
-                android:id="@+id/fragment_form_property_sold_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:drawableStart="@drawable/ic_edit_24px"
-                android:text="Date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fragment_form_property_availability_date"
-                app:layout_constraintTop_toBottomOf="@id/fragment_form_property_availability_date"
-                app:layout_constraintWidth_percent="0.3"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_margin="20dp"
@@ -348,7 +314,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_form_property_dates" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_form_property_sold_date" />
 
         <Button
             android:id="@+id/fragment_form_property_photos_bt"
