@@ -88,7 +88,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @BindView(R.id.fragment_form_property_availability_dropdown)
     AutoCompleteTextView property_availability_dropdown;
     @BindView(R.id.fragment_form_property_availability_date)
-    TextInputLayout property_availability_date;
+    TextInputLayout property_entry_date;
     @BindView(R.id.fragment_form_property_sold_date)
     TextInputLayout property_sold_date;
 
@@ -158,24 +158,24 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private void loadProperty() {
         viewModel.loadProperty(bundleProperty);
         observePhotos();
-        observeStatusAvailability();
+        //observeStatusAvailability();
+        observePrice();
+        observeType();
+        observeCity();
+        observeAddress();
+        observeState();
+        observeZip();
+        observeArea();
+        observePieces();
+        observeInterestPoints();
+        observeDescription();
+        observeAgent();
+        observeSoldDate();
+        observeEntryDate();
 
         viewModel.property.observe(getViewLifecycleOwner(), property -> {
             if (property != null) {
 
-                property_type.getEditText().setText(property.getType());
-                property_price.getEditText().setText(property.getPrice());
-                property_address.getEditText().setText(property.getAddress());
-                property_city.getEditText().setText(property.getCity());
-                property_state.getEditText().setText(property.getState());
-                property_zip.getEditText().setText(property.getZip());
-                property_area.getEditText().setText(property.getArea());
-                property_pieces.getEditText().setText(property.getPieces());
-                property_interestPoints.getEditText().setText(property.getInterestPoint());
-                property_description.getEditText().setText(property.getDescription());
-                property_agent.getEditText().setText(property.getAgentName());
-                property_sold_date.getEditText().setText(property.getSaleDate());
-                property_availability_date.getEditText().setText(property.getEntryDate());
 
                 if (property.isSolded()) {
                     property_availability_status.getEditText().setText(R.string.sold);
@@ -183,6 +183,84 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                     property_availability_status.getEditText().setText(R.string.available);
                 }
             }
+        });
+    }
+
+    private void observeEntryDate() {
+        viewModel.entrydate.observe(getViewLifecycleOwner(), entryDate -> {
+            property_entry_date.getEditText().setText(entryDate);
+        });
+    }
+
+    private void observeSoldDate() {
+        viewModel.soldDate.observe(getViewLifecycleOwner(), soldDate -> {
+            property_type.getEditText().setText(soldDate);
+        });
+    }
+
+    private void observeAgent() {
+        viewModel.agent.observe(getViewLifecycleOwner(), agent -> {
+            property_agent.getEditText().setText(agent);
+        });
+    }
+
+    private void observeDescription() {
+        viewModel.description.observe(getViewLifecycleOwner(), description -> {
+            property_type.getEditText().setText(description);
+        });
+    }
+
+    private void observeInterestPoints() {
+        viewModel.interestpoints.observe(getViewLifecycleOwner(), interestPoint -> {
+            property_type.getEditText().setText(interestPoint);
+        });
+    }
+
+    private void observePieces() {
+        viewModel.pieces.observe(getViewLifecycleOwner(), pieces -> {
+            property_type.getEditText().setText(pieces);
+        });
+    }
+
+    private void observeArea() {
+        viewModel.area.observe(getViewLifecycleOwner(), area -> {
+            property_area.getEditText().setText(area);
+        });
+    }
+
+    private void observeZip() {
+        viewModel.zip.observe(getViewLifecycleOwner(), zip -> {
+            property_zip.getEditText().setText(zip);
+        });
+    }
+
+    private void observeState() {
+        viewModel.state.observe(getViewLifecycleOwner(), state -> {
+            property_state.getEditText().setText(state);
+        });
+    }
+
+    private void observeCity() {
+        viewModel.city.observe(getViewLifecycleOwner(), city -> {
+            property_type.getEditText().setText(city);
+        });
+    }
+
+    private void observeAddress() {
+        viewModel.type.observe(getViewLifecycleOwner(), type -> {
+            property_type.getEditText().setText(type);
+        });
+    }
+
+    private void observeType() {
+        viewModel.type.observe(getViewLifecycleOwner(), type -> {
+            property_type.getEditText().setText(type);
+        });
+    }
+
+    private void observePrice() {
+        viewModel.price.observe(getViewLifecycleOwner(), price -> {
+            property_price.getEditText().setText(price);
         });
     }
 
@@ -361,7 +439,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
         String agent = property_agent.getEditText().getText().toString();
-        String availabilityDate = property_availability_date.getEditText().getText().toString();
+        String availabilityDate = property_entry_date.getEditText().getText().toString();
         String soldDate = property_sold_date.getEditText().getText().toString();
 
         boolean isSolded;

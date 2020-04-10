@@ -20,7 +20,6 @@ import java.util.Locale;
 
 public class FormPropertyFragmentViewModel extends ViewModel {
 
-
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
     private String[] AVAILABILITY_LIST = {"Available", "Sold"};
@@ -28,9 +27,35 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public MutableLiveData<Property> property = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     public MutableLiveData<Boolean> isSold = new MutableLiveData<>();
+    public MutableLiveData<String> price = new MutableLiveData<>();
+    public MutableLiveData<String> type = new MutableLiveData<>();
+    public MutableLiveData<String> city = new MutableLiveData<>();
+    public MutableLiveData<String> address = new MutableLiveData<>();
+    public MutableLiveData<String> state = new MutableLiveData<>();
+    public MutableLiveData<String> zip = new MutableLiveData<>();
+    public MutableLiveData<String> area = new MutableLiveData<>();
+    public MutableLiveData<String> pieces = new MutableLiveData<>();
+    public MutableLiveData<String> interestpoints = new MutableLiveData<>();
+    public MutableLiveData<String> description = new MutableLiveData<>();
+    public MutableLiveData<String> agent = new MutableLiveData<>();
+    public MutableLiveData<String> entrydate = new MutableLiveData<>();
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> availableDate = new MutableLiveData<>();
     Photo photo;
+
+    public void loadProperty(int id) {
+        AsyncTask.execute(() -> {
+                    Property result = repository.getProperty(id);
+                    property.postValue(result);
+                    photos.postValue(result.getPhotos());
+                    price.postValue(result.getPrice());
+                    type.postValue(result.getType());
+                    entrydate.postValue(result.getEntryDate());
+                    soldDate.postValue(result.getSaleDate());
+            
+                }
+        );
+    }
 
     public void setProperty(Property property) {
         AsyncTask.execute(() ->
@@ -44,17 +69,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
                 repository.updateProperty(property)
         );
     }
-
-    public void loadProperty(int id) {
-        AsyncTask.execute(() -> {
-                    Property result = repository.getProperty(id);
-                    property.postValue(result);
-                photos.postValue(result.getPhotos());
-            soldDate.postValue(result.getSaleDate());
-                }
-        );
-    }
-
 
     public void setPhoto(Photo photo) {
         ArrayList newPhotos = new ArrayList();
@@ -102,28 +116,16 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public void setSoldDate(int year, int month, int dayOfMonth) {
 
-        StringBuilder frenchDate = new StringBuilder();
-        frenchDate.append(dayOfMonth >= 10 ? dayOfMonth : "0" + dayOfMonth);
-        frenchDate.append("/");
-        frenchDate.append(month + 1);
-        frenchDate.append("/");
-        frenchDate.append(year);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-        Date dateSelected = null;
-        try {
-            dateSelected = simpleDateFormat.parse(frenchDate.toString());
-        } catch (ParseException e) {
-        }
-
-        String formattedDate = simpleDateFormat.format(dateSelected);
-
+        String formattedDate = convertDate(year, month, dayOfMonth);
         soldDate.setValue(formattedDate);
-
     }
 
     public void setAvailableDate(int year, int month, int dayOfMonth) {
+        String formattedDate = convertDate(year, month, dayOfMonth);
+        availableDate.setValue(formattedDate);
+    }
 
+    private String convertDate(int year, int month, int dayOfMonth) {
         StringBuilder frenchDate = new StringBuilder();
         frenchDate.append(dayOfMonth >= 10 ? dayOfMonth : "0" + dayOfMonth);
         frenchDate.append("/");
@@ -138,9 +140,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         } catch (ParseException e) {
         }
 
-        String formattedDate = simpleDateFormat.format(dateSelected);
-
-        availableDate.setValue(formattedDate);
-
+        return simpleDateFormat.format(dateSelected);
     }
 }
