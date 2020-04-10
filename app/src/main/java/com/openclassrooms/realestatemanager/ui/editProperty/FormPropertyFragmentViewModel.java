@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
@@ -22,7 +23,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
-    private String[] AVAILABILITY_LIST = {"Available", "Sold"};
+    private String[] AVAILABILITY_LIST = {"available","sold"};
 
     public MutableLiveData<Property> property = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
@@ -50,9 +51,17 @@ public class FormPropertyFragmentViewModel extends ViewModel {
                     photos.postValue(result.getPhotos());
                     price.postValue(result.getPrice());
                     type.postValue(result.getType());
-                    entrydate.postValue(result.getEntryDate());
+                    city.postValue(result.getCity());
+                    address.postValue(result.getAddress());
+                    state.postValue(result.getState());
+                    zip.postValue(result.getZip());
+                    area.postValue(result.getArea());
+                    pieces.postValue(result.getPieces());
+                    interestpoints.postValue(result.getInterestPoint());
+                    description.postValue(result.getDescription());
+                    agent.postValue(result.getAgentName());
                     soldDate.postValue(result.getSaleDate());
-            
+                    entrydate.postValue(result.getEntryDate());
                 }
         );
     }

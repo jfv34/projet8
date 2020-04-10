@@ -124,7 +124,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
-        configure_autoCompleteTextView();
+        configure_autoComplete_types();
         configure_availability_status();
         configure_availabilityDate();
         configure_soldDate();
@@ -158,7 +158,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private void loadProperty() {
         viewModel.loadProperty(bundleProperty);
         observePhotos();
-        //observeStatusAvailability();
+        observeStatusAvailability();
         observePrice();
         observeType();
         observeCity();
@@ -194,7 +194,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void observeSoldDate() {
         viewModel.soldDate.observe(getViewLifecycleOwner(), soldDate -> {
-            property_type.getEditText().setText(soldDate);
+            property_sold_date.getEditText().setText(soldDate);
         });
     }
 
@@ -206,19 +206,19 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void observeDescription() {
         viewModel.description.observe(getViewLifecycleOwner(), description -> {
-            property_type.getEditText().setText(description);
+            property_description.getEditText().setText(description);
         });
     }
 
     private void observeInterestPoints() {
         viewModel.interestpoints.observe(getViewLifecycleOwner(), interestPoint -> {
-            property_type.getEditText().setText(interestPoint);
+            property_interestPoints.getEditText().setText(interestPoint);
         });
     }
 
     private void observePieces() {
         viewModel.pieces.observe(getViewLifecycleOwner(), pieces -> {
-            property_type.getEditText().setText(pieces);
+            property_pieces.getEditText().setText(pieces);
         });
     }
 
@@ -242,13 +242,13 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void observeCity() {
         viewModel.city.observe(getViewLifecycleOwner(), city -> {
-            property_type.getEditText().setText(city);
+            property_city.getEditText().setText(city);
         });
     }
 
     private void observeAddress() {
         viewModel.type.observe(getViewLifecycleOwner(), type -> {
-            property_type.getEditText().setText(type);
+            property_address.getEditText().setText(type);
         });
     }
 
@@ -287,7 +287,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         });
     }
 
-    private void configure_autoCompleteTextView() {
+    private void configure_autoComplete_types() {
 
         final String[] TYPE = viewModel.getTypes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -439,7 +439,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         String interestPoints = property_interestPoints.getEditText().getText().toString();
         String description = property_description.getEditText().getText().toString();
         String agent = property_agent.getEditText().getText().toString();
-        String availabilityDate = property_entry_date.getEditText().getText().toString();
+        String entryDate = property_entry_date.getEditText().getText().toString();
         String soldDate = property_sold_date.getEditText().getText().toString();
 
         boolean isSolded;
@@ -462,7 +462,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 description,
                 viewModel.getPhotos(),
                 isSolded,
-                availabilityDate,
+                entryDate,
                 soldDate,
                 agent
         );
