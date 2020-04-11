@@ -86,8 +86,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         else {
             size = photos.getValue().size();
         }
-
-
         for (int i = 0; i < size; i++) {
             newPhotos.add(photos.getValue().get(i));
         }
@@ -95,8 +93,22 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         photos.postValue(newPhotos);
     }
 
-    public Photo getPhoto() {
-        return photo;
+    public void updatePhotoDescription(Photo photo, int position) {
+        ArrayList newPhotos = new ArrayList();
+        int size;
+        if (photos.getValue() == null) {size = 0;}
+        else {
+            size = photos.getValue().size();
+        }
+        for (int i = 0; i < size; i++) {
+            if(i!=position){newPhotos.add(photos.getValue().get(i));}
+            else {newPhotos.add(photo);}
+        }
+        photos.postValue(newPhotos);
+    }
+
+    public Photo getPhoto(int position) {
+        return photos.getValue().get(position);
     }
 
     public ArrayList<Photo> getPhotos() {

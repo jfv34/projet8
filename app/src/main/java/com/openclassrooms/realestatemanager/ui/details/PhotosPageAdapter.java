@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -22,7 +23,6 @@ public class PhotosPageAdapter extends PagerAdapter {
     private ArrayList<Photo> photos;
 
     public PhotosPageAdapter(Context context, ArrayList<Photo> photos) {
-
         this.context = context;
         this.photos = photos;
     }
@@ -31,12 +31,13 @@ public class PhotosPageAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_photo, container,false);
         ImageView imageView = view.findViewById(R.id.detail_item_photo_iv);
+        TextView detailDescriptionTV = view.findViewById(R.id.detail_item_photo_description_tv);
+        detailDescriptionTV.setText(photos.get(position).getPhotoDescription());
         Bitmap image = getImage(position);
         if(image!=null){
         imageView.setImageBitmap(image);}
         container.addView(view);
         return view;
-
     }
 
     @Override
@@ -52,7 +53,6 @@ public class PhotosPageAdapter extends PagerAdapter {
        return photoBM;
         }
         return null;
-
     }
 
     @Override

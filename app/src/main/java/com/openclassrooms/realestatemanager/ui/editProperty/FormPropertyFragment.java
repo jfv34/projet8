@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,11 +12,15 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -33,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.OnPhotoDeleteClickedListener;
+import com.openclassrooms.realestatemanager.OnPhotoDescriptionClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
@@ -40,6 +44,7 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -49,7 +54,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener {
+public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener, OnPhotoDescriptionClickedListener {
 
     private static Calendar calendar = Calendar.getInstance();
     private int bundleProperty;
@@ -121,7 +126,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
-
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         configure_autoComplete_types();
@@ -281,7 +285,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         viewModel.photos.observe(getViewLifecycleOwner(), photos ->
         {
             if (photos != null) {
-                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos, FormPropertyFragment.this);
+                PhotoGridAdapter photoGridAdapter = new PhotoGridAdapter(getActivity(), photos, FormPropertyFragment.this,
+                        FormPropertyFragment.this);
                 photosRecyclerView.setAdapter(photoGridAdapter);
             }
         });
@@ -324,7 +329,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
             viewModel.setProperty(newProperty());
             notification_property_added();
         } else {
-            newProperty();
             viewModel.updateProperty(newProperty(), bundleProperty);
         }
         backToMain();
@@ -345,40 +349,34 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     public void selectImage() {
         final CharSequence[] options = {getString(R.string.takephoto), getString(R.string.choosefromgallery), getString(R.string.cancel)};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.chooseyourprofilepicture);
+        AlertDialog.Builder alertDialog_Photo_builder = new AlertDialog.Builder(getActivity());
+        alertDialog_Photo_builder.setTitle(R.string.chooseyourprofilepicture);
 
-        builder.setItems(options, new DialogInterface.OnClickListener() {
+        alertDialog_Photo_builder.setItems(options, (dialog, item) -> {
 
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
+            if (options[item].equals(getString(R.string.takephoto))) {
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, 0);
 
-                if (options[item].equals(getString(R.string.takephoto))) {
-                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, 0);
+            } else if (options[item].equals(R.string.choosefromgallery)) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, 1);
 
-                } else if (options[item].equals(R.string.choosefromgallery)) {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto, 1);
-
-                } else if (options[item].equals(R.string.cancel)) {
-                    dialog.dismiss();
-                }
+            } else if (options[item].equals(R.string.cancel)) {
+                dialog.dismiss();
             }
         });
-        builder.show();
+        alertDialog_Photo_builder.show();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_CANCELED) {
-
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
                         photoBM = (Bitmap) data.getExtras().get("data");
                     }
-
                     break;
                 case 1:
                     if (resultCode == RESULT_OK && data != null) {
@@ -395,17 +393,58 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                                 cursor.close();
                             }
                         }
-
                     }
                     break;
             }
-
             if (photoBM != null) {
-                Photo photo = Utils.saveToInternalStorage(photoBM, "", getActivity().getApplicationContext());
-                viewModel.setPhoto(photo);
-                observePhotos();
+                setDescription();
             }
         }
+    }
+
+    private void setDescription() {
+        AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
+        alertDialog_descriptionPhoto_builder.setTitle("Photo description:");
+        final EditText input = new EditText(getActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(35);
+        input.setFilters(fArray);
+        alertDialog_descriptionPhoto_builder.setView(input);
+        alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            Toast.makeText(getActivity(), "Photo and description added", Toast.LENGTH_SHORT).show();
+            String description = input.getText().toString();
+            Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
+                viewModel.setPhoto(photo);
+            observePhotos();
+        });
+        alertDialog_descriptionPhoto_builder.show();
+    }
+
+    private void updateDescription(int position) {
+        AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
+        alertDialog_descriptionPhoto_builder.setTitle("Photo description:");
+        final EditText input = new EditText(getActivity());
+        input.setHint(viewModel.getPhoto(position).getPhotoDescription());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(35);
+        input.setFilters(fArray);
+        alertDialog_descriptionPhoto_builder.setView(input);
+        alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            Toast.makeText(getActivity(), "Photo and description added", Toast.LENGTH_SHORT).show();
+            String description = input.getText().toString();
+            Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
+            viewModel.updatePhotoDescription(photo,position);
+            observePhotos();
+        });
+        alertDialog_descriptionPhoto_builder.show();
     }
 
     private int spanCount() {
@@ -421,13 +460,11 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 .setContentTitle(getString(R.string.propertyadded))
                 .setContentText(getString(R.string.thenewpropertyhasbeenadded))
                 .setPriority(Notification.PRIORITY_MAX);
-
         NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notificationBuilder.build());
     }
 
     private Property newProperty() {
-
         String type = property_type.getEditText().getText().toString();
         String price = property_price.getEditText().getText().toString();
         String address = property_address.getEditText().getText().toString();
@@ -441,6 +478,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         String agent = property_agent.getEditText().getText().toString();
         String entryDate = property_entry_date.getEditText().getText().toString();
         String soldDate = property_sold_date.getEditText().getText().toString();
+        ArrayList<Photo> photos = viewModel.getPhotos();
 
         boolean isSolded;
         if (property_availability_status.getEditText().getText().toString().equals(R.string.sold)) {
@@ -460,7 +498,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 pieces,
                 interestPoints,
                 description,
-                viewModel.getPhotos(),
+                photos,
                 isSolded,
                 entryDate,
                 soldDate,
@@ -486,5 +524,10 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         viewModel.deletePhoto(photo);
     }
 
-
+    @Override
+    public void onPhotoDescriptionClicked(int position) {
+        Photo photo = viewModel.getPhoto(position);
+        photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
+        updateDescription(position);
+    }
 }
