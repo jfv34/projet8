@@ -33,4 +33,6 @@
     <string name="status">status</string>
     <string name="sold">Sold</string>
     <string name="available">Available</string>
+    <string name="sold_date">Sold date</string>
+    <string name="availability_date">Availability date</string>
 </resources>
