@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +39,9 @@ public class DetailsFragment extends Fragment {
 
     private DetailsFragmentViewModel viewModel;
     private int bundleProperty;
-    private Property property;
+
+    @BindView(R.id.fragment_detail_toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.fragment_detail_viewpager)
     ViewPager viewPager;
@@ -82,7 +87,7 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, root);
-
+        configureToolBar();
         return root;
     }
 
@@ -182,5 +187,29 @@ public class DetailsFragment extends Fragment {
         } else {
             transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();
     }
+    }
+
+    private void configureToolBar() {
+        //toolbar.setTitle("Property details");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> backToMain());
+    }
+
+    private void backToMain() {
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            removeFragment();
+        } else {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment mainFragment = MainFragment.newInstance();
+            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+        }
+    }
+
+    private void removeFragment() {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.remove(this).commit();
     }
 }
