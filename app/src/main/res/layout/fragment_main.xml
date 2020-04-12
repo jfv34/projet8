@@ -27,7 +27,7 @@
 
 
                 <ImageButton
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_gravity="right"
                     android:background="@color/colorPrimary"
                     android:tint="@color/colorAccent"
