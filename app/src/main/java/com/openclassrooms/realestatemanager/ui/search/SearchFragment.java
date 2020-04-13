@@ -2,13 +2,13 @@ package com.openclassrooms.realestatemanager.ui.search;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -52,17 +52,16 @@ public class SearchFragment extends Fragment {
     @OnClick(R.id.fragment_search_validate_fab)
     public void search_validate() {
         String cities = search_cities.getText().toString();
-        viewModel.loadPropertyByCity(cities);
 
-        viewModel.propertySearch.observe(getViewLifecycleOwner(), properties ->
-                {
-                    if (properties != null) {
-                        Log.i("tag_propertyByCity_1", properties.get(0).getAddress());
-                        Log.i("tag_propertyByCity_2", properties.get(1).getAddress());
-                    }
-                }
-        );
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment resultSearchFragment = ResultSearchFragment.newInstance(cities);
 
-
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, resultSearchFragment).commit();
+        } else {
+            transaction.replace(R.id.frame_layout_main, resultSearchFragment).commit();
+        }
+    
     }
 }

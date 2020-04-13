@@ -10,19 +10,20 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragmentViewModel extends ViewModel {
 
-   public MutableLiveData<List<Property>> propertySearch = new MutableLiveData<>();
+   public MutableLiveData<List<Property>> propertiesByCity = new MutableLiveData<>();
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
     public void loadPropertyByCity(String city) {
         AsyncTask.execute(() -> {
-                    List<Property> propertiesByCity = repository.getPropertiesByCity(city);
-                    propertySearch.postValue(propertiesByCity);
+                    propertiesByCity.postValue(repository.getPropertiesByCity(city));
                 }
         );
     }
+
 }
