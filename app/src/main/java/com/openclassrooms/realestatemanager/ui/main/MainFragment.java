@@ -91,7 +91,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         } else {transaction.replace(R.id.frame_layout_main, detailsFragment).commit();}
     }
 
-    @OnClick(R.id.fragment_main_insert_property_button)
+    @OnClick(R.id.fragment_main_insert_property_fab)
     public void onInsertPropertyClicked() {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

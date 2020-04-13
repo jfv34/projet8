@@ -322,7 +322,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         dialog.show();
     }
 
-    @OnClick(R.id.fragment_form_property_validate_bt)
+    @OnClick(R.id.fragment_form_property_validate_fab)
     public void insert_property() {
 
         if (bundleProperty == -1) {
