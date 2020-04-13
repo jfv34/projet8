@@ -190,7 +190,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void configureToolBar() {
-        //toolbar.setTitle("Property details");
+        toolbar.setTitle("Property details");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

@@ -32,4 +32,8 @@ public class DataPropertiesRepository implements PropertyRepository {
         return propertyDao.getProperty(id);
     }
 
+    @Override
+    public List<Property> getPropertiesByCity(String city){
+        return propertyDao.getPropertiesByCity(city);
+    }
 }

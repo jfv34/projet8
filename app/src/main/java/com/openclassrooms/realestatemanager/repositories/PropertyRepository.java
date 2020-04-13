@@ -16,5 +16,6 @@ public interface PropertyRepository {
     Property getProperty(int id);
 
 
+    List<Property> getPropertiesByCity(String city);
 }
 

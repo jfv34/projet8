@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.database.dao;
 
-
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -29,4 +27,6 @@ public interface PropertyDao {
     @Query("SELECT * FROM Property WHERE id = :id")
     Property getProperty(int id);
 
+    @Query("SELECT * FROM Property WHERE city = :city")
+    List<Property> getPropertiesByCity(String city);
 }
