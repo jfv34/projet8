@@ -1,16 +1,14 @@
 package com.openclassrooms.realestatemanager.models;
 
-import java.io.File;
-
 public class Photo {
     private String path;
     private String fileName;
-    private String photoDescription;
+    private String description;
 
     public Photo(String path, String fileName, String photoDescription) {
         this.path = path;
         this.fileName = fileName;
-        this.photoDescription = photoDescription;
+        this.description = photoDescription;
     }
 
     public String getPath() {
@@ -29,11 +27,11 @@ public class Photo {
         this.fileName = fileName;
     }
 
-    public String getPhotoDescription() {
-        return photoDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPhotoDescription(String photoDescription) {
-        this.photoDescription = photoDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

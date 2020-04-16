@@ -32,7 +32,7 @@ public class PhotosPageAdapter extends PagerAdapter {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_photo, container,false);
         ImageView imageView = view.findViewById(R.id.detail_item_photo_iv);
         TextView detailDescriptionTV = view.findViewById(R.id.detail_item_photo_description_tv);
-        detailDescriptionTV.setText(photos.get(position).getPhotoDescription());
+        detailDescriptionTV.setText(photos.get(position).getDescription());
         Bitmap image = getImage(position);
         if(image!=null){
         imageView.setImageBitmap(image);}

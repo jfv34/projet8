@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchPropertyAdapter extends RecyclerView.Adapter<SearchPropertyAdapter.ViewHolder> {
+public class back_SearchPropertyAdapter extends RecyclerView.Adapter<back_SearchPropertyAdapter.ViewHolder> {
 
     private List<Property> properties;
     private Context context;
@@ -37,7 +37,7 @@ public class SearchPropertyAdapter extends RecyclerView.Adapter<SearchPropertyAd
         }
     }
 
-    public SearchPropertyAdapter(List<Property> properties, Context context, OnPropertyClickedListener clickedListener) {
+    public back_SearchPropertyAdapter(List<Property> properties, Context context, OnPropertyClickedListener clickedListener) {
         this.properties = properties;
         this.context = context;
         this.clickedListener = clickedListener;

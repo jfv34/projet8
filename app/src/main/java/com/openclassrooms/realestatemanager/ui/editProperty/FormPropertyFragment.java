@@ -176,18 +176,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         observeAgent();
         observeSoldDate();
         observeEntryDate();
-
-        viewModel.property.observe(getViewLifecycleOwner(), property -> {
-            if (property != null) {
-
-
-                if (property.isSolded()) {
-                    property_availability_status.getEditText().setText(R.string.sold);
-                } else {
-                    property_availability_status.getEditText().setText(R.string.available);
-                }
-            }
-        });
     }
 
     private void observeEntryDate() {
@@ -428,7 +416,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
         alertDialog_descriptionPhoto_builder.setTitle("Photo description:");
         final EditText input = new EditText(getActivity());
-        input.setHint(viewModel.getPhoto(position).getPhotoDescription());
+        input.setHint(viewModel.getPhoto(position).getDescription());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -440,8 +428,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
             Toast.makeText(getActivity(), "Photo and description added", Toast.LENGTH_SHORT).show();
             String description = input.getText().toString();
-            Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
-            viewModel.updatePhotoDescription(photo,position);
+            viewModel.updatePhotoDescription(description,position);
             observePhotos();
         });
         alertDialog_descriptionPhoto_builder.show();

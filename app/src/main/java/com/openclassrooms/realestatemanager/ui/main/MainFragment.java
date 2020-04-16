@@ -21,7 +21,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.search.SearchFragment;
+import com.openclassrooms.realestatemanager.ui.search.FilterBottomSheetsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,12 +106,20 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @OnClick(R.id.fragment_main_search_button)
     public void onSearchClicked() {
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment searchFragment = SearchFragment.newInstance();
+       /* ActionBottomDialogFragment addPhotoBottomDialogFragment =
+                ActionBottomDialogFragment.newInstance();
+        addPhotoBottomDialogFragment.show(getSupportFragmentManager(),
+                ActionBottomDialogFragment.TAG);*/
+
+        FilterBottomSheetsFragment filterBottomSheetsFragment = FilterBottomSheetsFragment.newInstance();
+        filterBottomSheetsFragment.show(getActivity().getSupportFragmentManager(),"BottomSheet");
+
+      /*  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment searchFragment = FilterBottomSheetsFragment.newInstance();
 
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
             transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, searchFragment).commit();
-        } else {transaction.replace(R.id.frame_layout_main, searchFragment).commit();}
+        } else {transaction.replace(R.id.frame_layout_main, searchFragment).commit();}*/
     }
     }

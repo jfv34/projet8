@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
@@ -19,15 +18,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchFragment extends Fragment {
+public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private SearchFragmentViewModel viewModel;
     private View root;
+
 
     @BindView(R.id.fragment_search_cities_textInputEditText)
     TextInputEditText search_cities;
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
+    public static FilterBottomSheetsFragment newInstance() {
+        return new FilterBottomSheetsFragment();
     }
 
     @Override
@@ -52,9 +52,9 @@ public class SearchFragment extends Fragment {
     @OnClick(R.id.fragment_search_validate_fab)
     public void search_validate() {
         String cities = search_cities.getText().toString();
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment resultSearchFragment = ResultSearchFragment.newInstance(cities);
+        dismiss();
+        /*FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment resultSearchFragment = back_ResultSearchFragment.newInstance(cities);
 
         final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
@@ -62,6 +62,6 @@ public class SearchFragment extends Fragment {
         } else {
             transaction.replace(R.id.frame_layout_main, resultSearchFragment).commit();
         }
-    
+    */
     }
 }

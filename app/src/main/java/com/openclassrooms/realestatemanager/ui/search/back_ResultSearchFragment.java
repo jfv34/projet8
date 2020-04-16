@@ -24,7 +24,7 @@ import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ResultSearchFragment extends Fragment implements OnPropertyClickedListener {
+public class back_ResultSearchFragment extends Fragment implements OnPropertyClickedListener {
 
     @BindView(R.id.fragment_result_search_recyclerView)
     RecyclerView recyclerView;
@@ -35,8 +35,8 @@ public class ResultSearchFragment extends Fragment implements OnPropertyClickedL
     private String bundleCities;
     private View root;
 
-    public static ResultSearchFragment newInstance(String bundleCities) {
-        ResultSearchFragment resultSearchFragment = new ResultSearchFragment();
+    public static back_ResultSearchFragment newInstance(String bundleCities) {
+        back_ResultSearchFragment resultSearchFragment = new back_ResultSearchFragment();
         Bundle args = new Bundle();
         args.putString("cities", bundleCities);
         resultSearchFragment.setArguments(args);
@@ -72,7 +72,7 @@ public class ResultSearchFragment extends Fragment implements OnPropertyClickedL
         viewModel.propertiesByCity.observe(getViewLifecycleOwner(), propertiesByCity ->
                 {
                     if (propertiesByCity != null) {
-                        recyclerView.setAdapter(new SearchPropertyAdapter(propertiesByCity, getContext(), ResultSearchFragment.this));
+                        recyclerView.setAdapter(new back_SearchPropertyAdapter(propertiesByCity, getContext(), back_ResultSearchFragment.this));
                     } else {
                         Utils.toast(getActivity(), "No datas to display");
                         ;

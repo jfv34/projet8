@@ -24,7 +24,6 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
     private String[] AVAILABILITY_LIST = {"available","sold"};
 
-    public MutableLiveData<Property> property = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     public MutableLiveData<Boolean> isSold = new MutableLiveData<>();
     public MutableLiveData<String> price = new MutableLiveData<>();
@@ -41,12 +40,10 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public MutableLiveData<String> entrydate = new MutableLiveData<>();
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> availableDate = new MutableLiveData<>();
-    Photo photo;
 
     public void loadProperty(int id) {
         AsyncTask.execute(() -> {
                     Property result = repository.getProperty(id);
-                    property.postValue(result);
                     photos.postValue(result.getPhotos());
                     price.postValue(result.getPrice());
                     type.postValue(result.getType());
@@ -92,17 +89,12 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         photos.postValue(newPhotos);
     }
 
-    public void updatePhotoDescription(Photo photo, int position) {
+    public void updatePhotoDescription(String description, int position) {
         ArrayList newPhotos = new ArrayList();
-        int size;
-        if (photos.getValue() == null) {size = 0;}
-        else {
-            size = photos.getValue().size();
-        }
-        for (int i = 0; i < size; i++) {
-            if(i!=position){newPhotos.add(photos.getValue().get(i));}
-            else {newPhotos.add(photo);}
-        }
+        if (photos.getValue() != null) newPhotos.addAll(photos.getValue());
+        Photo newPhoto = (Photo) newPhotos.get(position);
+        newPhoto.setDescription(description);
+        newPhotos.set(position,newPhoto);
         photos.postValue(newPhotos);
     }
 
@@ -116,14 +108,9 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public void deletePhoto(int position) {
         ArrayList newPhotos = new ArrayList();
-        int size = photos.getValue().size();
-
-        for(int i=0; i< size;i++){
-            if (i != position) {
-                newPhotos.add(photos.getValue().get(i));
-            }
+        if(photos.getValue()!=null)newPhotos.addAll(photos.getValue());
+        newPhotos.remove(position);
         photos.postValue(newPhotos);
-    }
     }
 
     public String[] getAvailabilities() {
