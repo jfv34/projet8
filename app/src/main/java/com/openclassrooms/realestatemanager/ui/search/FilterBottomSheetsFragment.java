@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
@@ -19,12 +20,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
-    private SearchFragmentViewModel viewModel;
+    private FilterFragmentViewModel viewModel;
     private View root;
 
 
     @BindView(R.id.fragment_search_cities_textInputEditText)
     TextInputEditText search_cities;
+
+    @BindView(R.id.action_chip_type_0)
+    Chip chip_type_0;
+    @BindView(R.id.action_chip_type_1)
+    Chip chip_type_1;
+    @BindView(R.id.action_chip_type_2)
+    Chip chip_type_2;
+    @BindView(R.id.action_chip_type_3)
+    Chip chip_type_3;
+    @BindView(R.id.action_chip_type_4)
+    Chip chip_type_4;
+
 
     public static FilterBottomSheetsFragment newInstance() {
         return new FilterBottomSheetsFragment();
@@ -46,7 +59,29 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
-        viewModel = new ViewModelProvider(this).get(SearchFragmentViewModel.class);
+        viewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
+
+        String[] TYPES = viewModel.getTYPES();
+        if (TYPES.length>0) {
+            chip_type_0.setText(TYPES[0]);
+            chip_type_0.setVisibility(View.VISIBLE);
+        }
+        if (TYPES.length>1) {
+            chip_type_1.setText(TYPES[1]);
+            chip_type_1.setVisibility(View.VISIBLE);
+        }
+        if (TYPES.length>2) {
+            chip_type_2.setText(TYPES[2]);
+            chip_type_2.setVisibility(View.VISIBLE);
+        }
+        if (TYPES.length>3) {
+            chip_type_3.setText(TYPES[3]);
+            chip_type_3.setVisibility(View.VISIBLE);
+        }
+        if (TYPES.length>4) {
+            chip_type_4.setText(TYPES[4]);
+            chip_type_4.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.fragment_search_validate_fab)

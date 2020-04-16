@@ -10,6 +10,7 @@ import java.util.List;
 public class DataPropertiesRepository implements PropertyRepository {
 
     private final PropertyDao propertyDao;
+    private final String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
 
     public DataPropertiesRepository(PropertyDao propertyDao) {
         this.propertyDao = propertyDao;
@@ -35,5 +36,9 @@ public class DataPropertiesRepository implements PropertyRepository {
     @Override
     public List<Property> getPropertiesByCity(String city){
         return propertyDao.getPropertiesByCity(city);
+    }
+
+    public String[] getTypes() {
+        return TYPE_LIST;
     }
 }

@@ -21,7 +21,7 @@ import java.util.Locale;
 public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
-    private String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
+    private String[] TYPE_LIST = repository.getTypes();
     private String[] AVAILABILITY_LIST = {"available","sold"};
 
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();

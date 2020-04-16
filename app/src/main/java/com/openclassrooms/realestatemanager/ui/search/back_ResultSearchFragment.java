@@ -31,7 +31,7 @@ public class back_ResultSearchFragment extends Fragment implements OnPropertyCli
     @BindView(R.id.fragment_result_search_toolbar)
     Toolbar toolbar;
 
-    private SearchFragmentViewModel viewModel;
+    private FilterFragmentViewModel viewModel;
     private String bundleCities;
     private View root;
 
@@ -66,7 +66,7 @@ public class back_ResultSearchFragment extends Fragment implements OnPropertyCli
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = new ViewModelProvider(this).get(SearchFragmentViewModel.class);
+        viewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
         viewModel.loadPropertyByCity(bundleCities);
 
         viewModel.propertiesByCity.observe(getViewLifecycleOwner(), propertiesByCity ->
