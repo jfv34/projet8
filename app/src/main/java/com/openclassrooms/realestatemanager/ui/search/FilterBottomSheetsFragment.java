@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,7 +25,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private View root;
 
 
-    @BindView(R.id.fragment_search_cities_textInputEditText)
+    @BindView(R.id.fragment_filter_cities_textInputEditText)
     TextInputEditText search_cities;
 
     @BindView(R.id.fragment_filter_type_0_chip)

@@ -24,10 +24,6 @@ android {
 
 repositories {
     jcenter()
-    //RangeSeekBar
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
 }
 
 dependencies {
@@ -66,7 +62,4 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     //Gson
     implementation 'com.google.code.gson:gson:2.8.6'
-    //RangeSeekBar
-    implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.4.0'
-    implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.4.0'
 }

@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:layout_marginTop="@dimen/margin_small"
                     android:id="@+id/fragment_filter_chipgroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,8 +102,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Price"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_seekbar"
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_price_seekbar"
                     android:layout_marginStart="@dimen/margin_normal"
                     />
 
@@ -110,93 +114,124 @@
                     android:id="@+id/fragment_filter_price_seekbar"
                     android:layout_width="0dp"
                     android:layout_height="27dp"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_label_tv"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup" />
 
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/fragment_search_cities_textfield"
+                    android:id="@+id/fragment_filter_cities_textfield"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:hint="Cities"
+                    app:startIconDrawable="@drawable/ic_home_24px"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_seekbar"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fragment_search_cities_textInputEditText"
+                        android:id="@+id/fragment_filter_cities_textInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/fragment_search_cities_textfield2"
+                    android:id="@+id/fragment_filter_state_textfield"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    android:hint="Cities"
+                    android:hint="State"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_cities_textfield"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_search_cities_textfield"
                     app:startIconDrawable="@drawable/ic_home_24px">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fragment_search_cities_textInputEditText2"
+                        android:id="@+id/fragment_filter_state_textInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/fragment_search_cities_textfield3"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/fragment_filter_area_label_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:hint="Cities"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Area"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_search_cities_textfield2"
-                    app:startIconDrawable="@drawable/ic_home_24px">
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_area_seekbar"
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_area_seekbar" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fragment_search_cities_textInputEditText3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <SeekBar
+                    android:id="@+id/fragment_filter_area_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_filter_price_label_tv"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_state_textfield" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/fragment_search_cities_textfield4"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:id="@+id/fragment_filter_area_pieces_label_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:hint="Cities"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Pieces"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_search_cities_textfield3"
-                    app:startIconDrawable="@drawable/ic_home_24px">
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_area_pieces_picker"
+                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_area_pieces_picker"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fragment_search_cities_textInputEditText4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:id="@+id/fragment_filter_area_pieces_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toEndOf="@id/fragment_filter_area_pieces_label_tv"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_area_seekbar"
+                    app:layout_constraintWidth_percent="0.3">
+
+                    <Button
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:id="@+id/btn_less"
+                        android:layout_width="0sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="-" />
+
+                    <EditText
+                        android:id="@+id/et_number"
+                        android:layout_width="0sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/btn_more"
+                        android:layout_width="0sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="+" />
+                </LinearLayout>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
