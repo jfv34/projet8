@@ -27,15 +27,15 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @BindView(R.id.fragment_search_cities_textInputEditText)
     TextInputEditText search_cities;
 
-    @BindView(R.id.action_chip_type_0)
+    @BindView(R.id.fragment_filter_type_0_chip)
     Chip chip_type_0;
-    @BindView(R.id.action_chip_type_1)
+    @BindView(R.id.fragment_filter_type_1_chip)
     Chip chip_type_1;
-    @BindView(R.id.action_chip_type_2)
+    @BindView(R.id.fragment_filter_type_2_chip)
     Chip chip_type_2;
-    @BindView(R.id.action_chip_type_3)
+    @BindView(R.id.fragment_filter_type_3_chip)
     Chip chip_type_3;
-    @BindView(R.id.action_chip_type_4)
+    @BindView(R.id.fragment_filter_type_4_chip)
     Chip chip_type_4;
 
 
@@ -50,7 +50,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_search, container, false);
+        root = inflater.inflate(R.layout.fragment_filter, container, false);
         ButterKnife.bind(this, root);
         return root;
     }
@@ -82,6 +82,8 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
             chip_type_4.setText(TYPES[4]);
             chip_type_4.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @OnClick(R.id.fragment_search_validate_fab)

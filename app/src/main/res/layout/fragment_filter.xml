@@ -22,14 +22,14 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/filter_chip_group"
+                    android:id="@+id/fragment_filter_chipgroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/action_chip_type_0"
+                        android:id="@+id/fragment_filter_type_0_chip"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                         app:iconStartPadding="5dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/action_chip_type_1"
+                        android:id="@+id/fragment_filter_type_1_chip"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                         app:iconStartPadding="5dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/action_chip_type_2"
+                        android:id="@+id/fragment_filter_type_2_chip"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                         app:iconStartPadding="5dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/action_chip_type_3"
+                        android:id="@+id/fragment_filter_type_3_chip"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                         app:iconStartPadding="5dp" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/action_chip_type_4"
+                        android:id="@+id/fragment_filter_type_4_chip"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -96,6 +96,28 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
+                <TextView
+                    android:id="@+id/fragment_filter_price_label_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    />
+
+                <SeekBar
+                    android:id="@+id/fragment_filter_price_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_filter_price_label_tv"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup" />
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fragment_search_cities_textfield"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -107,8 +129,8 @@
                     android:hint="Cities"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/filter_chip_group"
-                    app:startIconDrawable="@drawable/ic_home_24px">
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_seekbar"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/fragment_search_cities_textInputEditText"
