@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,9 @@ import butterknife.OnClick;
 public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private FilterFragmentViewModel viewModel;
     private View root;
-    private int numberOfPhotosValue = 0;
-
 
     @BindView(R.id.fragment_filter_cities_textInputEditText)
     TextInputEditText search_cities;
-
     @BindView(R.id.fragment_filter_type_0_chip)
     Chip chip_type_0;
     @BindView(R.id.fragment_filter_type_1_chip)
@@ -43,7 +41,6 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     EditText pieces_Et;
     @BindView(R.id.fragment_filter_numberOfPhotos_et)
     EditText numberOfPhotos_Et;
-
 
     public static FilterBottomSheetsFragment newInstance() {
         return new FilterBottomSheetsFragment();
@@ -136,6 +133,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @OnClick(R.id.fragment_search_validate_fab)
     public void search_validate() {
         String cities = search_cities.getText().toString();
+        Log.i("tag_cities",cities);
         dismiss();
     }
 }
