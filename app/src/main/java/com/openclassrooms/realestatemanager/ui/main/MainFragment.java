@@ -21,7 +21,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.search.FilterBottomSheetsFragment;
+import com.openclassrooms.realestatemanager.ui.filter.FilterBottomSheetsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

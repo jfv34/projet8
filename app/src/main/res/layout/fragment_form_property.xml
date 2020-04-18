@@ -237,7 +237,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_normal"
             android:hint="@string/agent"
-            app:startIconDrawable="@drawable/ic_notes_24px"
+            app:startIconDrawable="@drawable/ic_perm_identity_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_description">

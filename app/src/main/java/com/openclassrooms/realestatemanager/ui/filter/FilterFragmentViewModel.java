@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.search;
+package com.openclassrooms.realestatemanager.ui.filter;
 
 import android.os.AsyncTask;
 
@@ -15,7 +15,10 @@ import java.util.List;
 
 public class FilterFragmentViewModel extends ViewModel {
 
-   public MutableLiveData<List<Property>> propertiesByCity = new MutableLiveData<>();
+    public MutableLiveData<List<Property>> propertiesByCity = new MutableLiveData<>();
+    public MutableLiveData<Integer> pieces = new MutableLiveData<>();
+    public MutableLiveData<Integer> numberOfPhotos = new MutableLiveData<>();
+
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
@@ -27,7 +30,34 @@ public class FilterFragmentViewModel extends ViewModel {
         );
     }
 
+    public void initialize() {
+        if (pieces.getValue() ==null) {
+            pieces.postValue(0);
+        }
+        ;
+        if (numberOfPhotos.getValue() == null) {
+            numberOfPhotos.postValue(0);
+        }
+    }
+
+
     public String[] getTYPES() {
         return TYPE_LIST;
+    }
+
+    public void setPieces(int i) {
+        if (pieces.getValue() != null) {
+            if (pieces.getValue() + i >= 0) {
+                pieces.postValue(pieces.getValue() + i);
+            }
+        }
+    }
+
+    public void setNumberOfPhotos(int i) {
+        if (numberOfPhotos.getValue() != null) {
+            if (numberOfPhotos.getValue() + i >= 0) {
+                numberOfPhotos.postValue(numberOfPhotos.getValue() + i);
+            }
+        }
     }
 }

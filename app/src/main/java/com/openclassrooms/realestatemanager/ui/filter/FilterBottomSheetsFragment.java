@@ -1,11 +1,11 @@
-package com.openclassrooms.realestatemanager.ui.search;
+package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +23,7 @@ import butterknife.OnClick;
 public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private FilterFragmentViewModel viewModel;
     private View root;
+    private int numberOfPhotosValue = 0;
 
 
     @BindView(R.id.fragment_filter_cities_textInputEditText)
@@ -38,6 +39,10 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     Chip chip_type_3;
     @BindView(R.id.fragment_filter_type_4_chip)
     Chip chip_type_4;
+    @BindView(R.id.fragment_filter_pieces_et)
+    EditText pieces_Et;
+    @BindView(R.id.fragment_filter_numberOfPhotos_et)
+    EditText numberOfPhotos_Et;
 
 
     public static FilterBottomSheetsFragment newInstance() {
@@ -62,6 +67,49 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         PropertyDataBase.getInstance(getContext());
         viewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
+        viewModel.initialize();
+        configureType();
+    }
+
+    @OnClick(R.id.fragment_filter_pieces_less_btn)
+    public void pieces_less() {
+        addPieces(-1);
+    }
+
+    @OnClick(R.id.fragment_filter_pieces_more_btn)
+    public void pieces_more() {
+        addPieces(1);
+    }
+
+    private void addPieces(int i) {
+        viewModel.setPieces(i);
+        viewModel.pieces.observe(getViewLifecycleOwner(), pieces ->
+                {
+                    pieces_Et.setText(String.valueOf(pieces));
+                }
+        );
+    }
+
+    @OnClick(R.id.fragment_filter_numberOfPhotos_less_btn)
+    public void numberOfPhotos_less() {
+        addNumberOfPhotos(-1);
+    }
+
+    @OnClick(R.id.fragment_filter_numberOfPhotos_more_btn)
+    public void numberOfPhotos_more() {
+        addNumberOfPhotos(1);
+    }
+
+    private void addNumberOfPhotos(int i) {
+        viewModel.setNumberOfPhotos(i);
+        viewModel.numberOfPhotos.observe(getViewLifecycleOwner(), numberOfPhotos ->
+                {
+                    numberOfPhotos_Et.setText(String.valueOf(numberOfPhotos));
+                }
+        );
+    }
+
+    private void configureType() {
         String[] TYPES = viewModel.getTYPES();
         if (TYPES.length>0) {
             chip_type_0.setText(TYPES[0]);
@@ -83,23 +131,11 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
             chip_type_4.setText(TYPES[4]);
             chip_type_4.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     @OnClick(R.id.fragment_search_validate_fab)
     public void search_validate() {
         String cities = search_cities.getText().toString();
         dismiss();
-        /*FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment resultSearchFragment = back_ResultSearchFragment.newInstance(cities);
-
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, resultSearchFragment).commit();
-        } else {
-            transaction.replace(R.id.frame_layout_main, resultSearchFragment).commit();
-        }
-    */
     }
 }
