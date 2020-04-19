@@ -6,16 +6,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.SeekBar;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.models.Filter;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +29,6 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private FilterFragmentViewModel viewModel;
     private View root;
 
-    @BindView(R.id.fragment_filter_cities_textInputEditText)
-    TextInputEditText search_cities;
     @BindView(R.id.fragment_filter_type_0_chip)
     Chip chip_type_0;
     @BindView(R.id.fragment_filter_type_1_chip)
@@ -37,8 +39,26 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     Chip chip_type_3;
     @BindView(R.id.fragment_filter_type_4_chip)
     Chip chip_type_4;
+    @BindView(R.id.fragment_filter_price_seekbar)
+    SeekBar price_seekBar;
+    @BindView(R.id.fragment_filter_cities_textInputEditText)
+    EditText cities_Et;
+    @BindView(R.id.fragment_filter_state_textInputEditText)
+    EditText states_Et;
+    @BindView(R.id.fragment_filter_area_seekbar)
+    SeekBar area_seekBar;
     @BindView(R.id.fragment_filter_pieces_et)
     EditText pieces_Et;
+    @BindView(R.id.fragment_filter_interestPoints_textInputEditText)
+    EditText interestPoints_Et;
+    @BindView(R.id.fragment_filter_agent_textInputEditText)
+    EditText agent_Et;
+    @BindView(R.id.fragment_filter_availability_status_dropdown)
+    AutoCompleteTextView isSolded_tv;
+    @BindView(R.id.fragment_filter_availability_date_textInputEditText)
+    EditText availableDate_Et;
+    @BindView(R.id.fragment_filter_sold_date_textInputEditText)
+    EditText soldeDate_Et;
     @BindView(R.id.fragment_filter_numberOfPhotos_et)
     EditText numberOfPhotos_Et;
 
@@ -131,9 +151,54 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     }
 
     @OnClick(R.id.fragment_search_validate_fab)
-    public void search_validate() {
-        String cities = search_cities.getText().toString();
-        Log.i("tag_cities",cities);
+    public void filter_validate() {
+
+        String[] TYPES = viewModel.getTYPES();
+        ArrayList<String> type = new ArrayList<>();
+
+        if (chip_type_0.isChecked()) {
+            type.add(TYPES[0]);
+        }
+        if (chip_type_1.isChecked()) {
+            type.add(TYPES[1]);
+        }
+        if (chip_type_2.isChecked()) {
+            type.add(TYPES[2]);
+        }
+        if (chip_type_3.isChecked()) {
+            type.add(TYPES[3]);
+        }
+
+        boolean isSolded;
+        if (isSolded_tv.getText().toString().equals(R.string.sold)) {
+            isSolded = true;
+        } else {
+            isSolded = false;
+        } ;
+
+        ArrayList empty_for_test = new ArrayList();
+        ArrayList cities_for_test = new ArrayList();
+        cities_for_test.add("A");
+
+        Filter filter = new Filter(
+                type,
+                0,
+                1000000000,
+                cities_for_test,
+                empty_for_test,
+                1000,
+                0,
+                Integer.parseInt(pieces_Et.getText().toString()),
+                Integer.parseInt(pieces_Et.getText().toString()),
+                interestPoints_Et.getText().toString(),
+                agent_Et.getText().toString(),
+                isSolded,
+                availableDate_Et.getText().toString(),
+                soldeDate_Et.getText().toString(),
+                Integer.parseInt(numberOfPhotos_Et.getText().toString()));
+
+        viewModel.setFilter(filter);
         dismiss();
     }
+
 }

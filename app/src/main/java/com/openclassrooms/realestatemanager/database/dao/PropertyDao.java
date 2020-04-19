@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
 
 import java.util.List;
@@ -29,4 +30,10 @@ public interface PropertyDao {
 
     @Query("SELECT * FROM Property WHERE city = :city")
     List<Property> getPropertiesByCity(String city);
+
+    @Query("SELECT * FROM Property WHERE city IN (:cities)")
+    List<Property> getFilteredProperties(List<String> cities);
+
+    /*@Insert
+    long insertFilter(Filter filter);*/
 }

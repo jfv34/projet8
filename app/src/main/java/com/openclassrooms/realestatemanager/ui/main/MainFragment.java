@@ -67,7 +67,15 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
                 recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
         });
+
+        viewModel.loadFilter();
+        viewModel.filter.observe(getViewLifecycleOwner(), filter -> {
+            if (filter != null)
+                viewModel.loadFilteredProperties();
+            ;
+        });
     }
+
 
     public void configureRecyclerView() {
         recyclerView.setHasFixedSize(true);
@@ -104,8 +112,9 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     }
 
     @OnClick(R.id.fragment_main_search_button)
-    public void onSearchClicked() {
+    public void onFilterClicked() {
 
+        viewModel.loadProperties();
         FilterBottomSheetsFragment filterBottomSheetsFragment = FilterBottomSheetsFragment.newInstance();
         filterBottomSheetsFragment.show(getActivity().getSupportFragmentManager(),"BottomSheet");
 
