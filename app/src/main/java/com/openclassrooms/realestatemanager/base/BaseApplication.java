@@ -27,13 +27,7 @@ public class BaseApplication extends Application {
             client.addPlugin(new InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()));
             client.addPlugin(new DatabasesFlipperPlugin(this));
             client.start();
-
-
-
-
-
         }
-
     }
 
     public static Context getAppContext() {

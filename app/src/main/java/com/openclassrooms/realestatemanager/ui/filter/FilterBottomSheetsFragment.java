@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,7 +184,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
             isSolded = true;
         } else {
             isSolded = false;
-        } ;
+        }
 
         ArrayList empty_for_test = new ArrayList();
         ArrayList cities_for_test = new ArrayList();
@@ -211,5 +210,4 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         viewModel.setFilter(filter);
         dismiss();
     }
-
 }
