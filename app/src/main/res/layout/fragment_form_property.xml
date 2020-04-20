@@ -333,6 +333,8 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        app:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorWhite"
         android:id="@+id/fragment_form_property_validate_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -340,5 +342,6 @@
         android:layout_margin="@dimen/margin_normal"
         android:text="@string/validate"
         app:icon="@drawable/ic_done_24px"
+        app:iconTint="@color/colorWhite"
          />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

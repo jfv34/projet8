@@ -225,6 +225,7 @@
         android:focusable="true"
         android:src="@drawable/ic_place_24px"
         app:backgroundTint="@color/colorAccent"
+        app:tint="#ffffff"
         app:fabSize="normal"
         app:layout_anchor="@id/fragment_detail_appbar"
         app:layout_anchorGravity="bottom|right"
