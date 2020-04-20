@@ -20,7 +20,7 @@ public class DetailsFragmentViewModel extends ViewModel {
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
 
-    public void loadProperty(int bundleProperty) {
+    void loadProperty(int bundleProperty) {
 
         AsyncTask.execute(() -> {
             Property result = repository.getProperty(bundleProperty);

@@ -109,6 +109,7 @@ public class DetailsFragment extends Fragment {
         observePhotos();
         viewModel.property.observe(getViewLifecycleOwner(), property -> {
 
+            displayToolbarTitle(property);
             displayType(property);
             displayAddress(property);
             displayPrice(property);
@@ -120,96 +121,101 @@ public class DetailsFragment extends Fragment {
         });
     }
 
-    private void observePhotos() {
+    private void displayToolbarTitle(Property property) {
+        if (!property.getCity().isEmpty() && !property.getType().isEmpty()) {
+            toolbar.setTitle(property.getType() + " at " + property.getCity());
+        } else toolbar.setTitle("Property details");}
 
-        viewModel.photos.observe(getViewLifecycleOwner(), photos -> {
-            if(photos!=null){
-            viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));}
-        });
-    }
+        private void observePhotos() {
 
-    private void displayAgent(Property property) {
-        agentTv.setText(property.getAgentName());
-    }
-
-    private void displayDescription(Property property) {
-        descriptionTv.setText(property.getDescription());
-    }
-
-    private void displayInterestsPoints(Property property) {
-        String interestsPoints = property.getInterestPoint();
-        interestsPointsTv.setText(interestsPoints);
-    }
-
-    private void displaySurfaceAndPieces(Property property) {
-        String surfaceAndPieces = property.getArea() + " " + getString(R.string.square_meter)
-                + " " + property.getPieces() + " " + getString(R.string.pieces);
-        surfaceAndPiecesTv.setText(surfaceAndPieces);
-    }
-
-    private void displayAvailability(Property property) {
-        if (property.isSolded()) {
-            not_soldedIv.setVisibility(View.INVISIBLE);
-            soldedIv.setVisibility(View.VISIBLE);
-            String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
-            availabilityTv.setText(availability);
-
-        } else {
-            not_soldedIv.setVisibility(View.VISIBLE);
-            soldedIv.setVisibility(View.INVISIBLE);
-            String availability = getString(R.string.available_since) + " " + property.getEntryDate();
-            availabilityTv.setText(availability);
+            viewModel.photos.observe(getViewLifecycleOwner(), photos -> {
+                if(photos!=null){
+                    viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));}
+            });
         }
-    }
 
-    private void displayPrice(Property property) {
-        String price = "$ " + property.getPrice();
-        priceTv.setText(price);
-    }
+        private void displayAgent(Property property) {
+            agentTv.setText(property.getAgentName());
+        }
 
-    private void displayAddress(Property property) {
-        String address = property.getAddress()+", "+ property.getCity()+", "+property.getState();
-        addressTv.setText(address);
-    }
+        private void displayDescription(Property property) {
+            descriptionTv.setText(property.getDescription());
+        }
 
-    private void displayType(Property property) {
-        typeTv.setText(property.getType());
-    }
+        private void displayInterestsPoints(Property property) {
+            String interestsPoints = property.getInterestPoint();
+            interestsPointsTv.setText(interestsPoints);
+        }
 
-    @OnClick(R.id.fragment_detail_edit_bt)
-    public void onUpdatePropertyclicked() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
+        private void displaySurfaceAndPieces(Property property) {
+            String surfaceAndPieces = property.getArea() + " " + getString(R.string.square_meter)
+                    + " " + property.getPieces() + " " + getString(R.string.pieces);
+            surfaceAndPiecesTv.setText(surfaceAndPieces);
+        }
 
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, formPropertyFragment).commit();
-        } else {
-            transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();
-    }
-    }
+        private void displayAvailability(Property property) {
+            if (property.isSolded()) {
+                not_soldedIv.setVisibility(View.INVISIBLE);
+                soldedIv.setVisibility(View.VISIBLE);
+                String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
+                availabilityTv.setText(availability);
 
-    private void configureToolBar() {
-        toolbar.setTitle("Property details");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> backToMain());
-    }
+            } else {
+                not_soldedIv.setVisibility(View.VISIBLE);
+                soldedIv.setVisibility(View.INVISIBLE);
+                String availability = getString(R.string.available_since) + " " + property.getEntryDate();
+                availabilityTv.setText(availability);
+            }
+        }
 
-    private void backToMain() {
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            removeFragment();
-        } else {
+        private void displayPrice(Property property) {
+            String price = "$ " + property.getPrice();
+            priceTv.setText(price);
+        }
+
+        private void displayAddress(Property property) {
+            String address = property.getAddress()+", "+ property.getCity()+", "+property.getState();
+            addressTv.setText(address);
+        }
+
+        private void displayType(Property property) {
+            typeTv.setText(property.getType());
+        }
+
+        @OnClick(R.id.fragment_detail_edit_bt)
+        public void onUpdatePropertyclicked() {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment mainFragment = MainFragment.newInstance();
-            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
-        }
-    }
+            Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
 
-    private void removeFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(this).commit();
-    }
+            final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+            if (tabletSize) {
+                transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, formPropertyFragment).commit();
+            } else {
+                transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();
+            }
+        }
+
+        private void configureToolBar() {
+            toolbar.setTitle("");
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(v -> backToMain());
+        }
+
+        private void backToMain() {
+            final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+            if (tabletSize) {
+                removeFragment();
+            } else {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment mainFragment = MainFragment.newInstance();
+                transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+            }
+        }
+
+        private void removeFragment() {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.remove(this).commit();
+        }
 }
