@@ -35,4 +35,5 @@
     <string name="available">Available</string>
     <string name="sold_date">Sold date</string>
     <string name="availability_date">Availability date</string>
+    <string name="apply">Apply</string>
 </resources>

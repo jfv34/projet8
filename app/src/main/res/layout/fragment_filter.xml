@@ -443,5 +443,8 @@
         android:layout_margin="@dimen/margin_normal"
         android:text="@string/validate"
         app:icon="@drawable/ic_done_24px"
+        android:textColor="@color/colorWhite"
+        app:backgroundTint="@color/colorAccent"
+        app:iconTint="@color/colorWhite"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
