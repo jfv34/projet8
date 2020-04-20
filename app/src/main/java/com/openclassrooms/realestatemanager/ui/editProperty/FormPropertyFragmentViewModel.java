@@ -22,7 +22,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
-    private String[] AVAILABILITY_LIST = {"available","sold"};
+    private String[] AVAILABILITY_LIST = repository.getAvailability();
 
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     public MutableLiveData<Boolean> isSold = new MutableLiveData<>();
@@ -37,9 +37,8 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public MutableLiveData<String> interestpoints = new MutableLiveData<>();
     public MutableLiveData<String> description = new MutableLiveData<>();
     public MutableLiveData<String> agent = new MutableLiveData<>();
-    public MutableLiveData<String> entrydate = new MutableLiveData<>();
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
-    public MutableLiveData<String> availableDate = new MutableLiveData<>();
+    public MutableLiveData<String> entryDate = new MutableLiveData<>();
 
     public void loadProperty(int id) {
         AsyncTask.execute(() -> {
@@ -57,7 +56,8 @@ public class FormPropertyFragmentViewModel extends ViewModel {
                     description.postValue(result.getDescription());
                     agent.postValue(result.getAgentName());
                     soldDate.postValue(result.getSaleDate());
-                    entrydate.postValue(result.getEntryDate());
+                    entryDate.postValue(result.getEntryDate());
+                    isSold.postValue(result.isSolded());
                 }
         );
     }
@@ -129,7 +129,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public void setAvailableDate(int year, int month, int dayOfMonth) {
         String formattedDate = convertDate(year, month, dayOfMonth);
-        availableDate.setValue(formattedDate);
+        entryDate.setValue(formattedDate);
     }
 
     private String convertDate(int year, int month, int dayOfMonth) {

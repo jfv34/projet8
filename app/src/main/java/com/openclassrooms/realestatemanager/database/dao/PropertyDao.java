@@ -34,6 +34,4 @@ public interface PropertyDao {
     @Query("SELECT * FROM Property WHERE city IN (:cities)")
     List<Property> getFilteredProperties(List<String> cities);
 
-    /*@Insert
-    long insertFilter(Filter filter);*/
 }

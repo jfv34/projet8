@@ -313,6 +313,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fragment_filter_availability_status"
+                    android:hint="@string/availability"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

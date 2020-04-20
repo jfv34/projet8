@@ -24,6 +24,7 @@ public class FilterFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
+    private String[] AVAILABILITY_LIST = repository.getAvailability();
 
     public void loadPropertyByCity(String city) {
         AsyncTask.execute(() -> {
@@ -47,6 +48,8 @@ public class FilterFragmentViewModel extends ViewModel {
     public String[] getTYPES() {
         return TYPE_LIST;
     }
+
+    public String[] getAvailabilities() {return AVAILABILITY_LIST; }
 
     public void setPieces(int i) {
         if (pieces.getValue() != null) {

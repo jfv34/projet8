@@ -22,10 +22,10 @@ public interface PropertyRepository {
 
     String[] getTypes();
 
-    // void createFilter(Filter filter);
-
     void setFilter(Filter filter);
 
     Filter getFilter();
+
+    String[] getAvailability();
 }
 

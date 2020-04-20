@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -86,6 +87,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
         viewModel.initialize();
         configureType();
+        configureStatus();
     }
 
     @OnClick(R.id.fragment_filter_pieces_less_btn)
@@ -148,6 +150,15 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
             chip_type_4.setText(TYPES[4]);
             chip_type_4.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void configureStatus() {
+        final String[] AVAILABILITY = viewModel.getAvailabilities();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, AVAILABILITY);
+        AutoCompleteTextView textView = root.findViewById(R.id.fragment_filter_availability_status_dropdown);
+        textView.setAdapter(adapter);
+        textView.setCursorVisible(false);
     }
 
     @OnClick(R.id.fragment_search_validate_fab)

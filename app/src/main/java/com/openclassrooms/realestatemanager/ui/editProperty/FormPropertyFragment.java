@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,6 +137,16 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         if (bundleProperty != -1) {
             loadProperty();
         }
+        property_availability_dropdown.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                Log.i("tag_key ","ok");
+                property_availability_status.getEditText().setText("");
+                return false;
+            }
+        });
+
+
     }
 
     private void configure_soldDate() {
@@ -154,7 +166,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         availabilityDate.getEditText().setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
                 viewModel.setAvailableDate(year, month, dayOfMonth)
         ));
-        viewModel.availableDate.observe(getViewLifecycleOwner(), soldDate ->
+        viewModel.entryDate.observe(getViewLifecycleOwner(), soldDate ->
                 availabilityDate.getEditText().setText(soldDate)
         );
     }
@@ -179,7 +191,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void observeEntryDate() {
-        viewModel.entrydate.observe(getViewLifecycleOwner(), entryDate -> {
+        viewModel.entryDate.observe(getViewLifecycleOwner(), entryDate -> {
             property_entry_date.getEditText().setText(entryDate);
         });
     }
@@ -256,17 +268,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         });
     }
 
-    private void observeStatusAvailability() {
-        viewModel.isSold.observe(getViewLifecycleOwner(), isSold -> {
-            if (isSold) {
-                property_availability_status.getEditText().setText(R.string.sold);
-            } else {
-                property_availability_status.getEditText().setText(R.string.available);
-            }
-                }
-        );
-    }
-
     private void observePhotos() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), spanCount());
         photosRecyclerView.setLayoutManager(gridLayoutManager);
@@ -290,9 +291,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void configure_availability_status() {
-        final String[] TYPE = viewModel.getAvailabilities();
+        final String[] AVAILABILITY = viewModel.getAvailabilities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, TYPE);
+                android.R.layout.simple_dropdown_item_1line, AVAILABILITY);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_form_property_availability_dropdown);
         textView.setAdapter(adapter);
         textView.setCursorVisible(false);
@@ -517,4 +518,22 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
         updateDescription(position);
     }
+
+    private void observeStatusAvailability() {
+        viewModel.isSold.observe(getViewLifecycleOwner(), isSold -> {
+                    if (isSold) {
+                        property_availability_status.getEditText().setText(R.string.sold);
+                    } else {
+                        property_availability_status.getEditText().setText(R.string.available);
+                    }
+                }
+        );
+    }
+
+    @OnClick(R.id.fragment_form_property_availability_dropdown)
+    public void availailityStatus() {
+
+        configure_availability_status();
+    }
+
 }
