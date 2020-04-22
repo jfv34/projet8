@@ -1,8 +1,5 @@
 package com.openclassrooms.realestatemanager.repositories;
 
-import androidx.lifecycle.LiveData;
-
-import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
 
 import java.util.List;
@@ -16,15 +13,9 @@ public interface PropertyRepository {
 
     Property getProperty(int id);
 
-    List<Property> getPropertiesByCity(String city);
-
     List<Property> getFilteredProperties(List<String> cities);
 
     String[] getTypes();
-
-    void setFilter(Filter filter);
-
-    Filter getFilter();
 
     String[] getAvailability();
 }

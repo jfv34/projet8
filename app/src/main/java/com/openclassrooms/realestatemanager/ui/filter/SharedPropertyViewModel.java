@@ -12,38 +12,49 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FilterFragmentViewModel extends ViewModel {
+public class SharedPropertyViewModel extends ViewModel {
 
-    public MutableLiveData<List<Property>> propertiesByCity = new MutableLiveData<>();
     public MutableLiveData<Filter> filter = new MutableLiveData<>();
     public MutableLiveData<Integer> pieces = new MutableLiveData<>();
     public MutableLiveData<Integer> numberOfPhotos = new MutableLiveData<>();
-
+    public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
     private String[] AVAILABILITY_LIST = repository.getAvailability();
 
-    public void loadPropertyByCity(String city) {
-        AsyncTask.execute(() -> {
-                    propertiesByCity.postValue(repository.getPropertiesByCity(city));
-                }
+
+    public void loadProperties() {
+
+        AsyncTask.execute(() ->
+                properties.postValue(repository.getProperties())
         );
     }
 
-    public void initialize() {
 
-        if (pieces.getValue() ==null) {
-            pieces.postValue(0);
-        }
-        ;
-        if (numberOfPhotos.getValue() == null) {
-            numberOfPhotos.postValue(0);
+    public void filter() {
+        if (filter.getValue() != null) {
+
+            ArrayList<Property> newProperties = new ArrayList<>();
+
+            String agentFilter = filter.getValue().getAgentName();
+
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                String agent = properties.getValue().get(i).getAgentName();
+                if (agent.equals(agentFilter)) {
+                    newProperties.add(properties.getValue().get(i));
+                }
+            }
+            properties.postValue(newProperties);
         }
     }
 
+    public void setFilter(Filter newFilter) {
+        filter.postValue(newFilter);
+    }
 
     public String[] getTYPES() {
         return TYPE_LIST;
@@ -65,9 +76,5 @@ public class FilterFragmentViewModel extends ViewModel {
                 numberOfPhotos.postValue(numberOfPhotos.getValue() + i);
             }
         }
-    }
-
-    public void setFilter(Filter filter) {
-        repository.setFilter(filter);
     }
 }

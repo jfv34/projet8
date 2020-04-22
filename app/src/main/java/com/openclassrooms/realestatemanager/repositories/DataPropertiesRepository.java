@@ -13,7 +13,6 @@ public class DataPropertiesRepository implements PropertyRepository {
     private final PropertyDao propertyDao;
     private final String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
     private final String[] AVAILABILITY_LIST = {"available","sold"};
-    private MutableLiveData<Filter> filter = new MutableLiveData<>();
 
     public DataPropertiesRepository(PropertyDao propertyDao) {
         this.propertyDao = propertyDao;
@@ -36,11 +35,6 @@ public class DataPropertiesRepository implements PropertyRepository {
         return propertyDao.getProperty(id);
     }
 
-    @Override
-    public List<Property> getPropertiesByCity(String city){
-        return propertyDao.getPropertiesByCity(city);
-    }
-
     public String[] getTypes() {
         return TYPE_LIST;
     }
@@ -54,14 +48,4 @@ public class DataPropertiesRepository implements PropertyRepository {
 
         return propertyDao.getFilteredProperties(cities);
     }
-
-    public void setFilter(Filter newFilter) {
-        filter.postValue(newFilter);
-    }
-
-    public Filter getFilter() {
-        return filter.getValue();
-
-    }
-
 }

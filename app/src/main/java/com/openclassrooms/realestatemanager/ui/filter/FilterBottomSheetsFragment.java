@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
-    private FilterFragmentViewModel viewModel;
+    private SharedPropertyViewModel sharedPropertyViewModel;
     private View root;
 
     @BindView(R.id.fragment_filter_type_0_chip)
@@ -82,9 +82,8 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
-        viewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
+        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertyViewModel.class);
 
-        viewModel.initialize();
         configureType();
         configureStatus();
     }
@@ -100,8 +99,8 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     }
 
     private void addPieces(int i) {
-        viewModel.setPieces(i);
-        viewModel.pieces.observe(getViewLifecycleOwner(), pieces ->
+        sharedPropertyViewModel.setPieces(i);
+        sharedPropertyViewModel.pieces.observe(getViewLifecycleOwner(), pieces ->
                 {
                     pieces_Et.setText(String.valueOf(pieces));
                 }
@@ -119,8 +118,8 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     }
 
     private void addNumberOfPhotos(int i) {
-        viewModel.setNumberOfPhotos(i);
-        viewModel.numberOfPhotos.observe(getViewLifecycleOwner(), numberOfPhotos ->
+        sharedPropertyViewModel.setNumberOfPhotos(i);
+        sharedPropertyViewModel.numberOfPhotos.observe(getViewLifecycleOwner(), numberOfPhotos ->
                 {
                     numberOfPhotos_Et.setText(String.valueOf(numberOfPhotos));
                 }
@@ -128,7 +127,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     }
 
     private void configureType() {
-        String[] TYPES = viewModel.getTYPES();
+        String[] TYPES = sharedPropertyViewModel.getTYPES();
         if (TYPES.length>0) {
             chip_type_0.setText(TYPES[0]);
             chip_type_0.setVisibility(View.VISIBLE);
@@ -152,7 +151,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     }
 
     private void configureStatus() {
-        final String[] AVAILABILITY = viewModel.getAvailabilities();
+        final String[] AVAILABILITY = sharedPropertyViewModel.getAvailabilities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, AVAILABILITY);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_filter_availability_status_dropdown);
@@ -163,7 +162,9 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @OnClick(R.id.fragment_search_validate_fab)
     public void filter_validate() {
 
-        String[] TYPES = viewModel.getTYPES();
+
+
+        String[] TYPES = sharedPropertyViewModel.getTYPES();
         ArrayList<String> type = new ArrayList<>();
 
         if (chip_type_0.isChecked()) {
@@ -207,7 +208,8 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
                 soldeDate_Et.getText().toString(),
                 Integer.parseInt(numberOfPhotos_Et.getText().toString()));
 
-        viewModel.setFilter(filter);
+        sharedPropertyViewModel.setFilter(filter);
+
         dismiss();
     }
 }

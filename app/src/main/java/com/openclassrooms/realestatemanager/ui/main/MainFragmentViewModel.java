@@ -17,30 +17,6 @@ import java.util.List;
 
 public class MainFragmentViewModel extends ViewModel {
 
-    private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
-
-    MutableLiveData<List<Property>> properties = new MutableLiveData<>();
-    MutableLiveData<Filter> filter = new MutableLiveData<>();
 
 
-    public void loadFilter(){
-        AsyncTask.execute(() ->
-                filter.postValue(repository.getFilter())
-        );
-        ;
-    }
-
-    public void loadProperties() {
-
-        AsyncTask.execute(() ->
-                properties.postValue(repository.getProperties())
-        );
-    }
-
-
-    public void setProperty(Property property) {
-        AsyncTask.execute(() ->
-                repository.createProperty(property)
-        );
-    }
 }

@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterBottomSheetsFragment;
+import com.openclassrooms.realestatemanager.ui.filter.SharedPropertyViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
-    private MainFragmentViewModel viewModel;
+    private SharedPropertyViewModel sharedPropertyViewModel;
     private View root;
 
     public static MainFragment newInstance() {
@@ -56,10 +57,15 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        viewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
-        viewModel.loadProperties();
+        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertyViewModel.class);
+        sharedPropertyViewModel.loadProperties();
 
-        viewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+        sharedPropertyViewModel.filter.observe(getViewLifecycleOwner(),filter -> {
+            sharedPropertyViewModel.filter();
+        });
+
+
+        sharedPropertyViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 if (properties.isEmpty()) {
                     Utils.toast(getActivity(), "No datas to display");
@@ -68,7 +74,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
             }
         });
     }
-
 
     public void configureRecyclerView() {
         recyclerView.setHasFixedSize(true);
@@ -107,7 +112,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @OnClick(R.id.fragment_main_search_button)
     public void onFilterClicked() {
 
-        viewModel.loadProperties();
+        sharedPropertyViewModel.loadProperties();
         FilterBottomSheetsFragment filterBottomSheetsFragment = FilterBottomSheetsFragment.newInstance();
         filterBottomSheetsFragment.show(getActivity().getSupportFragmentManager(),"BottomSheet");
 
