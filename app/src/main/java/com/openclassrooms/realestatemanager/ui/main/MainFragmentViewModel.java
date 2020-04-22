@@ -21,7 +21,7 @@ public class MainFragmentViewModel extends ViewModel {
 
     MutableLiveData<List<Property>> properties = new MutableLiveData<>();
     MutableLiveData<Filter> filter = new MutableLiveData<>();
-    List<Property> filteredProperties;
+
 
     public void loadFilter(){
         AsyncTask.execute(() ->
@@ -41,15 +41,6 @@ public class MainFragmentViewModel extends ViewModel {
     public void setProperty(Property property) {
         AsyncTask.execute(() ->
                 repository.createProperty(property)
-        );
-    }
-
-    public void loadFilteredProperties() {
-        filteredProperties = new ArrayList<>();
-        List<String> cities = filter.getValue().getCities();
-        filteredProperties = repository.getFilteredProperties(cities);
-        AsyncTask.execute(() ->
-                properties.postValue(filteredProperties)
         );
     }
 }

@@ -67,13 +67,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
                 recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
         });
-
-        viewModel.loadFilter();
-        viewModel.filter.observe(getViewLifecycleOwner(), filter -> {
-            if (filter != null)
-                viewModel.loadFilteredProperties();
-            ;
-        });
     }
 
 
