@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -18,6 +20,7 @@ import com.google.android.material.chip.Chip;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
+import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 
@@ -211,5 +214,6 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         sharedPropertyViewModel.setFilter(filter);
 
         dismiss();
+
     }
 }

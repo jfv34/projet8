@@ -1,9 +1,6 @@
 package com.openclassrooms.realestatemanager.repositories;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
-import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
 
 import java.util.List;
@@ -41,11 +38,5 @@ public class DataPropertiesRepository implements PropertyRepository {
 
     public String[] getAvailability() {
         return AVAILABILITY_LIST;
-    }
-
-    @Override
-    public List<Property> getFilteredProperties(List<String> cities) {
-
-        return propertyDao.getFilteredProperties(cities);
     }
 }

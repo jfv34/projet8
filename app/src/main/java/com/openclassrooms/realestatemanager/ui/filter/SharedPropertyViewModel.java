@@ -25,6 +25,7 @@ public class SharedPropertyViewModel extends ViewModel {
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
     private String[] AVAILABILITY_LIST = repository.getAvailability();
+    private ArrayList<Property> properties_temporary;
 
 
     public void loadProperties() {
@@ -36,21 +37,47 @@ public class SharedPropertyViewModel extends ViewModel {
 
 
     public void filter() {
-        if (filter.getValue() != null) {
+        if (filter.getValue() != null && properties.getValue() != null) {
 
-            ArrayList<Property> newProperties = new ArrayList<>();
+            properties_temporary = new ArrayList<>();
+            properties_temporary.addAll(properties.getValue());
 
-            String agentFilter = filter.getValue().getAgentName();
+            filterByAgent();
+            filterByCities();
 
-            for (int i = 0; i < properties.getValue().size(); i++) {
-                String agent = properties.getValue().get(i).getAgentName();
-                if (agent.equals(agentFilter)) {
-                    newProperties.add(properties.getValue().get(i));
-                }
-            }
-            properties.postValue(newProperties);
         }
     }
+
+    private void filterByCities() {
+        ArrayList<String> citiesFilter = filter.getValue().getCities();
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            String city = property.getCity();
+            boolean one_of_them = false;
+            for (int j = 0; j < citiesFilter.size(); j++) {
+                String cityFilter = citiesFilter.get(j);
+                if (city.equals(cityFilter) && !cityFilter.equals("")) {
+                    one_of_them = true;
+                }
+            }
+            if (one_of_them == false) {
+                properties_temporary.remove(property);
+            }
+        }
+    }
+
+    private void filterByAgent() {
+        String agentFilter = filter.getValue().getAgentName();
+
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            String agent = property.getAgentName();
+            if (!agent.equals(agentFilter) && !agentFilter.equals("")) {
+                properties_temporary.remove(property);
+            }
+        }
+    }
+
 
     public void setFilter(Filter newFilter) {
         filter.postValue(newFilter);

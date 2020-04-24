@@ -8,6 +8,7 @@ import androidx.room.Update;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -22,16 +23,6 @@ public interface PropertyDao {
     @Update
     int updateProperty(Property property);
 
-    @Query("DELETE FROM Property WHERE id = :id")
-    int deleteProperty(int id);
-
     @Query("SELECT * FROM Property WHERE id = :id")
     Property getProperty(int id);
-
-    @Query("SELECT * FROM Property WHERE city = :city")
-    List<Property> getPropertiesByCity(String city);
-
-    @Query("SELECT * FROM Property WHERE city IN (:cities)")
-    List<Property> getFilteredProperties(List<String> cities);
-
 }
