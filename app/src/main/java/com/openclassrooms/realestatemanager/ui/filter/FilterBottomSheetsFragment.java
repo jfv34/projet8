@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,8 +166,6 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @OnClick(R.id.fragment_search_validate_fab)
     public void filter_validate() {
 
-
-
         String[] TYPES = sharedPropertyViewModel.getTYPES();
         ArrayList<String> type = new ArrayList<>();
 
@@ -191,14 +190,28 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         }
 
         ArrayList empty_for_test = new ArrayList();
-        ArrayList cities_for_test = new ArrayList();
-        cities_for_test.add("A");
+
+        ArrayList<String> cities = new ArrayList<>();
+
+        String cities_txt = cities_Et.getText().toString();
+        int previous = 0;
+        for(int i=0;i<cities_txt.length();i++){
+            if(cities_txt.charAt(i)==','){
+                cities.add(cities_txt.substring(previous, i).trim());
+                previous=i+1;
+                }
+        }
+        cities.add(cities_txt.substring(previous).trim());
+
+        for(int n=0;n<cities.size();n++) {
+            Log.i("tag_cities ", String.valueOf(n) + " >" + cities.get(n)+"<");
+        }
 
         Filter filter = new Filter(
                 type,
                 0,
                 1000000000,
-                cities_for_test,
+                cities,
                 empty_for_test,
                 1000,
                 0,

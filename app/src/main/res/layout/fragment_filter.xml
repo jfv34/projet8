@@ -146,7 +146,7 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
-                    android:hint="Cities"
+                    android:hint="Cities (separated by commas)"
                     app:startIconDrawable="@drawable/ic_home_24px"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

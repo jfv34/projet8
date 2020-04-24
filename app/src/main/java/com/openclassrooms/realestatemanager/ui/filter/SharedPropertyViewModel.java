@@ -25,7 +25,7 @@ public class SharedPropertyViewModel extends ViewModel {
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
     private String[] AVAILABILITY_LIST = repository.getAvailability();
-    private ArrayList<Property> properties_temporary;
+    private ArrayList<Property> newProperties;
 
 
     public void loadProperties() {
@@ -39,11 +39,13 @@ public class SharedPropertyViewModel extends ViewModel {
     public void filter() {
         if (filter.getValue() != null && properties.getValue() != null) {
 
-            properties_temporary = new ArrayList<>();
-            properties_temporary.addAll(properties.getValue());
+            newProperties = new ArrayList<>();
+            newProperties.addAll(properties.getValue());
 
             filterByAgent();
             filterByCities();
+
+            properties.postValue(newProperties);
 
         }
     }
@@ -61,7 +63,7 @@ public class SharedPropertyViewModel extends ViewModel {
                 }
             }
             if (one_of_them == false) {
-                properties_temporary.remove(property);
+                newProperties.remove(property);
             }
         }
     }
@@ -73,7 +75,7 @@ public class SharedPropertyViewModel extends ViewModel {
             Property property = properties.getValue().get(i);
             String agent = property.getAgentName();
             if (!agent.equals(agentFilter) && !agentFilter.equals("")) {
-                properties_temporary.remove(property);
+                newProperties.remove(property);
             }
         }
     }
