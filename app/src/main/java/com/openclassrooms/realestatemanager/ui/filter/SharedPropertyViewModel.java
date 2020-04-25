@@ -53,21 +53,12 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByInterestPoints() {
-        ArrayList<String> InterestPointsFilter = filter.getValue().getInterestPoints();
-        if (!InterestPointsFilter.get(0).equals("")) {
+        ArrayList<String> interestPointsFilter = filter.getValue().getInterestPoints();
+        if (!interestPointsFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
-                String InterestPoint = property.getInterestPoint();
-                boolean one_of_them = false;
-                for (int j = 0; j < InterestPointsFilter.size(); j++) {
-                    String InterestPointFilter = InterestPointsFilter.get(j);
-                    if (InterestPoint.toUpperCase().equals(InterestPointFilter.toUpperCase())) {
-                        one_of_them = true;
-                    }
-                }
-                if (!one_of_them) {
-                    newProperties.remove(property);
-                }
+                String interestPoint = property.getInterestPoint();
+                filter_for_list(property, interestPoint, interestPointsFilter);
             }
         }
     }
@@ -78,16 +69,7 @@ public class SharedPropertyViewModel extends ViewModel {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 String state = property.getState();
-                boolean one_of_them = false;
-                for (int j = 0; j < statesFilter.size(); j++) {
-                    String stateFilter = statesFilter.get(j);
-                    if (state.toUpperCase().equals(stateFilter.toUpperCase())) {
-                        one_of_them = true;
-                    }
-                }
-                if (!one_of_them) {
-                    newProperties.remove(property);
-                }
+                filter_for_list(property, state, statesFilter);
             }
         }
     }
@@ -98,16 +80,7 @@ public class SharedPropertyViewModel extends ViewModel {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 String city = property.getCity();
-                boolean one_of_them = false;
-                for (int j = 0; j < citiesFilter.size(); j++) {
-                    String cityFilter = citiesFilter.get(j);
-                    if (city.toUpperCase().equals(cityFilter.toUpperCase())) {
-                        one_of_them = true;
-                    }
-                }
-                if (!one_of_them) {
-                    newProperties.remove(property);
-                }
+                filter_for_list(property, city, citiesFilter);
             }
         }
     }
@@ -118,17 +91,21 @@ public class SharedPropertyViewModel extends ViewModel {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 String agent = property.getAgentName();
-                boolean one_of_them = false;
-                for (int j = 0; j < agentsFilter.size(); j++) {
-                    String agentFilter = agentsFilter.get(j);
-                    if (agent.toUpperCase().equals(agentFilter.toUpperCase())) {
-                        one_of_them = true;
-                    }
-                }
-                if (!one_of_them) {
-                    newProperties.remove(property);
-                }
+                filter_for_list(property, agent, agentsFilter);
             }
+        }
+    }
+
+    private void filter_for_list(Property property, String data, ArrayList<String> dataListFilter) {
+        boolean one_of_them = false;
+        for (int j = 0; j < dataListFilter.size(); j++) {
+            String cityFilter = dataListFilter.get(j);
+            if (data.toUpperCase().equals(cityFilter.toUpperCase())) {
+                one_of_them = true;
+            }
+        }
+        if (!one_of_them) {
+            newProperties.remove(property);
         }
     }
 
