@@ -168,14 +168,14 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
                 typesFilter(),
                 0,
                 1000000000,
-                citiesFilter(),
-                statesFilter(),
+                sharedPropertyViewModel.getFilter(cities_Et.getText().toString()),
+                sharedPropertyViewModel.getFilter(states_Et.getText().toString()),
                 1000,
                 0,
                 Integer.parseInt(pieces_Et.getText().toString()),
                 Integer.parseInt(pieces_Et.getText().toString()),
-                interestPoints_Et.getText().toString(),
-                agent_Et.getText().toString(),
+                sharedPropertyViewModel.getFilter(interestPoints_Et.getText().toString()),
+                sharedPropertyViewModel.getFilter(agent_Et.getText().toString()),
                 isSoldedFilter(),
                 availableDate_Et.getText().toString(),
                 soldeDate_Et.getText().toString(),
@@ -185,36 +185,6 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
         dismiss();
 
-    }
-
-    private ArrayList<String> statesFilter() {
-        ArrayList<String> states = new ArrayList<>();
-
-        String states_txt = states_Et.getText().toString();
-        int previous = 0;
-        for(int i=0;i<states_txt.length();i++){
-            if(states_txt.charAt(i)==','){
-                states.add(states_txt.substring(previous, i).trim());
-                previous=i+1;
-            }
-        }
-        states.add(states_txt.substring(previous).trim());
-        return states;
-    }
-
-    private ArrayList<String> citiesFilter() {
-        ArrayList<String> cities = new ArrayList<>();
-
-        String cities_txt = cities_Et.getText().toString();
-        int previous = 0;
-        for(int i=0;i<cities_txt.length();i++){
-            if(cities_txt.charAt(i)==','){
-                cities.add(cities_txt.substring(previous, i).trim());
-                previous=i+1;
-            }
-        }
-        cities.add(cities_txt.substring(previous).trim());
-        return cities;
     }
 
     private boolean isSoldedFilter() {

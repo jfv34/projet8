@@ -19,8 +19,8 @@ public class Filter {
     private int areaMini;
     private int piecesMaxi;
     private int piecesMini;
-    private String interestPoints;
-    private String agentName;
+    private ArrayList<String> interestPoints;
+    private ArrayList<String> agentName;
     private boolean isSolded;
     private String entryDate;
     private String saleDate;
@@ -28,7 +28,7 @@ public class Filter {
 
     public Filter(ArrayList<String> types, int priceMaxi, int priceMini, ArrayList<String> cities,
                   ArrayList<String> states, int areaMaxi, int areaMini, int piecesMaxi, int piecesMini,
-                  String interestPoints, String agentName, boolean isSolded, String entryDate, String saleDate,
+                  ArrayList<String> interestPoints, ArrayList<String> agentName, boolean isSolded, String entryDate, String saleDate,
                   int numberOfPhotos) {
         this.types = types;
         this.priceMaxi = priceMaxi;
@@ -129,19 +129,19 @@ public class Filter {
         this.piecesMini = piecesMini;
     }
 
-    public String getInterestPoints() {
+    public ArrayList<String> getInterestPoints() {
         return interestPoints;
     }
 
-    public void setInterestPoints(String interestPoints) {
+    public void setInterestPoints(ArrayList<String> interestPoints) {
         this.interestPoints = interestPoints;
     }
 
-    public String getAgentName() {
+    public ArrayList<String> getAgentName() {
         return agentName;
     }
 
-    public void setAgentName(String agentName) {
+    public void setAgentName(ArrayList<String> agentName) {
         this.agentName = agentName;
     }
 

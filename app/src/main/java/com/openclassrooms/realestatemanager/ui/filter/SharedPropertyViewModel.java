@@ -42,12 +42,33 @@ public class SharedPropertyViewModel extends ViewModel {
             newProperties = new ArrayList<>();
             newProperties.addAll(properties.getValue());
 
-            filterByAgent();
             filterByCities();
             filterByStates();
+            filterByInterestPoints();
+            filterByAgent();
 
 
             properties.postValue(newProperties);
+        }
+    }
+
+    private void filterByInterestPoints() {
+        ArrayList<String> InterestPointsFilter = filter.getValue().getInterestPoints();
+        if (!InterestPointsFilter.get(0).equals("")) {
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                Property property = properties.getValue().get(i);
+                String InterestPoint = property.getInterestPoint();
+                boolean one_of_them = false;
+                for (int j = 0; j < InterestPointsFilter.size(); j++) {
+                    String InterestPointFilter = InterestPointsFilter.get(j);
+                    if (InterestPoint.toUpperCase().equals(InterestPointFilter.toUpperCase())) {
+                        one_of_them = true;
+                    }
+                }
+                if (!one_of_them) {
+                    newProperties.remove(property);
+                }
+            }
         }
     }
 
@@ -60,7 +81,7 @@ public class SharedPropertyViewModel extends ViewModel {
                 boolean one_of_them = false;
                 for (int j = 0; j < statesFilter.size(); j++) {
                     String stateFilter = statesFilter.get(j);
-                    if (state.toUpperCase().equals(stateFilter.toUpperCase()) && !stateFilter.equals("")) {
+                    if (state.toUpperCase().equals(stateFilter.toUpperCase())) {
                         one_of_them = true;
                     }
                 }
@@ -92,21 +113,24 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByAgent() {
-        String agentFilter = filter.getValue().getAgentName();
-        if (!agentFilter.equals("")) {
-
+        ArrayList<String> agentsFilter = filter.getValue().getAgentName();
+        if (!agentsFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 String agent = property.getAgentName();
-                if (!agent.toUpperCase().equals(agentFilter.toUpperCase())) {
+                boolean one_of_them = false;
+                for (int j = 0; j < agentsFilter.size(); j++) {
+                    String agentFilter = agentsFilter.get(j);
+                    if (agent.toUpperCase().equals(agentFilter.toUpperCase())) {
+                        one_of_them = true;
+                    }
+                }
+                if (!one_of_them) {
                     newProperties.remove(property);
                 }
             }
         }
     }
-
-
-
 
     public void setFilter(Filter newFilter) {
         filter.postValue(newFilter);
@@ -132,5 +156,18 @@ public class SharedPropertyViewModel extends ViewModel {
                 numberOfPhotos.postValue(numberOfPhotos.getValue() + i);
             }
         }
+    }
+    public ArrayList<String> getFilter(String list_txt) {
+        ArrayList<String> filter = new ArrayList<>();
+
+        int previous = 0;
+        for(int i=0;i<list_txt.length();i++){
+            if(list_txt.charAt(i)==','){
+                filter.add(list_txt.substring(previous, i).trim());
+                previous=i+1;
+            }
+        }
+        filter.add(list_txt.substring(previous).trim());
+        return filter;
     }
 }
