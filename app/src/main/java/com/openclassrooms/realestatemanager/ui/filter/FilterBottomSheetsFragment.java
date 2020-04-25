@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -21,7 +18,6 @@ import com.google.android.material.chip.Chip;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
-import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 
@@ -166,6 +162,72 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @OnClick(R.id.fragment_search_validate_fab)
     public void filter_validate() {
 
+        ArrayList empty_for_test = new ArrayList();
+
+        Filter filter = new Filter(
+                typesFilter(),
+                0,
+                1000000000,
+                citiesFilter(),
+                statesFilter(),
+                1000,
+                0,
+                Integer.parseInt(pieces_Et.getText().toString()),
+                Integer.parseInt(pieces_Et.getText().toString()),
+                interestPoints_Et.getText().toString(),
+                agent_Et.getText().toString(),
+                isSoldedFilter(),
+                availableDate_Et.getText().toString(),
+                soldeDate_Et.getText().toString(),
+                Integer.parseInt(numberOfPhotos_Et.getText().toString()));
+
+        sharedPropertyViewModel.setFilter(filter);
+
+        dismiss();
+
+    }
+
+    private ArrayList<String> statesFilter() {
+        ArrayList<String> states = new ArrayList<>();
+
+        String states_txt = states_Et.getText().toString();
+        int previous = 0;
+        for(int i=0;i<states_txt.length();i++){
+            if(states_txt.charAt(i)==','){
+                states.add(states_txt.substring(previous, i).trim());
+                previous=i+1;
+            }
+        }
+        states.add(states_txt.substring(previous).trim());
+        return states;
+    }
+
+    private ArrayList<String> citiesFilter() {
+        ArrayList<String> cities = new ArrayList<>();
+
+        String cities_txt = cities_Et.getText().toString();
+        int previous = 0;
+        for(int i=0;i<cities_txt.length();i++){
+            if(cities_txt.charAt(i)==','){
+                cities.add(cities_txt.substring(previous, i).trim());
+                previous=i+1;
+            }
+        }
+        cities.add(cities_txt.substring(previous).trim());
+        return cities;
+    }
+
+    private boolean isSoldedFilter() {
+        boolean isSolded;
+        if (isSolded_tv.getText().toString().equals(R.string.sold)) {
+            isSolded = true;
+        } else {
+            isSolded = false;
+        }
+        return isSolded;
+    }
+
+    private ArrayList<String> typesFilter() {
         String[] TYPES = sharedPropertyViewModel.getTYPES();
         ArrayList<String> type = new ArrayList<>();
 
@@ -181,52 +243,6 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         if (chip_type_3.isChecked()) {
             type.add(TYPES[3]);
         }
-
-        boolean isSolded;
-        if (isSolded_tv.getText().toString().equals(R.string.sold)) {
-            isSolded = true;
-        } else {
-            isSolded = false;
-        }
-
-        ArrayList empty_for_test = new ArrayList();
-
-        ArrayList<String> cities = new ArrayList<>();
-
-        String cities_txt = cities_Et.getText().toString();
-        int previous = 0;
-        for(int i=0;i<cities_txt.length();i++){
-            if(cities_txt.charAt(i)==','){
-                cities.add(cities_txt.substring(previous, i).trim());
-                previous=i+1;
-                }
-        }
-        cities.add(cities_txt.substring(previous).trim());
-
-        for(int n=0;n<cities.size();n++) {
-            Log.i("tag_cities ", String.valueOf(n) + " >" + cities.get(n)+"<");
-        }
-
-        Filter filter = new Filter(
-                type,
-                0,
-                1000000000,
-                cities,
-                empty_for_test,
-                1000,
-                0,
-                Integer.parseInt(pieces_Et.getText().toString()),
-                Integer.parseInt(pieces_Et.getText().toString()),
-                interestPoints_Et.getText().toString(),
-                agent_Et.getText().toString(),
-                isSolded,
-                availableDate_Et.getText().toString(),
-                soldeDate_Et.getText().toString(),
-                Integer.parseInt(numberOfPhotos_Et.getText().toString()));
-
-        sharedPropertyViewModel.setFilter(filter);
-
-        dismiss();
-
+        return type;
     }
 }
