@@ -2,13 +2,14 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.apptik.widget.MultiSlider;
 
 public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private SharedPropertyViewModel sharedPropertyViewModel;
@@ -40,15 +42,27 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @BindView(R.id.fragment_filter_type_4_chip)
     Chip chip_type_4;
     @BindView(R.id.fragment_filter_price_seekbar)
-    SeekBar price_seekBar;
+    MultiSlider price_MultiSlider;
+    @BindView(R.id.fragment_filter_price_amoutMin_txt)
+    TextView priceMin_txt;
+    @BindView(R.id.fragment_filter_price_amountMax_txt)
+    TextView priceMax_txt;
     @BindView(R.id.fragment_filter_cities_textInputEditText)
     EditText cities_Et;
     @BindView(R.id.fragment_filter_state_textInputEditText)
     EditText states_Et;
-    @BindView(R.id.fragment_filter_area_seekbar)
-    SeekBar area_seekBar;
-    @BindView(R.id.fragment_filter_pieces_et)
-    EditText pieces_Et;
+    @BindView(R.id.fragment_filter_area_multiSlider)
+    MultiSlider areaMultislider;
+    @BindView(R.id.fragment_filter_area_aeraMin_txt)
+    TextView areaMin_txt;
+    @BindView(R.id.fragment_filter_area_aeraMax_txt)
+    TextView areaMax_txt;
+    @BindView(R.id.fragment_filter_pieces_multiSlider)
+    MultiSlider piecesMultiSlider;
+    @BindView(R.id.fragment_filter_pieces_numberMin_txt)
+    TextView numberOfPiecesMin_txt;
+    @BindView(R.id.fragment_filter_pieces_numberMax_txt)
+    TextView numberOfPiecesMax_txt;
     @BindView(R.id.fragment_filter_interestPoints_textInputEditText)
     EditText interestPoints_Et;
     @BindView(R.id.fragment_filter_agent_textInputEditText)
@@ -59,8 +73,12 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     EditText availableDate_Et;
     @BindView(R.id.fragment_filter_sold_date_textInputEditText)
     EditText soldeDate_Et;
-    @BindView(R.id.fragment_filter_numberOfPhotos_et)
-    EditText numberOfPhotos_Et;
+    @BindView(R.id.fragment_filter_numberOfPhotos_multiSlider)
+    MultiSlider numberOfPhotos_multiSlider;
+    @BindView(R.id.fragment_filter_numberOfphotos_numberMin_txt)
+    TextView numberOfPhotoMin_txt;
+    @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
+    TextView numberOfPhotoMax_txt;
 
     public static FilterBottomSheetsFragment newInstance() {
         return new FilterBottomSheetsFragment();
@@ -86,44 +104,96 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
         configureType();
         configureStatus();
+        priceMultiSlider();
+        areaMultiSlider();
+        piecesMultiSlider();
+        numberOfPhotos_multislider();
+
     }
 
-    @OnClick(R.id.fragment_filter_pieces_less_btn)
-    public void pieces_less() {
-        addPieces(-1);
+    private void piecesMultiSlider() {
+        piecesMultiSlider.setMin(1);
+        piecesMultiSlider.setMax(30);
+        piecesMultiSlider.setStep(1);
+        piecesMultiSlider.setStepsThumbsApart(0);
+        piecesMultiSlider.removeThumb(1);
+        piecesMultiSlider.addThumb(piecesMultiSlider.getMax());
+        numberOfPiecesMin_txt.setText(String.valueOf(piecesMultiSlider.getMin()));
+        numberOfPiecesMax_txt.setText(String.valueOf(piecesMultiSlider.getMax()));
+        piecesMultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+            if (thumbIndex == 0) {
+                numberOfPiecesMin_txt.setText(String.valueOf(value));
+            }
+            if (thumbIndex == 1) {
+                numberOfPiecesMax_txt.setText(String.valueOf(value));
+            }
+
+        });
     }
 
-    @OnClick(R.id.fragment_filter_pieces_more_btn)
-    public void pieces_more() {
-        addPieces(1);
+    private void numberOfPhotos_multislider() {
+        numberOfPhotos_multiSlider.setMin(0);
+        numberOfPhotos_multiSlider.setMax(50);
+        numberOfPhotos_multiSlider.setStep(1);
+        numberOfPhotos_multiSlider.setStepsThumbsApart(0);
+        numberOfPhotos_multiSlider.removeThumb(1);
+        numberOfPhotos_multiSlider.addThumb(numberOfPhotos_multiSlider.getMax());
+        numberOfPhotoMin_txt.setText(String.valueOf(numberOfPhotos_multiSlider.getMin()));
+        numberOfPhotoMax_txt.setText(String.valueOf(numberOfPhotos_multiSlider.getMax()));
+
+        numberOfPhotos_multiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+            if (thumbIndex == 0) {
+                numberOfPhotoMin_txt.setText(String.valueOf(value));
+            }
+            if (thumbIndex == 1) {
+                numberOfPhotoMax_txt.setText(String.valueOf(value));
+            }
+
+        });
     }
 
-    private void addPieces(int i) {
-        sharedPropertyViewModel.setPieces(i);
-        sharedPropertyViewModel.pieces.observe(getViewLifecycleOwner(), pieces ->
-                {
-                    pieces_Et.setText(String.valueOf(pieces));
-                }
-        );
+    private void areaMultiSlider() {
+        areaMultislider.setMin(10);
+        areaMultislider.setMax(1000);
+        areaMultislider.setStep(10);
+        areaMultislider.setStepsThumbsApart(0);
+        areaMultislider.removeThumb(1);
+        areaMultislider.addThumb(areaMultislider.getMax());
+        areaMin_txt.setText(areaMultislider.getMin() + " m²");
+        areaMax_txt.setText((areaMultislider.getMax() + " m²"));
+
+        areaMultislider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+            if (thumbIndex == 0) {
+                areaMin_txt.setText(value + " m²");
+            }
+            if (thumbIndex == 1) {
+                areaMax_txt.setText(value + " m²");
+            }
+
+        });
     }
 
-    @OnClick(R.id.fragment_filter_numberOfPhotos_less_btn)
-    public void numberOfPhotos_less() {
-        addNumberOfPhotos(-1);
-    }
+    private void priceMultiSlider() {
 
-    @OnClick(R.id.fragment_filter_numberOfPhotos_more_btn)
-    public void numberOfPhotos_more() {
-        addNumberOfPhotos(1);
-    }
+        price_MultiSlider.setMin(0);
+        price_MultiSlider.setMax(100000);
+        price_MultiSlider.setStep(100);
+        price_MultiSlider.setStepsThumbsApart(0);
+        price_MultiSlider.removeThumb(1);
+        price_MultiSlider.addThumb(price_MultiSlider.getMax());
+        priceMin_txt.setText(price_MultiSlider.getMin() + " €");
+        priceMax_txt.setText(price_MultiSlider.getMax() + " €");
 
-    private void addNumberOfPhotos(int i) {
-        sharedPropertyViewModel.setNumberOfPhotos(i);
-        sharedPropertyViewModel.numberOfPhotos.observe(getViewLifecycleOwner(), numberOfPhotos ->
-                {
-                    numberOfPhotos_Et.setText(String.valueOf(numberOfPhotos));
-                }
-        );
+        price_MultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+
+            if (thumbIndex == 0) {
+                priceMin_txt.setText(value + " €");
+            }
+            if (thumbIndex == 1) {
+                priceMax_txt.setText(value + " €");
+            }
+
+        });
     }
 
     private void configureType() {
@@ -161,25 +231,28 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
     @OnClick(R.id.fragment_search_validate_fab)
     public void filter_validate() {
+        Log.i("tag_price ","mini "+price_MultiSlider.getThumb(1).getValue());
+        Log.i("tag_price", "maxi "+price_MultiSlider.getThumb(0).getValue());
 
         ArrayList empty_for_test = new ArrayList();
 
         Filter filter = new Filter(
                 typesFilter(),
-                0,
-                1000000000,
+                price_MultiSlider.getThumb(1).getValue(),
+                price_MultiSlider.getThumb(0).getValue(),
                 sharedPropertyViewModel.getFilter(cities_Et.getText().toString()),
                 sharedPropertyViewModel.getFilter(states_Et.getText().toString()),
-                1000,
-                0,
-                Integer.parseInt(pieces_Et.getText().toString()),
-                Integer.parseInt(pieces_Et.getText().toString()),
+                areaMultislider.getThumb(1).getValue(),
+                areaMultislider.getThumb(0).getValue(),
+                piecesMultiSlider.getThumb(1).getValue(),
+                piecesMultiSlider.getThumb(0).getValue(),
                 sharedPropertyViewModel.getFilter(interestPoints_Et.getText().toString()),
                 sharedPropertyViewModel.getFilter(agent_Et.getText().toString()),
                 isSoldedFilter(),
                 availableDate_Et.getText().toString(),
                 soldeDate_Et.getText().toString(),
-                Integer.parseInt(numberOfPhotos_Et.getText().toString()));
+                numberOfPhotos_multiSlider.getThumb(1).getValue(),
+                numberOfPhotos_multiSlider.getThumb(0).getValue());
 
         sharedPropertyViewModel.setFilter(filter);
 

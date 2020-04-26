@@ -46,11 +46,70 @@ public class SharedPropertyViewModel extends ViewModel {
             filterByStates();
             filterByInterestPoints();
             filterByAgent();
-
+            filterByPrice();
+            filterByArea();
+            filterByPieces();
+            filterByPhotos();
 
             properties.postValue(newProperties);
         }
     }
+
+    private void filterByPhotos() {
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            int nbOfPhotos;
+            if (property.getPhotos() == null) {
+                nbOfPhotos = 0;
+            } else {
+                nbOfPhotos = property.getPhotos().size();
+            }
+            int nbOfPhotosMini = filter.getValue().getNumberOfPhotosMini();
+            int nbOfPhotosMaxi = filter.getValue().getNumberOfPhotosMaxi();
+            if (nbOfPhotos < nbOfPhotosMini || nbOfPhotos > nbOfPhotosMaxi)
+                newProperties.remove(property);
+        }
+    }
+
+    private void filterByPieces() {
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            if (!property.getPieces().isEmpty()) {
+                int pieces = Integer.parseInt(property.getPieces());
+                int piecesMini = filter.getValue().getPiecesMini();
+                int piecesMaxi = filter.getValue().getPiecesMaxi();
+                if (pieces < piecesMini || pieces > piecesMaxi)
+                    newProperties.remove(property);
+            }
+        }
+    }
+
+    private void filterByArea() {
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            if (!property.getArea().isEmpty()) {
+                int area = Integer.parseInt(property.getArea());
+                int areaMini = filter.getValue().getAreaMini();
+                int areaMaxi = filter.getValue().getAreaMaxi();
+                if (area < areaMini || area > areaMaxi)
+                    newProperties.remove(property);
+            }
+        }
+    }
+
+    private void filterByPrice() {
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            if (!property.getPrice().isEmpty()) {
+                int price = Integer.parseInt(property.getPrice());
+                int priceMini = filter.getValue().getPriceMini();
+                int priceMaxi = filter.getValue().getPriceMaxi();
+                if (price < priceMini || price > priceMaxi)
+                    newProperties.remove(property);
+            }
+        }
+    }
+
 
     private void filterByInterestPoints() {
         ArrayList<String> interestPointsFilter = filter.getValue().getInterestPoints();
@@ -109,6 +168,7 @@ public class SharedPropertyViewModel extends ViewModel {
         }
     }
 
+
     public void setFilter(Filter newFilter) {
         filter.postValue(newFilter);
     }
@@ -134,11 +194,12 @@ public class SharedPropertyViewModel extends ViewModel {
             }
         }
     }
+
     public ArrayList<String> getFilter(String list_txt) {
         ArrayList<String> filter = new ArrayList<>();
 
         int previous = 0;
-        for(int i=0;i<list_txt.length();i++){
+        for (int i = 0; i < list_txt.length(); i++) {
             if(list_txt.charAt(i)==','){
                 filter.add(list_txt.substring(previous, i).trim());
                 previous=i+1;

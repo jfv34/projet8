@@ -23,8 +23,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.details.DetailsActivity" />
-        <activity android:name=".ui.editProperty.InsertPropertyActivity" />
-
     </application>
 </manifest>

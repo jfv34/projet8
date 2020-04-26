@@ -1,8 +1,5 @@
 package com.openclassrooms.realestatemanager.models;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.util.ArrayList;
 
 //@Entity
@@ -24,12 +21,13 @@ public class Filter {
     private boolean isSolded;
     private String entryDate;
     private String saleDate;
-    private int numberOfPhotos;
+    private int numberOfPhotosMaxi;
+    private int numberOfPhotosMini;
 
     public Filter(ArrayList<String> types, int priceMaxi, int priceMini, ArrayList<String> cities,
                   ArrayList<String> states, int areaMaxi, int areaMini, int piecesMaxi, int piecesMini,
                   ArrayList<String> interestPoints, ArrayList<String> agentName, boolean isSolded, String entryDate, String saleDate,
-                  int numberOfPhotos) {
+                  int numberOfPhotosMaxi, int numberOfPhotosMini) {
         this.types = types;
         this.priceMaxi = priceMaxi;
         this.priceMini = priceMini;
@@ -38,13 +36,14 @@ public class Filter {
         this.areaMaxi = areaMaxi;
         this.areaMini = areaMini;
         this.piecesMaxi = piecesMaxi;
-        this.priceMini = piecesMini;
+        this.piecesMini = piecesMini;
         this.interestPoints = interestPoints;
         this.agentName = agentName;
         this.isSolded = isSolded;
         this.entryDate = entryDate;
         this.saleDate = saleDate;
-        this.numberOfPhotos = numberOfPhotos;
+        this.numberOfPhotosMaxi = numberOfPhotosMaxi;
+        this.numberOfPhotosMini = numberOfPhotosMini;
 
     }
 
@@ -169,11 +168,19 @@ public class Filter {
         this.saleDate = saleDate;
     }
 
-    public int getNumberOfPhotos() {
-        return numberOfPhotos;
+    public int getNumberOfPhotosMaxi() {
+        return numberOfPhotosMaxi;
     }
 
-    public void setNumberOfPhotos(int numberOfPhotos) {
-        this.numberOfPhotos = numberOfPhotos;
+    public void setNumberOfPhotosMaxi(int numberOfPhotosMaxi) {
+        this.numberOfPhotosMaxi = numberOfPhotosMaxi;
+    }
+
+    public int getNumberOfPhotosMini() {
+        return numberOfPhotosMini;
+    }
+
+    public void setNumberOfPhotosMini(int numberOfPhotosMini) {
+        this.numberOfPhotosMini = numberOfPhotosMini;
     }
 }
