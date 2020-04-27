@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
@@ -76,6 +77,8 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_agent_tv)
     TextView agentTv;
 
+    @BindView(R.id.fragment_detail_collapsingtoolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +90,7 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, root);
-        configureToolBar();
+        configureCollapsingToolBar();
         return root;
     }
 
@@ -96,12 +99,6 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
         loadProperty();
-    }
-
-    private void hideViewPager() {
-        ViewGroup.LayoutParams params = viewPager.getLayoutParams();
-        params.height = 0;
-        viewPager.requestLayout();
     }
 
     private void loadProperty() {
@@ -195,12 +192,20 @@ public class DetailsFragment extends Fragment {
             }
         }
 
-        private void configureToolBar() {
+    private void configureCollapsingToolBar() {
             toolbar.setTitle("");
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
-            toolbar.setNavigationOnClickListener(v -> backToMain());
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorWhite));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setCollapseIcon(getResources().getDrawable(R.drawable.ic_arrow_back_24px));
+        toolbar.setNavigationOnClickListener(v -> {
+            backToMain();
+        });
+
         }
 
         private void backToMain() {
