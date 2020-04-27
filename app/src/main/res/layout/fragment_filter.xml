@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/fragment_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,87 +22,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:id="@+id/fragment_filter_chipgroup"
-                    android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_filter_types_chips_recyclerView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fragment_filter_type_0_chip"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+              <!--  <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_filter_types_chips_recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:id="@+id/fragment_filter_chipgroup"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:padding="10dp"
-                        android:checkable="true"
-                        android:visibility="invisible"
-                        app:chipIcon="@drawable/ic_add_24px"
-                        app:iconStartPadding="5dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fragment_filter_type_1_chip"
-                        android:checkable="true"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:padding="10dp"
-                        android:visibility="invisible"
-                        app:chipIcon="@drawable/ic_add_24px"
-                        app:iconStartPadding="5dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fragment_filter_type_2_chip"
-                        android:checkable="true"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:padding="10dp"
-                        android:visibility="invisible"
-                        app:chipIcon="@drawable/ic_add_24px"
-                        app:iconStartPadding="5dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fragment_filter_type_3_chip"
-                        android:checkable="true"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:padding="10dp"
-                        android:visibility="invisible"
-                        app:chipIcon="@drawable/ic_add_24px"
-                        app:iconStartPadding="5dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fragment_filter_type_4_chip"
-                        android:checkable="true"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:padding="10dp"
-                        android:visibility="invisible"
-                        app:chipIcon="@drawable/ic_add_24px"
-                        app:iconStartPadding="5dp" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/action_chip_type_5"
-                        android:checkable="true"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:padding="10dp"
-                        android:visibility="invisible"
-                        app:chipIcon="@drawable/ic_add_24px"
-                        app:iconStartPadding="5dp" />
-
-                </com.google.android.material.chip.ChipGroup>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                </androidx.recyclerview.widget.RecyclerView>-->
 
                 <TextView
                     android:id="@+id/fragment_filter_price_min_txt"
@@ -113,7 +54,7 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_types_chips_recyclerView" />
 
                 <TextView
                     android:id="@+id/fragment_filter_price_amoutMin_txt"
@@ -125,7 +66,7 @@
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_min_txt"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_types_chips_recyclerView" />
 
                 <TextView
                     android:id="@+id/fragment_filter_price_max_txt"
@@ -136,7 +77,7 @@
                     android:text="max. "
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_amoutMin_txt"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_types_chips_recyclerView"
                     app:layout_goneMarginStart="@dimen/margin_normal" />
 
                 <TextView
@@ -149,7 +90,7 @@
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_max_txt"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_chipgroup" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_types_chips_recyclerView" />
 
                 <TextView
                     android:id="@+id/fragment_filter_price_label_tv"
@@ -573,7 +514,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fragment_search_validate_fab"

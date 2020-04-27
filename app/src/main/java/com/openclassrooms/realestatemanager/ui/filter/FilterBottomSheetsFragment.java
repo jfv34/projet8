@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -14,11 +15,12 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
@@ -36,7 +38,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private View root;
     private static Calendar calendar = Calendar.getInstance();
 
-    @BindView(R.id.fragment_filter_type_0_chip)
+  /*  @BindView(R.id.fragment_filter_type_0_chip)
     Chip chip_type_0;
     @BindView(R.id.fragment_filter_type_1_chip)
     Chip chip_type_1;
@@ -45,7 +47,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     @BindView(R.id.fragment_filter_type_3_chip)
     Chip chip_type_3;
     @BindView(R.id.fragment_filter_type_4_chip)
-    Chip chip_type_4;
+    Chip chip_type_4;*/
     @BindView(R.id.fragment_filter_price_seekbar)
     MultiSlider price_MultiSlider;
     @BindView(R.id.fragment_filter_price_amoutMin_txt)
@@ -84,6 +86,9 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     TextView numberOfPhotoMin_txt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
     TextView numberOfPhotoMax_txt;
+    @BindView(R.id.fragment_filter_types_chips_recyclerView)
+    RecyclerView types_chips_rv;
+
 
     public static FilterBottomSheetsFragment newInstance() {
         return new FilterBottomSheetsFragment();
@@ -236,6 +241,16 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     }
 
     private void configureType() {
+
+        types_chips_rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        types_chips_rv.setLayoutManager(layoutManager);
+
+        if (sharedPropertyViewModel.getTYPES().length >0) {
+            TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(sharedPropertyViewModel.getTYPES(), getActivity());
+            types_chips_rv.setAdapter(typesChipsAdapter);
+        }
+        /*
         String[] TYPES = sharedPropertyViewModel.getTYPES();
         if (TYPES.length>0) {
             chip_type_0.setText(TYPES[0]);
@@ -255,9 +270,9 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         }
         if (TYPES.length>4) {
             chip_type_4.setText(TYPES[4]);
-            chip_type_4.setVisibility(View.VISIBLE);
+            chip_type_4.setVisibility(View.VISIBLE);*/
         }
-    }
+
 
     private void configureStatus() {
         final String[] AVAILABILITY = sharedPropertyViewModel.getAvailabilities();
@@ -313,7 +328,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         String[] TYPES = sharedPropertyViewModel.getTYPES();
         ArrayList<String> type = new ArrayList<>();
 
-        if (chip_type_0.isChecked()) {
+   /*     if (chip_type_0.isChecked()) {
             type.add(TYPES[0]);
         }
         if (chip_type_1.isChecked()) {
@@ -324,7 +339,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
         }
         if (chip_type_3.isChecked()) {
             type.add(TYPES[3]);
-        }
+        }*/
         return type;
     }
 }
