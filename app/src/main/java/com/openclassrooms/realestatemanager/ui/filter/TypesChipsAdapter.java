@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.filter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,10 @@ public class TypesChipsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        Log.i("tag_recycler", "Ok");
         ChipGroup chipGroup = new ChipGroup(context);
+        View view = holder.itemView.findViewById(R.id.item_chips);
+        
         Chip chip = new Chip(chipGroup.getContext());
         chipGroup.addView(chip);
         chip.setText(types[position]);
