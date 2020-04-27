@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
@@ -13,7 +14,10 @@ import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepositor
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
 
 public class SharedPropertyViewModel extends ViewModel {
 
@@ -21,6 +25,8 @@ public class SharedPropertyViewModel extends ViewModel {
     public MutableLiveData<Integer> pieces = new MutableLiveData<>();
     public MutableLiveData<Integer> numberOfPhotos = new MutableLiveData<>();
     public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
+    public MutableLiveData<String> soldDate = new MutableLiveData<>();
+    public MutableLiveData<String> entryDate = new MutableLiveData<>();
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = repository.getTypes();
@@ -42,20 +48,38 @@ public class SharedPropertyViewModel extends ViewModel {
             newProperties = new ArrayList<>();
             newProperties.addAll(properties.getValue());
 
+            filterByPrice();
             filterByCities();
             filterByStates();
-            filterByInterestPoints();
-            filterByAgent();
-            filterByPrice();
             filterByArea();
             filterByPieces();
+            filterByInterestPoints();
+            filterByAgent();
+            filterByDates();
             filterByPhotos();
 
             properties.postValue(newProperties);
         }
     }
 
+    private void filterByDates() {
+        Date entryDateFilter = Utils.convertStringToDate(filter.getValue().getEntryDate());
+        Date soldeDateFilter = Utils.convertStringToDate(filter.getValue().getSaleDate());
+
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            Date entryDate = Utils.convertStringToDate(property.getEntryDate());
+            Date soldeDate = Utils.convertStringToDate(property.getSaleDate());
+
+            if (entryDate.compareTo(entryDateFilter) < 0 || soldeDate.compareTo(soldeDateFilter) < 0)
+                newProperties.remove(property);
+        }
+    }
+
     private void filterByPhotos() {
+
+        int nbOfPhotosMini = filter.getValue().getNumberOfPhotosMini();
+        int nbOfPhotosMaxi = filter.getValue().getNumberOfPhotosMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             int nbOfPhotos;
@@ -64,20 +88,18 @@ public class SharedPropertyViewModel extends ViewModel {
             } else {
                 nbOfPhotos = property.getPhotos().size();
             }
-            int nbOfPhotosMini = filter.getValue().getNumberOfPhotosMini();
-            int nbOfPhotosMaxi = filter.getValue().getNumberOfPhotosMaxi();
             if (nbOfPhotos < nbOfPhotosMini || nbOfPhotos > nbOfPhotosMaxi)
                 newProperties.remove(property);
         }
     }
 
     private void filterByPieces() {
+        int piecesMini = filter.getValue().getPiecesMini();
+        int piecesMaxi = filter.getValue().getPiecesMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             if (!property.getPieces().isEmpty()) {
                 int pieces = Integer.parseInt(property.getPieces());
-                int piecesMini = filter.getValue().getPiecesMini();
-                int piecesMaxi = filter.getValue().getPiecesMaxi();
                 if (pieces < piecesMini || pieces > piecesMaxi)
                     newProperties.remove(property);
             }
@@ -85,12 +107,12 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByArea() {
+        int areaMini = filter.getValue().getAreaMini();
+        int areaMaxi = filter.getValue().getAreaMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             if (!property.getArea().isEmpty()) {
                 int area = Integer.parseInt(property.getArea());
-                int areaMini = filter.getValue().getAreaMini();
-                int areaMaxi = filter.getValue().getAreaMaxi();
                 if (area < areaMini || area > areaMaxi)
                     newProperties.remove(property);
             }
@@ -98,12 +120,12 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByPrice() {
+        int priceMini = filter.getValue().getPriceMini();
+        int priceMaxi = filter.getValue().getPriceMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             if (!property.getPrice().isEmpty()) {
                 int price = Integer.parseInt(property.getPrice());
-                int priceMini = filter.getValue().getPriceMini();
-                int priceMaxi = filter.getValue().getPriceMaxi();
                 if (price < priceMini || price > priceMaxi)
                     newProperties.remove(property);
             }
@@ -207,5 +229,16 @@ public class SharedPropertyViewModel extends ViewModel {
         }
         filter.add(list_txt.substring(previous).trim());
         return filter;
+    }
+
+    public void setSoldDate(int year, int month, int dayOfMonth) {
+
+        String formattedDate = convertDateToString(year, month, dayOfMonth);
+        soldDate.setValue(formattedDate);
+    }
+
+    public void setAvailableDate(int year, int month, int dayOfMonth) {
+        String formattedDate = convertDateToString(year, month, dayOfMonth);
+        entryDate.setValue(formattedDate);
     }
 }

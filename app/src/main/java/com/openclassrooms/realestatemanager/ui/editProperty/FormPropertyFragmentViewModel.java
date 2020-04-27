@@ -12,11 +12,9 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+
+import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
 
 public class FormPropertyFragmentViewModel extends ViewModel {
 
@@ -123,30 +121,12 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public void setSoldDate(int year, int month, int dayOfMonth) {
 
-        String formattedDate = convertDate(year, month, dayOfMonth);
+        String formattedDate = convertDateToString(year, month, dayOfMonth);
         soldDate.setValue(formattedDate);
     }
 
     public void setAvailableDate(int year, int month, int dayOfMonth) {
-        String formattedDate = convertDate(year, month, dayOfMonth);
+        String formattedDate = convertDateToString(year, month, dayOfMonth);
         entryDate.setValue(formattedDate);
-    }
-
-    private String convertDate(int year, int month, int dayOfMonth) {
-        StringBuilder frenchDate = new StringBuilder();
-        frenchDate.append(dayOfMonth >= 10 ? dayOfMonth : "0" + dayOfMonth);
-        frenchDate.append("/");
-        frenchDate.append(month + 1);
-        frenchDate.append("/");
-        frenchDate.append(year);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-        Date dateSelected = null;
-        try {
-            dateSelected = simpleDateFormat.parse(frenchDate.toString());
-        } catch (ParseException e) {
-        }
-
-        return simpleDateFormat.format(dateSelected);
     }
 }

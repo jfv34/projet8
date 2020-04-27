@@ -17,8 +17,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -116,8 +118,31 @@ public class Utils {
         return photo;
     }
 
-    public static float getScreenWidthInDp(Context context) {
-        final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return displayMetrics.widthPixels / displayMetrics.density;
+    public static String convertDateToString(int year, int month, int dayOfMonth) {
+        StringBuilder frenchDate = new StringBuilder();
+        frenchDate.append(dayOfMonth >= 10 ? dayOfMonth : "0" + dayOfMonth);
+        frenchDate.append("/");
+        frenchDate.append(month + 1);
+        frenchDate.append("/");
+        frenchDate.append(year);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        Date dateSelected = null;
+        try {
+            dateSelected = simpleDateFormat.parse(frenchDate.toString());
+        } catch (ParseException e) {
+        }
+
+        return simpleDateFormat.format(dateSelected);
+    }
+    public static Date convertStringToDate(String entryDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        Date date = null;
+        try {
+            date = dateFormat.parse(entryDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

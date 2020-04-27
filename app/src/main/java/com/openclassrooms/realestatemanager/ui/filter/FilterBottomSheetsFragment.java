@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.filter;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +17,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +34,7 @@ import io.apptik.widget.MultiSlider;
 public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     private SharedPropertyViewModel sharedPropertyViewModel;
     private View root;
+    private static Calendar calendar = Calendar.getInstance();
 
     @BindView(R.id.fragment_filter_type_0_chip)
     Chip chip_type_0;
@@ -104,11 +109,45 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
         configureType();
         configureStatus();
+        configure_soldeDate();
+        configure_availabilityDate();
         priceMultiSlider();
         areaMultiSlider();
         piecesMultiSlider();
         numberOfPhotos_multislider();
 
+    }
+
+    private void configure_soldeDate() {
+        TextInputEditText soldeDate = root.findViewById(R.id.fragment_filter_sold_date_textInputEditText);
+
+        soldeDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+                sharedPropertyViewModel.setSoldDate(year, month, dayOfMonth)
+        ));
+        sharedPropertyViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText
+        );
+    }
+
+    private void configure_availabilityDate() {
+        TextInputEditText availabilityDate = root.findViewById(R.id.fragment_filter_availability_date_textInputEditText);
+
+        availabilityDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+                sharedPropertyViewModel.setAvailableDate(year, month, dayOfMonth)
+        ));
+        sharedPropertyViewModel.entryDate.observe(getViewLifecycleOwner(), availabilityDate::setText
+        );
+    }
+
+    public void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                getActivity(),
+                listener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+        dialog.show();
     }
 
     private void piecesMultiSlider() {
