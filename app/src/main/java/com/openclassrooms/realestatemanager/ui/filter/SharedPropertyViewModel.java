@@ -71,8 +71,12 @@ public class SharedPropertyViewModel extends ViewModel {
             Date entryDate = Utils.convertStringToDate(property.getEntryDate());
             Date soldeDate = Utils.convertStringToDate(property.getSaleDate());
 
-            if (entryDate.compareTo(entryDateFilter) < 0 || soldeDate.compareTo(soldeDateFilter) < 0)
+            if (entryDateFilter != null && entryDate != null && entryDate.compareTo(entryDateFilter) < 0)
                 newProperties.remove(property);
+
+            if (soldeDateFilter != null && soldeDate != null)
+                if (soldeDate.compareTo(soldeDateFilter) < 0)
+                    newProperties.remove(property);
         }
     }
 
