@@ -21,7 +21,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.filter.FilterBottomSheetsFragment;
+import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedPropertyViewModel;
 
 import butterknife.BindView;
@@ -45,7 +45,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
         root = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this,root);
-
         configureToolBar();
         configureRecyclerView();
 
@@ -88,33 +87,31 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public void onPropertyClicked(int property) {
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment detailsFragment = DetailsFragment.newInstance(property);
-
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, detailsFragment).commit();
-        } else {transaction.replace(R.id.frame_layout_main, detailsFragment).commit();}
+        replaceFragment(detailsFragment);
     }
 
     @OnClick(R.id.fragment_main_insert_property_fab)
     public void onInsertPropertyClicked() {
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment formPropertyFragment = FormPropertyFragment.newInstance(-1);
-
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, formPropertyFragment).commit();
-        } else {transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();}
+        replaceFragment(formPropertyFragment);
     }
 
     @OnClick(R.id.fragment_main_search_button)
     public void onFilterClicked() {
-
         sharedPropertyViewModel.loadProperties();
-        FilterBottomSheetsFragment filterBottomSheetsFragment = FilterBottomSheetsFragment.newInstance();
-        filterBottomSheetsFragment.show(getActivity().getSupportFragmentManager(),"BottomSheet");
+        Fragment filterFragment = FilterFragment.newInstance();
+        replaceFragment(filterFragment);
+    }
 
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, fragment).commit();
+        } else {
+            transaction.replace(R.id.frame_layout_main, fragment).commit();
+        }
     }
     }
+

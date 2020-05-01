@@ -13,11 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
-public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
+public class FilterFragment extends Fragment {
     private SharedPropertyViewModel sharedPropertyViewModel;
     private View root;
     private static Calendar calendar = Calendar.getInstance();
@@ -88,8 +88,8 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
     RecyclerView types_chips_rv;
 
 
-    public static FilterBottomSheetsFragment newInstance() {
-        return new FilterBottomSheetsFragment();
+    public static FilterFragment newInstance() {
+        return new FilterFragment();
     }
 
     @Override
@@ -308,7 +308,7 @@ public class FilterBottomSheetsFragment extends BottomSheetDialogFragment {
 
         sharedPropertyViewModel.setFilter(filter);
 
-        dismiss();
+        //dismiss();
 
     }
 

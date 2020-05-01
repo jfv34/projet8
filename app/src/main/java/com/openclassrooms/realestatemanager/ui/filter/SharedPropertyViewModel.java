@@ -33,7 +33,6 @@ public class SharedPropertyViewModel extends ViewModel {
     private String[] AVAILABILITY_LIST = repository.getAvailability();
     private ArrayList<Property> newProperties;
 
-
     public void loadProperties() {
 
         AsyncTask.execute(() ->
