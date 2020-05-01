@@ -77,31 +77,34 @@ public class MainFragmentViewModel extends ViewModel {
     }
 
     private void filterByPhotos() {
-
         int nbOfPhotosMini = filter.getNumberOfPhotosMini();
         int nbOfPhotosMaxi = filter.getNumberOfPhotosMaxi();
-        for (int i = 0; i < properties.getValue().size(); i++) {
-            Property property = properties.getValue().get(i);
-            int nbOfPhotos;
-            if (property.getPhotos() == null) {
-                nbOfPhotos = 0;
-            } else {
-                nbOfPhotos = property.getPhotos().size();
+        if (nbOfPhotosMini > 0 || nbOfPhotosMaxi < Constants.slider_photos_maximum) {
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                Property property = properties.getValue().get(i);
+                int nbOfPhotos;
+                if (property.getPhotos() == null) {
+                    nbOfPhotos = 0;
+                } else {
+                    nbOfPhotos = property.getPhotos().size();
+                }
+                if (nbOfPhotos < nbOfPhotosMini || nbOfPhotos > nbOfPhotosMaxi)
+                    newProperties.remove(property);
             }
-            if (nbOfPhotos < nbOfPhotosMini || nbOfPhotos > nbOfPhotosMaxi)
-                newProperties.remove(property);
         }
     }
 
     private void filterByPieces() {
         int piecesMini = filter.getPiecesMini();
         int piecesMaxi = filter.getPiecesMaxi();
-        for (int i = 0; i < properties.getValue().size(); i++) {
-            Property property = properties.getValue().get(i);
-            if (!property.getPieces().isEmpty()) {
-                int pieces = Integer.parseInt(property.getPieces());
-                if (pieces < piecesMini || pieces > piecesMaxi)
-                    newProperties.remove(property);
+        if (piecesMini > Constants.slider_pieces_minimum || piecesMaxi < Constants.slider_pieces_maximum) {
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                Property property = properties.getValue().get(i);
+                if (!property.getPieces().isEmpty()) {
+                    int pieces = Integer.parseInt(property.getPieces());
+                    if (pieces < piecesMini || pieces > piecesMaxi)
+                        newProperties.remove(property);
+                }
             }
         }
     }
@@ -109,12 +112,14 @@ public class MainFragmentViewModel extends ViewModel {
     private void filterByArea() {
         int areaMini = filter.getAreaMini();
         int areaMaxi = filter.getAreaMaxi();
-        for (int i = 0; i < properties.getValue().size(); i++) {
-            Property property = properties.getValue().get(i);
-            if (!property.getArea().isEmpty()) {
-                int area = Integer.parseInt(property.getArea());
-                if (area < areaMini || area > areaMaxi)
-                    newProperties.remove(property);
+        if (areaMini > Constants.slider_area_minimum || areaMaxi < Constants.slider_area_maximum) {
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                Property property = properties.getValue().get(i);
+                if (!property.getArea().isEmpty()) {
+                    int area = Integer.parseInt(property.getArea());
+                    if (area < areaMini || area > areaMaxi)
+                        newProperties.remove(property);
+                }
             }
         }
     }
@@ -122,14 +127,15 @@ public class MainFragmentViewModel extends ViewModel {
     private void filterByPrice() {
         int priceMini = filter.getPriceMini();
         int priceMaxi = filter.getPriceMaxi();
-        for (int i = 0; i < properties.getValue().size(); i++) {
-            Property property = properties.getValue().get(i);
-            if (!property.getPrice().isEmpty()) {
-                int price = Integer.parseInt(property.getPrice());
-                if (price < priceMini || price > priceMaxi)
-                    newProperties.remove(property);
+        if (priceMini > Constants.slider_pieces_minimum || priceMaxi < Constants.slider_photos_maximum)
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                Property property = properties.getValue().get(i);
+                if (!property.getPrice().isEmpty()) {
+                    int price = Integer.parseInt(property.getPrice());
+                    if (price < priceMini || price > priceMaxi)
+                        newProperties.remove(property);
+                }
             }
-        }
     }
 
 

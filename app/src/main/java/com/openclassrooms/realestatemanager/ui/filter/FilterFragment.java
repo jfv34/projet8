@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
+import com.openclassrooms.realestatemanager.repositories.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -156,8 +157,8 @@ public class FilterFragment extends Fragment {
     }
 
     private void piecesMultiSlider() {
-        piecesMultiSlider.setMin(1);
-        piecesMultiSlider.setMax(30);
+        piecesMultiSlider.setMin(Constants.slider_pieces_minimum);
+        piecesMultiSlider.setMax(Constants.slider_pieces_maximum);
         piecesMultiSlider.setStep(1);
         piecesMultiSlider.setStepsThumbsApart(0);
         piecesMultiSlider.removeThumb(1);
@@ -177,7 +178,7 @@ public class FilterFragment extends Fragment {
 
     private void numberOfPhotos_multislider() {
         numberOfPhotos_multiSlider.setMin(0);
-        numberOfPhotos_multiSlider.setMax(50);
+        numberOfPhotos_multiSlider.setMax(Constants.slider_photos_maximum);
         numberOfPhotos_multiSlider.setStep(1);
         numberOfPhotos_multiSlider.setStepsThumbsApart(0);
         numberOfPhotos_multiSlider.removeThumb(1);
@@ -196,8 +197,8 @@ public class FilterFragment extends Fragment {
     }
 
     private void areaMultiSlider() {
-        areaMultislider.setMin(10);
-        areaMultislider.setMax(1000);
+        areaMultislider.setMin(Constants.slider_area_minimum);
+        areaMultislider.setMax(Constants.slider_area_maximum);
         areaMultislider.setStep(10);
         areaMultislider.setStepsThumbsApart(0);
         areaMultislider.removeThumb(1);
@@ -218,8 +219,8 @@ public class FilterFragment extends Fragment {
 
     private void priceMultiSlider() {
 
-        price_MultiSlider.setMin(0);
-        price_MultiSlider.setMax(100000);
+        price_MultiSlider.setMin(Constants.slider_price_minimum);
+        price_MultiSlider.setMax(Constants.slider_price_maximum);
         price_MultiSlider.setStep(100);
         price_MultiSlider.setStepsThumbsApart(0);
         price_MultiSlider.removeThumb(1);
