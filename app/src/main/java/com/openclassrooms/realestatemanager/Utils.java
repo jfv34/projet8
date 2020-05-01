@@ -5,11 +5,15 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.openclassrooms.realestatemanager.models.Photo;
+import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -144,5 +148,26 @@ public class Utils {
             e.printStackTrace();
         }
         return date;
+    }
+    public static void replaceFragmentInDetailScreen(FragmentActivity activity, Fragment fragment) {
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, fragment).commit();
+        } else {
+            transaction.replace(R.id.frame_layout_main, fragment).commit();
+        }
+    }
+    public static void backToMainScreen(FragmentActivity activity, Fragment fragment){
+        final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            transaction.remove(fragment).commit();
+        } else {
+            Fragment mainFragment = MainFragment.newInstance();
+            Utils.replaceFragmentInDetailScreen(activity,mainFragment);
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+        }
     }
 }

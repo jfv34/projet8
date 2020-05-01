@@ -12,15 +12,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -180,16 +179,10 @@ public class DetailsFragment extends Fragment {
         }
 
         @OnClick(R.id.fragment_detail_edit_bt)
-        public void onUpdatePropertyclicked() {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
+        public void editPropertyclicked() {
 
-            final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-            if (tabletSize) {
-                transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, formPropertyFragment).commit();
-            } else {
-                transaction.replace(R.id.frame_layout_main, formPropertyFragment).commit();
-            }
+            Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
+            Utils.replaceFragmentInDetailScreen(getActivity(), formPropertyFragment);
         }
 
     private void configureCollapsingToolBar() {
@@ -205,22 +198,10 @@ public class DetailsFragment extends Fragment {
         toolbar.setNavigationOnClickListener(v -> {
             backToMain();
         });
-
         }
 
-        private void backToMain() {
-            final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-            if (tabletSize) {
-                removeFragment();
-            } else {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment mainFragment = MainFragment.newInstance();
-                transaction.replace(R.id.frame_layout_main, mainFragment).commit();
-            }
-        }
-
-        private void removeFragment() {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.remove(this).commit();
-        }
+    private void backToMain() {
+        Utils.backToMainScreen(getActivity(), this
+        );
+    }
 }

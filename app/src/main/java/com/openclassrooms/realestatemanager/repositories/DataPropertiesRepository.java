@@ -8,8 +8,6 @@ import java.util.List;
 public class DataPropertiesRepository implements PropertyRepository {
 
     private final PropertyDao propertyDao;
-    private final String[] TYPE_LIST = {"Duplex", "Loft", "Penthouse", "Manor"};
-    private final String[] AVAILABILITY_LIST = {"available","sold"};
 
     public DataPropertiesRepository(PropertyDao propertyDao) {
         this.propertyDao = propertyDao;
@@ -30,13 +28,5 @@ public class DataPropertiesRepository implements PropertyRepository {
     public Property getProperty(int id) {
 
         return propertyDao.getProperty(id);
-    }
-
-    public String[] getTypes() {
-        return TYPE_LIST;
-    }
-
-    public String[] getAvailability() {
-        return AVAILABILITY_LIST;
     }
 }

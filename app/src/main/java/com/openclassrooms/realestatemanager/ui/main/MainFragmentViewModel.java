@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.filter;
+package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.AsyncTask;
 
@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
@@ -17,21 +18,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
-
-public class SharedPropertyViewModel extends ViewModel {
-
-    public MutableLiveData<Filter> filter = new MutableLiveData<>();
-    public MutableLiveData<Integer> pieces = new MutableLiveData<>();
-    public MutableLiveData<Integer> numberOfPhotos = new MutableLiveData<>();
-    public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
-    public MutableLiveData<String> soldDate = new MutableLiveData<>();
-    public MutableLiveData<String> entryDate = new MutableLiveData<>();
+public class MainFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
-    private String[] TYPE_LIST = repository.getTypes();
-    private String[] AVAILABILITY_LIST = repository.getAvailability();
+    public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
+    private Filter filter;
     private ArrayList<Property> newProperties;
+    private String[] TYPE_LIST = Constants.TYPE_LIST;
+    private String[] AVAILABILITY_LIST = Constants.AVAILABILITY_LIST;
 
     public void loadProperties() {
 
@@ -40,9 +34,9 @@ public class SharedPropertyViewModel extends ViewModel {
         );
     }
 
-
-    public void filter() {
-        if (filter.getValue() != null && properties.getValue() != null) {
+    public void filter(Filter newFilter) {
+        this.filter = newFilter;
+        if (filter != null && properties.getValue() != null) {
 
             newProperties = new ArrayList<>();
             newProperties.addAll(properties.getValue());
@@ -62,8 +56,8 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByDates() {
-        Date entryDateFilter = Utils.convertStringToDate(filter.getValue().getEntryDate());
-        Date soldeDateFilter = Utils.convertStringToDate(filter.getValue().getSaleDate());
+        Date entryDateFilter = Utils.convertStringToDate(filter.getEntryDate());
+        Date soldeDateFilter = Utils.convertStringToDate(filter.getSaleDate());
 
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
@@ -81,8 +75,8 @@ public class SharedPropertyViewModel extends ViewModel {
 
     private void filterByPhotos() {
 
-        int nbOfPhotosMini = filter.getValue().getNumberOfPhotosMini();
-        int nbOfPhotosMaxi = filter.getValue().getNumberOfPhotosMaxi();
+        int nbOfPhotosMini = filter.getNumberOfPhotosMini();
+        int nbOfPhotosMaxi = filter.getNumberOfPhotosMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             int nbOfPhotos;
@@ -97,8 +91,8 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByPieces() {
-        int piecesMini = filter.getValue().getPiecesMini();
-        int piecesMaxi = filter.getValue().getPiecesMaxi();
+        int piecesMini = filter.getPiecesMini();
+        int piecesMaxi = filter.getPiecesMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             if (!property.getPieces().isEmpty()) {
@@ -110,8 +104,8 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByArea() {
-        int areaMini = filter.getValue().getAreaMini();
-        int areaMaxi = filter.getValue().getAreaMaxi();
+        int areaMini = filter.getAreaMini();
+        int areaMaxi = filter.getAreaMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             if (!property.getArea().isEmpty()) {
@@ -123,8 +117,8 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByPrice() {
-        int priceMini = filter.getValue().getPriceMini();
-        int priceMaxi = filter.getValue().getPriceMaxi();
+        int priceMini = filter.getPriceMini();
+        int priceMaxi = filter.getPriceMaxi();
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
             if (!property.getPrice().isEmpty()) {
@@ -137,7 +131,7 @@ public class SharedPropertyViewModel extends ViewModel {
 
 
     private void filterByInterestPoints() {
-        ArrayList<String> interestPointsFilter = filter.getValue().getInterestPoints();
+        ArrayList<String> interestPointsFilter = filter.getInterestPoints();
         if (!interestPointsFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
@@ -148,7 +142,7 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByStates() {
-        ArrayList<String> statesFilter = filter.getValue().getStates();
+        ArrayList<String> statesFilter = filter.getStates();
         if (!statesFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
@@ -159,7 +153,7 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByCities() {
-        ArrayList<String> citiesFilter = filter.getValue().getCities();
+        ArrayList<String> citiesFilter = filter.getCities();
         if (!citiesFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
@@ -170,7 +164,7 @@ public class SharedPropertyViewModel extends ViewModel {
     }
 
     private void filterByAgent() {
-        ArrayList<String> agentsFilter = filter.getValue().getAgentName();
+        ArrayList<String> agentsFilter = filter.getAgentName();
         if (!agentsFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
@@ -193,55 +187,11 @@ public class SharedPropertyViewModel extends ViewModel {
         }
     }
 
-
-    public void setFilter(Filter newFilter) {
-        filter.postValue(newFilter);
-    }
-
     public String[] getTYPES() {
         return TYPE_LIST;
     }
 
-    public String[] getAvailabilities() {return AVAILABILITY_LIST; }
-
-    public void setPieces(int i) {
-        if (pieces.getValue() != null) {
-            if (pieces.getValue() + i >= 0) {
-                pieces.postValue(pieces.getValue() + i);
-            }
-        }
-    }
-
-    public void setNumberOfPhotos(int i) {
-        if (numberOfPhotos.getValue() != null) {
-            if (numberOfPhotos.getValue() + i >= 0) {
-                numberOfPhotos.postValue(numberOfPhotos.getValue() + i);
-            }
-        }
-    }
-
-    public ArrayList<String> getFilter(String list_txt) {
-        ArrayList<String> filter = new ArrayList<>();
-
-        int previous = 0;
-        for (int i = 0; i < list_txt.length(); i++) {
-            if(list_txt.charAt(i)==','){
-                filter.add(list_txt.substring(previous, i).trim());
-                previous=i+1;
-            }
-        }
-        filter.add(list_txt.substring(previous).trim());
-        return filter;
-    }
-
-    public void setSoldDate(int year, int month, int dayOfMonth) {
-
-        String formattedDate = convertDateToString(year, month, dayOfMonth);
-        soldDate.setValue(formattedDate);
-    }
-
-    public void setAvailableDate(int year, int month, int dayOfMonth) {
-        String formattedDate = convertDateToString(year, month, dayOfMonth);
-        entryDate.setValue(formattedDate);
+    public String[] getAvailabilities() {
+        return AVAILABILITY_LIST;
     }
 }

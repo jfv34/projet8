@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
 
@@ -32,7 +32,8 @@ import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
 public class FilterFragment extends Fragment {
-    private SharedPropertyViewModel sharedPropertyViewModel;
+    private SharedFilterViewModel sharedFilterViewModel;
+    private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
     private static Calendar calendar = Calendar.getInstance();
 
@@ -108,7 +109,8 @@ public class FilterFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
-        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertyViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
         configureType();
         configureStatus();
@@ -125,9 +127,9 @@ public class FilterFragment extends Fragment {
         TextInputEditText soldeDate = root.findViewById(R.id.fragment_filter_sold_date_textInputEditText);
 
         soldeDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
-                sharedPropertyViewModel.setSoldDate(year, month, dayOfMonth)
+                filterFragmentViewModel.setSoldDate(year, month, dayOfMonth)
         ));
-        sharedPropertyViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText
+        filterFragmentViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText
         );
     }
 
@@ -135,9 +137,9 @@ public class FilterFragment extends Fragment {
         TextInputEditText availabilityDate = root.findViewById(R.id.fragment_filter_availability_date_textInputEditText);
 
         availabilityDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
-                sharedPropertyViewModel.setAvailableDate(year, month, dayOfMonth)
+                filterFragmentViewModel.setAvailableDate(year, month, dayOfMonth)
         ));
-        sharedPropertyViewModel.entryDate.observe(getViewLifecycleOwner(), availabilityDate::setText
+        filterFragmentViewModel.entryDate.observe(getViewLifecycleOwner(), availabilityDate::setText
         );
     }
 
@@ -190,7 +192,6 @@ public class FilterFragment extends Fragment {
             if (thumbIndex == 1) {
                 numberOfPhotoMax_txt.setText(String.valueOf(value));
             }
-
         });
     }
 
@@ -234,7 +235,6 @@ public class FilterFragment extends Fragment {
             if (thumbIndex == 1) {
                 priceMax_txt.setText(value + " €");
             }
-
         });
     }
 
@@ -244,36 +244,14 @@ public class FilterFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         types_chips_rv.setLayoutManager(layoutManager);
 
-        if (sharedPropertyViewModel.getTYPES().length >0) {
-            TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(sharedPropertyViewModel.getTYPES(), getActivity());
+        if (filterFragmentViewModel.getTYPES().length > 0) {
+            TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTYPES(), getActivity());
             types_chips_rv.setAdapter(typesChipsAdapter);
         }
-        /*
-        String[] TYPES = sharedPropertyViewModel.getTYPES();
-        if (TYPES.length>0) {
-            chip_type_0.setText(TYPES[0]);
-            chip_type_0.setVisibility(View.VISIBLE);
         }
-        if (TYPES.length>1) {
-            chip_type_1.setText(TYPES[1]);
-            chip_type_1.setVisibility(View.VISIBLE);
-        }
-        if (TYPES.length>2) {
-            chip_type_2.setText(TYPES[2]);
-            chip_type_2.setVisibility(View.VISIBLE);
-        }
-        if (TYPES.length>3) {
-            chip_type_3.setText(TYPES[3]);
-            chip_type_3.setVisibility(View.VISIBLE);
-        }
-        if (TYPES.length>4) {
-            chip_type_4.setText(TYPES[4]);
-            chip_type_4.setVisibility(View.VISIBLE);*/
-        }
-
 
     private void configureStatus() {
-        final String[] AVAILABILITY = sharedPropertyViewModel.getAvailabilities();
+        final String[] AVAILABILITY = filterFragmentViewModel.getAvailabilities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, AVAILABILITY);
         AutoCompleteTextView textView = root.findViewById(R.id.fragment_filter_availability_status_dropdown);
@@ -283,33 +261,27 @@ public class FilterFragment extends Fragment {
 
     @OnClick(R.id.fragment_search_validate_fab)
     public void filter_validate() {
-        Log.i("tag_price ","mini "+price_MultiSlider.getThumb(1).getValue());
-        Log.i("tag_price", "maxi "+price_MultiSlider.getThumb(0).getValue());
-
-        ArrayList empty_for_test = new ArrayList();
 
         Filter filter = new Filter(
                 typesFilter(),
                 price_MultiSlider.getThumb(1).getValue(),
                 price_MultiSlider.getThumb(0).getValue(),
-                sharedPropertyViewModel.getFilter(cities_Et.getText().toString()),
-                sharedPropertyViewModel.getFilter(states_Et.getText().toString()),
+                sharedFilterViewModel.getFilter(cities_Et.getText().toString()),
+                sharedFilterViewModel.getFilter(states_Et.getText().toString()),
                 areaMultislider.getThumb(1).getValue(),
                 areaMultislider.getThumb(0).getValue(),
                 piecesMultiSlider.getThumb(1).getValue(),
                 piecesMultiSlider.getThumb(0).getValue(),
-                sharedPropertyViewModel.getFilter(interestPoints_Et.getText().toString()),
-                sharedPropertyViewModel.getFilter(agent_Et.getText().toString()),
+                sharedFilterViewModel.getFilter(interestPoints_Et.getText().toString()),
+                sharedFilterViewModel.getFilter(agent_Et.getText().toString()),
                 isSoldedFilter(),
                 availableDate_Et.getText().toString(),
                 soldeDate_Et.getText().toString(),
                 numberOfPhotos_multiSlider.getThumb(1).getValue(),
                 numberOfPhotos_multiSlider.getThumb(0).getValue());
 
-        sharedPropertyViewModel.setFilter(filter);
-
-        //dismiss();
-
+        sharedFilterViewModel.setFilter(filter);
+        Utils.backToMainScreen(getActivity(), this);
     }
 
     private boolean isSoldedFilter() {
@@ -323,21 +295,8 @@ public class FilterFragment extends Fragment {
     }
 
     private ArrayList<String> typesFilter() {
-        String[] TYPES = sharedPropertyViewModel.getTYPES();
+        String[] TYPES = filterFragmentViewModel.getTYPES();
         ArrayList<String> type = new ArrayList<>();
-
-   /*     if (chip_type_0.isChecked()) {
-            type.add(TYPES[0]);
-        }
-        if (chip_type_1.isChecked()) {
-            type.add(TYPES[1]);
-        }
-        if (chip_type_2.isChecked()) {
-            type.add(TYPES[2]);
-        }
-        if (chip_type_3.isChecked()) {
-            type.add(TYPES[3]);
-        }*/
         return type;
     }
 }

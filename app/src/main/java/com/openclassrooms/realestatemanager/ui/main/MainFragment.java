@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +21,7 @@ import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
-import com.openclassrooms.realestatemanager.ui.filter.SharedPropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +32,8 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
-    private SharedPropertyViewModel sharedPropertyViewModel;
+    private SharedFilterViewModel sharedPropertyViewModel;
+    private MainFragmentViewModel mainFragmentViewModel;
     private View root;
 
     public static MainFragment newInstance() {
@@ -56,15 +56,17 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertyViewModel.class);
-        sharedPropertyViewModel.loadProperties();
+        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
+
+        mainFragmentViewModel.loadProperties();
 
         sharedPropertyViewModel.filter.observe(getViewLifecycleOwner(),filter -> {
-            sharedPropertyViewModel.filter();
+            mainFragmentViewModel.filter(filter);
         });
 
 
-        sharedPropertyViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+        mainFragmentViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 if (properties.isEmpty()) {
                     Utils.toast(getActivity(), "No datas to display");
@@ -88,30 +90,22 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onPropertyClicked(int property) {
 
         Fragment detailsFragment = DetailsFragment.newInstance(property);
-        replaceFragment(detailsFragment);
+        Utils.replaceFragmentInDetailScreen(getActivity(), detailsFragment);
     }
 
     @OnClick(R.id.fragment_main_insert_property_fab)
     public void onInsertPropertyClicked() {
         Fragment formPropertyFragment = FormPropertyFragment.newInstance(-1);
-        replaceFragment(formPropertyFragment);
+        Utils.replaceFragmentInDetailScreen(getActivity(), formPropertyFragment);
     }
 
     @OnClick(R.id.fragment_main_search_button)
     public void onFilterClicked() {
-        sharedPropertyViewModel.loadProperties();
+        //mainFragmentViewModel.loadProperties();
         Fragment filterFragment = FilterFragment.newInstance();
-        replaceFragment(filterFragment);
+        Utils.replaceFragmentInDetailScreen(getActivity(), filterFragment);
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, fragment).commit();
-        } else {
-            transaction.replace(R.id.frame_layout_main, fragment).commit();
-        }
-    }
-    }
+
+}
 

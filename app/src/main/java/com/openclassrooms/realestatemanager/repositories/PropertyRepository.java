@@ -17,9 +17,5 @@ public interface PropertyRepository {
 
     Property getProperty(int id);
 
-    String[] getTypes();
-
-    String[] getAvailability();
-
 }
 
