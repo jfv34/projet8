@@ -35,6 +35,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     private SharedFilterViewModel sharedPropertyViewModel;
     private MainFragmentViewModel mainFragmentViewModel;
     private View root;
+    private boolean alreadyFiltred = false;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -61,16 +62,21 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
         mainFragmentViewModel.loadProperties();
 
-        sharedPropertyViewModel.filter.observe(getViewLifecycleOwner(),filter -> {
-            mainFragmentViewModel.filter(filter);
-        });
-
-
         mainFragmentViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 if (properties.isEmpty()) {
                     Utils.toast(getActivity(), "No datas to display");
                 }
+
+                if(!alreadyFiltred && !properties.isEmpty()){
+                    sharedPropertyViewModel.filter.observe(getViewLifecycleOwner(), filter -> {
+
+                        mainFragmentViewModel.setFilter(filter);
+                        mainFragmentViewModel.filter();
+                        alreadyFiltred=true;
+                    });
+                    ;}
+
                 recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
             }
         });

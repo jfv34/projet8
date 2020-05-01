@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -29,15 +30,17 @@ public class MainFragmentViewModel extends ViewModel {
 
     public void loadProperties() {
 
-        AsyncTask.execute(() ->
-                properties.postValue(repository.getProperties())
+        AsyncTask.execute(() -> {
+                    properties.postValue(repository.getProperties());
+                }
         );
     }
 
-    public void filter(Filter newFilter) {
-        this.filter = newFilter;
-        if (filter != null && properties.getValue() != null) {
+    public void filter() {
+        Log.i("tag_filter ","ok");
 
+        if (filter != null && properties.getValue() != null) {
+            Log.i("tag_filter_propert ","ok");
             newProperties = new ArrayList<>();
             newProperties.addAll(properties.getValue());
 
@@ -153,6 +156,7 @@ public class MainFragmentViewModel extends ViewModel {
     }
 
     private void filterByCities() {
+        Log.i("tag_filter mainfrvm 159", ">"+filter.getCities().get(0));
         ArrayList<String> citiesFilter = filter.getCities();
         if (!citiesFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
@@ -176,14 +180,18 @@ public class MainFragmentViewModel extends ViewModel {
 
     private void filter_for_list(Property property, String data, ArrayList<String> dataListFilter) {
         boolean one_of_them = false;
+        Log.i("tag_filter_for_list ", "ok");
         for (int j = 0; j < dataListFilter.size(); j++) {
             String cityFilter = dataListFilter.get(j);
+            Log.i("tag_test ", ">" + data+ " and "+cityFilter);
             if (data.toUpperCase().equals(cityFilter.toUpperCase())) {
+                Log.i("tag_equal ", ">" + data+ " égal à filtre: "+cityFilter);
                 one_of_them = true;
             }
         }
         if (!one_of_them) {
             newProperties.remove(property);
+            Log.i("tag_remove ", "> supprime le " +property.getCity());
         }
     }
 
@@ -193,5 +201,9 @@ public class MainFragmentViewModel extends ViewModel {
 
     public String[] getAvailabilities() {
         return AVAILABILITY_LIST;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 }

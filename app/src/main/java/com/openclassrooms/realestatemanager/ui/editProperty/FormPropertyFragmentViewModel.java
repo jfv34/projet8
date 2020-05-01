@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
@@ -19,8 +20,8 @@ import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
 public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
-    private String[] TYPE_LIST = repository.getTypes();
-    private String[] AVAILABILITY_LIST = repository.getAvailability();
+    private String[] TYPE_LIST = Constants.TYPE_LIST;
+    private String[] AVAILABILITY_LIST = Constants.AVAILABILITY_LIST;
 
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     public MutableLiveData<Boolean> isSold = new MutableLiveData<>();
