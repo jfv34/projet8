@@ -287,7 +287,7 @@ public class FilterFragment extends Fragment {
 
     private boolean isSoldedFilter() {
         boolean isSolded;
-        if (isSolded_tv.getText().toString().equals(R.string.sold)) {
+        if (isSolded_tv.getText().toString().equals(getString(R.string.sold))) {
             isSolded = true;
         } else {
             isSolded = false;

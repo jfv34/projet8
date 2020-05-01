@@ -467,11 +467,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         ArrayList<Photo> photos = viewModel.getPhotos();
 
         boolean isSolded;
-        Log.i("tag_available 1 ","> "+property_availability_status.getEditText().getText().toString());
-        Log.i("tag_available 2 ","> "+R.string.sold);
-
-
-
 
         if (property_availability_status.getEditText().getText().toString().equals(getString(R.string.sold))) {
             isSolded = true;

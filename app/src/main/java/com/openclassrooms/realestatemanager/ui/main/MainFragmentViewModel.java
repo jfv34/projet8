@@ -37,10 +37,8 @@ public class MainFragmentViewModel extends ViewModel {
     }
 
     public void filter() {
-        Log.i("tag_filter ","ok");
 
         if (filter != null && properties.getValue() != null) {
-            Log.i("tag_filter_propert ","ok");
             newProperties = new ArrayList<>();
             newProperties.addAll(properties.getValue());
 
@@ -53,10 +51,12 @@ public class MainFragmentViewModel extends ViewModel {
             filterByAgent();
             filterByDates();
             filterByPhotos();
+            filterByStatus();
 
             properties.postValue(newProperties);
         }
     }
+
 
     private void filterByDates() {
         Date entryDateFilter = Utils.convertStringToDate(filter.getEntryDate());
@@ -162,7 +162,6 @@ public class MainFragmentViewModel extends ViewModel {
     }
 
     private void filterByCities() {
-        Log.i("tag_filter mainfrvm 159", ">"+filter.getCities().get(0));
         ArrayList<String> citiesFilter = filter.getCities();
         if (!citiesFilter.get(0).equals("")) {
             for (int i = 0; i < properties.getValue().size(); i++) {
@@ -186,27 +185,24 @@ public class MainFragmentViewModel extends ViewModel {
 
     private void filter_for_list(Property property, String data, ArrayList<String> dataListFilter) {
         boolean one_of_them = false;
-        Log.i("tag_filter_for_list ", "ok");
         for (int j = 0; j < dataListFilter.size(); j++) {
             String cityFilter = dataListFilter.get(j);
-            Log.i("tag_test ", ">" + data+ " and "+cityFilter);
             if (data.toUpperCase().equals(cityFilter.toUpperCase())) {
-                Log.i("tag_equal ", ">" + data+ " égal à filtre: "+cityFilter);
                 one_of_them = true;
             }
         }
         if (!one_of_them) {
             newProperties.remove(property);
-            Log.i("tag_remove ", "> supprime le " +property.getCity());
         }
     }
 
-    public String[] getTYPES() {
-        return TYPE_LIST;
-    }
-
-    public String[] getAvailabilities() {
-        return AVAILABILITY_LIST;
+    private void filterByStatus() {
+        boolean isSoldedFilter = filter.isSolded();
+        for (int i = 0; i < properties.getValue().size(); i++) {
+            Property property = properties.getValue().get(i);
+            boolean isSolded = property.isSolded();
+            if(isSolded!=isSoldedFilter){newProperties.remove(property);}
+        }
     }
 
     public void setFilter(Filter filter) {
