@@ -12,7 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +27,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.repositories.Constants;
+import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,6 +93,8 @@ public class FilterFragment extends Fragment {
     TextView numberOfPhotoMax_txt;
     @BindView(R.id.fragment_filter_types_chips_recyclerView)
     RecyclerView types_chips_rv;
+    @BindView(R.id.fragment_filter_toolbar)
+    Toolbar toolbar;
 
 
     public static FilterFragment newInstance() {
@@ -113,6 +120,7 @@ public class FilterFragment extends Fragment {
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
+        configureToolBar();
         configureType();
         configureStatus();
         configure_soldeDate();
@@ -300,4 +308,21 @@ public class FilterFragment extends Fragment {
         ArrayList<String> type = new ArrayList<>();
         return type;
     }
+    private void configureToolBar() {
+        toolbar.setTitle("Filter properties");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
+    }
+/*    private void backToMain() {
+        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            removeFragment();
+        } else {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment mainFragment = MainFragment.newInstance();
+            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+        }
+    }*/
 }

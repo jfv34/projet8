@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -52,9 +53,6 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_address_tv)
     TextView addressTv;
 
-    @BindView(R.id.fragment_detail_price_tv)
-    TextView priceTv;
-
     @BindView(R.id.fragment_detail_not_solded_iv)
     ImageView not_soldedIv;
 
@@ -78,6 +76,9 @@ public class DetailsFragment extends Fragment {
 
     @BindView(R.id.fragment_detail_collapsingtoolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+
+    @BindView(R.id.fragment_detail_price_fab)
+    ExtendedFloatingActionButton price_fab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,9 +119,10 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayToolbarTitle(Property property) {
-        if (!property.getCity().isEmpty() && !property.getType().isEmpty()) {
+    /*    if (!property.getCity().isEmpty() && !property.getType().isEmpty()) {
             toolbar.setTitle(property.getType() + " at " + property.getCity());
-        } else toolbar.setTitle("Property details");}
+        } else toolbar.setTitle("Property details");*/
+    }
 
         private void observePhotos() {
 
@@ -166,7 +168,8 @@ public class DetailsFragment extends Fragment {
 
         private void displayPrice(Property property) {
             String price = "$ " + property.getPrice();
-            priceTv.setText(price);
+
+            price_fab.setText(price);
         }
 
         private void displayAddress(Property property) {

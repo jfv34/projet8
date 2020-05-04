@@ -249,8 +249,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void observeAddress() {
-        viewModel.type.observe(getViewLifecycleOwner(), type -> {
-            property_address.getEditText().setText(type);
+        viewModel.address.observe(getViewLifecycleOwner(), address -> {
+            property_address.getEditText().setText(address);
         });
     }
 
@@ -318,18 +318,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         } else {
             viewModel.updateProperty(newProperty(), bundleProperty);
         }
-        backToMain();
-    }
-
-    private void backToMain() {
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            removeFragment();
-        } else {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment mainFragment = MainFragment.newInstance();
-            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
-        }
+        Utils.backToMainScreen(getActivity(),this);
     }
 
     @OnClick(R.id.fragment_form_property_photos_bt)
@@ -493,17 +482,12 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         );
     }
 
-    private void removeFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(this).commit();
-    }
-
     private void configureToolBar() {
         toolbar.setTitle("Adding a new property");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> backToMain());
+        toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
     }
 
     @Override

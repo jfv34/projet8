@@ -2,6 +2,8 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
@@ -60,6 +63,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
         final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
+
 
         Property property = properties.get(position);
 
