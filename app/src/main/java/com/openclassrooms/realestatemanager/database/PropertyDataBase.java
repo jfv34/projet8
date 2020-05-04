@@ -32,7 +32,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             PropertyDataBase.class, "MyDatabase.db")
-                            //.addCallback(prepopulateDatabase())
+                            .addCallback(prepopulateDatabase())
                             .build();
                 }
             }
@@ -51,8 +51,25 @@ public abstract class PropertyDataBase extends RoomDatabase {
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
 
+               /* private int id;
+                private String type;
+                private String price;
+                private String address;
+                private String city;
+                private String state;
+                private String zip;
+                private String area;
+                private String pieces;
+                private String interestPoint;
+                private String description;
+                private ArrayList<Photo> photos;
+                private boolean solded;
+                private String entryDate;
+                private String saleDate;
+                private String agentName;*/
+
                 ContentValues contentValues_1 = new ContentValues();
-                contentValues_1.put("id", 1);
+                contentValues_1.put("id",1);
                 contentValues_1.put("type", "Flat");
                 contentValues_1.put("price", "1250252");
                 contentValues_1.put("address", "603 Bayland Avenue");

@@ -40,6 +40,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="@dimen/margin_large"
             android:id="@+id/fragment_detail_nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,22 +51,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <TextView
+                    android:layout_marginStart="@dimen/margin_large"
                     android:clickable="true"
                     android:focusable="true"
                     android:id="@+id/fragment_detail_type_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginTop="40dp"
-                    android:textSize="35sp"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     />
-
-
 
                 <ImageView
                     android:visibility="gone"
@@ -75,7 +74,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_normal"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_detail_type_tv"
                     android:src="@drawable/ic_check_circle_24px"
                     />
 
@@ -84,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:id="@+id/fragment_detail_solded_iv"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_detail_type_tv"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_normal"
                     app:layout_constraintTop_toTopOf="parent"
@@ -93,15 +92,14 @@
 
                 <TextView
                     android:id="@+id/fragment_detail_availability_tv"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/fragment_detail_solded_iv"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@id/fragment_detail_not_solded_iv"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_detail_type_tv" />
 
 
                 <ImageView
@@ -121,7 +119,7 @@
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fragment_detail_location_iv"
                     app:layout_constraintTop_toBottomOf="@id/fragment_detail_availability_tv" />
@@ -171,6 +169,7 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_small"
                     android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_detail_interestPoints_tv" />
 
