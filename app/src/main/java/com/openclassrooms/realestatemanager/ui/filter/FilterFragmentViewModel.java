@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.repositories.Constants;
 
+import java.util.ArrayList;
+
 import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
 
 public class FilterFragmentViewModel extends ViewModel {
@@ -32,4 +34,18 @@ public class FilterFragmentViewModel extends ViewModel {
         String formattedDate = convertDateToString(year, month, dayOfMonth);
         entryDate.setValue(formattedDate);
     }
+    public ArrayList<String> getFilter(String list_txt) {
+        ArrayList<String> filter = new ArrayList<>();
+
+        int previous = 0;
+        for (int i = 0; i < list_txt.length(); i++) {
+            if(list_txt.charAt(i)==','){
+                filter.add(list_txt.substring(previous, i).trim());
+                previous=i+1;
+            }
+        }
+        filter.add(list_txt.substring(previous).trim());
+        return filter;
+    }
+
 }
