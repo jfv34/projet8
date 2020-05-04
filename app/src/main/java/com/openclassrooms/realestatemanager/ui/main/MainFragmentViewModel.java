@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -25,8 +24,6 @@ public class MainFragmentViewModel extends ViewModel {
     public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
     private Filter filter;
     private ArrayList<Property> newProperties;
-    private String[] TYPE_LIST = Constants.TYPE_LIST;
-    private String[] AVAILABILITY_LIST = Constants.AVAILABILITY_LIST;
 
     public void loadProperties() {
 
