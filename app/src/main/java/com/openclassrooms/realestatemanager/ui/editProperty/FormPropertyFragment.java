@@ -362,31 +362,14 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                     break;
             }
             if (photoBM != null) {
-                setDescription();
+                descriptionAlertDialog(-1);
             }
         }
     }
 
-    private void setDescription() {
+    private void descriptionAlertDialog(int position) {
         AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
-        String description = descriptionAlertDialog(alertDialog_descriptionPhoto_builder, -1);
-        Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
-        viewModel.setPhoto(photo);
-            observePhotos();
-        alertDialog_descriptionPhoto_builder.show();
-    }
 
-    private void updateDescription(int position) {
-        AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
-        String description = descriptionAlertDialog(alertDialog_descriptionPhoto_builder, position);
-        viewModel.updatePhotoDescription(description, position);
-        observePhotos();
-        alertDialog_descriptionPhoto_builder.show();
-    }
-
-    private String descriptionAlertDialog(AlertDialog.Builder alertDialog_descriptionPhoto_builder, int position) {
-
-        final String[] description = new String[1];
         alertDialog_descriptionPhoto_builder.setTitle(R.string.photo_description);
         final EditText input = new EditText(getActivity());
         if (position != -1) {
@@ -402,9 +385,16 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         alertDialog_descriptionPhoto_builder.setView(input);
         alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
             Toast.makeText(getActivity(), R.string.photoanddescriptionadded, Toast.LENGTH_SHORT).show();
-            description[0] = input.getText().toString();
+            String description = input.getText().toString();
+            if (position != -1) {
+                viewModel.updatePhotoDescription(description, position);
+            } else {
+                Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
+                viewModel.setPhoto(photo);
+            }
         });
-        return description[0];
+        observePhotos();
+        alertDialog_descriptionPhoto_builder.show();
     }
 
     private int spanCount() {
@@ -484,7 +474,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     public void onPhotoDescriptionClicked(int position) {
         Photo photo = viewModel.getPhoto(position);
         photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
-        updateDescription(position);
+        descriptionAlertDialog(position);
     }
 
     private void observeStatusAvailability() {
