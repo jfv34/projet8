@@ -16,7 +16,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,8 +25,8 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
+import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.repositories.Constants;
-import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -129,7 +128,6 @@ public class FilterFragment extends Fragment {
         areaMultiSlider();
         piecesMultiSlider();
         numberOfPhotos_multislider();
-
     }
 
     private void configure_soldeDate() {
@@ -180,7 +178,6 @@ public class FilterFragment extends Fragment {
             if (thumbIndex == 1) {
                 numberOfPiecesMax_txt.setText(String.valueOf(value));
             }
-
         });
     }
 
@@ -193,7 +190,6 @@ public class FilterFragment extends Fragment {
         numberOfPhotos_multiSlider.addThumb(numberOfPhotos_multiSlider.getMax());
         numberOfPhotoMin_txt.setText(String.valueOf(numberOfPhotos_multiSlider.getMin()));
         numberOfPhotoMax_txt.setText(String.valueOf(numberOfPhotos_multiSlider.getMax()));
-
         numberOfPhotos_multiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
             if (thumbIndex == 0) {
                 numberOfPhotoMin_txt.setText(String.valueOf(value));
@@ -213,7 +209,6 @@ public class FilterFragment extends Fragment {
         areaMultislider.addThumb(areaMultislider.getMax());
         areaMin_txt.setText(areaMultislider.getMin() + " m²");
         areaMax_txt.setText((areaMultislider.getMax() + " m²"));
-
         areaMultislider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
             if (thumbIndex == 0) {
                 areaMin_txt.setText(value + " m²");
@@ -221,12 +216,10 @@ public class FilterFragment extends Fragment {
             if (thumbIndex == 1) {
                 areaMax_txt.setText(value + " m²");
             }
-
         });
     }
 
     private void priceMultiSlider() {
-
         price_MultiSlider.setMin(Constants.slider_price_minimum);
         price_MultiSlider.setMax(Constants.slider_price_maximum);
         price_MultiSlider.setStep(100);
@@ -235,9 +228,7 @@ public class FilterFragment extends Fragment {
         price_MultiSlider.addThumb(price_MultiSlider.getMax());
         priceMin_txt.setText(price_MultiSlider.getMin() + " €");
         priceMax_txt.setText(price_MultiSlider.getMax() + " €");
-
         price_MultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
-
             if (thumbIndex == 0) {
                 priceMin_txt.setText(value + " €");
             }
@@ -248,11 +239,9 @@ public class FilterFragment extends Fragment {
     }
 
     private void configureType() {
-
         types_chips_rv.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         types_chips_rv.setLayoutManager(layoutManager);
-
         if (filterFragmentViewModel.getTYPES().length > 0) {
             TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTYPES(), getActivity());
             types_chips_rv.setAdapter(typesChipsAdapter);
@@ -275,22 +264,28 @@ public class FilterFragment extends Fragment {
                 typesFilter(),
                 price_MultiSlider.getThumb(1).getValue(),
                 price_MultiSlider.getThumb(0).getValue(),
-                filterFragmentViewModel.getFilter(cities_Et.getText().toString()),
-                filterFragmentViewModel.getFilter(states_Et.getText().toString()),
+                filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
+                filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
                 areaMultislider.getThumb(1).getValue(),
                 areaMultislider.getThumb(0).getValue(),
                 piecesMultiSlider.getThumb(1).getValue(),
                 piecesMultiSlider.getThumb(0).getValue(),
-                filterFragmentViewModel.getFilter(interestPoints_Et.getText().toString()),
-                filterFragmentViewModel.getFilter(agent_Et.getText().toString()),
+                filterFragmentViewModel.getFilterListInForm(interestPoints_Et.getText().toString()),
+                filterFragmentViewModel.getFilterListInForm(agent_Et.getText().toString()),
                 isSoldedFilter(),
                 availableDate_Et.getText().toString(),
                 soldeDate_Et.getText().toString(),
                 numberOfPhotos_multiSlider.getThumb(1).getValue(),
                 numberOfPhotos_multiSlider.getThumb(0).getValue());
 
-        sharedFilterViewModel.setFilter(filter);
-        Utils.backToMainScreen(getActivity(), this);
+        filterFragmentViewModel.loadProperties();
+        filterFragmentViewModel.properties.observe(getViewLifecycleOwner(),properties -> {
+            if(properties!=null){
+                ArrayList<Property> filterProperties = filterFragmentViewModel.filter(filter);
+                sharedFilterViewModel.setFilterProperties(filterProperties);
+                Utils.backToMainScreen(getActivity(), this);
+            }
+            ;});
     }
 
     private boolean isSoldedFilter() {
@@ -315,14 +310,4 @@ public class FilterFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
     }
-/*    private void backToMain() {
-        final boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            removeFragment();
-        } else {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment mainFragment = MainFragment.newInstance();
-            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
-        }
-    }*/
 }

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.editProperty;
 
-
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -31,7 +30,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +42,6 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,7 +96,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @BindView(R.id.fragment_form_property_sold_date)
     TextInputLayout property_sold_date;
 
-
     public static FormPropertyFragment newInstance(int bundleProperty) {
         FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
 
@@ -137,19 +133,14 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         if (bundleProperty != -1) {
             loadProperty();
         }
-        property_availability_dropdown.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.i("tag_key ","ok");
-                property_availability_status.getEditText().setText("");
-                return false;
-            }
+        property_availability_dropdown.setOnKeyListener((v, keyCode, event) -> {
+            property_availability_status.getEditText().setText("");
+            return false;
         });
     }
 
     private void configure_soldDate() {
         TextInputLayout textInputLayout = root.findViewById(R.id.fragment_form_property_sold_date);
-
         textInputLayout.getEditText().setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
                 viewModel.setSoldDate(year, month, dayOfMonth)
         ));
@@ -380,7 +371,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void setDescription() {
         AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
-        alertDialog_descriptionPhoto_builder.setTitle("Photo description:");
+        alertDialog_descriptionPhoto_builder.setTitle(R.string.photo_description);
         final EditText input = new EditText(getActivity());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -391,7 +382,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         input.setFilters(fArray);
         alertDialog_descriptionPhoto_builder.setView(input);
         alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            Toast.makeText(getActivity(), "Photo and description added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.photoanddescriptionadded, Toast.LENGTH_SHORT).show();
             String description = input.getText().toString();
             Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
                 viewModel.setPhoto(photo);
@@ -402,7 +393,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void updateDescription(int position) {
         AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
-        alertDialog_descriptionPhoto_builder.setTitle("Photo description:");
+        alertDialog_descriptionPhoto_builder.setTitle(R.string.photodescription);
         final EditText input = new EditText(getActivity());
         input.setHint(viewModel.getPhoto(position).getDescription());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -414,7 +405,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         input.setFilters(fArray);
         alertDialog_descriptionPhoto_builder.setView(input);
         alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            Toast.makeText(getActivity(), "Photo and description added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.photoanddescriptionadded, Toast.LENGTH_SHORT).show();
             String description = input.getText().toString();
             viewModel.updatePhotoDescription(description,position);
             observePhotos();
@@ -515,8 +506,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     @OnClick(R.id.fragment_form_property_availability_dropdown)
     public void availailityStatus() {
-
         configure_availability_status();
     }
-
 }

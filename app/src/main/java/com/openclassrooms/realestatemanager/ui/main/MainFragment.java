@@ -32,10 +32,9 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
-    private SharedFilterViewModel sharedPropertyViewModel;
+    private SharedFilterViewModel sharedFilterViewModel;
     private MainFragmentViewModel mainFragmentViewModel;
     private View root;
-    private boolean alreadyFiltred = false;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -57,27 +56,29 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
         PropertyDataBase.getInstance(getContext());
 
-        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
         mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
-
         mainFragmentViewModel.loadProperties();
+        observeProperties();
+        observeFilterProperties();
+    }
 
+    private void observeFilterProperties() {
         mainFragmentViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 if (properties.isEmpty()) {
                     Utils.toast(getActivity(), "No datas to display");
+                } else {
+                    recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
                 }
+            }
+        });
+    }
 
-                if(!alreadyFiltred && !properties.isEmpty()){
-                    sharedPropertyViewModel.filter.observe(getViewLifecycleOwner(), filter -> {
-
-                        mainFragmentViewModel.setFilter(filter);
-                        mainFragmentViewModel.filter();
-                        alreadyFiltred=true;
-                    });
-                    ;}
-
-                recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
+    private void observeProperties() {
+        sharedFilterViewModel.filterProperties.observe(getViewLifecycleOwner(), filterProperties -> {
+            if (filterProperties != null) {
+                mainFragmentViewModel.loadFilterProperties(filterProperties);
             }
         });
     }
@@ -107,11 +108,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @OnClick(R.id.fragment_main_search_button)
     public void onFilterClicked() {
-        //mainFragmentViewModel.loadProperties();
         Fragment filterFragment = FilterFragment.newInstance();
         Utils.replaceFragmentInDetailScreen(getActivity(), filterFragment);
     }
-
-
 }
-

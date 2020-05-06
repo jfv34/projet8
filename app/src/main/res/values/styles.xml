@@ -10,8 +10,6 @@
     </style>
 
     <style name="Widget.MultiSlider" parent="android:Widget">
-
-
     </style>
 
     <style name="MyCardView" parent="@style/Widget.MaterialComponents.CardView">

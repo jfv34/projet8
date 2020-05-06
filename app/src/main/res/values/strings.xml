@@ -37,4 +37,6 @@
     <string name="availability_date">Availability date</string>
     <string name="availability">Availability</string>
     <string name="apply_filter">Apply filter</string>
+    <string name="photoanddescriptionadded">Photo and description added</string>
+    <string name="photodescription">Photo description:</string>
 </resources>
