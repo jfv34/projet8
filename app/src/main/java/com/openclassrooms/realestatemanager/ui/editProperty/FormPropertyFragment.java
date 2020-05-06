@@ -12,8 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputFilter;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -371,31 +369,29 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void setDescription() {
         AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
-        alertDialog_descriptionPhoto_builder.setTitle(R.string.photo_description);
-        final EditText input = new EditText(getActivity());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        InputFilter[] fArray = new InputFilter[1];
-        fArray[0] = new InputFilter.LengthFilter(35);
-        input.setFilters(fArray);
-        alertDialog_descriptionPhoto_builder.setView(input);
-        alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            Toast.makeText(getActivity(), R.string.photoanddescriptionadded, Toast.LENGTH_SHORT).show();
-            String description = input.getText().toString();
-            Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
-                viewModel.setPhoto(photo);
+        String description = descriptionAlertDialog(alertDialog_descriptionPhoto_builder, -1);
+        Photo photo = Utils.saveToInternalStorage(photoBM, description, getActivity().getApplicationContext());
+        viewModel.setPhoto(photo);
             observePhotos();
-        });
         alertDialog_descriptionPhoto_builder.show();
     }
 
     private void updateDescription(int position) {
         AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
-        alertDialog_descriptionPhoto_builder.setTitle(R.string.photodescription);
+        String description = descriptionAlertDialog(alertDialog_descriptionPhoto_builder, position);
+        viewModel.updatePhotoDescription(description, position);
+        observePhotos();
+        alertDialog_descriptionPhoto_builder.show();
+    }
+
+    private String descriptionAlertDialog(AlertDialog.Builder alertDialog_descriptionPhoto_builder, int position) {
+
+        final String[] description = new String[1];
+        alertDialog_descriptionPhoto_builder.setTitle(R.string.photo_description);
         final EditText input = new EditText(getActivity());
-        input.setHint(viewModel.getPhoto(position).getDescription());
+        if (position != -1) {
+            input.setHint(viewModel.getPhoto(position).getDescription());
+        }
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -406,11 +402,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         alertDialog_descriptionPhoto_builder.setView(input);
         alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
             Toast.makeText(getActivity(), R.string.photoanddescriptionadded, Toast.LENGTH_SHORT).show();
-            String description = input.getText().toString();
-            viewModel.updatePhotoDescription(description,position);
-            observePhotos();
+            description[0] = input.getText().toString();
         });
-        alertDialog_descriptionPhoto_builder.show();
+        return description[0];
     }
 
     private int spanCount() {
