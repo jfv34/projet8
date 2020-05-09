@@ -7,8 +7,6 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-
-      style="@style/MyCardView"
         android:id="@+id/item_property"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,13 +18,12 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:scaleType="centerCrop" />
+            android:background="@color/transparent"
+            />
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
 
             <TextView
                 android:textColor="@color/colorWhite"

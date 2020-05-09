@@ -2,8 +2,6 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.openclassrooms.realestatemanager.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -24,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHolder> {
 
@@ -64,7 +64,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
         final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
 
-
         Property property = properties.get(position);
 
         city_tv.setText(property.getCity());
@@ -76,14 +75,18 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                 Photo photo = property.getPhotos().get(0);
         String filePhoto = photo.getPath();
         String namePhoto = photo.getFileNamePhoto();
-
+                int radius = 60; // corner radius, higher value = more rounded
+                int margin = 0; // crop margin, set to 0 for corners with no crop
             Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
-                photo_iv.setImageBitmap(photoBM);
+                if (photoBM != null) {
+                    Glide.with(context)
+                            .load(photoBM)
+                            .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
+                            .into(photo_iv);
+                }
             }
         }
-
         itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(property.getId()));
-
     }
 
     @Override

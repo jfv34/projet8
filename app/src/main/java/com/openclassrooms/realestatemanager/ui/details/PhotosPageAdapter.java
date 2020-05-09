@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;
@@ -35,7 +36,10 @@ public class PhotosPageAdapter extends PagerAdapter {
         detailDescriptionTV.setText(photos.get(position).getDescription());
         Bitmap image = getImage(position);
         if(image!=null){
-        imageView.setImageBitmap(image);}
+            Glide.with(context)
+                    .load(image)
+                    .into(imageView);
+        }
         container.addView(view);
         return view;
     }
