@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DCE7E5E5">
+        >
 
         <androidx.appcompat.widget.Toolbar
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,6 @@
 
         </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_main_toolbar"
         android:id="@+id/fragment_main_recyclerView"

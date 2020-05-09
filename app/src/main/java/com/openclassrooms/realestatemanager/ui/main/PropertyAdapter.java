@@ -75,8 +75,8 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                 Photo photo = property.getPhotos().get(0);
         String filePhoto = photo.getPath();
         String namePhoto = photo.getFileNamePhoto();
-                int radius = 60; // corner radius, higher value = more rounded
-                int margin = 0; // crop margin, set to 0 for corners with no crop
+                int radius = 40;
+                int margin = 20;
             Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
                 if (photoBM != null) {
                     Glide.with(context)
