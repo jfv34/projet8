@@ -23,9 +23,11 @@ import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
 public class FilterFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
+    public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> entryDate = new MutableLiveData<>();
-    public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
+    public MutableLiveData<List<String>> typesFilter = new MutableLiveData<>();
+
     private ArrayList<Property> filterProperties;
     private Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;
@@ -72,6 +74,7 @@ public class FilterFragmentViewModel extends ViewModel {
             filterProperties = new ArrayList<>();
             filterProperties.addAll(properties.getValue());
 
+            filterByTypes();
             filterByPrice();
             filterByCities();
             filterByStates();
@@ -113,6 +116,17 @@ public class FilterFragmentViewModel extends ViewModel {
                 Property property = properties.getValue().get(i);
                 String state = property.getState();
                 filter_for_list(property, state, statesFilter);
+            }
+        }
+    }
+
+    private void filterByTypes() {
+        ArrayList<String> typesFilter = filter.getTypes();
+        if (!typesFilter.get(0).equals("")) {
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                Property property = properties.getValue().get(i);
+                String type = property.getType();
+                filter_for_list(property, type, typesFilter);
             }
         }
     }
@@ -241,5 +255,23 @@ public class FilterFragmentViewModel extends ViewModel {
                 filterProperties.remove(property);
             }
         }
+    }
+
+    public void setType(String types, boolean selected) {
+        ArrayList<String> newTypes = (ArrayList<String>) typesFilter.getValue();
+
+        if (!selected && newTypes.contains(types)) {
+            newTypes.remove(types);
+        }
+        if (selected && !newTypes.contains(types)) {
+            newTypes.add(types);
+        }
+
+        typesFilter.postValue(newTypes);
+    }
+
+    public void initTypesFilter() {
+        ArrayList<String> emptyList = new ArrayList<>();
+        typesFilter.postValue(emptyList);
     }
 }

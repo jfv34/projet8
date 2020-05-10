@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.openclassrooms.realestatemanager.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
-public class FilterFragment extends Fragment {
+public class FilterFragment extends Fragment implements OnChipClickedListener {
     private SharedFilterViewModel sharedFilterViewModel;
     private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
@@ -95,7 +96,6 @@ public class FilterFragment extends Fragment {
     @BindView(R.id.fragment_filter_toolbar)
     Toolbar toolbar;
 
-
     public static FilterFragment newInstance() {
         return new FilterFragment();
     }
@@ -120,7 +120,7 @@ public class FilterFragment extends Fragment {
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
         configureToolBar();
-        configureType();
+        configureTypes();
         configureStatus();
         configure_soldeDate();
         configure_availabilityDate();
@@ -238,14 +238,16 @@ public class FilterFragment extends Fragment {
         });
     }
 
-    private void configureType() {
+    private void configureTypes() {
+
         types_chips_rv.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         types_chips_rv.setLayoutManager(layoutManager);
         if (filterFragmentViewModel.getTYPES().length > 0) {
-            TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTYPES(), getActivity());
+            TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTYPES(), getActivity(), FilterFragment.this);
             types_chips_rv.setAdapter(typesChipsAdapter);
         }
+        filterFragmentViewModel.initTypesFilter();
         }
 
     private void configureStatus() {
@@ -261,7 +263,7 @@ public class FilterFragment extends Fragment {
     public void filter_validate() {
 
         Filter filter = new Filter(
-                typesFilter(),
+                (ArrayList<String>) filterFragmentViewModel.typesFilter.getValue(),
                 price_MultiSlider.getThumb(1).getValue(),
                 price_MultiSlider.getThumb(0).getValue(),
                 filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
@@ -285,7 +287,7 @@ public class FilterFragment extends Fragment {
                 sharedFilterViewModel.setFilterProperties(filterProperties);
                 Utils.backToMainScreen(getActivity(), this);
             }
-            ;});
+        });
     }
 
     private boolean isSoldedFilter() {
@@ -298,16 +300,17 @@ public class FilterFragment extends Fragment {
         return isSolded;
     }
 
-    private ArrayList<String> typesFilter() {
-        String[] TYPES = filterFragmentViewModel.getTYPES();
-        ArrayList<String> type = new ArrayList<>();
-        return type;
-    }
     private void configureToolBar() {
         toolbar.setTitle("Filter properties");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
+    }
+
+    @Override
+    public void onChipClicked(String type, boolean selected) {
+        filterFragmentViewModel.setType(type, selected);
+
     }
 }
