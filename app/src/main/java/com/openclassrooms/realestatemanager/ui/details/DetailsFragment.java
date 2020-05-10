@@ -181,7 +181,7 @@ public class DetailsFragment extends Fragment {
             typeTv.setText(property.getType());
         }
 
-        @OnClick(R.id.fragment_detail_edit_bt)
+        @OnClick(R.id.fragment_detail_fab)
         public void editPropertyclicked() {
 
             Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
