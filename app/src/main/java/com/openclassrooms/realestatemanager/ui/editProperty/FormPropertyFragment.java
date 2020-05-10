@@ -457,14 +457,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         );
     }
 
-    private void configureToolBar() {
-        toolbar.setTitle("Adding a new property");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
-    }
-
     @Override
     public void onPhotoDeleteClicked(int photo) {
         viewModel.deletePhoto(photo);
@@ -491,5 +483,14 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @OnClick(R.id.fragment_form_property_availability_dropdown)
     public void availailityStatus() {
         configure_availability_status();
+    }
+
+    private void configureToolBar() {
+        if(bundleProperty==-1){toolbar.setTitle("Adding a new property");}
+        else{toolbar.setTitle("Edit property");}
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
     }
 }
