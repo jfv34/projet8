@@ -2,14 +2,13 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -156,6 +155,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void piecesMultiSlider() {
+
+
         piecesMultiSlider.setMin(Constants.slider_pieces_minimum);
         piecesMultiSlider.setMax(Constants.slider_pieces_maximum);
         piecesMultiSlider.setStep(1);
@@ -213,6 +214,9 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void priceMultiSlider() {
+        ;
+        price_MultiSlider.setBackgroundColor(Color.GRAY);
+
         price_MultiSlider.setMin(Constants.slider_price_minimum);
         price_MultiSlider.setMax(Constants.slider_price_maximum);
         price_MultiSlider.setStep(100);
