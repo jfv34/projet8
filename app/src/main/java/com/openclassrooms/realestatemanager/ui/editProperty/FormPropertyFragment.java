@@ -33,8 +33,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.openclassrooms.realestatemanager.OnPhotoDeleteClickedListener;
-import com.openclassrooms.realestatemanager.OnPhotoDescriptionClickedListener;
+import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPhotoDeleteClickedListener;
+import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPhotoDescriptionClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;

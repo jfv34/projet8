@@ -53,7 +53,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
 
                 ContentValues contentValues_1 = new ContentValues();
                 contentValues_1.put("id",1);
-                contentValues_1.put("type", "Flat");
+                contentValues_1.put("type", "Loft");
                 contentValues_1.put("price", "1250252");
                 contentValues_1.put("address", "603 Bayland Avenue");
                 contentValues_1.put("city","Houston");
