@@ -29,10 +29,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <TextView
+                    android:text="Types"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fragment_filter_types_chips_title"
+                    android:layout_marginStart="@dimen/margin_large"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/margin_large"
+                    />
+
                 <androidx.recyclerview.widget.RecyclerView
+                    app:layout_constraintStart_toEndOf="@id/fragment_filter_types_chips_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_large"
                     android:orientation="horizontal"
                     android:id="@+id/fragment_filter_types_chips_recyclerView"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                      />
 

@@ -43,16 +43,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private View root;
     private static Calendar calendar = Calendar.getInstance();
 
-  /*  @BindView(R.id.fragment_filter_type_0_chip)
-    Chip chip_type_0;
-    @BindView(R.id.fragment_filter_type_1_chip)
-    Chip chip_type_1;
-    @BindView(R.id.fragment_filter_type_2_chip)
-    Chip chip_type_2;
-    @BindView(R.id.fragment_filter_type_3_chip)
-    Chip chip_type_3;
-    @BindView(R.id.fragment_filter_type_4_chip)
-    Chip chip_type_4;*/
     @BindView(R.id.fragment_filter_price_seekbar)
     MultiSlider price_MultiSlider;
     @BindView(R.id.fragment_filter_price_amoutMin_txt)

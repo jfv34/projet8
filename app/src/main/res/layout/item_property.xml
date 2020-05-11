@@ -3,14 +3,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_property"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <FrameLayout
-        android:id="@+id/item_property"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       >
 
         <ImageView
             android:id="@+id/main_item_photo_iv"
@@ -60,5 +55,5 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+
 </FrameLayout>
