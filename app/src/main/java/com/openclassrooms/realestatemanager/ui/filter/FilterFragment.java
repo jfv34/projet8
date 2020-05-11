@@ -3,11 +3,13 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -249,7 +252,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         textView.setCursorVisible(false);
     }
 
-    @OnClick(R.id.fragment_search_validate_fab)
+    @OnClick(R.id.fragment_filter_validate_fab)
     public void filter_validate() {
 
         Filter filter = new Filter(
@@ -280,6 +283,22 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         });
     }
 
+    @OnClick(R.id.fragment_filter_removeFilters_bt)
+    public void removeFilters(){
+        filterFragmentViewModel.initTypesFilter();
+        FilterFragment filterFragment = new FilterFragment();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        final boolean tabletSize = getActivity().getResources().getBoolean(R.bool.isTablet);
+        if (tabletSize) {
+            transaction.detach(this);
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, filterFragment).commit();
+        } else {
+            transaction.detach(this);
+            transaction.replace(R.id.frame_layout_main, filterFragment).commit();
+        }
+
+        ;}
+
     private boolean isSoldedFilter() {
         boolean isSolded;
         if (isSolded_tv.getText().toString().equals(getString(R.string.sold))) {
@@ -301,6 +320,5 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @Override
     public void onChipClicked(String type, boolean selected) {
         filterFragmentViewModel.setType(type, selected);
-
     }
 }

@@ -40,4 +40,6 @@
     <string name="photoanddescriptionadded">Photo and description added</string>
     <string name="photodescription">Photo description:</string>
     <string name="details">Details:</string>
+    <string name="types">Types</string>
+    <string name="remove_filters">Remove filters</string>
 </resources>

@@ -3,14 +3,13 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="@dimen/bottomScreen"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/fragment_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <androidx.appcompat.widget.Toolbar
             android:background="@color/colorPrimary"
@@ -30,7 +29,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="Types"
+                    android:text="@string/types"
                     android:textStyle="bold"
                     android:textSize="18dp"
                     android:layout_width="wrap_content"
@@ -43,9 +42,8 @@
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    app:layout_constraintStart_toEndOf="@id/fragment_filter_types_chips_title"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="@dimen/margin_large"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_types_chips_title"
                     android:layout_marginStart="@dimen/margin_large"
                     android:orientation="horizontal"
                     android:id="@+id/fragment_filter_types_chips_recyclerView"
@@ -518,12 +516,27 @@
                     app:stepsThumbsApart="5"
                     app:thumbNumber="2" />
 
+                <Button
+                    android:id="@+id/fragment_filter_removeFilters_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:background="@color/colorGrey"
+                    android:drawableStart="@drawable/ic_clear_24px"
+                    android:text="@string/remove_filters"
+                    android:textColor="#B9000000"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_numberOfPhotos_multiSlider" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fragment_search_validate_fab"
+        android:id="@+id/fragment_filter_validate_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -534,4 +547,5 @@
         app:backgroundTint="@color/colorAccent"
         app:iconTint="@color/colorWhite"
         />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
