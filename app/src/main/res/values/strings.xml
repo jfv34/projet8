@@ -39,4 +39,5 @@
     <string name="apply_filter">Apply filter</string>
     <string name="photoanddescriptionadded">Photo and description added</string>
     <string name="photodescription">Photo description:</string>
+    <string name="details">Details:</string>
 </resources>

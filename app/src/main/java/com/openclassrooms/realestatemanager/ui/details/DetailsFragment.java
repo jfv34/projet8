@@ -77,8 +77,8 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_collapsingtoolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
-    @BindView(R.id.fragment_detail_price_fab)
-    ExtendedFloatingActionButton price_fab;
+    @BindView(R.id.fragment_detail_price_tv)
+    TextView priceTv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -169,7 +169,7 @@ public class DetailsFragment extends Fragment {
         private void displayPrice(Property property) {
             String price = "$ " + property.getPrice();
 
-            price_fab.setText(price);
+            priceTv.setText(price);
         }
 
         private void displayAddress(Property property) {
