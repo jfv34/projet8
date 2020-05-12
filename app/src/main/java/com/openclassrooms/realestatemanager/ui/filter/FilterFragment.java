@@ -107,7 +107,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PropertyDataBase.getInstance(getContext());
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
@@ -281,7 +280,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         filterFragmentViewModel.properties.observe(getViewLifecycleOwner(),properties -> {
             if(properties!=null){
                 ArrayList<Property> filterProperties = filterFragmentViewModel.filter(filter);
-                sharedFilterViewModel.setFilterProperties(filterProperties);
+                sharedFilterViewModel.properties.setValue(filterProperties);
+              //  getActivity().onBackPressed();
                 Utils.backToMainScreen(getActivity(), this);
             }
         });

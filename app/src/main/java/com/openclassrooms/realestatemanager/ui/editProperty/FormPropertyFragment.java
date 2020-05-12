@@ -121,7 +121,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PropertyDataBase.getInstance(getContext());
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         configure_autoComplete_types();

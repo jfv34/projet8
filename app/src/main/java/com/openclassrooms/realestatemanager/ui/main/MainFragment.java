@@ -54,31 +54,21 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PropertyDataBase.getInstance(getContext());
 
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
         mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
-        mainFragmentViewModel.loadProperties();
-        observeProperties();
+        sharedFilterViewModel.loadProperties();
         observeFilterProperties();
     }
 
     private void observeFilterProperties() {
-        mainFragmentViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+        sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties != null) {
                 if (properties.isEmpty()) {
-                    Utils.toast(getActivity(), "No datas to display");
+                    Utils.toast(getActivity(), "No data to display");
                 } else {
                     recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
                 }
-            }
-        });
-    }
-
-    private void observeProperties() {
-        sharedFilterViewModel.filterProperties.observe(getViewLifecycleOwner(), filterProperties -> {
-            if (filterProperties != null) {
-                mainFragmentViewModel.loadFilterProperties(filterProperties);
             }
         });
     }
