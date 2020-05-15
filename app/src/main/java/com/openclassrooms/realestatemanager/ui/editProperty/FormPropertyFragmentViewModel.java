@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
@@ -21,10 +22,10 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     private String[] TYPE_LIST = Constants.TYPE_LIST;
-    private String[] AVAILABILITY_LIST = Constants.AVAILABILITY_LIST;
+    private String[] AVAILABILITY_LIST ={"Unspecified", "Available","Sold"} ;
 
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
-    public MutableLiveData<Boolean> isSold = new MutableLiveData<>();
+    public MutableLiveData<Status> status = new MutableLiveData<>();
     public MutableLiveData<String> price = new MutableLiveData<>();
     public MutableLiveData<String> type = new MutableLiveData<>();
     public MutableLiveData<String> city = new MutableLiveData<>();
@@ -56,7 +57,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
                     agent.postValue(result.getAgentName());
                     soldDate.postValue(result.getSaleDate());
                     entryDate.postValue(result.getEntryDate());
-                    isSold.postValue(result.isSolded());
+                    status.postValue(result.getStatus());
                 }
         );
     }

@@ -14,10 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
-import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
@@ -33,7 +32,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
     private SharedFilterViewModel sharedFilterViewModel;
-    private MainFragmentViewModel mainFragmentViewModel;
     private View root;
 
     public static MainFragment newInstance() {
@@ -56,20 +54,24 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
 
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
-        mainFragmentViewModel = new ViewModelProvider(this).get(MainFragmentViewModel.class);
-        sharedFilterViewModel.loadProperties();
+        if (sharedFilterViewModel.isFiltred = false) {
+            sharedFilterViewModel.loadProperties();
+        }
         observeFilterProperties();
     }
 
     private void observeFilterProperties() {
+        if (sharedFilterViewModel.properties.getValue() == null) {
+            sharedFilterViewModel.loadProperties();
+        }
         sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
-            if (properties != null) {
-                if (properties.isEmpty()) {
+
+            if (properties.size() == 0) {
                     Utils.toast(getActivity(), "No data to display");
                 } else {
                     recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
                 }
-            }
+
         });
     }
 

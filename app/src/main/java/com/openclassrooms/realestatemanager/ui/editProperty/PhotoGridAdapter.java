@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPhotoDeleteClickedListener;
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPhotoDescriptionClickedListener;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDeleteClickedListener;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDescriptionClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;

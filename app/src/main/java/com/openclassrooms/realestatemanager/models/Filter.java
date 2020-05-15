@@ -2,10 +2,8 @@ package com.openclassrooms.realestatemanager.models;
 
 import java.util.ArrayList;
 
-//@Entity
 public class Filter {
 
-    //@PrimaryKey(autoGenerate = true)
     private int id;
     private ArrayList<String> types;
     private int priceMaxi;
@@ -18,7 +16,7 @@ public class Filter {
     private int piecesMini;
     private ArrayList<String> interestPoints;
     private ArrayList<String> agentName;
-    private boolean isSolded;
+    private Status status;
     private String entryDate;
     private String saleDate;
     private int numberOfPhotosMaxi;
@@ -26,7 +24,7 @@ public class Filter {
 
     public Filter(ArrayList<String> types, int priceMaxi, int priceMini, ArrayList<String> cities,
                   ArrayList<String> states, int areaMaxi, int areaMini, int piecesMaxi, int piecesMini,
-                  ArrayList<String> interestPoints, ArrayList<String> agentName, boolean isSolded, String entryDate, String saleDate,
+                  ArrayList<String> interestPoints, ArrayList<String> agentName, Status status, String entryDate, String saleDate,
                   int numberOfPhotosMaxi, int numberOfPhotosMini) {
         this.types = types;
         this.priceMaxi = priceMaxi;
@@ -39,7 +37,7 @@ public class Filter {
         this.piecesMini = piecesMini;
         this.interestPoints = interestPoints;
         this.agentName = agentName;
-        this.isSolded = isSolded;
+        this.status = status;
         this.entryDate = entryDate;
         this.saleDate = saleDate;
         this.numberOfPhotosMaxi = numberOfPhotosMaxi;
@@ -144,12 +142,12 @@ public class Filter {
         this.agentName = agentName;
     }
 
-    public boolean isSolded() {
-        return isSolded;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setIsSolded(boolean isSolded) {
-        this.isSolded = isSolded;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getEntryDate() {

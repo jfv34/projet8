@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnChipClickedListener;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.R;
 
 import java.util.ArrayList;

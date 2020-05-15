@@ -17,6 +17,7 @@ public class SharedFilterViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
+    public boolean isFiltred = false;
 
     public void loadProperties() {
 
@@ -26,12 +27,12 @@ public class SharedFilterViewModel extends ViewModel {
         );
     }
 
-    public void loadFilterProperties(List<Property> filterProperties) {
+   /* public void loadFilterProperties(List<Property> filterProperties) {
         AsyncTask.execute(() -> {
                     properties.postValue(filterProperties);
                 }
         );
-    }
+    }*/
 
 
 }

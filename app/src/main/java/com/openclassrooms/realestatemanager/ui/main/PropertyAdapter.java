@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPropertyClickedListener;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;

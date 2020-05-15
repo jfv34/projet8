@@ -33,13 +33,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPhotoDeleteClickedListener;
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnPhotoDescriptionClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
-import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDeleteClickedListener;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDescriptionClickedListener;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.Status;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -429,13 +429,17 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         String soldDate = property_sold_date.getEditText().getText().toString();
         ArrayList<Photo> photos = viewModel.getPhotos();
 
-        boolean isSolded;
+        Status status = Status.UNSPECIFIED;
 
-        if (property_availability_status.getEditText().getText().toString().equals(getString(R.string.sold))) {
-            isSolded = true;
-        } else {
-            isSolded = false;
-        } ;
+        switch (property_availability_status.getEditText().getText().toString()) {
+            case "Sold": {
+                status = Status.SOLD;
+            }
+            break;
+            case "Available": {
+                status = Status.AVAILABLE;
+            }
+        }
 
         return new Property(
                 type,
@@ -449,7 +453,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 interestPoints,
                 description,
                 photos,
-                isSolded,
+                status,
                 entryDate,
                 soldDate,
                 agent
@@ -469,12 +473,20 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void observeStatusAvailability() {
-        viewModel.isSold.observe(getViewLifecycleOwner(), isSold -> {
-                    if (isSold) {
-                        property_availability_status.getEditText().setText(R.string.sold);
-                    } else {
-                        property_availability_status.getEditText().setText(R.string.available);
-                    }
+        viewModel.status.observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case SOLD: {
+                    property_availability_status.getEditText().setText(R.string.sold);
+                }
+                break;
+                case AVAILABLE: {
+                    property_availability_status.getEditText().setText(R.string.available);
+                }
+                break;
+                default: {
+                    property_availability_status.getEditText().setText("");
+                }
+            }
                 }
         );
     }

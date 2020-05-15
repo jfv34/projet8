@@ -23,12 +23,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.openclassrooms.realestatemanager.interfaces_clickedListener.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
-import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @BindView(R.id.fragment_filter_agent_textInputEditText)
     EditText agent_Et;
     @BindView(R.id.fragment_filter_availability_status_dropdown)
-    AutoCompleteTextView isSolded_tv;
+    AutoCompleteTextView status_tv;
     @BindView(R.id.fragment_filter_availability_date_textInputEditText)
     EditText availableDate_Et;
     @BindView(R.id.fragment_filter_sold_date_textInputEditText)
@@ -270,7 +270,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 piecesMultiSlider.getThumb(0).getValue(),
                 filterFragmentViewModel.getFilterListInForm(interestPoints_Et.getText().toString()),
                 filterFragmentViewModel.getFilterListInForm(agent_Et.getText().toString()),
-                isSoldedFilter(),
+                statusFilter(),
                 availableDate_Et.getText().toString(),
                 soldeDate_Et.getText().toString(),
                 numberOfPhotos_multiSlider.getThumb(1).getValue(),
@@ -281,7 +281,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             if(properties!=null){
                 ArrayList<Property> filterProperties = filterFragmentViewModel.filter(filter);
                 sharedFilterViewModel.properties.setValue(filterProperties);
-              //  getActivity().onBackPressed();
+                sharedFilterViewModel.isFiltred = true;
+                //getActivity().onBackPressed();
                 Utils.backToMainScreen(getActivity(), this);
             }
         });
@@ -289,6 +290,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     @OnClick(R.id.fragment_filter_removeFilters_bt)
     public void removeFilters(){
+        sharedFilterViewModel.isFiltred = false;
         filterFragmentViewModel.initTypesFilter();
         FilterFragment filterFragment = new FilterFragment();
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -303,14 +305,24 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         ;}
 
-    private boolean isSoldedFilter() {
-        boolean isSolded;
-        if (isSolded_tv.getText().toString().equals(getString(R.string.sold))) {
-            isSolded = true;
-        } else {
-            isSolded = false;
+    private Status statusFilter() {
+        Status status;
+
+        switch (status_tv.getText().toString()) {
+            case "Sold": {
+                status = Status.SOLD;
+            }
+            break;
+            case "Available": {
+                status = Status.AVAILABLE;
+            }
+            break;
+            default: {
+                status = Status.UNSPECIFIED;
+            }
         }
-        return isSolded;
+        ;
+        return status;
     }
 
     private void configureToolBar() {

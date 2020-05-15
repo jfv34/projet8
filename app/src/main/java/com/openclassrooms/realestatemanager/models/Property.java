@@ -22,14 +22,14 @@ public class Property {
     private String interestPoint;
     private String description;
     private ArrayList<Photo> photos;
-    private boolean solded;
+    private Status status;
     private String entryDate;
     private String saleDate;
     private String agentName;
 
     public Property(String type, String price, String address, String city, String state, String zip,
                     String area, String pieces, String interestPoint, String description,
-                    ArrayList<Photo> photos, boolean solded, String entryDate, String saleDate, String agentName
+                    ArrayList<Photo> photos, Status status, String entryDate, String saleDate, String agentName
     ) {
         this.type = type;
         this.price = price;
@@ -42,7 +42,7 @@ public class Property {
         this.interestPoint = interestPoint;
         this.description = description;
         this.photos = photos;
-        this.solded=solded;
+        this.status = status;
         this.entryDate=entryDate;
         this.saleDate=saleDate;
         this.agentName=agentName;
@@ -144,12 +144,15 @@ public class Property {
         this.photos = photos;
     }
 
-    public boolean isSolded() {
-        return solded;
+    public Status getStatus() {
+        if (status == null) {
+            status = Status.UNSPECIFIED;
+        }
+        return status;
     }
 
-    public void setSolded(boolean solded) {
-        this.solded = solded;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getEntryDate() {

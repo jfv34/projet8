@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
@@ -31,7 +32,7 @@ public class FilterFragmentViewModel extends ViewModel {
     private ArrayList<Property> filterProperties;
     private Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;
-    private String[] AVAILABILITY_LIST = Constants.AVAILABILITY_LIST;
+    private String[] AVAILABILITY_LIST = {"All", "Available","Sold"} ;
 
     public String[] getTYPES() {
         return TYPE_LIST;
@@ -122,7 +123,7 @@ public class FilterFragmentViewModel extends ViewModel {
 
     private void filterByTypes() {
         ArrayList<String> typesFilter = filter.getTypes();
-        if (!typesFilter.get(0).equals("")) {
+        if (typesFilter.size() >0) {
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 String type = property.getType();
@@ -247,15 +248,16 @@ public class FilterFragmentViewModel extends ViewModel {
     }
 
     private void filterByStatus() {
-        boolean isSoldedFilter = filter.isSolded();
+        Status statusFilter = filter.getStatus();
+        if(statusFilter!=Status.UNSPECIFIED){
         for (int i = 0; i < properties.getValue().size(); i++) {
             Property property = properties.getValue().get(i);
-            boolean isSolded = property.isSolded();
-            if (isSolded != isSoldedFilter) {
+            Status status = property.getStatus();
+            if (status != statusFilter) {
                 filterProperties.remove(property);
             }
         }
-    }
+    }}
 
     public void setType(String types, boolean selected) {
         ArrayList<String> newTypes = (ArrayList<String>) typesFilter.getValue();

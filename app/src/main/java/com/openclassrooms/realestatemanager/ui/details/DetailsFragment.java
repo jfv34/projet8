@@ -16,10 +16,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
 import butterknife.BindView;
@@ -152,17 +152,22 @@ public class DetailsFragment extends Fragment {
         }
 
         private void displayAvailability(Property property) {
-            if (property.isSolded()) {
-                not_soldedIv.setVisibility(View.INVISIBLE);
-                soldedIv.setVisibility(View.VISIBLE);
-                String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
-                availabilityTv.setText(availability);
 
-            } else {
-                not_soldedIv.setVisibility(View.VISIBLE);
-                soldedIv.setVisibility(View.INVISIBLE);
-                String availability = getString(R.string.available_since) + " " + property.getEntryDate();
-                availabilityTv.setText(availability);
+            switch (property.getStatus()) {
+                case SOLD: {
+                    not_soldedIv.setVisibility(View.INVISIBLE);
+                    soldedIv.setVisibility(View.VISIBLE);
+                    String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
+                    availabilityTv.setText(availability);
+
+                }
+                break;
+                case AVAILABLE:{
+                    not_soldedIv.setVisibility(View.VISIBLE);
+                    soldedIv.setVisibility(View.INVISIBLE);
+                    String availability = getString(R.string.available_since) + " " + property.getEntryDate();
+                    availabilityTv.setText(availability);
+                    }
             }
         }
 
