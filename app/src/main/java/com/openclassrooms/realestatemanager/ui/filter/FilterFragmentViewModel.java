@@ -236,7 +236,7 @@ public class FilterFragmentViewModel extends ViewModel {
     private void filterByPrice() {
         int priceMini = filter.getPriceMini();
         int priceMaxi = filter.getPriceMaxi();
-        if (priceMini > Constants.slider_pieces_minimum || priceMaxi < Constants.slider_photos_maximum)
+        if (priceMini > Constants.slider_price_minimum || priceMaxi < Constants.slider_price_maximum)
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 if (!property.getPrice().isEmpty()) {

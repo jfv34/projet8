@@ -155,7 +155,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     private void piecesMultiSlider() {
 
-
         piecesMultiSlider.setMin(Constants.slider_pieces_minimum);
         piecesMultiSlider.setMax(Constants.slider_pieces_maximum);
         piecesMultiSlider.setStep(1);
