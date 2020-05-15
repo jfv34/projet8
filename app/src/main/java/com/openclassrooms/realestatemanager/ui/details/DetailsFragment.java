@@ -15,11 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
 import butterknife.BindView;
@@ -80,6 +81,9 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_price_tv)
     TextView priceTv;
 
+    @BindView(R.id.fragment_detail_static_map)
+    ImageView mapIv;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +119,7 @@ public class DetailsFragment extends Fragment {
             displayInterestsPoints(property);
             displayDescription(property);
             displayAgent(property);
+            displayMap(property);
         });
     }
 
@@ -122,6 +127,28 @@ public class DetailsFragment extends Fragment {
     /*    if (!property.getCity().isEmpty() && !property.getType().isEmpty()) {
             toolbar.setTitle(property.getType() + " at " + property.getCity());
         } else toolbar.setTitle("Property details");*/
+    }
+
+    private void displayMap(Property property) {
+        String location = property.getAddress()
+                + "+" + property.getCity()
+                + "+" + property.getState();
+        String url = "https://maps.googleapis.com/maps/api/staticmap?"
+                + "center=" + location
+                + "&zoom=18&scale=1"
+                + "&size=400x400"
+                + "&maptype=roadmap"
+                + "&key=AIzaSyBIr_Z4aE3uGusLp7sbRW0nNQCrhFehsKs"
+                + "&format=png"
+                + "&visual_refresh=true"
+                + "&markers=size:mid%7Ccolor:0xff8000%7C" + location;
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round);
+
+        Glide.with(this).load(url).apply(options).into(mapIv);
     }
 
         private void observePhotos() {
