@@ -98,13 +98,17 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
+        sharedPreferences = getActivity().getSharedPreferences("PREFERENCES", MODE_PRIVATE);
+
+        super.onCreate(savedInstanceState);
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_filter, container, false);
-        sharedPreferences = getActivity().getSharedPreferences("PREFERENCES", MODE_PRIVATE);
+
+
         ButterKnife.bind(this, root);
         return root;
     }
@@ -124,6 +128,18 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         areaMultiSlider();
         piecesMultiSlider();
         numberOfPhotos_multislider();
+        load_savedFilters();
+
+
+    }
+
+    private void load_savedFilters() {
+        cities_Et.setText(sharedPreferences.getString("cities", ""));
+        states_Et.setText(sharedPreferences.getString("states", ""));
+        interestPoints_Et.setText(sharedPreferences.getString("interestPoints", ""));
+        agent_Et.setText(sharedPreferences.getString("agent", ""));
+
+
     }
 
     private void configure_soldeDate() {
@@ -298,6 +314,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                         .putInt("pieces_mini", areaMultislider.getThumb(1).getValue())
                         .putInt("pieces_maxi", areaMultislider.getThumb(0).getValue())
                         .putString("interestPoints", interestPoints_Et.getText().toString())
+                        .putString("agent", agent_Et.getText().toString())
                         .putString("status", status_tv.getText().toString())
                         .putString("available_date", availableDate_Et.getText().toString())
                         .putString("sold_date", soldeDate_Et.getText().toString())
