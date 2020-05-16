@@ -80,7 +80,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @BindView(R.id.fragment_filter_availability_date_textInputEditText)
     EditText availableDate_Et;
     @BindView(R.id.fragment_filter_sold_date_textInputEditText)
-    EditText soldeDate_Et;
+    EditText soldDate_Et;
     @BindView(R.id.fragment_filter_numberOfPhotos_multiSlider)
     MultiSlider numberOfPhotos_multiSlider;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMin_txt)
@@ -132,6 +132,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         states_Et.setText(sharedPreferences.getString("states", ""));
         interestPoints_Et.setText(sharedPreferences.getString("interestPoints", ""));
         agent_Et.setText(sharedPreferences.getString("agent", ""));
+        availableDate_Et.setText(sharedPreferences.getString("available_date",""));
+        soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
         priceMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("price_mini",Constants.slider_price_minimum));
         priceMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("price_maxi",Constants.slider_price_maximum));
         areaMultislider.getThumb(0).setValue(sharedPreferences.getInt("area_mini",Constants.slider_price_minimum));
@@ -140,6 +142,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         piecesMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("pieces_maxi",Constants.slider_price_maximum));
         numberOfPhotos_multiSlider.getThumb(0).setValue(sharedPreferences.getInt("numberPhotos_mini",Constants.slider_price_minimum));
         numberOfPhotos_multiSlider.getThumb(1).setValue(sharedPreferences.getInt("numberPhotos_maxi",Constants.slider_price_maximum));
+
+
     }
 
     private void configure_soldeDate() {
@@ -292,7 +296,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 filterFragmentViewModel.getFilterListInForm(agent_Et.getText().toString()),
                 statusFilter(),
                 availableDate_Et.getText().toString(),
-                soldeDate_Et.getText().toString(),
+                soldDate_Et.getText().toString(),
                 numberOfPhotos_multiSlider.getThumb(1).getValue(),
                 numberOfPhotos_multiSlider.getThumb(0).getValue());
 
@@ -317,7 +321,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                         .putString("agent", agent_Et.getText().toString())
                         .putString("status", status_tv.getText().toString())
                         .putString("available_date", availableDate_Et.getText().toString())
-                        .putString("sold_date", soldeDate_Et.getText().toString())
+                        .putString("sold_date", soldDate_Et.getText().toString())
                         .putInt("numberPhotos_mini", numberOfPhotos_multiSlider.getThumb(0).getValue())
                         .putInt("numberPhotos_maxi", numberOfPhotos_multiSlider.getThumb(1).getValue())
                         .apply();
@@ -342,7 +346,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             transaction.detach(this);
             transaction.replace(R.id.frame_layout_main, filterFragment).commit();
         }
-
         ;}
 
     private Status statusFilter() {
