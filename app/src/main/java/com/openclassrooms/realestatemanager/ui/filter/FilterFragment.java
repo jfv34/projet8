@@ -50,7 +50,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private static Calendar calendar = Calendar.getInstance();
 
     @BindView(R.id.fragment_filter_price_seekbar)
-    MultiSlider price_MultiSlider;
+    MultiSlider priceMultiSlider;
     @BindView(R.id.fragment_filter_price_amoutMin_txt)
     TextView priceMin_txt;
     @BindView(R.id.fragment_filter_price_amountMax_txt)
@@ -100,15 +100,11 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         sharedPreferences = getActivity().getSharedPreferences("PREFERENCES", MODE_PRIVATE);
-
         super.onCreate(savedInstanceState);
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_filter, container, false);
-
-
         ButterKnife.bind(this, root);
         return root;
     }
@@ -129,8 +125,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         piecesMultiSlider();
         numberOfPhotos_multislider();
         load_savedFilters();
-
-
     }
 
     private void load_savedFilters() {
@@ -138,8 +132,14 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         states_Et.setText(sharedPreferences.getString("states", ""));
         interestPoints_Et.setText(sharedPreferences.getString("interestPoints", ""));
         agent_Et.setText(sharedPreferences.getString("agent", ""));
-
-
+        priceMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("price_mini",Constants.slider_price_minimum));
+        priceMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("price_maxi",Constants.slider_price_maximum));
+        areaMultislider.getThumb(0).setValue(sharedPreferences.getInt("area_mini",Constants.slider_price_minimum));
+        areaMultislider.getThumb(1).setValue(sharedPreferences.getInt("area_maxi",Constants.slider_price_maximum));
+        piecesMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("pieces_mini",Constants.slider_price_minimum));
+        piecesMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("pieces_maxi",Constants.slider_price_maximum));
+        numberOfPhotos_multiSlider.getThumb(0).setValue(sharedPreferences.getInt("numberPhotos_mini",Constants.slider_price_minimum));
+        numberOfPhotos_multiSlider.getThumb(1).setValue(sharedPreferences.getInt("numberPhotos_maxi",Constants.slider_price_maximum));
     }
 
     private void configure_soldeDate() {
@@ -162,7 +162,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         );
     }
 
-    public void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
+    private void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
 
         DatePickerDialog dialog = new DatePickerDialog(
                 getActivity(),
@@ -234,17 +234,17 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     private void priceMultiSlider() {
         ;
-        price_MultiSlider.setBackgroundColor(Color.GRAY);
+        priceMultiSlider.setBackgroundColor(Color.GRAY);
 
-        price_MultiSlider.setMin(Constants.slider_price_minimum);
-        price_MultiSlider.setMax(Constants.slider_price_maximum);
-        price_MultiSlider.setStep(100);
-        price_MultiSlider.setStepsThumbsApart(0);
-        price_MultiSlider.removeThumb(1);
-        price_MultiSlider.addThumb(price_MultiSlider.getMax());
-        priceMin_txt.setText(price_MultiSlider.getMin() + " €");
-        priceMax_txt.setText(price_MultiSlider.getMax() + " €");
-        price_MultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+        priceMultiSlider.setMin(Constants.slider_price_minimum);
+        priceMultiSlider.setMax(Constants.slider_price_maximum);
+        priceMultiSlider.setStep(100);
+        priceMultiSlider.setStepsThumbsApart(0);
+        priceMultiSlider.removeThumb(1);
+        priceMultiSlider.addThumb(priceMultiSlider.getMax());
+        priceMin_txt.setText(priceMultiSlider.getMin() + " €");
+        priceMax_txt.setText(priceMultiSlider.getMax() + " €");
+        priceMultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
             if (thumbIndex == 0) {
                 priceMin_txt.setText(value + " €");
             }
@@ -280,8 +280,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         Filter filter = new Filter(
                 (ArrayList<String>) filterFragmentViewModel.typesFilter.getValue(),
-                price_MultiSlider.getThumb(1).getValue(),
-                price_MultiSlider.getThumb(0).getValue(),
+                priceMultiSlider.getThumb(1).getValue(),
+                priceMultiSlider.getThumb(0).getValue(),
                 filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
                 filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
                 areaMultislider.getThumb(1).getValue(),
@@ -305,21 +305,21 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 sharedPreferences
                         .edit()
                         .putString("types", filterFragmentViewModel.getTypeInString(cities_Et.getText().toString()))
-                        .putInt("price_mini", price_MultiSlider.getThumb(1).getValue())
-                        .putInt("price_maxi", price_MultiSlider.getThumb(0).getValue())
+                        .putInt("price_mini", priceMultiSlider.getThumb(0).getValue())
+                        .putInt("price_maxi", priceMultiSlider.getThumb(1).getValue())
                         .putString("cities", cities_Et.getText().toString())
                         .putString("states", states_Et.getText().toString())
-                        .putInt("area_mini", areaMultislider.getThumb(1).getValue())
-                        .putInt("area_maxi", areaMultislider.getThumb(0).getValue())
-                        .putInt("pieces_mini", areaMultislider.getThumb(1).getValue())
-                        .putInt("pieces_maxi", areaMultislider.getThumb(0).getValue())
+                        .putInt("area_mini", areaMultislider.getThumb(0).getValue())
+                        .putInt("area_maxi", areaMultislider.getThumb(1).getValue())
+                        .putInt("pieces_mini", piecesMultiSlider.getThumb(0).getValue())
+                        .putInt("pieces_maxi", piecesMultiSlider.getThumb(1).getValue())
                         .putString("interestPoints", interestPoints_Et.getText().toString())
                         .putString("agent", agent_Et.getText().toString())
                         .putString("status", status_tv.getText().toString())
                         .putString("available_date", availableDate_Et.getText().toString())
                         .putString("sold_date", soldeDate_Et.getText().toString())
-                        .putInt("numberPhotos_mini", numberOfPhotos_multiSlider.getThumb(1).getValue())
-                        .putInt("numberPhotos_maxi", numberOfPhotos_multiSlider.getThumb(0).getValue())
+                        .putInt("numberPhotos_mini", numberOfPhotos_multiSlider.getThumb(0).getValue())
+                        .putInt("numberPhotos_maxi", numberOfPhotos_multiSlider.getThumb(1).getValue())
                         .apply();
 
                 //getActivity().onBackPressed();
