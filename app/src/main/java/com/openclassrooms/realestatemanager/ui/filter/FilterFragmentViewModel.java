@@ -28,6 +28,7 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> entryDate = new MutableLiveData<>();
     public MutableLiveData<List<String>> typesFilter = new MutableLiveData<>();
+    public MutableLiveData<Filter> savedFiltred = new MutableLiveData<>();
 
     private ArrayList<Property> filterProperties;
     private Filter filter;
@@ -275,5 +276,10 @@ public class FilterFragmentViewModel extends ViewModel {
     public void initTypesFilter() {
         ArrayList<String> emptyList = new ArrayList<>();
         typesFilter.postValue(emptyList);
+    }
+
+    public String getTypeInString(String toString) {
+        // todo ...
+        return null;
     }
 }

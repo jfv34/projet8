@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.filter;
 
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,7 +40,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apptik.widget.MultiSlider;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FilterFragment extends Fragment implements OnChipClickedListener {
+    SharedPreferences sharedPreferences;
     private SharedFilterViewModel sharedFilterViewModel;
     private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
@@ -100,6 +104,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_filter, container, false);
+        sharedPreferences = getActivity().getSharedPreferences("PREFERENCES", MODE_PRIVATE);
         ButterKnife.bind(this, root);
         return root;
     }
@@ -281,6 +286,25 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 ArrayList<Property> filterProperties = filterFragmentViewModel.filter(filter);
                 sharedFilterViewModel.properties.setValue(filterProperties);
                 sharedFilterViewModel.isFiltred = true;
+                sharedPreferences
+                        .edit()
+                        .putString("types", filterFragmentViewModel.getTypeInString(cities_Et.getText().toString()))
+                        .putInt("price_mini", price_MultiSlider.getThumb(1).getValue())
+                        .putInt("price_maxi", price_MultiSlider.getThumb(0).getValue())
+                        .putString("cities", cities_Et.getText().toString())
+                        .putString("states", states_Et.getText().toString())
+                        .putInt("area_mini", areaMultislider.getThumb(1).getValue())
+                        .putInt("area_maxi", areaMultislider.getThumb(0).getValue())
+                        .putInt("pieces_mini", areaMultislider.getThumb(1).getValue())
+                        .putInt("pieces_maxi", areaMultislider.getThumb(0).getValue())
+                        .putString("interestPoints", interestPoints_Et.getText().toString())
+                        .putString("status", status_tv.getText().toString())
+                        .putString("available_date", availableDate_Et.getText().toString())
+                        .putString("sold_date", soldeDate_Et.getText().toString())
+                        .putInt("numberPhotos_mini", numberOfPhotos_multiSlider.getThumb(1).getValue())
+                        .putInt("numberPhotos_maxi", numberOfPhotos_multiSlider.getThumb(0).getValue())
+                        .apply();
+
                 //getActivity().onBackPressed();
                 Utils.backToMainScreen(getActivity(), this);
             }
