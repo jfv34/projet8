@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.details;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -219,6 +221,20 @@ public class DetailsFragment extends Fragment {
             Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
             Utils.replaceFragmentInDetailScreen(getActivity(), formPropertyFragment);
         }
+
+    @OnClick(R.id.fragment_detail_map_fab)
+    public void mapClicked() {
+        if (viewModel.property != null) {
+            Property property = viewModel.property.getValue();
+            String url = "http://www.google.fr/maps/place/"
+                    + property.getAddress()
+                    + "+" + property.getCity()
+                    + "+" + property.getState();
+
+            Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url));
+            startActivity(intent);
+        }
+    }
 
     private void configureCollapsingToolBar() {
             toolbar.setTitle("");

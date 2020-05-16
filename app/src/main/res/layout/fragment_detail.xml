@@ -234,12 +234,11 @@
         </androidx.core.widget.NestedScrollView>
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-        android:id="@+id/fragment_detail_price_fab"
+        android:id="@+id/fragment_detail_map_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_place_24px"
         app:backgroundTint="@color/colorPrimary"
         app:tint="#ffffff"
         android:text="See the map"
