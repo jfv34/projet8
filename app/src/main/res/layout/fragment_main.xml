@@ -29,6 +29,16 @@
                     android:layout_width="wrap_content"
                     android:layout_gravity="end" />
 
+            <ImageButton
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@color/colorPrimary"
+                android:tint="@color/colorWhite"
+                android:src="@drawable/ic_place_24px"
+                android:id="@+id/fragment_main_map_button"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end" />
+
         </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         app:layout_constraintStart_toStartOf="parent"
@@ -51,5 +61,3 @@
         android:src="@drawable/ic_add_24px"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-

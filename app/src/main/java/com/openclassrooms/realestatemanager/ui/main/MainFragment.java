@@ -21,6 +21,7 @@ import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
+import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,7 +72,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
                 } else {
                     recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
                 }
-
         });
     }
 
@@ -102,5 +102,11 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onFilterClicked() {
         Fragment filterFragment = FilterFragment.newInstance();
         Utils.replaceFragmentInDetailScreen(getActivity(), filterFragment);
+    }
+
+    @OnClick(R.id.fragment_main_map_button)
+    public void onMapClicked() {
+        Fragment mapFragment = MapFragment.newInstance();
+        Utils.replaceFragmentInDetailScreen(getActivity(), mapFragment);
     }
 }
