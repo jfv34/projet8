@@ -9,23 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
-import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
+import com.openclassrooms.realestatemanager.models.Type;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TypesChipsAdapter extends RecyclerView.Adapter {
     private Context context;
-    private String[] types;
+    private List<Type> types;
     private OnChipClickedListener chipClickedListener;
-    private ArrayList<Boolean> chipsSelected = new ArrayList<>();
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
     }}
 
-    public TypesChipsAdapter(String[] types, Context context, OnChipClickedListener chipClickedListener) {
+    public TypesChipsAdapter(List<Type> types, Context context, OnChipClickedListener chipClickedListener) {
         this.types = types;
         this.context = context;
         this.chipClickedListener = chipClickedListener;
@@ -35,20 +35,18 @@ public class TypesChipsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chips, parent, false);
-        for (int i = 0; i < getItemCount(); i++) {
-            chipsSelected.add(i, false);
-            ;
-        }
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        String type = types.get(position).getType();
+        boolean isSelected = types.get(position).isSelected();
         Chip chip = holder.itemView.findViewById(R.id.item_chips);
-        chip.setText(types[position]);
+        chip.setText(type);
 
-        if (chipsSelected.get(position)) {
+        if (isSelected) {
             chip.setChipBackgroundColorResource(R.color.colorFilterClick);
         } else {
             chip.setChipBackgroundColorResource(R.color.colorGrey);
@@ -56,20 +54,20 @@ public class TypesChipsAdapter extends RecyclerView.Adapter {
 
         chip.setOnClickListener(v -> {
 
-            if (chipsSelected.get(position)) {
-                chipsSelected.set(position, false);
+            if (isSelected) {
+                types.get(position).setSelected(false);
                 chip.setChipBackgroundColorResource(R.color.colorGrey);
-                chipClickedListener.onChipClicked(chip.getText().toString(), false);
+                chipClickedListener.onChipClicked(position, false);
             } else {
-                chipsSelected.set(position, true);
+                types.get(position).setSelected(true);
                 chip.setChipBackgroundColorResource(R.color.colorFilterClick);
-                chipClickedListener.onChipClicked(chip.getText().toString(), true);
+                chipClickedListener.onChipClicked(position, true);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return types.length;
+        return types.size();
     }
 }

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,12 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipCli
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
+import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,10 +131,12 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void load_savedFilters() {
+        load_types_savedFilters();
         cities_Et.setText(sharedPreferences.getString("cities", ""));
         states_Et.setText(sharedPreferences.getString("states", ""));
         interestPoints_Et.setText(sharedPreferences.getString("interestPoints", ""));
         agent_Et.setText(sharedPreferences.getString("agent", ""));
+        status_tv.setText(sharedPreferences.getString("status", ""));
         availableDate_Et.setText(sharedPreferences.getString("available_date",""));
         soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
         priceMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("price_mini",Constants.slider_price_minimum));
@@ -142,9 +147,15 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         piecesMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("pieces_maxi",Constants.slider_price_maximum));
         numberOfPhotos_multiSlider.getThumb(0).setValue(sharedPreferences.getInt("numberPhotos_mini",Constants.slider_price_minimum));
         numberOfPhotos_multiSlider.getThumb(1).setValue(sharedPreferences.getInt("numberPhotos_maxi",Constants.slider_price_maximum));
-
-
     }
+
+    private void load_types_savedFilters() {
+        String isSelected_prefs = sharedPreferences.getString("types", "");
+        if (!isSelected_prefs.isEmpty()) {
+            List<Type> typesFilter = filterFragmentViewModel.getTypesFilter_prefs(isSelected_prefs);
+            filterFragmentViewModel.typesFilter.postValue(typesFilter);
+            }
+        }
 
     private void configure_soldeDate() {
         TextInputEditText soldeDate = root.findViewById(R.id.fragment_filter_sold_date_textInputEditText);
@@ -239,7 +250,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private void priceMultiSlider() {
         ;
         priceMultiSlider.setBackgroundColor(Color.GRAY);
-
         priceMultiSlider.setMin(Constants.slider_price_minimum);
         priceMultiSlider.setMax(Constants.slider_price_maximum);
         priceMultiSlider.setStep(100);
@@ -260,15 +270,22 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     private void configureTypes() {
 
-        types_chips_rv.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        types_chips_rv.setLayoutManager(layoutManager);
-        if (filterFragmentViewModel.getTYPES().length > 0) {
-            TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTYPES(), getActivity(), FilterFragment.this);
-            types_chips_rv.setAdapter(typesChipsAdapter);
-        }
         filterFragmentViewModel.initTypesFilter();
-        }
+
+        filterFragmentViewModel.typesFilter.observe(getViewLifecycleOwner(),typesFilter->{
+            if(typesFilter!=null){
+                types_chips_rv.setHasFixedSize(true);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                types_chips_rv.setLayoutManager(layoutManager);
+                TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTypesFilter(), getActivity(), FilterFragment.this);
+                types_chips_rv.setAdapter(typesChipsAdapter);
+                ;}
+            ;});
+
+
+
+
+    }
 
     private void configureStatus() {
         final String[] AVAILABILITY = filterFragmentViewModel.getAvailabilities();
@@ -283,7 +300,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     public void filter_validate() {
 
         Filter filter = new Filter(
-                (ArrayList<String>) filterFragmentViewModel.typesFilter.getValue(),
+                filterFragmentViewModel.getTypesFilter(),
                 priceMultiSlider.getThumb(1).getValue(),
                 priceMultiSlider.getThumb(0).getValue(),
                 filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
@@ -308,7 +325,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 sharedFilterViewModel.isFiltred = true;
                 sharedPreferences
                         .edit()
-                        .putString("types", filterFragmentViewModel.getTypeInString(cities_Et.getText().toString()))
+                        .putString("types", filterFragmentViewModel.getTypeInString())
                         .putInt("price_mini", priceMultiSlider.getThumb(0).getValue())
                         .putInt("price_maxi", priceMultiSlider.getThumb(1).getValue())
                         .putString("cities", cities_Et.getText().toString())
@@ -336,6 +353,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     public void removeFilters(){
         sharedFilterViewModel.isFiltred = false;
         filterFragmentViewModel.initTypesFilter();
+        sharedPreferences.edit().clear().apply();
         FilterFragment filterFragment = new FilterFragment();
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = getActivity().getResources().getBoolean(R.bool.isTablet);
@@ -377,7 +395,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     @Override
-    public void onChipClicked(String type, boolean selected) {
-        filterFragmentViewModel.setType(type, selected);
+    public void onChipClicked(int position, boolean selected) {
+        filterFragmentViewModel.setType(position, selected);
     }
 }

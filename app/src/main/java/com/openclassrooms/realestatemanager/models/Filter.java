@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Filter {
 
     private int id;
-    private ArrayList<String> types;
+    private ArrayList<Type> types;
     private int priceMaxi;
     private int priceMini;
     private ArrayList<String> cities;
@@ -22,7 +22,7 @@ public class Filter {
     private int numberOfPhotosMaxi;
     private int numberOfPhotosMini;
 
-    public Filter(ArrayList<String> types, int priceMaxi, int priceMini, ArrayList<String> cities,
+    public Filter(ArrayList<Type> types, int priceMaxi, int priceMini, ArrayList<String> cities,
                   ArrayList<String> states, int areaMaxi, int areaMini, int piecesMaxi, int piecesMini,
                   ArrayList<String> interestPoints, ArrayList<String> agentName, Status status, String entryDate, String saleDate,
                   int numberOfPhotosMaxi, int numberOfPhotosMini) {
@@ -53,11 +53,11 @@ public class Filter {
         this.id = id;
     }
 
-    public ArrayList<String> getTypes() {
+    public ArrayList<Type> getTypes() {
         return types;
     }
 
-    public void setTypes(ArrayList<String> types) {
+    public void setTypes(ArrayList<Type> types) {
         this.types = types;
     }
 
