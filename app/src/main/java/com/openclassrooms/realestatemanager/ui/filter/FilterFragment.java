@@ -151,8 +151,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         if (!isSelected_prefs.isEmpty()) {
             List<Type> typesFilter = filterFragmentViewModel.getTypesFilter_prefs(isSelected_prefs);
             filterFragmentViewModel.typesFilter.postValue(typesFilter);
-            }
         }
+    }
 
     private void configure_soldeDate() {
         TextInputEditText soldeDate = root.findViewById(R.id.fragment_filter_sold_date_textInputEditText);
@@ -160,8 +160,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         soldeDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
                 filterFragmentViewModel.setSoldDate(year, month, dayOfMonth)
         ));
-        filterFragmentViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText
-        );
+        filterFragmentViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText);
     }
 
     private void configure_availabilityDate() {
@@ -170,8 +169,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         availabilityDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
                 filterFragmentViewModel.setAvailableDate(year, month, dayOfMonth)
         ));
-        filterFragmentViewModel.entryDate.observe(getViewLifecycleOwner(), availabilityDate::setText
-        );
+        filterFragmentViewModel.entryDate.observe(getViewLifecycleOwner(), availabilityDate::setText);
     }
 
     private void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
@@ -258,20 +256,16 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private void configureTypes() {
 
         filterFragmentViewModel.initTypesFilter();
+        types_chips_rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        types_chips_rv.setLayoutManager(layoutManager);
 
         filterFragmentViewModel.typesFilter.observe(getViewLifecycleOwner(),typesFilter->{
             if(typesFilter!=null){
-                types_chips_rv.setHasFixedSize(true);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                types_chips_rv.setLayoutManager(layoutManager);
-                TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(filterFragmentViewModel.getTypesFilter(), getActivity(), FilterFragment.this);
+                TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(typesFilter, getActivity(), FilterFragment.this);
                 types_chips_rv.setAdapter(typesChipsAdapter);
                 ;}
             ;});
-
-
-
-
     }
 
     private void configureStatus() {

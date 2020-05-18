@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.filter;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -37,9 +36,6 @@ public class FilterFragmentViewModel extends ViewModel {
     private String[] AVAILABILITY_LIST = {"All", "Available","Sold"} ;
 
     ArrayList<Type> getTypesFilter() {
-
-
-
         return (ArrayList<Type>) typesFilter.getValue();
     }
 
@@ -283,7 +279,7 @@ public class FilterFragmentViewModel extends ViewModel {
         ArrayList<Type> newtypesFilter = (ArrayList<Type>) typesFilter.getValue();
         newtypesFilter.get(position).setSelected(selected);
         typesFilter.postValue(newtypesFilter);
-        }
+    }
 
     String getTypeInString() {
 

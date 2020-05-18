@@ -52,17 +52,10 @@ public class TypesChipsAdapter extends RecyclerView.Adapter {
             chip.setChipBackgroundColorResource(R.color.colorGrey);
         }
 
-        chip.setOnClickListener(v -> {
+        chip.setChecked(isSelected);
 
-            if (isSelected) {
-                types.get(position).setSelected(false);
-                chip.setChipBackgroundColorResource(R.color.colorGrey);
-                chipClickedListener.onChipClicked(position, false);
-            } else {
-                types.get(position).setSelected(true);
-                chip.setChipBackgroundColorResource(R.color.colorFilterClick);
-                chipClickedListener.onChipClicked(position, true);
-            }
+        chip.setOnClickListener(v -> {
+            chipClickedListener.onChipClicked(position, !isSelected);
         });
     }
 

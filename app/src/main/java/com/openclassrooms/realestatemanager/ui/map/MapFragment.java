@@ -59,6 +59,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                             == PackageManager.PERMISSION_GRANTED) {
                         //Location Permission already granted
                         googleMap.setMyLocationEnabled(true);
+                        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                         Log.i("tag_location:  ", "loadMap  setMyLocationEnable_1");
                     } else {
                         //Request Location Permission
@@ -67,6 +68,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                     }
                 } else {
                     googleMap.setMyLocationEnabled(true);
+                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                     Log.i("tag_location:  ", "loadMap  setMyLocationEnable_2");
                 }
             });
