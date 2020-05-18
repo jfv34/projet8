@@ -111,7 +111,7 @@
                     app:layout_constraintTop_toTopOf="@id/fragment_filter_price_seekbar"
                     />
 
-                <io.apptik.widget.MultiSlider
+                <com.warkiz.widget.IndicatorSeekBar
                     android:id="@+id/fragment_filter_price_seekbar"
                     android:layout_width="0dp"
                     android:layout_marginStart="@dimen/margin_small"
@@ -119,11 +119,30 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:drawThumbsApart="true"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_label_tv"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_amoutMin_txt"
-                    app:stepsThumbsApart="5"
-                    app:thumbNumber="2" />
+                    app:isb_indicator_color="@color/colorGrey"
+                    app:isb_indicator_text_color="@color/colorAccent"
+                    app:isb_indicator_text_size="18sp"
+                    app:isb_max="100"
+                    app:isb_min="-1.0"
+                    app:isb_only_thumb_draggable="false"
+                    app:isb_progress="25"
+                    app:isb_seek_smoothly="true"
+                    app:isb_show_indicator="rounded_rectangle"
+                    app:isb_show_tick_marks_type="oval"
+                    app:isb_show_tick_texts="true"
+                    app:isb_thumb_color="#00BA08"
+                    app:isb_thumb_size="20dp"
+                    app:isb_tick_marks_drawable="@mipmap/ic_launcher"
+                    app:isb_tick_marks_size="13dp"
+                    app:isb_tick_texts_color="#ffffff"
+                    app:isb_tick_texts_size="15sp"
+                    app:isb_ticks_count="5"
+                    app:isb_track_background_color="@color/colorGrey"
+                    app:isb_track_background_size="2dp"
+                    app:isb_track_progress_color="#ffffff"
+                    app:isb_track_progress_size="4dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fragment_filter_cities_textfield"

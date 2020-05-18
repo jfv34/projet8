@@ -4,6 +4,7 @@ package com.openclassrooms.realestatemanager.ui.filter;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,12 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
+import com.warkiz.widget.IndicatorSeekBar;
+import com.warkiz.widget.IndicatorStayLayout;
+import com.warkiz.widget.IndicatorType;
+import com.warkiz.widget.OnSeekChangeListener;
+import com.warkiz.widget.SeekParams;
+import com.warkiz.widget.TickMarkType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,12 +58,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private View root;
     private static Calendar calendar = Calendar.getInstance();
 
-    @BindView(R.id.fragment_filter_price_seekbar)
-    MultiSlider priceMultiSlider;
-    @BindView(R.id.fragment_filter_price_amoutMin_txt)
-    TextView priceMin_txt;
-    @BindView(R.id.fragment_filter_price_amountMax_txt)
-    TextView priceMax_txt;
+
+
     @BindView(R.id.fragment_filter_cities_textInputEditText)
     EditText cities_Et;
     @BindView(R.id.fragment_filter_state_textInputEditText)
@@ -85,6 +88,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     EditText soldDate_Et;
     @BindView(R.id.fragment_filter_numberOfPhotos_multiSlider)
     MultiSlider numberOfPhotos_multiSlider;
+
+
     @BindView(R.id.fragment_filter_numberOfphotos_numberMin_txt)
     TextView numberOfPhotoMin_txt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
@@ -138,8 +143,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         status_tv.setText(sharedPreferences.getString("status", ""));
         availableDate_Et.setText(sharedPreferences.getString("available_date",""));
         soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
-        priceMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("price_mini",Constants.slider_price_minimum));
-        priceMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("price_maxi",Constants.slider_price_maximum));
+        //priceMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("price_mini",Constants.slider_price_minimum));
+        //priceMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("price_maxi",Constants.slider_price_maximum));
         areaMultislider.getThumb(0).setValue(sharedPreferences.getInt("area_mini",Constants.slider_price_minimum));
         areaMultislider.getThumb(1).setValue(sharedPreferences.getInt("area_maxi",Constants.slider_price_maximum));
         piecesMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("pieces_mini",Constants.slider_price_minimum));
@@ -247,8 +252,52 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void priceMultiSlider() {
-        ;
-        priceMultiSlider.setBackgroundColor(Color.GRAY);
+
+        IndicatorSeekBar seekBar = IndicatorSeekBar
+                .with(getContext())
+                .max(110)
+                .min(10)
+                .progress(53)
+                .tickCount(7)
+                .showTickMarksType(TickMarkType.OVAL)
+                .tickMarksColor(Color.parseColor("#ffffff")) // todo blue
+                .tickMarksSize(13)//dp
+                .showTickTexts(true)
+                .tickTextsColor(Color.parseColor("#ffffff"))// todo pink
+                .tickTextsSize(13)//sp
+                .tickTextsTypeFace(Typeface.MONOSPACE)
+                .showIndicatorType(IndicatorType.ROUNDED_RECTANGLE)
+                .indicatorColor(Color.parseColor("#ffffff")) // todo pink
+                .indicatorTextColor(Color.parseColor("#ffffff")) // ok
+                .indicatorTextSize(13)//sp
+                .thumbColor(Color.parseColor("#ffffff")) // todo colorAccent
+                .thumbSize(14)
+                .trackProgressColor(Color.parseColor("#ffffff")) // todo coloAccent
+                .trackProgressSize(4)
+                .trackBackgroundColor(Color.parseColor("#ffffff")) // todo gray
+                .trackBackgroundSize(2)
+                .onlyThumbDraggable(false)
+                .build();
+
+
+        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                /* called when the user is sliding the thumb */
+            }
+
+            @Override
+            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
+                /* called when the sliding of thumb is started */
+            }
+
+            @Override
+            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
+                /* called when the sliding of thumb stops */
+            }
+        });
+
+ /*       priceMultiSlider.setBackgroundColor(Color.GRAY);
         priceMultiSlider.setMin(Constants.slider_price_minimum);
         priceMultiSlider.setMax(Constants.slider_price_maximum);
         priceMultiSlider.setStep(100);
@@ -264,7 +313,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             if (thumbIndex == 1) {
                 priceMax_txt.setText(value + " €");
             }
-        });
+        });*/
     }
 
     private void configureTypes() {
@@ -300,8 +349,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         Filter filter = new Filter(
                 filterFragmentViewModel.getTypesFilter(),
-                priceMultiSlider.getThumb(1).getValue(),
-                priceMultiSlider.getThumb(0).getValue(),
+                0,
+                0,
+                //priceMultiSlider.getThumb(1).getValue(),
+                //priceMultiSlider.getThumb(0).getValue(),
                 filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
                 filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
                 areaMultislider.getThumb(1).getValue(),
@@ -325,8 +376,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 sharedPreferences
                         .edit()
                         .putString("types", filterFragmentViewModel.getTypeInString())
-                        .putInt("price_mini", priceMultiSlider.getThumb(0).getValue())
-                        .putInt("price_maxi", priceMultiSlider.getThumb(1).getValue())
+                        .putInt("price_mini",0)
+                        .putInt("price mini",0)
+                        //.putInt("price_mini", priceMultiSlider.getThumb(0).getValue())
+                        //.putInt("price_maxi", priceMultiSlider.getThumb(1).getValue())
                         .putString("cities", cities_Et.getText().toString())
                         .putString("states", states_Et.getText().toString())
                         .putInt("area_mini", areaMultislider.getThumb(0).getValue())
