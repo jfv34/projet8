@@ -143,12 +143,13 @@ public class FilterFragmentViewModel extends ViewModel {
                     typesFilter.add(TYPE_LIST[i]);
                 }
             }
+            if(!typesFilter.isEmpty()){
             for (int i = 0; i < properties.getValue().size(); i++) {
                 Property property = properties.getValue().get(i);
                 String type = property.getType();
                 filter_for_list(property, type, typesFilter);
             }
-        }
+        };}
     }
 
     private void filterByCities() {

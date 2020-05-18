@@ -1,10 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.filter;
 
-
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -33,12 +32,6 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
-import com.warkiz.widget.IndicatorSeekBar;
-import com.warkiz.widget.IndicatorStayLayout;
-import com.warkiz.widget.IndicatorType;
-import com.warkiz.widget.OnSeekChangeListener;
-import com.warkiz.widget.SeekParams;
-import com.warkiz.widget.TickMarkType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,12 +81,12 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     EditText soldDate_Et;
     @BindView(R.id.fragment_filter_numberOfPhotos_multiSlider)
     MultiSlider numberOfPhotos_multiSlider;
-
-
     @BindView(R.id.fragment_filter_numberOfphotos_numberMin_txt)
     TextView numberOfPhotoMin_txt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
     TextView numberOfPhotoMax_txt;
+    @BindView(R.id.fragment_filter_price_slidebar)
+    Slider price_slider;
     @BindView(R.id.fragment_filter_types_chips_recyclerView)
     RecyclerView types_chips_rv;
     @BindView(R.id.fragment_filter_toolbar)
@@ -253,67 +246,13 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     private void priceMultiSlider() {
 
-        IndicatorSeekBar seekBar = IndicatorSeekBar
-                .with(getContext())
-                .max(110)
-                .min(10)
-                .progress(53)
-                .tickCount(7)
-                .showTickMarksType(TickMarkType.OVAL)
-                .tickMarksColor(Color.parseColor("#ffffff")) // todo blue
-                .tickMarksSize(13)//dp
-                .showTickTexts(true)
-                .tickTextsColor(Color.parseColor("#ffffff"))// todo pink
-                .tickTextsSize(13)//sp
-                .tickTextsTypeFace(Typeface.MONOSPACE)
-                .showIndicatorType(IndicatorType.ROUNDED_RECTANGLE)
-                .indicatorColor(Color.parseColor("#ffffff")) // todo pink
-                .indicatorTextColor(Color.parseColor("#ffffff")) // ok
-                .indicatorTextSize(13)//sp
-                .thumbColor(Color.parseColor("#ffffff")) // todo colorAccent
-                .thumbSize(14)
-                .trackProgressColor(Color.parseColor("#ffffff")) // todo coloAccent
-                .trackProgressSize(4)
-                .trackBackgroundColor(Color.parseColor("#ffffff")) // todo gray
-                .trackBackgroundSize(2)
-                .onlyThumbDraggable(false)
-                .build();
-
-
-        seekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
+        price_slider.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
-            public void onSeeking(SeekParams seekParams) {
-                /* called when the user is sliding the thumb */
-            }
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
 
-            @Override
-            public void onStartTrackingTouch(IndicatorSeekBar seekBar) {
-                /* called when the sliding of thumb is started */
-            }
-
-            @Override
-            public void onStopTrackingTouch(IndicatorSeekBar seekBar) {
-                /* called when the sliding of thumb stops */
             }
         });
 
- /*       priceMultiSlider.setBackgroundColor(Color.GRAY);
-        priceMultiSlider.setMin(Constants.slider_price_minimum);
-        priceMultiSlider.setMax(Constants.slider_price_maximum);
-        priceMultiSlider.setStep(100);
-        priceMultiSlider.setStepsThumbsApart(0);
-        priceMultiSlider.removeThumb(1);
-        priceMultiSlider.addThumb(priceMultiSlider.getMax());
-        priceMin_txt.setText(priceMultiSlider.getMin() + " €");
-        priceMax_txt.setText(priceMultiSlider.getMax() + " €");
-        priceMultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
-            if (thumbIndex == 0) {
-                priceMin_txt.setText(value + " €");
-            }
-            if (thumbIndex == 1) {
-                priceMax_txt.setText(value + " €");
-            }
-        });*/
     }
 
     private void configureTypes() {
@@ -349,7 +288,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         Filter filter = new Filter(
                 filterFragmentViewModel.getTypesFilter(),
-                0,
+                100000000,
                 0,
                 //priceMultiSlider.getThumb(1).getValue(),
                 //priceMultiSlider.getThumb(0).getValue(),
@@ -377,7 +316,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                         .edit()
                         .putString("types", filterFragmentViewModel.getTypeInString())
                         .putInt("price_mini",0)
-                        .putInt("price mini",0)
+                        .putInt("price mini",100000000)
                         //.putInt("price_mini", priceMultiSlider.getThumb(0).getValue())
                         //.putInt("price_maxi", priceMultiSlider.getThumb(1).getValue())
                         .putString("cities", cities_Et.getText().toString())
