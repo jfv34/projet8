@@ -28,5 +28,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBIr_Z4aE3uGusLp7sbRW0nNQCrhFehsKs" />
+        <provider
+            android:name=".provider.PropertyContentProvider"
+            android:authorities="com.openclassrooms.savemytrip.provider"
+            android:exported="true" />
     </application>
 </manifest>

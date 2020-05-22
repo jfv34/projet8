@@ -11,7 +11,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.slider.Slider;
+import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
@@ -44,14 +43,13 @@ import io.apptik.widget.MultiSlider;
 
 import static android.content.Context.MODE_PRIVATE;
 
+
 public class FilterFragment extends Fragment implements OnChipClickedListener {
     SharedPreferences sharedPreferences;
     private SharedFilterViewModel sharedFilterViewModel;
     private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
     private static Calendar calendar = Calendar.getInstance();
-
-
 
     @BindView(R.id.fragment_filter_cities_textInputEditText)
     EditText cities_Et;
@@ -85,10 +83,14 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     TextView numberOfPhotoMin_txt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
     TextView numberOfPhotoMax_txt;
-    @BindView(R.id.fragment_filter_price_slidebar)
-    Slider price_slider;
     @BindView(R.id.fragment_filter_types_chips_recyclerView)
     RecyclerView types_chips_rv;
+    @BindView(R.id.fragment_filter_price_slidebar)
+    BubbleThumbRangeSeekbar price_slidebar;
+    @BindView(R.id.fragment_filter_price_amoutMin_txt)
+    TextView priceMin_tv;
+    @BindView(R.id.fragment_filter_price_amountMax_txt)
+    TextView priceMax_tv;
     @BindView(R.id.fragment_filter_toolbar)
     Toolbar toolbar;
 
@@ -115,15 +117,15 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
-        configureToolBar();
-        configureTypes();
-        configureStatus();
-        configure_soldeDate();
-        configure_availabilityDate();
-        priceMultiSlider();
-        areaMultiSlider();
-        piecesMultiSlider();
-        numberOfPhotos_multislider();
+        toolBar();
+        types();
+        status();
+        soldeDate();
+        availabilityDate();
+        priceSlider();
+        areaSlider();
+        piecesSlider();
+        numberOfPhotosSlider();
         load_savedFilters();
     }
 
@@ -136,8 +138,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         status_tv.setText(sharedPreferences.getString("status", ""));
         availableDate_Et.setText(sharedPreferences.getString("available_date",""));
         soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
-        //priceMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("price_mini",Constants.slider_price_minimum));
-        //priceMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("price_maxi",Constants.slider_price_maximum));
+        priceMin_tv.setText(String.valueOf(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum)));
+        price_slidebar.setMinStartValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
+        priceMax_tv.setText(String.valueOf(sharedPreferences.getInt("price_maxi", Constants.slider_price_minimum)));
+        price_slidebar.setMaxStartValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
         areaMultislider.getThumb(0).setValue(sharedPreferences.getInt("area_mini",Constants.slider_price_minimum));
         areaMultislider.getThumb(1).setValue(sharedPreferences.getInt("area_maxi",Constants.slider_price_maximum));
         piecesMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("pieces_mini",Constants.slider_price_minimum));
@@ -154,7 +158,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         }
     }
 
-    private void configure_soldeDate() {
+    private void soldeDate() {
         TextInputEditText soldeDate = root.findViewById(R.id.fragment_filter_sold_date_textInputEditText);
 
         soldeDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
@@ -163,7 +167,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         filterFragmentViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText);
     }
 
-    private void configure_availabilityDate() {
+    private void availabilityDate() {
         TextInputEditText availabilityDate = root.findViewById(R.id.fragment_filter_availability_date_textInputEditText);
 
         availabilityDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
@@ -184,7 +188,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         dialog.show();
     }
 
-    private void piecesMultiSlider() {
+    private void piecesSlider() {
 
         piecesMultiSlider.setMin(Constants.slider_pieces_minimum);
         piecesMultiSlider.setMax(Constants.slider_pieces_maximum);
@@ -204,7 +208,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         });
     }
 
-    private void numberOfPhotos_multislider() {
+    private void numberOfPhotosSlider() {
         numberOfPhotos_multiSlider.setMin(0);
         numberOfPhotos_multiSlider.setMax(Constants.slider_photos_maximum);
         numberOfPhotos_multiSlider.setStep(1);
@@ -223,7 +227,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         });
     }
 
-    private void areaMultiSlider() {
+    private void areaSlider() {
         areaMultislider.setMin(Constants.slider_area_minimum);
         areaMultislider.setMax(Constants.slider_area_maximum);
         areaMultislider.setStep(10);
@@ -242,18 +246,20 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         });
     }
 
-    private void priceMultiSlider() {
+    private void priceSlider() {
 
-        price_slider.addOnChangeListener(new Slider.OnChangeListener() {
-            @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+        price_slidebar.setMinValue(Constants.slider_price_minimum);
+        price_slidebar.setMaxValue(Constants.slider_price_maximum);
 
-            }
+        price_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+            filterFragmentViewModel.set_price_min(minValue);
+            filterFragmentViewModel.set_price_max(maxValue);
+            priceMin_tv.setText(minValue.intValue() + " €");
+            priceMax_tv.setText(maxValue.intValue() + " €");
         });
-
     }
 
-    private void configureTypes() {
+    private void types() {
 
         filterFragmentViewModel.initTypesFilter();
         types_chips_rv.setHasFixedSize(true);
@@ -264,11 +270,11 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             if(typesFilter!=null){
                 TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(typesFilter, getActivity(), FilterFragment.this);
                 types_chips_rv.setAdapter(typesChipsAdapter);
-                ;}
-            ;});
+            }
+        });
     }
 
-    private void configureStatus() {
+    private void status() {
         final String[] AVAILABILITY = filterFragmentViewModel.getAvailabilities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, AVAILABILITY);
@@ -282,10 +288,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         Filter filter = new Filter(
                 filterFragmentViewModel.getTypesFilter(),
-                100000000,
-                0,
-                //priceMultiSlider.getThumb(1).getValue(),
-                //priceMultiSlider.getThumb(0).getValue(),
+                filterFragmentViewModel.getPriceMax(),
+                filterFragmentViewModel.getPriceMin(),
                 filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
                 filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
                 areaMultislider.getThumb(1).getValue(),
@@ -309,10 +313,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 sharedPreferences
                         .edit()
                         .putString("types", filterFragmentViewModel.getTypeInString())
-                        .putInt("price_mini",0)
-                        .putInt("price mini",100000000)
-                        //.putInt("price_mini", priceMultiSlider.getThumb(0).getValue())
-                        //.putInt("price_maxi", priceMultiSlider.getThumb(1).getValue())
+                        .putInt("price_mini", filterFragmentViewModel.getPriceMin())
+                        .putInt("price_maxi", filterFragmentViewModel.getPriceMax())
                         .putString("cities", cities_Et.getText().toString())
                         .putString("states", states_Et.getText().toString())
                         .putInt("area_mini", areaMultislider.getThumb(0).getValue())
@@ -349,7 +351,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             transaction.detach(this);
             transaction.replace(R.id.frame_layout_main, filterFragment).commit();
         }
-        ;}
+    }
 
     private Status statusFilter() {
         Status status;
@@ -367,11 +369,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 status = Status.UNSPECIFIED;
             }
         }
-        ;
         return status;
     }
 
-    private void configureToolBar() {
+    private void toolBar() {
         toolbar.setTitle("Filter properties");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

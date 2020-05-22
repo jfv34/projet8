@@ -68,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:text="0 €"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_min_txt"
@@ -92,7 +91,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:text="0 €"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_price_max_txt"
@@ -108,23 +106,24 @@
                     android:layout_marginStart="@dimen/margin_large"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_amountMax_txt"
-
                     />
 
-                    <com.google.android.material.slider.Slider
-                        app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_amountMax_txt"
-                        app:layout_constraintStart_toEndOf="@id/fragment_filter_price_label_tv"
-                        app:layout_constraintEnd_toEndOf="parent"
-                     android:layout_marginEnd="@dimen/margin_small"
-                        android:id="@+id/fragment_filter_price_slidebar"
-                        android:layout_gravity="center"
-                        android:value="60"
-                        android:valueFrom="0"
-                        android:valueTo="100"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
-
-
+                <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+                    android:id="@+id/fragment_filter_price_slidebar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    app:bar_color="#8990C4"
+                    app:bar_highlight_color="#2434AD"
+                    app:data_type="_integer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fragment_filter_price_label_tv"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_amountMax_txt"
+                    app:left_thumb_color="#1A246D"
+                    app:left_thumb_color_pressed="#030B47"
+                    app:right_thumb_color="#1A246D"
+                    app:right_thumb_color_pressed="#030B47" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fragment_filter_cities_textfield"

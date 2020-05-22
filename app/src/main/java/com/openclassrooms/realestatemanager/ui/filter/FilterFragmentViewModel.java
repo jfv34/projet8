@@ -32,6 +32,8 @@ public class FilterFragmentViewModel extends ViewModel {
 
     private ArrayList<Property> filterProperties;
     private Filter filter;
+    private int price_min = Constants.slider_price_minimum;
+    private int price_max = Constants.slider_price_maximum;
     private String[] TYPE_LIST = Constants.TYPE_LIST;
     private String[] AVAILABILITY_LIST = {"All", "Available","Sold"} ;
 
@@ -303,5 +305,21 @@ public class FilterFragmentViewModel extends ViewModel {
             typesFilter.add(type);
         }
         return typesFilter;
+    }
+
+    public void set_price_min(Number minValue) {
+        price_min = minValue.intValue();
+    }
+
+    public void set_price_max(Number maxValue) {
+        price_max = maxValue.intValue();
+    }
+
+    public int getPriceMin() {
+        return price_min;
+    }
+
+    public int getPriceMax() {
+        return price_max;
     }
 }
