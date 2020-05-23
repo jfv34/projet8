@@ -1,15 +1,19 @@
 package com.openclassrooms.realestatemanager.ui.map;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +21,21 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
 
 public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
+        LocationListener,
         OnMapReadyCallback {
 
     public static MapFragment newInstance() {
@@ -44,12 +56,33 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
         super.onViewCreated(view, savedInstanceState);
         loadMap();
+
+    }
+
+    private void marker(double latitude, double longitude) {
+
+        int drawable;
+        drawable = R.drawable.ic_add;  // for test
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .icon(bitmapDescriptorFromVector(requireContext(), drawable)));
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int drawable) {
+        Drawable background = ContextCompat.getDrawable(context, drawable);
+        assert background != null;
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     private void loadMap() {
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        map.getMapAsync(this);
 
-        if (map != null) {
             map.getMapAsync(googleMap -> {
                 this.googleMap = googleMap;
 
@@ -60,25 +93,19 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                         //Location Permission already granted
                         googleMap.setMyLocationEnabled(true);
                         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                        Log.i("tag_location:  ", "loadMap  setMyLocationEnable_1");
                     } else {
                         //Request Location Permission
                         checkLocationPermission();
-                        Log.i("tag_location:  ", "loadMap  checkLocationPermission");
                     }
                 } else {
                     googleMap.setMyLocationEnabled(true);
                     googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                    Log.i("tag_location:  ", "loadMap  setMyLocationEnable_2");
                 }
             });
-        }
     }
-
 
     private void checkLocationPermission() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
-        Log.i("tag_location:  ", "checkLocationPermission");
     }
 
     @Override
@@ -89,7 +116,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i("tag_location:  ", "onRequestPermissionResult_yes");
                     // permission was granted, yay! Do the
                     // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(getActivity(),
@@ -100,7 +126,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                     }
 
                 } else {
-                    Log.i("tag_location:  ", "onRequestPermissionResult_no");
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -109,35 +134,52 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             // other 'case' lines to check for other
             // permissions this app might request
         }
-        Log.i("tag_location:  ", "onRequestPermissionResult");
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-
-        // TODO: Before enabling the My Location layer, you must request
-        // location permission from the user. This sample does not include
-        // a request for location permission.
+        Log.i("tag_onMapReady", "ok");
+        googleMap=map;
         googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
-        Log.i("tag_location:  ", "onMapReady");
+        LatLng latLng = new LatLng(37.4220, -122.0840);
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(10).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
+        marker(37.4220, -122.0840);
     }
 
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(getActivity(), "MyLocation button clicked", Toast.LENGTH_SHORT).show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        Log.i("tag_location ", ">" + location.toString());
-
+        Log.i("tag_location", "click");
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Log.i("tag_location", "boolean");
+        Log.i("tag_location", "click");
         return false;
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.i("tag_location", "change");
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
 }
