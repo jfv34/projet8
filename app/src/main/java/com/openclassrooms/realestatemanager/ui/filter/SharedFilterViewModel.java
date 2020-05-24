@@ -26,13 +26,4 @@ public class SharedFilterViewModel extends ViewModel {
                 }
         );
     }
-
-   /* public void loadFilterProperties(List<Property> filterProperties) {
-        AsyncTask.execute(() -> {
-                    properties.postValue(filterProperties);
-                }
-        );
-    }*/
-
-
 }

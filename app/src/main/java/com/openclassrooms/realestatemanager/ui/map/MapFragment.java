@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 
 import java.util.List;
 
@@ -45,6 +49,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private static final int PERMISSIONS_REQUEST_CODE = 123;
+    private SharedFilterViewModel sharedFilterViewModel;
     private GoogleMap googleMap;
 
     @Override
@@ -58,7 +63,35 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
         super.onViewCreated(view, savedInstanceState);
         loadMap();
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        if (sharedFilterViewModel.isFiltred = false) {
+            sharedFilterViewModel.loadProperties();
+        }
+    }
 
+    private void observeFilterProperties() {
+        if (sharedFilterViewModel.properties.getValue() == null) {
+            sharedFilterViewModel.loadProperties();
+        }
+        sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+
+            if (properties.size() == 0) {
+                Utils.toast(getActivity(), "No properties in database");
+            } else {
+                displayProperties(properties);
+            }
+        });
+    }
+
+    private void displayProperties(List<Property> properties) {
+        for (int i = 0; i < properties.size(); i++) {
+            Property property = properties.get(i);
+            String type = property.getType();
+            String address = property.getAddress() + "," + property.getCity() + "," + property.getState() + "," + property.getZip();
+            LatLng address_latLng = getLocationFromAddress(getActivity(), address);
+            marker(address_latLng.latitude, address_latLng.longitude, type);
+            ;
+        }
     }
 
     private void marker(double latitude, double longitude, String title_Marker) {
@@ -70,7 +103,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 .position(new LatLng(latitude, longitude))
                 .title(title_Marker)
                 .icon(bitmapDescriptorFromVector(requireContext(), drawable)));
-
     }
 
 
@@ -153,9 +185,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        LatLng address_latLng = getLocationFromAddress(getActivity(), "1842 N Shoreline Blvd, Mountain View, United States, CA94043");
-        marker(address_latLng.latitude,address_latLng.longitude,"Property");
-
+        observeFilterProperties();
 
     }
 
