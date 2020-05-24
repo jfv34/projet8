@@ -13,7 +13,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.models.Status;
 
 @Database(entities = {Property.class}, version = 5, exportSchema = false)
 
@@ -56,10 +55,10 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_1.put("id",1);
                 contentValues_1.put("type", "Loft");
                 contentValues_1.put("price", "1250252");
-                contentValues_1.put("address", "603 Bayland Avenue");
-                contentValues_1.put("city","Houston");
+                contentValues_1.put("address", "1842 N Shoreline Blvd");
+                contentValues_1.put("city", "Mountain View");
                 contentValues_1.put("state","United States");
-                contentValues_1.put("zip","TX 77009");
+                contentValues_1.put("zip", "CA94043");
                 contentValues_1.put("area","170");
                 contentValues_1.put("pieces","7");
                 contentValues_1.put("interestPoint","Woodland Park and Houston Zoo");
@@ -75,10 +74,10 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_2.put("id", 2);
                 contentValues_2.put("type", "Duplex");
                 contentValues_2.put("price", "34725029");
-                contentValues_2.put("address", "2799 Broadway");
-                contentValues_2.put("city","San Francisco");
+                contentValues_2.put("address", "1550 Plymouth St");
+                contentValues_2.put("city", "Mountain View");
                 contentValues_2.put("state","United States");
-                contentValues_2.put("zip","CA 94115");
+                contentValues_2.put("zip", "CA 94043");
                 contentValues_2.put("area","1077");
                 contentValues_2.put("pieces","15");
                 contentValues_2.put("interestPoint","Crissy Field and Baker Beach");

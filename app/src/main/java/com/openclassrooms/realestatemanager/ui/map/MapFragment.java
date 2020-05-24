@@ -6,11 +6,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -32,6 +32,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
+
+import java.util.List;
 
 public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
@@ -59,15 +61,18 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     }
 
-    private void marker(double latitude, double longitude) {
+    private void marker(double latitude, double longitude, String title_Marker) {
 
         int drawable;
         drawable = R.drawable.ic_marker_housse;
 
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
+                .title(title_Marker)
                 .icon(bitmapDescriptorFromVector(requireContext(), drawable)));
+
     }
+
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int drawable) {
         Drawable background = ContextCompat.getDrawable(context, drawable);
@@ -148,11 +153,32 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+        LatLng address_latLng = getLocationFromAddress(getActivity(), "1842 N Shoreline Blvd, Mountain View, United States, CA94043");
+        marker(address_latLng.latitude,address_latLng.longitude,"Property");
 
 
-        marker(37.4220, -122.0840);
     }
 
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return p1;
+    }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
