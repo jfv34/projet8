@@ -62,7 +62,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private void marker(double latitude, double longitude) {
 
         int drawable;
-        drawable = R.drawable.ic_add;  // for test
+        drawable = R.drawable.ic_marker_housse;
 
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
@@ -138,13 +138,14 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onMapReady(GoogleMap map) {
-        Log.i("tag_onMapReady", "ok");
+
         googleMap=map;
         googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
+
         LatLng latLng = new LatLng(37.4220, -122.0840);
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(10).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
@@ -155,18 +156,17 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Log.i("tag_location", "click");
+
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Log.i("tag_location", "click");
+
         return false;
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("tag_location", "change");
     }
 
     @Override
