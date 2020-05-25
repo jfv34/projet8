@@ -34,9 +34,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.models.Marker;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
@@ -50,6 +53,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     private static final int PERMISSIONS_REQUEST_CODE = 123;
     private SharedFilterViewModel sharedFilterViewModel;
+    private MapFragmentViewModel mapFragmentViewModel;
+    private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
 
     @Override
@@ -67,6 +72,47 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         if (sharedFilterViewModel.isFiltred = false) {
             sharedFilterViewModel.loadProperties();
         }
+        mapFragmentViewModel = new ViewModelProvider(this).get(MapFragmentViewModel.class);
+    }
+
+    private void loadMap() {
+        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        map.getMapAsync(this);
+
+        map.getMapAsync(googleMap -> {
+            this.googleMap = googleMap;
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    //Location Permission already granted
+                    googleMap.setMyLocationEnabled(true);
+                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+                } else {
+                    //Request Location Permission
+                    checkLocationPermission();
+                }
+            } else {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+            }
+        });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        googleMap = map;
+        googleMap.setMyLocationEnabled(true);
+        googleMap.setOnMyLocationButtonClickListener(this);
+        googleMap.setOnMyLocationClickListener(this);
+
+        LatLng latLng = new LatLng(37.4220, -122.0840);
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        observeFilterProperties();
     }
 
     private void observeFilterProperties() {
@@ -88,10 +134,47 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             Property property = properties.get(i);
             String type = property.getType();
             String address = property.getAddress() + "," + property.getCity() + "," + property.getState() + "," + property.getZip();
-            LatLng address_latLng = getLocationFromAddress(getActivity(), address);
+            LatLng address_latLng = getLocationFromAddress(address);
             marker(address_latLng.latitude, address_latLng.longitude, type);
-            ;
+            markerList.add(new Marker(property.getId(), address_latLng));
         }
+        markerClickListener();
+    }
+
+    private void markerClickListener() {
+        googleMap.setOnMarkerClickListener(marker -> {
+            for (int i = 0; i < markerList.size(); i++) {
+                LatLng click_latlng = marker.getPosition();
+                LatLng saved_latlng = markerList.get(i).getLatLng_marker();
+                if (click_latlng.equals(saved_latlng)) {
+                    int propertyId = markerList.get(i).getPropertyId();
+                    Fragment detailsFragment = DetailsFragment.newInstance(propertyId);
+                    Utils.replaceFragmentInDetailScreen(getActivity(), detailsFragment);
+                }
+            }
+            return false;
+        });
+    }
+
+    private LatLng getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(getActivity());
+        List<Address> address;
+        LatLng latLng = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return latLng;
     }
 
     private void marker(double latitude, double longitude, String title_Marker) {
@@ -103,8 +186,9 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 .position(new LatLng(latitude, longitude))
                 .title(title_Marker)
                 .icon(bitmapDescriptorFromVector(requireContext(), drawable)));
-    }
 
+
+    }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int drawable) {
         Drawable background = ContextCompat.getDrawable(context, drawable);
@@ -116,30 +200,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
-    private void loadMap() {
-        SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        map.getMapAsync(this);
-
-            map.getMapAsync(googleMap -> {
-                this.googleMap = googleMap;
-
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(getActivity(),
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-                        //Location Permission already granted
-                        googleMap.setMyLocationEnabled(true);
-                        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                    } else {
-                        //Request Location Permission
-                        checkLocationPermission();
-                    }
-                } else {
-                    googleMap.setMyLocationEnabled(true);
-                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                }
-            });
-    }
 
     private void checkLocationPermission() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
@@ -150,74 +210,27 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
                         googleMap.setMyLocationEnabled(true);
                     }
-
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    Utils.toast(getActivity(), "No permission for location");
                 }
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-
-        googleMap=map;
-        googleMap.setMyLocationEnabled(true);
-        googleMap.setOnMyLocationButtonClickListener(this);
-        googleMap.setOnMyLocationClickListener(this);
-
-        LatLng latLng = new LatLng(37.4220, -122.0840);
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        observeFilterProperties();
-
-    }
-
-    public LatLng getLocationFromAddress(Context context, String strAddress) {
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng p1 = null;
-
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return p1;
-    }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-
         return false;
     }
 
@@ -227,12 +240,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
     }
 
     @Override
