@@ -522,10 +522,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:background="@color/colorGrey"
+                    android:background="#D81B60"
                     android:drawableStart="@drawable/ic_clear_24px"
                     android:text="@string/remove_filters"
-                    android:textColor="#B9000000"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_numberOfPhotos_multiSlider" />
