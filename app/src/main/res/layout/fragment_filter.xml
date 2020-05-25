@@ -108,12 +108,14 @@
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_amountMax_txt"
                     />
 
-                <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                     android:id="@+id/fragment_filter_price_slidebar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
+                    app:max_value="100000000"
+                    app:min_value="0"
                     app:bar_color="#8990C4"
                     app:bar_highlight_color="#2434AD"
                     app:data_type="_integer"
