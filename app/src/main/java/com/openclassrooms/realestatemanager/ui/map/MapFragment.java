@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -42,10 +44,16 @@ import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         LocationListener,
         OnMapReadyCallback {
+
+    @BindView(R.id.fragment_map_toolbar)
+    androidx.appcompat.widget.Toolbar toolbar;
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -54,13 +62,16 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private static final int PERMISSIONS_REQUEST_CODE = 123;
     private SharedFilterViewModel sharedFilterViewModel;
     private MapFragmentViewModel mapFragmentViewModel;
+    private View root;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        root = inflater.inflate(R.layout.fragment_map, container, false);
+        ButterKnife.bind(this, root);
+        return root;
     }
 
     @Override
@@ -73,6 +84,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             sharedFilterViewModel.loadProperties();
         }
         mapFragmentViewModel = new ViewModelProvider(this).get(MapFragmentViewModel.class);
+        toolBar();
     }
 
     private void loadMap() {
@@ -122,7 +134,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
 
             if (properties.size() == 0) {
-                Utils.toast(getActivity(), "No properties in database");
+                Utils.toast(getActivity(), getString(R.string.noproperties));
             } else {
                 displayProperties(properties);
             }
@@ -248,5 +260,12 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onProviderDisabled(String provider) {
+    }
+
+    private void toolBar() {
+        toolbar.setTitle("Map");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 }
