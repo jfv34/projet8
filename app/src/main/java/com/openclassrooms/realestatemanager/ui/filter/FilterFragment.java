@@ -37,7 +37,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.apptik.widget.MultiSlider;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -59,12 +58,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     TextView areaMin_txt;
     @BindView(R.id.fragment_filter_area_aeraMax_txt)
     TextView areaMax_txt;
-    @BindView(R.id.fragment_filter_pieces_multiSlider)
-    MultiSlider piecesMultiSlider;
     @BindView(R.id.fragment_filter_pieces_numberMin_txt)
-    TextView numberOfPiecesMin_txt;
+    TextView piecesMin_txt;
     @BindView(R.id.fragment_filter_pieces_numberMax_txt)
-    TextView numberOfPiecesMax_txt;
+    TextView piecesMax_txt;
     @BindView(R.id.fragment_filter_interestPoints_textInputEditText)
     EditText interestPoints_Et;
     @BindView(R.id.fragment_filter_agent_textInputEditText)
@@ -75,8 +72,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     EditText availableDate_Et;
     @BindView(R.id.fragment_filter_sold_date_textInputEditText)
     EditText soldDate_Et;
-    @BindView(R.id.fragment_filter_numberOfPhotos_multiSlider)
-    MultiSlider numberOfPhotos_multiSlider;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMin_txt)
     TextView numberOfPhotoMin_txt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
@@ -85,6 +80,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     RecyclerView types_chips_rv;
     @BindView(R.id.fragment_filter_price_slidebar)
     CrystalRangeSeekbar price_slidebar;
+    @BindView(R.id.fragment_filter_pieces_slidebar)
+    CrystalRangeSeekbar pieces_slidebar;
+    @BindView(R.id.fragment_filter_numberOfPhotos_slider)
+    CrystalRangeSeekbar numberOfPhotos_slidebar;
     @BindView(R.id.fragment_filter_price_amoutMin_txt)
     TextView priceMin_tv;
     @BindView(R.id.fragment_filter_price_amountMax_txt)
@@ -138,11 +137,23 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
         load_prices_slider();
         load_area_slider();
+        load_pieces_slider();
+        load_numberOfPhotos_slider();
+    }
 
-        piecesMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("pieces_mini",Constants.slider_price_minimum));
-        piecesMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("pieces_maxi",Constants.slider_price_maximum));
-        numberOfPhotos_multiSlider.getThumb(0).setValue(sharedPreferences.getInt("numberPhotos_mini",Constants.slider_price_minimum));
-        numberOfPhotos_multiSlider.getThumb(1).setValue(sharedPreferences.getInt("numberPhotos_maxi",Constants.slider_price_maximum));
+    private void load_numberOfPhotos_slider() {
+        filterFragmentViewModel.numberOfPhotosMin.setValue(sharedPreferences.getInt("numberOfPhotos_mini", 0));
+        filterFragmentViewModel.numberOfPhotosMax.setValue(sharedPreferences.getInt("numberOfPhotos_maxi", Constants.slider_photos_maximum));
+        numberOfPhotos_slidebar.setMinStartValue(sharedPreferences.getInt("numberOfPhotos_mini", 0));
+        numberOfPhotos_slidebar.setMaxStartValue(sharedPreferences.getInt("numberOfPhotos_maxi", Constants.slider_photos_maximum));
+
+    }
+
+    private void load_pieces_slider() {
+        filterFragmentViewModel.piecesMin.setValue(sharedPreferences.getInt("pieces_mini", Constants.slider_pieces_minimum));
+        filterFragmentViewModel.piecesMax.setValue(sharedPreferences.getInt("pieces_maxi", Constants.slider_pieces_maximum));
+        pieces_slidebar.setMinStartValue(sharedPreferences.getInt("pieces_mini", Constants.slider_pieces_minimum));
+        pieces_slidebar.setMaxStartValue(sharedPreferences.getInt("pieces_maxi", Constants.slider_pieces_maximum));
 
     }
 
@@ -200,45 +211,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         dialog.show();
     }
 
-    private void piecesSlider() {
-
-        piecesMultiSlider.setMin(Constants.slider_pieces_minimum);
-        piecesMultiSlider.setMax(Constants.slider_pieces_maximum);
-        piecesMultiSlider.setStep(1);
-        piecesMultiSlider.setStepsThumbsApart(0);
-        piecesMultiSlider.removeThumb(1);
-        piecesMultiSlider.addThumb(piecesMultiSlider.getMax());
-        numberOfPiecesMin_txt.setText(String.valueOf(piecesMultiSlider.getMin()));
-        numberOfPiecesMax_txt.setText(String.valueOf(piecesMultiSlider.getMax()));
-        piecesMultiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
-            if (thumbIndex == 0) {
-                numberOfPiecesMin_txt.setText(String.valueOf(value));
-            }
-            if (thumbIndex == 1) {
-                numberOfPiecesMax_txt.setText(String.valueOf(value));
-            }
-        });
-    }
-
-    private void numberOfPhotosSlider() {
-        numberOfPhotos_multiSlider.setMin(0);
-        numberOfPhotos_multiSlider.setMax(Constants.slider_photos_maximum);
-        numberOfPhotos_multiSlider.setStep(1);
-        numberOfPhotos_multiSlider.setStepsThumbsApart(0);
-        numberOfPhotos_multiSlider.removeThumb(1);
-        numberOfPhotos_multiSlider.addThumb(numberOfPhotos_multiSlider.getMax());
-        numberOfPhotoMin_txt.setText(String.valueOf(numberOfPhotos_multiSlider.getMin()));
-        numberOfPhotoMax_txt.setText(String.valueOf(numberOfPhotos_multiSlider.getMax()));
-        numberOfPhotos_multiSlider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
-            if (thumbIndex == 0) {
-                numberOfPhotoMin_txt.setText(String.valueOf(value));
-            }
-            if (thumbIndex == 1) {
-                numberOfPhotoMax_txt.setText(String.valueOf(value));
-            }
-        });
-    }
-
     private void areaSlider() {
 
         filterFragmentViewModel.areaMin.observe(getViewLifecycleOwner(), integer ->
@@ -276,7 +248,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             }
         });
 
-
         filterFragmentViewModel.priceMax.observe(getViewLifecycleOwner(), integer ->
         {
             priceMax_tv.setText(integer + " €");
@@ -289,6 +260,56 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
             filterFragmentViewModel.priceMin.setValue(minValue.intValue());
             filterFragmentViewModel.priceMax.setValue(maxValue.intValue());
 
+        });
+    }
+
+    private void piecesSlider() {
+
+        filterFragmentViewModel.piecesMin.observe(getViewLifecycleOwner(), integer ->
+        {
+            piecesMin_txt.setText(integer.toString());
+            if (pieces_slidebar.getSelectedMinValue().intValue() != integer) {
+                pieces_slidebar.setMinStartValue(integer).apply();
+            }
+        });
+
+
+        filterFragmentViewModel.piecesMax.observe(getViewLifecycleOwner(), integer ->
+        {
+            piecesMax_txt.setText(integer.toString());
+            if (pieces_slidebar.getSelectedMaxValue().intValue() != integer) {
+                pieces_slidebar.setMaxStartValue(integer).apply();
+            }
+        });
+
+        pieces_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+            filterFragmentViewModel.piecesMin.setValue(minValue.intValue());
+            filterFragmentViewModel.piecesMax.setValue(maxValue.intValue());
+
+        });
+    }
+
+    private void numberOfPhotosSlider() {
+        filterFragmentViewModel.numberOfPhotosMin.observe(getViewLifecycleOwner(), integer ->
+        {
+            numberOfPhotoMin_txt.setText(integer.toString());
+            if (numberOfPhotos_slidebar.getSelectedMinValue().intValue() != integer) {
+                numberOfPhotos_slidebar.setMinStartValue(integer).apply();
+            }
+        });
+
+
+        filterFragmentViewModel.numberOfPhotosMax.observe(getViewLifecycleOwner(), integer ->
+        {
+            numberOfPhotoMax_txt.setText(integer.toString());
+            if (numberOfPhotos_slidebar.getSelectedMaxValue().intValue() != integer) {
+                numberOfPhotos_slidebar.setMaxStartValue(integer).apply();
+            }
+        });
+
+        numberOfPhotos_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+            filterFragmentViewModel.numberOfPhotosMin.setValue(minValue.intValue());
+            filterFragmentViewModel.numberOfPhotosMax.setValue(maxValue.intValue());
         });
     }
 
@@ -328,15 +349,15 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
                 filterFragmentViewModel.areaMax.getValue(),
                 filterFragmentViewModel.areaMin.getValue(),
-                piecesMultiSlider.getThumb(1).getValue(),
-                piecesMultiSlider.getThumb(0).getValue(),
+                filterFragmentViewModel.piecesMax.getValue(),
+                filterFragmentViewModel.piecesMin.getValue(),
                 filterFragmentViewModel.getFilterListInForm(interestPoints_Et.getText().toString()),
                 filterFragmentViewModel.getFilterListInForm(agent_Et.getText().toString()),
                 statusFilter(),
                 availableDate_Et.getText().toString(),
                 soldDate_Et.getText().toString(),
-                numberOfPhotos_multiSlider.getThumb(1).getValue(),
-                numberOfPhotos_multiSlider.getThumb(0).getValue());
+                filterFragmentViewModel.numberOfPhotosMax.getValue(),
+                filterFragmentViewModel.numberOfPhotosMin.getValue());
 
         filterFragmentViewModel.applyFilter(filter, sharedFilterViewModel);
 
@@ -350,15 +371,15 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                         .putString("states", states_Et.getText().toString())
                         .putInt("area_mini", filter.getAreaMini())
                         .putInt("area_maxi", filter.getAreaMaxi())
-                        .putInt("pieces_mini", piecesMultiSlider.getThumb(0).getValue())
-                        .putInt("pieces_maxi", piecesMultiSlider.getThumb(1).getValue())
+                        .putInt("pieces_mini", filter.getPiecesMini())
+                        .putInt("pieces_maxi", filter.getPiecesMaxi())
                         .putString("interestPoints", interestPoints_Et.getText().toString())
                         .putString("agent", agent_Et.getText().toString())
                         .putString("status", status_tv.getText().toString())
                         .putString("available_date", availableDate_Et.getText().toString())
                         .putString("sold_date", soldDate_Et.getText().toString())
-                        .putInt("numberPhotos_mini", numberOfPhotos_multiSlider.getThumb(0).getValue())
-                        .putInt("numberPhotos_maxi", numberOfPhotos_multiSlider.getThumb(1).getValue())
+                        .putInt("numberOfPhotos_mini", filter.getNumberOfPhotosMini())
+                        .putInt("numberOfPhotos_maxi", filter.getNumberOfPhotosMaxi())
                         .apply();
 
                 //getActivity().onBackPressed();

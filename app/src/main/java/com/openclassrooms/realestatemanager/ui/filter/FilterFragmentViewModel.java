@@ -32,6 +32,10 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<Integer> priceMax = new MutableLiveData<>();
     public MutableLiveData<Integer> areaMin = new MutableLiveData<>();
     public MutableLiveData<Integer> areaMax = new MutableLiveData<>();
+    public MutableLiveData<Integer> numberOfPhotosMin = new MutableLiveData<>();
+    public MutableLiveData<Integer> numberOfPhotosMax = new MutableLiveData<>();
+    public MutableLiveData<Integer> piecesMin = new MutableLiveData<>();
+    public MutableLiveData<Integer> piecesMax = new MutableLiveData<>();
 
     private Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;

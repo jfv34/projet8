@@ -313,9 +313,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
                     android:src="@drawable/ic_pieces_24px"
-                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_pieces_multiSlider"
+                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_pieces_slidebar"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/fragment_filter_pieces_multiSlider" />
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_pieces_slidebar" />
 
                 <TextView
                     android:textSize="18sp"
@@ -324,26 +324,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pieces"
-                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_pieces_multiSlider"
+                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_pieces_slidebar"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_pieces_icon"
-                    app:layout_constraintTop_toTopOf="@id/fragment_filter_pieces_multiSlider"
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_pieces_slidebar"
                     android:layout_marginStart="@dimen/margin_normal"
                     />
 
-                <io.apptik.widget.MultiSlider
-                    android:id="@+id/fragment_filter_pieces_multiSlider"
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    android:id="@+id/fragment_filter_pieces_slidebar"
                     android:layout_width="0dp"
-                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:drawThumbsApart="true"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_pieces_label_tv"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_pieces_numberMin_txt"
-                    app:stepsThumbsApart="5"
-                    app:thumbNumber="2" />
-
+                    app:bar_color="#8990C4"
+                    app:bar_highlight_color="#2434AD"
+                    app:data_type="_integer"
+                    app:left_thumb_color="#1A246D"
+                    app:left_thumb_color_pressed="#030B47"
+                    app:max_value="20"
+                    app:min_value="0"
+                    app:right_thumb_color="#1A246D"
+                    app:right_thumb_color_pressed="#030B47" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/fragment_filter_interestPoints_textfield"
@@ -356,7 +361,7 @@
                     android:hint="@string/interest_points"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_pieces_multiSlider"
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_pieces_slidebar"
                     app:startIconDrawable="@drawable/ic_landscape_24px">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -498,9 +503,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
                     android:src="@drawable/ic_photo_camera_24px"
-                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_numberOfPhotos_multiSlider"
+                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_numberOfPhotos_slider"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/fragment_filter_numberOfPhotos_multiSlider" />
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_numberOfPhotos_slider" />
 
                 <TextView
                     android:id="@+id/fragment_filter_numberOfPhotos_label_tv"
@@ -510,23 +515,29 @@
                     android:text="Number of photos"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_numberOfPhotos_multiSlider"
+                    app:layout_constraintBottom_toBottomOf="@id/fragment_filter_numberOfPhotos_slider"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_numberOfphotos_icon"
-                    app:layout_constraintTop_toTopOf="@id/fragment_filter_numberOfPhotos_multiSlider" />
+                    app:layout_constraintTop_toTopOf="@id/fragment_filter_numberOfPhotos_slider" />
 
-                <io.apptik.widget.MultiSlider
-                    android:id="@+id/fragment_filter_numberOfPhotos_multiSlider"
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    android:id="@+id/fragment_filter_numberOfPhotos_slider"
                     android:layout_width="0dp"
-                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:drawThumbsApart="true"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_numberOfPhotos_label_tv"
                     app:layout_constraintTop_toBottomOf="@id/fragment_filter_numberOfphotos_min_txt"
-                    app:stepsThumbsApart="5"
-                    app:thumbNumber="2" />
+                    app:bar_color="#8990C4"
+                    app:bar_highlight_color="#2434AD"
+                    app:data_type="_integer"
+                    app:left_thumb_color="#1A246D"
+                    app:left_thumb_color_pressed="#030B47"
+                    app:max_value="20"
+                    app:min_value="0"
+                    app:right_thumb_color="#1A246D"
+                    app:right_thumb_color_pressed="#030B47" />
 
                 <Button
                     android:id="@+id/fragment_filter_removeFilters_bt"
@@ -540,7 +551,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_numberOfPhotos_multiSlider" />
+                    app:layout_constraintTop_toBottomOf="@id/fragment_filter_numberOfPhotos_slider" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
