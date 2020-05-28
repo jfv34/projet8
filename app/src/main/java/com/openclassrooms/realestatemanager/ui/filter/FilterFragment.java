@@ -53,8 +53,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     EditText cities_Et;
     @BindView(R.id.fragment_filter_state_textInputEditText)
     EditText states_Et;
-    @BindView(R.id.fragment_filter_area_multiSlider)
-    MultiSlider areaMultislider;
+    @BindView(R.id.fragment_filter_area_slidebar)
+    CrystalRangeSeekbar area_slidebar;
     @BindView(R.id.fragment_filter_area_aeraMin_txt)
     TextView areaMin_txt;
     @BindView(R.id.fragment_filter_area_aeraMax_txt)
@@ -128,7 +128,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void load_savedFilters() {
-        load_types_savedFilters();
+        load_types_chips();
         cities_Et.setText(sharedPreferences.getString("cities", ""));
         states_Et.setText(sharedPreferences.getString("states", ""));
         interestPoints_Et.setText(sharedPreferences.getString("interestPoints", ""));
@@ -136,19 +136,33 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         status_tv.setText(sharedPreferences.getString("status", ""));
         availableDate_Et.setText(sharedPreferences.getString("available_date",""));
         soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
-        areaMultislider.getThumb(0).setValue(sharedPreferences.getInt("area_mini",Constants.slider_price_minimum));
-        areaMultislider.getThumb(1).setValue(sharedPreferences.getInt("area_maxi",Constants.slider_price_maximum));
+        load_prices_slider();
+        load_area_slider();
+
         piecesMultiSlider.getThumb(0).setValue(sharedPreferences.getInt("pieces_mini",Constants.slider_price_minimum));
         piecesMultiSlider.getThumb(1).setValue(sharedPreferences.getInt("pieces_maxi",Constants.slider_price_maximum));
         numberOfPhotos_multiSlider.getThumb(0).setValue(sharedPreferences.getInt("numberPhotos_mini",Constants.slider_price_minimum));
         numberOfPhotos_multiSlider.getThumb(1).setValue(sharedPreferences.getInt("numberPhotos_maxi",Constants.slider_price_maximum));
 
-        filterFragmentViewModel.priceMin.setValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
-        filterFragmentViewModel.priceMax.setValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
-
     }
 
-    private void load_types_savedFilters() {
+    private void load_area_slider() {
+        filterFragmentViewModel.areaMin.setValue(sharedPreferences.getInt("area_mini", Constants.slider_area_minimum));
+        filterFragmentViewModel.areaMax.setValue(sharedPreferences.getInt("area_maxi", Constants.slider_area_maximum));
+        area_slidebar.setMinStartValue(sharedPreferences.getInt("area_mini", Constants.slider_area_minimum));
+        area_slidebar.setMaxStartValue(sharedPreferences.getInt("area_maxi", Constants.slider_area_maximum));
+
+        }
+
+    private void load_prices_slider() {
+        filterFragmentViewModel.priceMin.setValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
+        filterFragmentViewModel.priceMax.setValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
+        price_slidebar.setMinStartValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
+        price_slidebar.setMaxStartValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
+    }
+
+
+    private void load_types_chips() {
         String isSelected_prefs = sharedPreferences.getString("types", "");
         if (!isSelected_prefs.isEmpty()) {
             List<Type> typesFilter = filterFragmentViewModel.getTypesFilter_prefs(isSelected_prefs);
@@ -226,21 +240,29 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void areaSlider() {
-        areaMultislider.setMin(Constants.slider_area_minimum);
-        areaMultislider.setMax(Constants.slider_area_maximum);
-        areaMultislider.setStep(10);
-        areaMultislider.setStepsThumbsApart(0);
-        areaMultislider.removeThumb(1);
-        areaMultislider.addThumb(areaMultislider.getMax());
-        areaMin_txt.setText(areaMultislider.getMin() + " m²");
-        areaMax_txt.setText((areaMultislider.getMax() + " m²"));
-        areaMultislider.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
-            if (thumbIndex == 0) {
-                areaMin_txt.setText(value + " m²");
-            }
-            if (thumbIndex == 1) {
-                areaMax_txt.setText(value + " m²");
-            }
+
+        filterFragmentViewModel.areaMin.observe(getViewLifecycleOwner(), integer ->
+                {
+                    areaMin_txt.setText(integer + " m²");
+                    if (area_slidebar.getSelectedMinValue().intValue() != integer) {
+                        area_slidebar.setMinStartValue(integer).apply();
+                    }
+                }
+        );
+
+        filterFragmentViewModel.areaMax.observe(getViewLifecycleOwner(), integer ->
+                {
+                    areaMax_txt.setText(integer + " m²");
+                    if (area_slidebar.getSelectedMaxValue().intValue() != integer) {
+                        area_slidebar.setMaxStartValue(integer).apply();
+                    }
+                }
+        );
+
+        area_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+            filterFragmentViewModel.areaMin.setValue(minValue.intValue());
+            filterFragmentViewModel.areaMax.setValue(maxValue.intValue());
+
         });
     }
 
@@ -249,12 +271,12 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         filterFragmentViewModel.priceMin.observe(getViewLifecycleOwner(), integer ->
         {
             priceMin_tv.setText(integer + " €");
-
             if (price_slidebar.getSelectedMinValue().intValue() != integer) {
                 price_slidebar.setMinStartValue(integer).apply();
             }
-
         });
+
+
         filterFragmentViewModel.priceMax.observe(getViewLifecycleOwner(), integer ->
         {
             priceMax_tv.setText(integer + " €");
@@ -304,8 +326,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 filterFragmentViewModel.priceMin.getValue(),
                 filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
                 filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
-                areaMultislider.getThumb(1).getValue(),
-                areaMultislider.getThumb(0).getValue(),
+                filterFragmentViewModel.areaMax.getValue(),
+                filterFragmentViewModel.areaMin.getValue(),
                 piecesMultiSlider.getThumb(1).getValue(),
                 piecesMultiSlider.getThumb(0).getValue(),
                 filterFragmentViewModel.getFilterListInForm(interestPoints_Et.getText().toString()),
@@ -326,8 +348,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                         .putInt("price_maxi", filter.getPriceMaxi())
                         .putString("cities", cities_Et.getText().toString())
                         .putString("states", states_Et.getText().toString())
-                        .putInt("area_mini", areaMultislider.getThumb(0).getValue())
-                        .putInt("area_maxi", areaMultislider.getThumb(1).getValue())
+                        .putInt("area_mini", filter.getAreaMini())
+                        .putInt("area_maxi", filter.getAreaMaxi())
                         .putInt("pieces_mini", piecesMultiSlider.getThumb(0).getValue())
                         .putInt("pieces_maxi", piecesMultiSlider.getThumb(1).getValue())
                         .putString("interestPoints", interestPoints_Et.getText().toString())
