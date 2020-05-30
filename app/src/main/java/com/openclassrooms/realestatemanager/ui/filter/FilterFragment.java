@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.filter;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Status;
@@ -382,8 +382,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                         .putInt("numberOfPhotos_maxi", filter.getNumberOfPhotosMaxi())
                         .apply();
 
-                //getActivity().onBackPressed();
-                Utils.backToMainScreen(getActivity(), this);
+        getActivity().onBackPressed();
             }
 
     @OnClick(R.id.fragment_filter_removeFilters_bt)
@@ -427,11 +426,15 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
     @Override
     public void onChipClicked(int position, boolean selected) {
         filterFragmentViewModel.setType(position, selected);
     }
+
+
+
+
 }

@@ -256,12 +256,10 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:drawThumbsApart="true"
                     app:layout_constraintStart_toEndOf="@id/fragment_filter_area_label_tv"
                     app:layout_constraintTop_toTopOf="@id/fragment_filter_aera_icon"
                     app:layout_constraintBottom_toBottomOf="@id/fragment_filter_aera_icon"
-                    app:stepsThumbsApart="5"
-                    app:thumbNumber="2" />
+                     />
                 <TextView
                     android:id="@+id/fragment_filter_pieces_min_txt"
                     android:layout_marginTop="@dimen/margin_large"

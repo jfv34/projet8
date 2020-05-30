@@ -247,12 +247,7 @@ public class DetailsFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setCollapseIcon(getResources().getDrawable(R.drawable.ic_arrow_back_24px));
         toolbar.setNavigationOnClickListener(v -> {
-            backToMain();
+            getActivity().onBackPressed();
         });
         }
-
-    private void backToMain() {
-        Utils.backToMainScreen(getActivity(), this
-        );
-    }
 }

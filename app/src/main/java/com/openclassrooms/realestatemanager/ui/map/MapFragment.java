@@ -10,8 +10,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,6 +56,8 @@ import butterknife.ButterKnife;
 public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         LocationListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
         OnMapReadyCallback {
 
     @BindView(R.id.fragment_map_toolbar)
@@ -62,9 +70,12 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private static final int PERMISSIONS_REQUEST_CODE = 123;
     private SharedFilterViewModel sharedFilterViewModel;
     private MapFragmentViewModel mapFragmentViewModel;
+    private LocationManager locationManager;
     private View root;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
+    LocationRequest mLocationRequest;
+    GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,17 +110,43 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
                     //Location Permission already granted
+                    buildGoogleApiClient();
                     googleMap.setMyLocationEnabled(true);
                     googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                 } else {
                     //Request Location Permission
                     checkLocationPermission();
+
                 }
             } else {
+                buildGoogleApiClient();
                 googleMap.setMyLocationEnabled(true);
                 googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             }
         });
+    }
+
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
+        }
     }
 
     @Override
@@ -120,9 +157,19 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
 
-        LatLng latLng = new LatLng(37.4220, -122.0840);
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+
+                if (googleMap != null) {
+                    LatLng latLng = new LatLng(37.4220, -122.0840);
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
+
+                return false;
+            }
+        });
 
         observeFilterProperties();
     }
@@ -147,8 +194,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             String type = property.getType();
             String address = property.getAddress() + "," + property.getCity() + "," + property.getState() + "," + property.getZip();
             LatLng address_latLng = getLocationFromAddress(address);
-            marker(address_latLng.latitude, address_latLng.longitude, type);
-            markerList.add(new Marker(property.getId(), address_latLng));
+            if (address_latLng != null) {
+                marker(address_latLng.latitude, address_latLng.longitude, type);
+                markerList.add(new Marker(property.getId(), address_latLng));
+            }
         }
         markerClickListener();
     }
@@ -228,6 +277,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         googleMap.setMyLocationEnabled(true);
+
                     }
                 } else {
                     Utils.toast(getActivity(), "No permission for location");
@@ -267,5 +317,16 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

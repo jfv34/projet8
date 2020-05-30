@@ -45,11 +45,11 @@
 
             <TextView
                 android:id="@+id/main_item_price_tv"
+                android:textColor="#ffffff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_normal"
-                android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
