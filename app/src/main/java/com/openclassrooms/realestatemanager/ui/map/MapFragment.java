@@ -121,6 +121,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             } else {
                 buildGoogleApiClient();
                 googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
                 googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             }
         });
