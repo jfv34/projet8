@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui.filter;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,6 @@ import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
-import com.openclassrooms.realestatemanager.models.Filter;
-import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 
@@ -339,47 +336,35 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     @OnClick(R.id.fragment_filter_validate_fab)
     public void filter_validate() {
-// filterFragmentViewModel.validate();
-
-        Filter filter = new Filter(
-                filterFragmentViewModel.getTypesFilter(),
-                filterFragmentViewModel.priceMax.getValue(),
-                filterFragmentViewModel.priceMin.getValue(),
-                filterFragmentViewModel.getFilterListInForm(cities_Et.getText().toString()),
-                filterFragmentViewModel.getFilterListInForm(states_Et.getText().toString()),
-                filterFragmentViewModel.areaMax.getValue(),
-                filterFragmentViewModel.areaMin.getValue(),
-                filterFragmentViewModel.piecesMax.getValue(),
-                filterFragmentViewModel.piecesMin.getValue(),
-                filterFragmentViewModel.getFilterListInForm(interestPoints_Et.getText().toString()),
-                filterFragmentViewModel.getFilterListInForm(agent_Et.getText().toString()),
-                statusFilter(),
+        filterFragmentViewModel.validate(
+                cities_Et.getText().toString(),
+                states_Et.getText().toString(),
+                interestPoints_Et.getText().toString(),
+                agent_Et.getText().toString(),
                 availableDate_Et.getText().toString(),
                 soldDate_Et.getText().toString(),
-                filterFragmentViewModel.numberOfPhotosMax.getValue(),
-                filterFragmentViewModel.numberOfPhotosMin.getValue());
-
-        filterFragmentViewModel.applyFilter(filter, sharedFilterViewModel);
-
+                status_tv.getText().toString(),
+                sharedFilterViewModel
+        );
 
                 sharedPreferences
                         .edit()
                         .putString("types", filterFragmentViewModel.getTypeInString())
-                        .putInt("price_mini", filter.getPriceMini())
-                        .putInt("price_maxi", filter.getPriceMaxi())
+                        .putInt("price_mini", price_slidebar.getSelectedMinValue().intValue())
+                        .putInt("price_maxi", price_slidebar.getSelectedMaxValue().intValue())
                         .putString("cities", cities_Et.getText().toString())
                         .putString("states", states_Et.getText().toString())
-                        .putInt("area_mini", filter.getAreaMini())
-                        .putInt("area_maxi", filter.getAreaMaxi())
-                        .putInt("pieces_mini", filter.getPiecesMini())
-                        .putInt("pieces_maxi", filter.getPiecesMaxi())
+                        .putInt("area_mini", area_slidebar.getSelectedMinValue().intValue())
+                        .putInt("area_maxi", area_slidebar.getSelectedMaxValue().intValue())
+                        .putInt("pieces_mini", pieces_slidebar.getSelectedMinValue().intValue())
+                        .putInt("pieces_maxi", pieces_slidebar.getSelectedMaxValue().intValue())
                         .putString("interestPoints", interestPoints_Et.getText().toString())
                         .putString("agent", agent_Et.getText().toString())
                         .putString("status", status_tv.getText().toString())
                         .putString("available_date", availableDate_Et.getText().toString())
                         .putString("sold_date", soldDate_Et.getText().toString())
-                        .putInt("numberOfPhotos_mini", filter.getNumberOfPhotosMini())
-                        .putInt("numberOfPhotos_maxi", filter.getNumberOfPhotosMaxi())
+                        .putInt("numberOfPhotos_mini", numberOfPhotos_slidebar.getSelectedMinValue().intValue())
+                        .putInt("numberOfPhotos_maxi", numberOfPhotos_slidebar.getSelectedMaxValue().intValue())
                         .apply();
 
         getActivity().onBackPressed();
@@ -402,24 +387,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         }
     }
 
-    private Status statusFilter() {
-        Status status;
 
-        switch (status_tv.getText().toString()) {
-            case "Sold": {
-                status = Status.SOLD;
-            }
-            break;
-            case "Available": {
-                status = Status.AVAILABLE;
-            }
-            break;
-            default: {
-                status = Status.UNSPECIFIED;
-            }
-        }
-        return status;
-    }
 
     private void toolBar() {
         toolbar.setTitle("Filter properties");

@@ -86,7 +86,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             }
         } else {
             Glide.with(context)
-                    .load(R.drawable.maison)
+                    .load(R.drawable.default_photo)
                     .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
                     .into(photo_iv);
 

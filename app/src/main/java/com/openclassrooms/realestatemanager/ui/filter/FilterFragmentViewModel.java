@@ -28,6 +28,9 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> entryDate = new MutableLiveData<>();
     public MutableLiveData<List<Type>> typesFilter = new MutableLiveData<>();
+    public MutableLiveData<List<String>> citiesFilter = new MutableLiveData<>();
+    public MutableLiveData<List<String>> statesFilter = new MutableLiveData<>();
+    public MutableLiveData<List<String>> interestPointsFilter = new MutableLiveData<>();
     public MutableLiveData<Integer> priceMin = new MutableLiveData<>();
     public MutableLiveData<Integer> priceMax = new MutableLiveData<>();
     public MutableLiveData<Integer> areaMin = new MutableLiveData<>();
@@ -36,6 +39,9 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<Integer> numberOfPhotosMax = new MutableLiveData<>();
     public MutableLiveData<Integer> piecesMin = new MutableLiveData<>();
     public MutableLiveData<Integer> piecesMax = new MutableLiveData<>();
+    public MutableLiveData<String> agentFilter = new MutableLiveData<>();
+    public MutableLiveData<String> availableDateFilter = new MutableLiveData<>();
+    public MutableLiveData<String> soldDateFilter = new MutableLiveData<>();
 
     private Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;
@@ -87,6 +93,7 @@ public class FilterFragmentViewModel extends ViewModel {
 
         this.filter = filter;
         ArrayList<Property> filterProperties = new ArrayList<>(properties);
+        filterProperties = (ArrayList)properties;
         filterByTypes(filterProperties);
         filterByPrice(filterProperties);
         filterByCities(filterProperties);
@@ -308,5 +315,55 @@ public class FilterFragmentViewModel extends ViewModel {
             typesFilter.add(type);
         }
         return typesFilter;
+    }
+
+    public void validate(String cities, String states, String interestPoints, String agent,
+                         String availableDate, String soldDate, String status,
+                         SharedFilterViewModel sharedFilterViewModel) {
+
+        citiesFilter.postValue(getFilterListInForm(cities));
+        statesFilter.postValue(getFilterListInForm(states));
+        interestPointsFilter.postValue(getFilterListInForm(interestPoints));
+        agentFilter.postValue(agent);
+        availableDateFilter.postValue(availableDate);
+        soldDateFilter.postValue(soldDate);
+
+        Filter filter = new Filter(
+                getTypesFilter(),
+                priceMax.getValue(),
+                priceMin.getValue(),
+               getFilterListInForm(cities),
+                getFilterListInForm(states),
+                areaMax.getValue(),
+                areaMin.getValue(),
+                piecesMax.getValue(),
+                piecesMin.getValue(),
+                getFilterListInForm(interestPoints),
+                getFilterListInForm(agent),
+                statusFilter(status),
+                availableDate,
+                soldDate,
+                numberOfPhotosMax.getValue(),
+                numberOfPhotosMin.getValue());
+
+        applyFilter(filter, sharedFilterViewModel);
+    }
+
+    private Status statusFilter(String s) {
+        Status status;
+        switch (s) {
+            case "Sold": {
+                status = Status.SOLD;
+            }
+            break;
+            case "Available": {
+                status = Status.AVAILABLE;
+            }
+            break;
+            default: {
+                status = Status.UNSPECIFIED;
+            }
+        }
+        return status;
     }
 }
