@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
@@ -69,14 +69,13 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         city_tv.setText(property.getCity());
         type_tv.setText(property.getType());
         price_tv.setText("$ " + String.valueOf(property.getPrice()));
-
+        int radius = 40;
+        int margin = 20;
         if (property.getPhotos() != null) {
             if (property.getPhotos().size() >0) {
                 Photo photo = property.getPhotos().get(0);
         String filePhoto = photo.getPath();
         String namePhoto = photo.getFileNamePhoto();
-                int radius = 40;
-                int margin = 20;
             Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
                 if (photoBM != null) {
                     Glide.with(context)
@@ -85,6 +84,12 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                             .into(photo_iv);
                 }
             }
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.maison)
+                    .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
+                    .into(photo_iv);
+
         }
         itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(property.getId()));
     }

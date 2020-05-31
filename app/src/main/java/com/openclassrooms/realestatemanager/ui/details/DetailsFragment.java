@@ -126,9 +126,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayToolbarTitle(Property property) {
-    /*    if (!property.getCity().isEmpty() && !property.getType().isEmpty()) {
-            toolbar.setTitle(property.getType() + " at " + property.getCity());
-        } else toolbar.setTitle("Property details");*/
+        toolbar.setTitle(property.getType());
     }
 
     private void displayMap(Property property) {
@@ -237,14 +235,13 @@ public class DetailsFragment extends Fragment {
     }
 
     private void configureCollapsingToolBar() {
-            toolbar.setTitle("");
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorWhite));
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorWhite));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setCollapseIcon(getResources().getDrawable(R.drawable.ic_arrow_back_24px));
         toolbar.setNavigationOnClickListener(v -> {
             getActivity().onBackPressed();
