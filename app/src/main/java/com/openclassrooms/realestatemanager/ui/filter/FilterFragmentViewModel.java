@@ -89,11 +89,11 @@ public class FilterFragmentViewModel extends ViewModel {
         return filter;
     }
 
-    public ArrayList<Property> filter(Filter filter, List<Property> properties) {
+    public ArrayList<Property> filter(Filter filter, ArrayList<Property> properties) {
 
         this.filter = filter;
-        ArrayList<Property> filterProperties = new ArrayList<>(properties);
-        filterProperties = (ArrayList)properties;
+        ArrayList<Property> filterProperties;
+        filterProperties = properties;
         filterByTypes(filterProperties);
         filterByPrice(filterProperties);
         filterByCities(filterProperties);
@@ -112,7 +112,7 @@ public class FilterFragmentViewModel extends ViewModel {
     public void applyFilter(Filter filter, SharedFilterViewModel sharedFilterViewModel) {
 
         AsyncTask.execute(() -> {
-            List<Property> properties = repository.getProperties();
+            ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
             ArrayList<Property> filterProperties = filter(filter, properties);
             sharedFilterViewModel.properties.postValue(filterProperties);
             sharedFilterViewModel.isFiltred = true;
@@ -320,13 +320,6 @@ public class FilterFragmentViewModel extends ViewModel {
     public void validate(String cities, String states, String interestPoints, String agent,
                          String availableDate, String soldDate, String status,
                          SharedFilterViewModel sharedFilterViewModel) {
-
-        citiesFilter.postValue(getFilterListInForm(cities));
-        statesFilter.postValue(getFilterListInForm(states));
-        interestPointsFilter.postValue(getFilterListInForm(interestPoints));
-        agentFilter.postValue(agent);
-        availableDateFilter.postValue(availableDate);
-        soldDateFilter.postValue(soldDate);
 
         Filter filter = new Filter(
                 getTypesFilter(),

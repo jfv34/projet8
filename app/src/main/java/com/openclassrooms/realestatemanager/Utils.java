@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.wifi.WifiManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
@@ -70,10 +70,14 @@ public class Utils {
      * @return
      */
     public static Boolean isInternetAvailable(Context context){
-        WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        return wifi.isWifiEnabled();
-    }
+        // WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+        // return connectivityManager.is wifi.isWifiEnabled();
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo.isAvailable();
+
+    }
     public static void toast(Context context, int message) {
         Toast toast = Toast.makeText(context, context.getString(message), Toast.LENGTH_LONG);
         toast.show();
