@@ -159,21 +159,9 @@ public class Utils {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, fragment).commit();
+            transaction.add(R.id.activity_main_frame_layout_detail_large_screen, fragment).addToBackStack(fragment.getClass().getName()).commit();
         } else {
-            transaction.replace(R.id.frame_layout_main, fragment).commit();
-        }
-    }
-    public static void backToMainScreen(FragmentActivity activity, Fragment fragment){
-        final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            transaction.remove(fragment).commit();
-        } else {
-            Fragment mainFragment = MainFragment.newInstance();
-            Utils.replaceFragmentInDetailScreen(activity,mainFragment);
-            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_layout_main, mainFragment).commit();
+            transaction.add(R.id.frame_layout_main, fragment).addToBackStack(fragment.getClass().getName()).commit();
         }
     }
 }

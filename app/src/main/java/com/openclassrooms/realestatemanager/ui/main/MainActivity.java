@@ -1,16 +1,10 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
-import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,8 +30,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        switch (getSupportFragmentManager().getBackStackEntryCount()) {
+            case 0:
+                super.onBackPressed();
+            default:
+                getSupportFragmentManager().popBackStack();
 
-      List fragments = getSupportFragmentManager().getFragments();
+        }
+   /*   List fragments = getSupportFragmentManager().getFragments();
         String currentFragmentPath = fragments.get(fragments.size() - 1).getClass().getName();
         String currentFragment = currentFragmentPath.substring(currentFragmentPath.lastIndexOf(".") + 1);
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 // ???
         }
 
-        Utils.replaceFragmentInDetailScreen(this, fragmentToDisplay);
+        Utils.replaceFragmentInDetailScreen(this, fragmentToDisplay);*/
 
 
 

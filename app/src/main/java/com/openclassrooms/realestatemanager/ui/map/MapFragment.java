@@ -157,7 +157,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
 
-        googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+   /*     googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
 
@@ -169,7 +169,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
                 return false;
             }
-        });
+        });*/
 
         observeFilterProperties();
     }
@@ -252,13 +252,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int drawable) {
-        Drawable background = ContextCompat.getDrawable(context, drawable);
-        assert background != null;
-        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        background.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
+        return BitmapDescriptorFactory.fromResource(drawable);
     }
 
 

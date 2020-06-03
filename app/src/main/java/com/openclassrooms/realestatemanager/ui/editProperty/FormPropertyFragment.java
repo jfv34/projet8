@@ -306,7 +306,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         } else {
             viewModel.updateProperty(newProperty(), bundleProperty);
         }
-        Utils.backToMainScreen(getActivity(),this);
+        //Utils.backToMainScreen(getActivity(),this);
     }
 
     @OnClick(R.id.fragment_form_property_photos_bt)
@@ -502,6 +502,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
+        //toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
     }
 }
