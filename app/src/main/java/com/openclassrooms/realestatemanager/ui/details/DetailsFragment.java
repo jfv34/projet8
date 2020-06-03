@@ -217,7 +217,7 @@ public class DetailsFragment extends Fragment {
         public void editPropertyclicked() {
 
             Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
-            Utils.replaceFragmentInDetailScreen(getActivity(), formPropertyFragment);
+            Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
         }
 
     @OnClick(R.id.fragment_detail_map_fab)

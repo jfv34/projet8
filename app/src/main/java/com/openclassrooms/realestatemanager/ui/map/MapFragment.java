@@ -194,7 +194,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 if (click_latlng.equals(saved_latlng)) {
                     int propertyId = markerList.get(i).getPropertyId();
                     Fragment detailsFragment = DetailsFragment.newInstance(propertyId);
-                    Utils.replaceFragmentInDetailScreen(getActivity(), detailsFragment);
+                    Utils.addFragmentInDetailScreen(getActivity(), detailsFragment);
                 }
             }
             return false;
