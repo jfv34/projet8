@@ -252,7 +252,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int drawable) {
-        return BitmapDescriptorFactory.fromResource(drawable);
+        Drawable background = ContextCompat.getDrawable(context, drawable);
+        assert background != null;
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 
