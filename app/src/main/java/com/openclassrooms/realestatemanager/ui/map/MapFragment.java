@@ -10,7 +10,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,13 +29,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
@@ -69,7 +66,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private static final int PERMISSIONS_REQUEST_CODE = 123;
     private SharedFilterViewModel sharedFilterViewModel;
     private MapFragmentViewModel mapFragmentViewModel;
-    private LocationManager locationManager;
     private View root;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
@@ -111,7 +107,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                     //Location Permission already granted
                     buildGoogleApiClient();
                     googleMap.setMyLocationEnabled(true);
+                    googleMap.getUiSettings().setZoomControlsEnabled(true);
                     googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+                    googleMap.getUiSettings().setZoomGesturesEnabled(true);
+
                 } else {
                     //Request Location Permission
                     checkLocationPermission();
@@ -125,7 +124,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             }
         });
     }
-
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -156,20 +154,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
-
-   /*     googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-
-                if (googleMap != null) {
-                    LatLng latLng = new LatLng(37.4220, -122.0840);
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(16).build();
-                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-
-                return false;
-            }
-        });*/
 
         observeFilterProperties();
     }
@@ -247,8 +231,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 .position(new LatLng(latitude, longitude))
                 .title(title_Marker)
                 .icon(bitmapDescriptorFromVector(requireContext(), drawable)));
-
-
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int drawable) {
