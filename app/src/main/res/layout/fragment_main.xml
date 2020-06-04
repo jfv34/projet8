@@ -25,7 +25,7 @@
                     android:background="@color/colorPrimary"
                     android:tint="@color/colorWhite"
                     android:src="@drawable/ic_search_24px"
-                    android:id="@+id/fragment_main_search_button"
+                    android:id="@+id/fragment_main_filter_button"
                     android:layout_width="wrap_content"
                     android:layout_gravity="end" />
 

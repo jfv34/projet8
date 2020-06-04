@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,9 +32,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         switch (getSupportFragmentManager().getBackStackEntryCount()) {
+
             case 0:
                 super.onBackPressed();
+                Log.i("tag_onback","1");
+                break;
             default:
+                Log.i("tag_onback","2");
                 getSupportFragmentManager().popBackStack();
         }
     }

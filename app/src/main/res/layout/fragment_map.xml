@@ -22,7 +22,7 @@
             android:background="@color/colorPrimary"
             android:tint="@color/colorWhite"
             android:src="@drawable/ic_search_24px"
-            android:id="@+id/fragment_map_search_button"
+            android:id="@+id/fragment_map_filter_button"
             android:layout_width="wrap_content"
             android:layout_gravity="end" />
 

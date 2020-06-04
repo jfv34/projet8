@@ -387,8 +387,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         }
     }
 
-
-
     private void toolBar() {
         toolbar.setTitle("Filter properties");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -401,8 +399,4 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     public void onChipClicked(int position, boolean selected) {
         filterFragmentViewModel.setType(position, selected);
     }
-
-
-
-
 }

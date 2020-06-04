@@ -12,7 +12,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +40,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Marker;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
+import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
@@ -313,9 +313,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     @OnClick(R.id.fragment_map_main_button)
-    public void onMapClicked() {
-        Log.i("tag_click","click");
+    public void onMainClicked() {
         Fragment mainFragment = MainFragment.newInstance();
         Utils.replaceFragmentInDetailScreen(getActivity(), mainFragment);
+    }
+    @OnClick(R.id.fragment_map_filter_button)
+    public void onFilterClicked() {
+        Fragment filterFragment = FilterFragment.newInstance();
+        Utils.addFragmentInDetailScreen(getActivity(), filterFragment);
     }
 }

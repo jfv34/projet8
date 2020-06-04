@@ -98,7 +98,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
     }
 
-    @OnClick(R.id.fragment_main_search_button)
+    @OnClick(R.id.fragment_main_filter_button)
     public void onFilterClicked() {
         Fragment filterFragment = FilterFragment.newInstance();
         Utils.addFragmentInDetailScreen(getActivity(), filterFragment);
