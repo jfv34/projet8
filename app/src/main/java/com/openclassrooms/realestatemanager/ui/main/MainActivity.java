@@ -35,28 +35,6 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             default:
                 getSupportFragmentManager().popBackStack();
-
         }
-   /*   List fragments = getSupportFragmentManager().getFragments();
-        String currentFragmentPath = fragments.get(fragments.size() - 1).getClass().getName();
-        String currentFragment = currentFragmentPath.substring(currentFragmentPath.lastIndexOf(".") + 1);
-
-        Fragment fragmentToDisplay = null;
-        Log.i("tag_fragment", currentFragment);
-
-        switch (currentFragment) {
-            case "FilterFragment":
-            case "MapFragment":
-            case "DetailsFragment":
-                fragmentToDisplay = mainFragment;
-                break;
-            case "FormPropertyFragment":
-                // ???
-        }
-
-        Utils.replaceFragmentInDetailScreen(this, fragmentToDisplay);*/
-
-
-
     }
 }
