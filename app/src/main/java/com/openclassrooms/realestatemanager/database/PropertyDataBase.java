@@ -55,7 +55,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_1.put("id",1);
                 contentValues_1.put("type", "Loft");
                 contentValues_1.put("price", "1250252");
-                contentValues_1.put("address", "1842 N Shoreline Blvd");
+                contentValues_1.put("address", "Amphitheatre Pkwy");
                 contentValues_1.put("city", "Mountain View");
                 contentValues_1.put("state","United States");
                 contentValues_1.put("zip", "CA94043");
@@ -74,7 +74,7 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_2.put("id", 2);
                 contentValues_2.put("type", "Duplex");
                 contentValues_2.put("price", "34725029");
-                contentValues_2.put("address", "1550 Plymouth St");
+                contentValues_2.put("address", "Bayshore Fwy");
                 contentValues_2.put("city", "Mountain View");
                 contentValues_2.put("state","United States");
                 contentValues_2.put("zip", "CA 94043");

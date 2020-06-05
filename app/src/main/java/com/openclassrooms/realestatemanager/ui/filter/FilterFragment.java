@@ -379,10 +379,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = getActivity().getResources().getBoolean(R.bool.isTablet);
         if (tabletSize) {
-            transaction.detach(this);
+            transaction.remove(this);
             transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, filterFragment).commit();
         } else {
-            transaction.detach(this);
+            transaction.remove(this);
             transaction.replace(R.id.frame_layout_main, filterFragment).commit();
         }
     }
