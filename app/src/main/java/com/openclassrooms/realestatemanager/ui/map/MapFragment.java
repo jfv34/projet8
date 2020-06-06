@@ -300,6 +300,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private void toolBar() {
         toolbar.setTitle("Map");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
     }
 
     @Override

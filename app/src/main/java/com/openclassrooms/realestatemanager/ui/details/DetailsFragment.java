@@ -23,6 +23,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.SimulatorFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
 import butterknife.BindView;
@@ -234,6 +235,11 @@ public class DetailsFragment extends Fragment {
         }
     }
 
+    @OnClick(R.id.fragment_detail_simulator_buton)
+    public void simulatorClicked() {
+        Fragment simulatorFragment = new SimulatorFragment();
+        Utils.replaceFragmentInDetailScreen(getActivity(), simulatorFragment);
+    }
     private void configureCollapsingToolBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

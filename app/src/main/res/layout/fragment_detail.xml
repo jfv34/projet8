@@ -78,8 +78,20 @@
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/fragment_detail_simulator_buton"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/fragment_detail_simulator_buton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:src="@drawable/ic_analytics_24px"
+                app:layout_constraintTop_toTopOf="@id/fragment_detail_price_tv"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_detail_price_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+               />
 
             <ImageView
                 android:id="@+id/fragment_detail_not_solded_iv"
