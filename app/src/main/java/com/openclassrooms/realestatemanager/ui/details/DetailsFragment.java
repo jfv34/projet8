@@ -23,7 +23,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.SimulatorFragment;
+import com.openclassrooms.realestatemanager.simulator.SimulatorFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 
 import butterknife.BindView;

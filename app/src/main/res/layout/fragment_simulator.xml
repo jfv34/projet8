@@ -82,59 +82,46 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_simulator_duration_years_textfield"
+        android:id="@+id/fragment_simulator_duration_textfield"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:hint="Duration in years"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Duration"
+        app:layout_constraintEnd_toStartOf="@id/fragment_simulator_duration_radiogroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_simulator_rate_textfield"
         app:startIconDrawable="@drawable/ic_access_time_24px">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_simulator_duration_years_textInputEditText"
+            android:id="@+id/fragment_simulator_duration_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/fragment_simulator_duration_text_OR_textfield"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Or"
-        android:textSize="20dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/margin_small"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fragment_simulator_duration_months_textfield"
-        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_duration_years_textfield" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_simulator_duration_months_textfield"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
+    <RadioGroup
         android:layout_marginEnd="@dimen/margin_normal"
-        android:hint="Duration in months"
+        android:id="@+id/fragment_simulator_duration_radiogroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_duration_text_OR_textfield"
-        app:startIconDrawable="@drawable/ic_access_time_24px">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_simulator_duration_months_textInputEditText"
+        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_rate_textfield"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:checked="true"
+            android:id="@+id/fragment_simulator_duration_radiobutton_years"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:text="in years" />
 
+        <RadioButton
+            android:checked="false"
+            android:id="@+id/fragment_simulator_duration_radiobutton_months"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="in months" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
