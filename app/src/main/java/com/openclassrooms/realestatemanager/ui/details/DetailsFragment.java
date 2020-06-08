@@ -237,7 +237,7 @@ public class DetailsFragment extends Fragment {
 
     @OnClick(R.id.fragment_detail_simulator_buton)
     public void simulatorClicked() {
-        Fragment simulatorFragment = new SimulatorFragment();
+        Fragment simulatorFragment = SimulatorFragment.newInstance();
         Utils.replaceFragmentInDetailScreen(getActivity(), simulatorFragment);
     }
     private void configureCollapsingToolBar() {

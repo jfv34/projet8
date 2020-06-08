@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.simulator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +33,7 @@ public class SimulatorFragment extends Fragment {
     RadioGroup duration_radioGroup;
 
     public static SimulatorFragment newInstance() {
-        SimulatorFragment simulatorFragment = new SimulatorFragment();
-        return simulatorFragment;
+        return new SimulatorFragment();
     }
 
     private View root;
@@ -69,7 +70,8 @@ public class SimulatorFragment extends Fragment {
                     duration_et.getText().toString(),
                     isDurationYears);
 
-
+            Fragment resultFragment = ResultFragment.newInstance(viewModel.getResult());
+            Utils.addFragmentInDetailScreen(getActivity(), resultFragment);
         }
 
     }

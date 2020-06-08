@@ -44,4 +44,6 @@
     <string name="remove_filters">Remove filters</string>
     <string name="noproperties">No properties in database</string>
     <string name="result">Result</string>
+    <string name="your_monthly_payments_will_be">Your monthly payments will be</string>
+    <string name="result_of_the_simulation">Result of the simulation</string>
 </resources>

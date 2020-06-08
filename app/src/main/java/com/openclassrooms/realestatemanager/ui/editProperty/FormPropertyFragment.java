@@ -502,6 +502,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //toolbar.setNavigationOnClickListener(v -> Utils.backToMainScreen(getActivity(),this));
+        toolbar.setNavigationOnClickListener(v -> Utils.replaceFragmentInDetailScreen(getActivity(),this));
+        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 }
