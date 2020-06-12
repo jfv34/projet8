@@ -98,33 +98,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private void loadMap() {
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);
-
-        map.getMapAsync(googleMap -> {
-            this.googleMap = googleMap;
-
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    //Location Permission already granted
-                    buildGoogleApiClient();
-                    googleMap.setMyLocationEnabled(true);
-                    googleMap.getUiSettings().setZoomControlsEnabled(true);
-                    googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                    googleMap.getUiSettings().setZoomGesturesEnabled(true);
-
-                } else {
-                    //Request Location Permission
-                    checkLocationPermission();
-
-                }
-            } else {
-                buildGoogleApiClient();
-                googleMap.setMyLocationEnabled(true);
-                googleMap.getUiSettings().setZoomControlsEnabled(true);
-                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-            }
-        });
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -153,10 +126,34 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     @Override
     public void onMapReady(GoogleMap map) {
 
+
         googleMap = map;
         googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                //Location Permission already granted
+                buildGoogleApiClient();
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+                googleMap.getUiSettings().setZoomGesturesEnabled(true);
+
+            } else {
+                //Request Location Permission
+                checkLocationPermission();
+
+            }
+        } else {
+            buildGoogleApiClient();
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }
 
         observeFilterProperties();
     }
