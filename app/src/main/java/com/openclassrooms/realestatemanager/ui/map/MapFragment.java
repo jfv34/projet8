@@ -295,7 +295,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private void toolBar() {
-        toolbar.setTitle("Map");
+        toolbar.setTitle("Real Estate Manager");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
     }
