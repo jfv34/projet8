@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.details;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -45,11 +49,17 @@ public class DetailsFragment extends Fragment {
     private DetailsFragmentViewModel viewModel;
     private int bundleProperty;
 
+    @BindView(R.id.fragment_detail_appbar)
+    AppBarLayout appBarLayout;
+
     @BindView(R.id.fragment_detail_toolbar)
     Toolbar toolbar;
 
     @BindView(R.id.fragment_detail_viewpager)
     ViewPager viewPager;
+
+    @BindView(R.id.fragment_detail_map_fab)
+    ExtendedFloatingActionButton map_fab;
 
     @BindView(R.id.fragment_detail_type_tv)
     TextView typeTv;
@@ -251,6 +261,13 @@ public class DetailsFragment extends Fragment {
         toolbar.setCollapseIcon(getResources().getDrawable(R.drawable.ic_arrow_back_24px));
         toolbar.setNavigationOnClickListener(v -> {
             getActivity().onBackPressed();
+        });
+        appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if (Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) {
+                map_fab.setVisibility(View.INVISIBLE);
+            } else {
+                map_fab.setVisibility(View.VISIBLE);
+            }
         });
         }
 }
