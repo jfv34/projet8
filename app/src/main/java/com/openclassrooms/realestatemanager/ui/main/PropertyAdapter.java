@@ -69,8 +69,8 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         city_tv.setText(property.getCity());
         type_tv.setText(property.getType());
         price_tv.setText("$ " + String.valueOf(property.getPrice()));
-        int radius = 40;
-        int margin = 20;
+        int radius = 20;
+        int margin = 8;
         if (property.getPhotos() != null) {
             if (property.getPhotos().size() >0) {
                 Photo photo = property.getPhotos().get(0);
