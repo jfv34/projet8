@@ -26,8 +26,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -40,7 +43,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Marker;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
-import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
+import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
@@ -71,8 +74,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private View root;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
-    LocationRequest mLocationRequest;
-    GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,6 +119,14 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
+        fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(),location -> {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
+           googleMap.animateCamera(cameraUpdate);
+        });
+
         if (getActivity() != null && ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -260,6 +271,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                             == PackageManager.PERMISSION_GRANTED) {
                         googleMap.setMyLocationEnabled(true);
 
+
                     }
                 } else {
                     Utils.toast(getActivity(), "No permission for location");
@@ -314,5 +326,11 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     public void onMainClicked() {
         Fragment mainFragment = MainFragment.newInstance();
         Utils.replaceFragmentInDetailScreen(getActivity(), mainFragment);
+    }
+
+    @OnClick(R.id.fragment_map_insert_property_fab)
+    public void onInsertPropertyClicked() {
+        Fragment formPropertyFragment = FormPropertyFragment.newInstance(-1);
+        Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
     }
 }

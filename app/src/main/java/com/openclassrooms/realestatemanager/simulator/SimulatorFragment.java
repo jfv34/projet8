@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.simulator;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
-import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
