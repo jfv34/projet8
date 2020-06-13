@@ -127,11 +127,11 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
            googleMap.animateCamera(cameraUpdate);
         });
 
-        if (getActivity() != null && ContextCompat.checkSelfPermission(getActivity(),
+      /*  if (getActivity() != null && ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
-        }
+        }*/
     }
 
     @Override
