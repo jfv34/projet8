@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,16 +33,22 @@ public class SimulatorFragment extends Fragment {
     @BindView(R.id.fragment_simulator_duration_radiogroup)
     RadioGroup duration_radioGroup;
 
-    public static SimulatorFragment newInstance() {
-        return new SimulatorFragment();
+    public static SimulatorFragment newInstance(String bundlePrice) {
+        SimulatorFragment simulatorFragment  = new SimulatorFragment();
+        Bundle args = new Bundle();
+        args.putString("price", bundlePrice);
+        simulatorFragment.setArguments(args);
+        return simulatorFragment;
     }
 
+    private String bundlePrice;
     private View root;
     private SimulatorFragmentViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bundlePrice = getArguments().getString("price", "");
     }
 
     @Override
@@ -49,9 +56,16 @@ public class SimulatorFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_simulator, container, false);
         ButterKnife.bind(this, root);
-        viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
+        price_et.setText(bundlePrice);
+
     }
 
     @OnClick(R.id.fragment_simulator_result_fab)

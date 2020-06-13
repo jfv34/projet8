@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.ui.details;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -211,7 +209,6 @@ public class DetailsFragment extends Fragment {
 
         private void displayPrice(Property property) {
             String price = "$ " + property.getPrice();
-
             priceTv.setText(price);
         }
 
@@ -247,7 +244,7 @@ public class DetailsFragment extends Fragment {
 
     @OnClick(R.id.fragment_detail_simulator_buton)
     public void simulatorClicked() {
-        Fragment simulatorFragment = SimulatorFragment.newInstance();
+        Fragment simulatorFragment = SimulatorFragment.newInstance(viewModel.property.getValue().getPrice());
         Utils.replaceFragmentInDetailScreen(getActivity(), simulatorFragment);
     }
     private void configureCollapsingToolBar() {

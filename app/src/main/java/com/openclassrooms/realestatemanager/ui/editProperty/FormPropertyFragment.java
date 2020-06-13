@@ -306,7 +306,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         } else {
             viewModel.updateProperty(newProperty(), bundleProperty);
         }
-        //Utils.backToMainScreen(getActivity(),this);
+        getActivity().onBackPressed();
     }
 
     @OnClick(R.id.fragment_form_property_photos_bt)
