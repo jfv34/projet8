@@ -1,22 +1,23 @@
 package com.openclassrooms.realestatemanager.simulator;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SimulatorFragment extends Fragment {
 
@@ -30,6 +31,8 @@ public class SimulatorFragment extends Fragment {
     EditText duration_et;
     @BindView(R.id.fragment_simulator_duration_radiogroup)
     RadioGroup duration_radioGroup;
+    @BindView(R.id.fragment_simulator_result)
+    TextView result_tv;
 
     public static SimulatorFragment newInstance(String bundlePrice) {
         SimulatorFragment simulatorFragment  = new SimulatorFragment();
@@ -42,6 +45,8 @@ public class SimulatorFragment extends Fragment {
     private String bundlePrice;
     private View root;
     private SimulatorFragmentViewModel viewModel;
+    private String text;
+    private boolean isDurationYears = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,10 +68,48 @@ public class SimulatorFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
         price_et.setText(bundlePrice);
-
+        viewModel.init(bundlePrice);
+        observe_text_in_editText(price_et, "PRICE");
+        observe_text_in_editText(contribution_et, "CONTRIBUTION");
+        observe_text_in_editText(rate_et, "RATE");
+        observe_text_in_editText(duration_et, "DURATION");
+        get_duration_radioGroup();
+        viewModel.result.observe(getViewLifecycleOwner(), result -> {
+            result_tv.setText(result);
+            ;
+        });
     }
 
-    @OnClick(R.id.fragment_simulator_result_fab)
+    private void get_duration_radioGroup() {
+
+        duration_radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            isDurationYears = checkedId == R.id.fragment_simulator_duration_radiobutton_years;
+            viewModel.radioGroupChanged(isDurationYears);
+        });
+    }
+
+    private void observe_text_in_editText(EditText editText, String form) {
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.textChanged(form, s.toString());
+            }
+        });
+    }
+
+
+
+
+  /*  @OnClick(R.id.fragment_simulator_result_fab)
     public void onValidateClicked() {
         if (!price_et.getText().toString().equals("")
                 && (!rate_et.getText().toString().equals(""))
@@ -86,5 +129,5 @@ public class SimulatorFragment extends Fragment {
             Utils.addFragmentInDetailScreen(getActivity(), resultFragment);
         }
 
-    }
+    }*/
 }

@@ -18,17 +18,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ResultFragment extends Fragment {
-    public static ResultFragment newInstance(int bundleResult) {
+    public static ResultFragment newInstance(String bundleResult) {
         ResultFragment resultFragment = new ResultFragment();
 
         Bundle args = new Bundle();
-        args.putInt("result", bundleResult);
+        args.putString("result", bundleResult);
         resultFragment.setArguments(args);
 
         return resultFragment;
     }
 
-    private int bundleResult;
+    private String bundleResult;
 
     @BindView(R.id.fragment_simulator_result_toolbar)
     Toolbar toolbar;
@@ -38,7 +38,7 @@ public class ResultFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundleResult = getArguments().getInt("result", 0);
+        bundleResult = getArguments().getString("result", "");
     }
 
     @Override
