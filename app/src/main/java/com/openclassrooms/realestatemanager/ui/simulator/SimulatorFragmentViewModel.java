@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.simulator;
+package com.openclassrooms.realestatemanager.ui.simulator;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
