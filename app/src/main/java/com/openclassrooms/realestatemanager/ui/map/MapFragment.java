@@ -314,7 +314,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     @OnClick(R.id.fragment_map_main_button)
     public void onMainClicked() {
         Fragment mainFragment = MainFragment.newInstance();
-        Utils.replaceFragmentInDetailScreen(getActivity(), mainFragment);
+        Utils.replaceFragmentInMainScreen(getActivity(), mainFragment);
     }
 
     @OnClick(R.id.fragment_map_insert_property_fab)

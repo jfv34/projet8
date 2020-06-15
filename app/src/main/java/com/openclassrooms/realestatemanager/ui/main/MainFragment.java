@@ -107,6 +107,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @OnClick(R.id.fragment_main_map_button)
     public void onMapClicked() {
         Fragment mapFragment = MapFragment.newInstance();
-        Utils.replaceFragmentInDetailScreen(getActivity(), mapFragment);
+        Utils.replaceFragmentInMainScreen(getActivity(), mapFragment);
     }
 }

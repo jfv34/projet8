@@ -173,5 +173,9 @@ public class Utils {
             transaction.replace(R.id.frame_layout_main, fragment).commit();
         }
     }
-
+    public static void replaceFragmentInMainScreen(FragmentActivity activity, Fragment fragment) {
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
+            transaction.replace(R.id.frame_layout_main, fragment).commit();
+        }
 }
