@@ -45,7 +45,6 @@ public class SimulatorFragment extends Fragment {
     private String bundlePrice;
     private View root;
     private SimulatorFragmentViewModel viewModel;
-    private String text;
     private boolean isDurationYears = false;
 
     @Override
@@ -59,7 +58,6 @@ public class SimulatorFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_simulator, container, false);
         ButterKnife.bind(this, root);
-
         return root;
     }
 
@@ -67,20 +65,37 @@ public class SimulatorFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
+
         price_et.setText(bundlePrice);
         viewModel.init(bundlePrice);
+
         observe_text_in_editText(price_et, "PRICE");
         observe_text_in_editText(contribution_et, "CONTRIBUTION");
         observe_text_in_editText(rate_et, "RATE");
         observe_text_in_editText(duration_et, "DURATION");
-        get_duration_radioGroup();
+        observe_duration_radioGroup();
+
         viewModel.result.observe(getViewLifecycleOwner(), result -> {
             result_tv.setText(result);
-            ;
+        });
+        viewModel.price.observe(getViewLifecycleOwner(), price -> {
+            viewModel.calculation();
+        });
+        viewModel.contribution.observe(getViewLifecycleOwner(), price -> {
+            viewModel.calculation();
+        });
+        viewModel.duration.observe(getViewLifecycleOwner(), price -> {
+            viewModel.calculation();
+        });
+        viewModel.rate_in_percentage.observe(getViewLifecycleOwner(), price -> {
+            viewModel.calculation();
+        });
+        viewModel.isDurationYears.observe(getViewLifecycleOwner(), price -> {
+            viewModel.calculation();
         });
     }
 
-    private void get_duration_radioGroup() {
+    private void observe_duration_radioGroup() {
 
         duration_radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             isDurationYears = checkedId == R.id.fragment_simulator_duration_radiobutton_years;
@@ -105,29 +120,4 @@ public class SimulatorFragment extends Fragment {
             }
         });
     }
-
-
-
-
-  /*  @OnClick(R.id.fragment_simulator_result_fab)
-    public void onValidateClicked() {
-        if (!price_et.getText().toString().equals("")
-                && (!rate_et.getText().toString().equals(""))
-                && !duration_et.getText().toString().equals("")) {
-            boolean isDurationYears = false;
-            if (duration_radioGroup.getCheckedRadioButtonId() == R.id.fragment_simulator_duration_radiobutton_years) {
-                isDurationYears = true;
-            }
-            viewModel.validate(
-                    price_et.getText().toString(),
-                    contribution_et.getText().toString(),
-                    rate_et.getText().toString(),
-                    duration_et.getText().toString(),
-                    isDurationYears);
-
-            Fragment resultFragment = ResultFragment.newInstance(viewModel.getResult());
-            Utils.addFragmentInDetailScreen(getActivity(), resultFragment);
-        }
-
-    }*/
 }

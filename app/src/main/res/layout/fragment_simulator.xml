@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     >
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +37,7 @@
         app:startIconDrawable="@drawable/ic_money_24px">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="number"
             android:id="@+id/fragment_simulator_price_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -56,6 +58,7 @@
         app:startIconDrawable="@drawable/ic_money_24px">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="number"
             android:id="@+id/fragment_simulator_contribution_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -76,6 +79,7 @@
         app:startIconDrawable="@drawable/ic_show_chart_24px">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="number"
             android:id="@+id/fragment_simulator_rate_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -96,6 +100,7 @@
         app:startIconDrawable="@drawable/ic_access_time_24px">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="number"
             android:id="@+id/fragment_simulator_duration_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
