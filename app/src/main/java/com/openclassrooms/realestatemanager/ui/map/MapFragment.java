@@ -120,9 +120,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
         fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(),location -> {
+            if(location!=null){
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
-           googleMap.animateCamera(cameraUpdate);
+           googleMap.animateCamera(cameraUpdate);}
         });
 
     }
