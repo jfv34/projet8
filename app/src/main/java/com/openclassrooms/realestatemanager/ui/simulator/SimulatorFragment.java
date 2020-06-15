@@ -11,6 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,6 +38,8 @@ public class SimulatorFragment extends Fragment {
     TextView result_tv;
     @BindView(R.id.fragment_simulator_result_text)
     TextView text_before_result_tv;
+    @BindView(R.id.fragment_simulator_toolbar)
+    Toolbar toolbar;
 
     public static SimulatorFragment newInstance(String bundlePrice) {
         SimulatorFragment simulatorFragment  = new SimulatorFragment();
@@ -64,6 +69,7 @@ public class SimulatorFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolBar();
         viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
         text_before_result_tv.setVisibility(View.INVISIBLE);
         price_et.setText(bundlePrice);
@@ -124,5 +130,13 @@ public class SimulatorFragment extends Fragment {
                 viewModel.textChanged(form, s.toString());
             }
         });
+    }
+    private void toolBar() {
+        toolbar.setTitle("Real estate simulator");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v ->
+                getActivity().onBackPressed());
     }
 }

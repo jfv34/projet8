@@ -259,8 +259,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-                        googleMap.setMyLocationEnabled(true);
-
 
                     }
                 } else {
@@ -282,6 +280,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onLocationChanged(Location location) {
+
     }
 
     @Override

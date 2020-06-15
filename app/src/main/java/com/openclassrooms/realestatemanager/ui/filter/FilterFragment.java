@@ -392,7 +392,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+        toolbar.setNavigationOnClickListener(v ->
+                getActivity().onBackPressed());
     }
 
     @Override

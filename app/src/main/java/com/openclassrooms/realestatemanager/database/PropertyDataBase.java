@@ -88,8 +88,47 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 contentValues_2.put("saleDate","05/03/2020");
                 contentValues_2.put("agentName","Michael BROWN");
 
+                ContentValues contentValues_3 = new ContentValues();
+                contentValues_3.put("id",3);
+                contentValues_3.put("type", "Loft");
+                contentValues_3.put("price", "15500000");
+                contentValues_3.put("address", "2484 Old Middlefield Way");
+                contentValues_3.put("city", "Mountain View");
+                contentValues_3.put("state","United States");
+                contentValues_3.put("zip", "CA94043");
+                contentValues_3.put("area","170");
+                contentValues_3.put("pieces","7");
+                contentValues_3.put("interestPoint","Woodland Park and Houston Zoo");
+                contentValues_3.put("description", "Located in a charming passage, splendid house of character where styles harmonize perfectly with the outdoor spaces: 22 m² garden and 16 m² terrace beautifully planted. Garden level: large living space with a kitchen opening onto the garden, cathedral lounge with fireplace, ceiling height over 4.5m, TV lounge on the mezzanine. 1st floor: 2 large bedrooms, shower room and office. 2nd floor: master bedroom opening onto terrace, bathroom and dressing room, toilet, utility room. Cellar. Double integrated garage.");
+                contentValues_3.put("photos", "");
+                contentValues_3.put("status", "");
+                contentValues_3.put("entryDate", "12/01/2020");
+                contentValues_3.put("saleDate","4/04/2020");
+                contentValues_3.put("agentName","Jordan SMITH");
+
+
+                ContentValues contentValues_4 = new ContentValues();
+                contentValues_4.put("id", 4);
+                contentValues_4.put("type", "Manor");
+                contentValues_4.put("price", "18725000");
+                contentValues_4.put("address", "310-300 Nita Ave");
+                contentValues_4.put("city", "Mountain View");
+                contentValues_4.put("state","United States");
+                contentValues_4.put("zip", "CA 94043");
+                contentValues_4.put("area","1077");
+                contentValues_4.put("pieces","15");
+                contentValues_4.put("interestPoint","Crissy Field and Baker Beach");
+                contentValues_4.put("description", "On a corner lot overlooking the city and the bay, a rare opportunity to own a tailor-made residence in a world class location. The centerpiece of the house is a spectacular serpentine staircase with ornate handrails designed by Italian artisans.");
+                contentValues_4.put("photos","");
+                contentValues_4.put("status", "");
+                contentValues_4.put("entryDate", "15/12/2019");
+                contentValues_4.put("saleDate","05/03/2020");
+                contentValues_4.put("agentName","Michael BROWN");
+
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_1);
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_2);
+                db.insert("Property", OnConflictStrategy.IGNORE,contentValues_3);
+                db.insert("Property", OnConflictStrategy.IGNORE,contentValues_4);
 
             }
         };
