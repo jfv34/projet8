@@ -73,7 +73,11 @@ public class SimulatorFragmentViewModel extends ViewModel {
             int r_back = (int) (((price_ - contribution_) * rate_ * Math.pow(1 + rate_, duration_)) /
                     (Math.pow(1 + rate_, duration_) - 1));
 
-            result.postValue(String.valueOf(r));
-        }
+            if (r <= 0) {
+                result.postValue("");
+            } else {
+                result.postValue(String.valueOf(r));
+            }
+        } else result.postValue("");
     }
 }

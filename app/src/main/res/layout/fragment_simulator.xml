@@ -127,25 +127,28 @@
             android:layout_height="wrap_content"
             android:text="in months" />
     </RadioGroup>
+
     <TextView
-        android:textSize="24dp"
+        android:visibility="invisible"
+        android:id="@+id/fragment_simulator_result_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:text="@string/your_monthly_payments_will_be"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_duration_radiogroup" />
+
+    <TextView
         android:id="@+id/fragment_simulator_result"
-        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_duration_radiogroup"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_result_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-android:id="@+id/fragment_simulator_result_fab"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_gravity="end|bottom"
-android:layout_margin="@dimen/margin_normal"
-android:text="@string/result"
-app:icon="@drawable/ic_done_24px"
-android:textColor="@color/colorWhite"
-app:backgroundTint="@color/colorAccent"
-app:iconTint="@color/colorWhite"
-    />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
