@@ -70,17 +70,13 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     private static final int PERMISSIONS_REQUEST_CODE = 123;
     private SharedFilterViewModel sharedFilterViewModel;
-    private MapFragmentViewModel mapFragmentViewModel;
-    private View root;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
-    private LocationRequest mLocationRequest;
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_map, container, false);
+        View root = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, root);
         return root;
     }
@@ -94,7 +90,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         if (sharedFilterViewModel.isFiltred = false) {
             sharedFilterViewModel.loadProperties();
         }
-        mapFragmentViewModel = new ViewModelProvider(this).get(MapFragmentViewModel.class);
         toolBar();
     }
 
@@ -104,7 +99,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -114,8 +109,11 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onConnected(Bundle bundle) {
+        googleMap.setMyLocationEnabled(true);
+        googleMap.setOnMyLocationButtonClickListener(this);
+        googleMap.setOnMyLocationClickListener(this);
 
-        mLocationRequest = new LocationRequest();
+        LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -127,21 +125,12 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
            googleMap.animateCamera(cameraUpdate);
         });
 
-      /*  if (getActivity() != null && ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
-        }*/
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
 
-
         googleMap = map;
-        googleMap.setMyLocationEnabled(true);
-        googleMap.setOnMyLocationButtonClickListener(this);
-        googleMap.setOnMyLocationClickListener(this);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getActivity(),
