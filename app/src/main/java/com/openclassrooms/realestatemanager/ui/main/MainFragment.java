@@ -66,25 +66,8 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         observeFilterProperties();
 
         sharedDetailViewModel = new ViewModelProvider(requireActivity()).get(SharedDetailViewModel.class);
-        observeLastDetailProperty();
     }
 
-    private void observeLastDetailProperty() {
-        sharedDetailViewModel.property.observe(getViewLifecycleOwner(), property -> {
-            List<Property> properties;
-
-            if (sharedFilterViewModel.properties.getValue() != null) {
-                properties = sharedFilterViewModel.properties.getValue();
-                if (properties.size() == 0) {
-                    Utils.toast(getActivity(), "No data to display");
-                } else {
-                    recyclerView.get
-                    recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
-                }
-                ;
-            }
-        });
-    }
     private void observeFilterProperties() {
         if (sharedFilterViewModel.properties.getValue() == null) {
             sharedFilterViewModel.loadProperties();
