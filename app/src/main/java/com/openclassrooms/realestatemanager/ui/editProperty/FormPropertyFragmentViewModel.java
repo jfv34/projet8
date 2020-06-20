@@ -62,7 +62,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
 
-    public void setProperty(Property property) {
+    public void setProperty_in_database(Property property) {
         AsyncTask.execute(() ->
                 repository.createProperty(property)
         );

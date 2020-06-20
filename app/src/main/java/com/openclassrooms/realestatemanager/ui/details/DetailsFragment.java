@@ -25,8 +25,8 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.simulator.SimulatorFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.simulator.SimulatorFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +44,7 @@ public class DetailsFragment extends Fragment {
         return detailsFragment;
     }
 
-    private DetailsFragmentViewModel viewModel;
+    private SharedDetailViewModel sharedDetailViewModel;
     private int bundleProperty;
 
     @BindView(R.id.fragment_detail_appbar)
@@ -112,14 +112,14 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(DetailsFragmentViewModel.class);
+        sharedDetailViewModel = new ViewModelProvider(requireActivity()).get(SharedDetailViewModel.class);
         loadProperty();
     }
 
     private void loadProperty() {
-        viewModel.loadProperty(bundleProperty);
+        sharedDetailViewModel.loadProperty(bundleProperty);
         observePhotos();
-        viewModel.property.observe(getViewLifecycleOwner(), property -> {
+        sharedDetailViewModel.property.observe(getViewLifecycleOwner(), property -> {
 
             displayToolbarTitle(property);
             displayType(property);
@@ -162,7 +162,7 @@ public class DetailsFragment extends Fragment {
 
         private void observePhotos() {
 
-            viewModel.photos.observe(getViewLifecycleOwner(), photos -> {
+            sharedDetailViewModel.photos.observe(getViewLifecycleOwner(), photos -> {
                 if(photos!=null){
                     viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));}
             });
@@ -230,8 +230,8 @@ public class DetailsFragment extends Fragment {
 
     @OnClick(R.id.fragment_detail_map_fab)
     public void mapClicked() {
-        if (viewModel.property != null) {
-            Property property = viewModel.property.getValue();
+        if (sharedDetailViewModel.property != null) {
+            Property property = sharedDetailViewModel.property.getValue();
             String url = "http://www.google.fr/maps/place/"
                     + property.getAddress()
                     + "+" + property.getCity()
@@ -244,7 +244,7 @@ public class DetailsFragment extends Fragment {
 
     @OnClick(R.id.fragment_detail_simulator_buton)
     public void simulatorClicked() {
-        Fragment simulatorFragment = SimulatorFragment.newInstance(viewModel.property.getValue().getPrice());
+        Fragment simulatorFragment = SimulatorFragment.newInstance(sharedDetailViewModel.property.getValue().getPrice());
         Utils.addFragmentInDetailScreen(getActivity(), simulatorFragment);
     }
     private void configureCollapsingToolBar() {

@@ -28,9 +28,6 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> entryDate = new MutableLiveData<>();
     public MutableLiveData<List<Type>> typesFilter = new MutableLiveData<>();
-    public MutableLiveData<List<String>> citiesFilter = new MutableLiveData<>();
-    public MutableLiveData<List<String>> statesFilter = new MutableLiveData<>();
-    public MutableLiveData<List<String>> interestPointsFilter = new MutableLiveData<>();
     public MutableLiveData<Integer> priceMin = new MutableLiveData<>();
     public MutableLiveData<Integer> priceMax = new MutableLiveData<>();
     public MutableLiveData<Integer> areaMin = new MutableLiveData<>();
@@ -39,9 +36,6 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<Integer> numberOfPhotosMax = new MutableLiveData<>();
     public MutableLiveData<Integer> piecesMin = new MutableLiveData<>();
     public MutableLiveData<Integer> piecesMax = new MutableLiveData<>();
-    public MutableLiveData<String> agentFilter = new MutableLiveData<>();
-    public MutableLiveData<String> availableDateFilter = new MutableLiveData<>();
-    public MutableLiveData<String> soldDateFilter = new MutableLiveData<>();
 
     private Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;
