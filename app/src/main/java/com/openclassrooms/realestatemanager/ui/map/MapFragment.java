@@ -113,6 +113,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
 
+      locateUser();
+        }
+
+    private void locateUser() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -121,10 +125,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
         fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(),location -> {
             if(location!=null){
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
-           googleMap.animateCamera(cameraUpdate);}
-        });
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
+                googleMap.animateCamera(cameraUpdate);}
+    });
 
     }
 
@@ -246,7 +250,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
 
     private void checkLocationPermission() {
-        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
     }
 
     @Override
@@ -259,6 +263,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                     if (ContextCompat.checkSelfPermission(getActivity(),
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
+                        locateUser();
 
                     }
                 } else {

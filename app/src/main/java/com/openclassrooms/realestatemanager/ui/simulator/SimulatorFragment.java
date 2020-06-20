@@ -90,21 +90,11 @@ public class SimulatorFragment extends Fragment {
                 result_tv.setText("$ " + result);
             }
         });
-        viewModel.price.observe(getViewLifecycleOwner(), price -> {
-            viewModel.calculation();
-        });
-        viewModel.contribution.observe(getViewLifecycleOwner(), price -> {
-            viewModel.calculation();
-        });
-        viewModel.duration.observe(getViewLifecycleOwner(), price -> {
-            viewModel.calculation();
-        });
-        viewModel.rate_in_percentage.observe(getViewLifecycleOwner(), price -> {
-            viewModel.calculation();
-        });
-        viewModel.isDurationYears.observe(getViewLifecycleOwner(), price -> {
-            viewModel.calculation();
-        });
+        viewModel.price.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
+        viewModel.contribution.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
+        viewModel.duration.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
+        viewModel.rate_in_percentage.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
+        viewModel.isDurationYears.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
     }
 
     private void observe_duration_radioGroup() {
