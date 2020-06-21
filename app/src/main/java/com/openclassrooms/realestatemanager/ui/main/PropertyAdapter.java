@@ -21,7 +21,6 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropert
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,7 +69,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
         city_tv.setText(property.getCity());
         type_tv.setText(property.getType());
-        price_tv.setText("$ " + String.valueOf(property.getPrice()));
+        price_tv.setText(String.format("$ %s", property.getPrice()));
         int radius = 20;
         int margin = 8;
         if (property.getPhotos() != null) {
@@ -99,8 +98,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position, List<Object> payloads) {
 
-        int viewType = getItemViewType(position);
-        String p = null, s = null;
+        String p = null;
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads);
             return;
@@ -109,10 +107,10 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             for (String key : o.keySet()) {
                 if (key.equals("price")) {
                     p = o.getString(key);
+
                 }
             }
         }
-
     }
 
     @Override
@@ -120,14 +118,13 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         return properties.size();
     }
 
-   public void updateProperties(List<Property> newProperties) {
+    public void updateProperties(List<Property> newProperties, List<Property> oldProperties) {
 
-       DiffUtil.DiffResult diffResult =  DiffUtil.calculateDiff(new MyDiffCallback(newProperties, this.properties));
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newProperties, oldProperties));
        this.properties = newProperties;
        diffResult.dispatchUpdatesTo(this);
-       //properties.clear();
-       //properties.addAll(newProperties);
-   }
+
+    }
 }
 
 

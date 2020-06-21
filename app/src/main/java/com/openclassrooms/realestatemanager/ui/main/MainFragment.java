@@ -25,6 +25,7 @@ import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -82,15 +83,15 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
                     Utils.toast(getActivity(), "No data to display");
                 } else {
                     if (lastProperty != null) {
+                        List<Property> oldProperties=new ArrayList<>();
+                        oldProperties=properties;
                         properties.remove(lastProperty.getId()-1);
-
                         Property newProperty = sharedDetailViewModel.property.getValue();
                         properties.add(newProperty);
                         lastProperty = newProperty;
-                        propertyAdapter.updateProperties(properties);
+                        propertyAdapter.updateProperties(properties,oldProperties);
 
-                        // recyclerView.setAdapter(new PropertyAdapter(properties, getContext(), MainFragment.this));
-                    } else {
+                      } else {
                         lastProperty = sharedDetailViewModel.property.getValue();
                     }
                 }
