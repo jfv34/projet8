@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Property {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    public int id;
     private String type;
     private String price;
     private String address;
