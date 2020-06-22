@@ -44,7 +44,7 @@ public class DetailsFragment extends Fragment {
         return detailsFragment;
     }
 
-    private SharedDetailViewModel sharedDetailViewModel;
+    private DetailViewModel sharedDetailViewModel;
     private int bundleProperty;
 
     @BindView(R.id.fragment_detail_appbar)
@@ -112,7 +112,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedDetailViewModel = new ViewModelProvider(requireActivity()).get(SharedDetailViewModel.class);
+        sharedDetailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         loadProperty();
     }
 

@@ -26,4 +26,15 @@ public class SharedFilterViewModel extends ViewModel {
                 }
         );
     }
+
+    public void setProperty_for_shared(Property newProperty) {
+        if (newProperty != null && properties.getValue() != null) {
+            for (int i = 0; i < properties.getValue().size(); i++) {
+                if (properties.getValue().get(i).getId() == newProperty.getId()) {
+                    properties.getValue().remove(i);
+                }
+            }
+            properties.getValue().add(newProperty);
+        }
+    }
 }

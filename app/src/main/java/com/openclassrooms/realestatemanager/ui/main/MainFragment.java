@@ -19,13 +19,12 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
-import com.openclassrooms.realestatemanager.ui.details.SharedDetailViewModel;
+import com.openclassrooms.realestatemanager.ui.details.DetailViewModel;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,9 +37,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
     private SharedFilterViewModel sharedFilterViewModel;
-    private SharedDetailViewModel sharedDetailViewModel;
     private PropertyAdapter propertyAdapter;
-    private Property lastProperty;
     private View root;
 
     public static MainFragment newInstance() {
@@ -67,38 +64,8 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
             sharedFilterViewModel.loadProperties();
         }
         observeFilterProperties();
-
-        sharedDetailViewModel = new ViewModelProvider(requireActivity()).get(SharedDetailViewModel.class);
-        observeLastDetailProperty();
     }
 
-    private void observeLastDetailProperty() {
-        lastProperty = sharedDetailViewModel.property.getValue();
-        sharedDetailViewModel.property.observe(getViewLifecycleOwner(), property -> {
-            List<Property> properties;
-
-            if (sharedFilterViewModel.properties.getValue() != null) {
-                properties = sharedFilterViewModel.properties.getValue();
-                if (properties.size() == 0) {
-                    Utils.toast(getActivity(), "No data to display");
-                } else {
-                    if (lastProperty != null) {
-                        List<Property> oldProperties=new ArrayList<>();
-                        oldProperties=properties;
-                        properties.remove(lastProperty.getId()-1);
-                        Property newProperty = sharedDetailViewModel.property.getValue();
-                        properties.add(newProperty);
-                        lastProperty = newProperty;
-                        propertyAdapter.updateProperties(properties,oldProperties);
-
-                      } else {
-                        lastProperty = sharedDetailViewModel.property.getValue();
-                    }
-                }
-                ;
-            }
-        });
-    }
     private void observeFilterProperties() {
         if (sharedFilterViewModel.properties.getValue() == null) {
             sharedFilterViewModel.loadProperties();
@@ -106,11 +73,13 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
 
             if (properties.size() == 0) {
-                    Utils.toast(getActivity(), "No data to display");
-                } else {
+                Utils.toast(getActivity(), "No data to display");
+            } else if(propertyAdapter==null)  {
                 propertyAdapter = new PropertyAdapter(properties, getContext(), MainFragment.this);
                 recyclerView.setAdapter(propertyAdapter);
-                }
+            }else{
+                propertyAdapter.updateProperties(properties);
+            }
         });
     }
 

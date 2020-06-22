@@ -40,7 +40,8 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDe
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
-import com.openclassrooms.realestatemanager.ui.details.SharedDetailViewModel;
+import com.openclassrooms.realestatemanager.ui.details.DetailViewModel;
+import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,9 +58,10 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private static Calendar calendar = Calendar.getInstance();
     private int bundleProperty;
     private FormPropertyFragmentViewModel viewModel;
+    private SharedFilterViewModel sharedFilterViewModel;
+
     private View root;
     private Bitmap photoBM = null;
-    private SharedDetailViewModel sharedDetailViewModel;
 
     @BindView(R.id.fragment_insert_property_toolbar)
     Toolbar toolbar;
@@ -125,7 +127,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
-        sharedDetailViewModel = new ViewModelProvider(requireActivity()).get(SharedDetailViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+
         configure_autoComplete_types();
         configure_availability_status();
         configure_availabilityDate();
@@ -305,11 +308,11 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         if (bundleProperty == -1) {
             viewModel.setProperty_in_database(newProperty());
-            sharedDetailViewModel.setProperty_for_shared(newProperty());
+            sharedFilterViewModel.setProperty_for_shared(newProperty());
             notification_property_added();
         } else {
             viewModel.updateProperty(newProperty(), bundleProperty);
-            sharedDetailViewModel.setProperty_for_shared(newProperty());
+            sharedFilterViewModel.setProperty_for_shared(newProperty());
         }
         getActivity().onBackPressed();
     }

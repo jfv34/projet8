@@ -118,12 +118,11 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         return properties.size();
     }
 
-    public void updateProperties(List<Property> newProperties, List<Property> oldProperties) {
+    public void updateProperties(List<Property> newProperties) {
 
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newProperties, oldProperties));
-       this.properties = newProperties;
-       diffResult.dispatchUpdatesTo(this);
-
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newProperties, properties));
+        this.properties = newProperties;
+        diffResult.dispatchUpdatesTo(this);
     }
 }
 

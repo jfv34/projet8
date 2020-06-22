@@ -13,12 +13,10 @@ import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepositor
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class SharedDetailViewModel extends ViewModel {
+public class DetailViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
-    public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     public MutableLiveData<Property> property = new MutableLiveData<>();
 
@@ -29,9 +27,5 @@ public class SharedDetailViewModel extends ViewModel {
             photos.postValue(result.getPhotos());
             property.postValue(result);
         });
-    }
-
-    public void setProperty_for_shared(Property newProperty) {
-        property.postValue(newProperty);
     }
 }
