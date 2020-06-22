@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.ui.map;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -137,6 +139,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
         googleMap = map;
 
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -144,23 +147,62 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 //Location Permission already granted
                 buildGoogleApiClient();
                 googleMap.setMyLocationEnabled(true);
-                googleMap.getUiSettings().setZoomControlsEnabled(true);
+              googleMap.getUiSettings().setZoomControlsEnabled(true);
                 googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                 googleMap.getUiSettings().setZoomGesturesEnabled(true);
-
             } else {
                 //Request Location Permission
                 checkLocationPermission();
-
             }
-        } else {
+        }
+        else {
+            checkLocationPermission();
             buildGoogleApiClient();
             googleMap.setMyLocationEnabled(true);
             googleMap.getUiSettings().setZoomControlsEnabled(true);
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+            googleMap.getUiSettings().setZoomGesturesEnabled(true);
+            observeFilterProperties();
         }
+    }
 
-        observeFilterProperties();
+    private void checkLocationPermission() {
+        //requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Location Permission Needed")
+                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        PERMISSIONS_REQUEST_CODE);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSIONS_REQUEST_CODE );
+            }
+        }
     }
 
     private void observeFilterProperties() {
@@ -249,9 +291,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
 
-    private void checkLocationPermission() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -327,4 +367,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         Fragment formPropertyFragment = FormPropertyFragment.newInstance(-1);
         Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
     }
+
+
+
 }
