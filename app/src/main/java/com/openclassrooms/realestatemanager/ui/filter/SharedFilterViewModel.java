@@ -29,12 +29,14 @@ public class SharedFilterViewModel extends ViewModel {
 
     public void setProperty_for_shared(Property newProperty) {
         if (newProperty != null && properties.getValue() != null) {
+            List<Property> newProperties = properties.getValue();
             for (int i = 0; i < properties.getValue().size(); i++) {
-                if (properties.getValue().get(i).getId() == newProperty.getId()) {
-                    properties.getValue().remove(i);
+                if (properties.getValue().get(i).getId() - 1 == newProperty.getId()) {
+                    newProperties.remove(i);
+                    newProperties.add(i, newProperty);
                 }
             }
-            properties.getValue().add(newProperty);
+            properties.postValue(newProperties);
         }
     }
 }
