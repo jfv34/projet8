@@ -13,6 +13,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
+        android:paddingTop="@dimen/margin_large"
         android:id="@+id/fragment_simulator_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
