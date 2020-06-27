@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.map;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -87,12 +86,31 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        loadMap();
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
-        if (sharedFilterViewModel.isFiltred = false) {
-            sharedFilterViewModel.loadProperties();
-        }
-        toolBar();
+        connectionAndLoading();
+    }
+
+    private void connectionAndLoading() {
+        if (Utils.isInternetAvailable(getActivity())) {
+            loadMap();
+            sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+            if (sharedFilterViewModel.isFiltred = false) {
+                sharedFilterViewModel.loadProperties();
+            }
+            toolBar();
+        } else internetNotAvailable();
+    }
+
+    private void internetNotAvailable() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Internet is not available")
+                .setMessage("No internet connection. Do you want to try again ?")
+                .setPositiveButton("YES", (dialogInterface, i) -> connectionAndLoading())
+                .setNegativeButton("NO", (dialog, which) -> {
+                    MainFragment mainFragment = new MainFragment();
+                    Utils.replaceFragmentInMainScreen(getActivity(), mainFragment);
+                })
+                .create()
+                .show();
     }
 
     private void loadMap() {
@@ -183,18 +201,14 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Location Permission Needed")
                         .setMessage("This app needs the Location permission, please accept to use location functionality")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        PERMISSIONS_REQUEST_CODE);
-                            }
+                        .setPositiveButton("OK", (dialogInterface, i) -> {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    PERMISSIONS_REQUEST_CODE);
                         })
                         .create()
                         .show();
-
 
             } else {
                 // No explanation needed, we can request the permission.

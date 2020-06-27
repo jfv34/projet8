@@ -70,12 +70,11 @@ public class Utils {
      * @return
      */
     public static Boolean isInternetAvailable(Context context){
-        // WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        // return connectivityManager.is wifi.isWifiEnabled();
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo.isAvailable();
+        if(networkInfo==null){return false;}else{
+        return networkInfo.isAvailable();}
 
     }
     public static void toast(Context context, int message) {
