@@ -149,7 +149,10 @@ public class FilterFragmentViewModel extends ViewModel {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String type = property.getType();
-                filter_for_list(property, type, typesFilter,properties);
+                if (!typesFilter.contains(type)) {
+                    properties.remove(property);
+                    i--;
+                }
             }
         };}
     }
