@@ -71,9 +71,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_type"
-            app:startIconContentDescription="icon_content_desc">
+           >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType = "number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -166,6 +167,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             app:startIconDrawable="@drawable/ic_aspect_ratio_24px"
             android:hint="@string/area"
+            android:inputType = "number"
             app:layout_constraintEnd_toStartOf="@id/fragment_insert_property_TextField_pieces"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_insert_property_TextField_state"
@@ -184,6 +186,7 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_normal"
             android:hint="@string/pieces_"
+            android:inputType = "number"
             app:startIconDrawable="@drawable/ic_pieces_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/fragment_insert_property_TextField_area"
