@@ -360,24 +360,4 @@ public class FilterFragmentViewModel extends ViewModel {
         }
         return status;
     }
-
-    public void configure_bounds_in_pricesSlider() {
-        AsyncTask.execute(() -> {
-            ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
-
-            int min = 0;
-            int max = 0;
-            for (Property property : properties) {
-                int price = Integer.parseInt(property.getPrice());
-                if (price < min) {
-                    min = price;
-                }
-                if (price > max) {
-                    max = price;
-                }
-            }
-            priceBoundMax.postValue(max);
-            priceBoundMin.postValue(min);
-        });
-    }
 }

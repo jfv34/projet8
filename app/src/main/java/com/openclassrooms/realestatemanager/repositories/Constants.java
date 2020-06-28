@@ -8,5 +8,5 @@ public class Constants {
     public static int slider_area_minimum=10;
     public static int slider_area_maximum=1000;
     public static int slider_price_minimum=0;
-    public static int slider_price_maximum=100000000;
+    public static int slider_price_maximum=50000000;
 }
