@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -157,7 +158,7 @@ public class Utils {
     public static void addFragmentInDetailScreen(FragmentActivity activity, Fragment fragment) {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
+        if (tabletSize || activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             transaction.add(R.id.activity_main_frame_layout_detail_large_screen, fragment).addToBackStack(fragment.getClass().getName()).commit();
         } else {
             transaction.add(R.id.frame_layout_main, fragment).addToBackStack(fragment.getClass().getName()).commit();

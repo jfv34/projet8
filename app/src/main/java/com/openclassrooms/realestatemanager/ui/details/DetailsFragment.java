@@ -160,9 +160,9 @@ public class DetailsFragment extends Fragment {
 
     private void displayDots(Property property) {
 
-        if (property.getPhotos().size() > 1) {
+        if (!(property.getPhotos() ==null)&&property.getPhotos().size()>1) {
             dotsIndicator.setViewPager(viewPager);
-        }
+        }else {dotsIndicator.setVisibility(View.INVISIBLE);}
     }
 
     private void displayMap(Property property) {
