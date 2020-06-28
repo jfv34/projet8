@@ -65,6 +65,9 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_address_tv)
     TextView addressTv;
 
+    @BindView(R.id.fragment_detail_location_iv)
+    ImageView addressLabelIV;
+
     @BindView(R.id.fragment_detail_not_solded_iv)
     ImageView not_soldedIv;
 
@@ -80,11 +83,20 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_interestPoints_tv)
     TextView interestsPointsTv;
 
+    @BindView(R.id.fragment_detail_interestPoints_title_tv)
+    TextView interestsPointsTitle_tv;
+
     @BindView(R.id.fragment_detail_description_tv)
     TextView descriptionTv;
 
+    @BindView(R.id.fragment_detail_description_title_tv)
+    TextView descriptionTitleTv;
+
     @BindView(R.id.fragment_detail_agent_tv)
     TextView agentTv;
+
+    @BindView(R.id.fragment_detail_agent_iv)
+    ImageView agentIcon;
 
     @BindView(R.id.fragment_detail_collapsingtoolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -94,6 +106,9 @@ public class DetailsFragment extends Fragment {
 
     @BindView(R.id.fragment_detail_static_map)
     ImageView mapIv;
+
+    @BindView(R.id.fragment_detail_simulator_buton)
+    ImageView simulatorIv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,7 +120,6 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, root);
-        configureCollapsingToolBar();
         return root;
     }
 
@@ -122,6 +136,7 @@ public class DetailsFragment extends Fragment {
         sharedDetailViewModel.property.observe(getViewLifecycleOwner(), property -> {
 
             displayToolbarTitle(property);
+            configureCollapsingToolBar(property);
             displayType(property);
             displayAddress(property);
             displayPrice(property);
@@ -139,25 +154,27 @@ public class DetailsFragment extends Fragment {
     }
 
     private void displayMap(Property property) {
-        String location = property.getAddress()
-                + "+" + property.getCity()
-                + "+" + property.getState();
-        String url = "https://maps.googleapis.com/maps/api/staticmap?"
-                + "center=" + location
-                + "&zoom=18&scale=1"
-                + "&size=400x400"
-                + "&maptype=roadmap"
-                + "&key=AIzaSyBIr_Z4aE3uGusLp7sbRW0nNQCrhFehsKs"
-                + "&format=png"
-                + "&visual_refresh=true"
-                + "&markers=size:mid%7Ccolor:0xff8000%7C" + location;
+        if (!property.getCity().isEmpty()) {
+            String location = property.getAddress()
+                    + "+" + property.getCity()
+                    + "+" + property.getState();
+            String url = "https://maps.googleapis.com/maps/api/staticmap?"
+                    + "center=" + location
+                    + "&zoom=18&scale=1"
+                    + "&size=400x400"
+                    + "&maptype=roadmap"
+                    + "&key=AIzaSyBIr_Z4aE3uGusLp7sbRW0nNQCrhFehsKs"
+                    + "&format=png"
+                    + "&visual_refresh=true"
+                    + "&markers=size:mid%7Ccolor:0xff8000%7C" + location;
 
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.mipmap.ic_launcher_round)
-                .error(R.mipmap.ic_launcher_round);
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .error(R.mipmap.ic_launcher_round);
 
-        Glide.with(this).load(url).apply(options).into(mapIv);
+            Glide.with(this).load(url).apply(options).into(mapIv);
+        }
     }
 
         private void observePhotos() {
@@ -169,21 +186,43 @@ public class DetailsFragment extends Fragment {
         }
 
         private void displayAgent(Property property) {
-            agentTv.setText(property.getAgentName());
+            if (!property.getAgentName().isEmpty()) {
+                agentTv.setText(property.getAgentName());
+            } else {
+                agentIcon.setVisibility(View.INVISIBLE);
+            }
         }
 
         private void displayDescription(Property property) {
-            descriptionTv.setText(property.getDescription());
+            if (!property.getDescription().isEmpty()) {
+                descriptionTv.setText(property.getDescription());
+            } else {
+                descriptionTitleTv.setVisibility(View.INVISIBLE);
+            }
         }
 
         private void displayInterestsPoints(Property property) {
             String interestsPoints = property.getInterestPoint();
-            interestsPointsTv.setText(interestsPoints);
+            if (interestsPoints.isEmpty()) {
+                interestsPointsTitle_tv.setVisibility(View.INVISIBLE);
+            } else {
+                interestsPointsTv.setText(interestsPoints);
+            }
         }
 
         private void displaySurfaceAndPieces(Property property) {
-            String surfaceAndPieces = property.getArea() + " " + getString(R.string.square_meter)
-                    + " " + property.getPieces() + " " + getString(R.string.pieces);
+            String surfaceAndPieces = "";
+            String area = property.getArea();
+            String piece = property.getPieces();
+            if (!area.isEmpty()) {
+                surfaceAndPieces = area + " " + getString(R.string.square_meter);
+            }
+            if (!area.isEmpty() && !piece.isEmpty()) {
+                surfaceAndPieces = surfaceAndPieces + ", ";
+            }
+            if (!piece.isEmpty()) {
+                surfaceAndPieces = surfaceAndPieces + piece + " " + getString(R.string.pieces);
+            }
             surfaceAndPiecesTv.setText(surfaceAndPieces);
         }
 
@@ -208,13 +247,23 @@ public class DetailsFragment extends Fragment {
         }
 
         private void displayPrice(Property property) {
-            String price = "$ " + property.getPrice();
-            priceTv.setText(price);
+            if (!property.getPrice().isEmpty()) {
+                String price = "$ " + property.getPrice();
+                priceTv.setText(price);
+            } else {
+                simulatorIv.setVisibility(View.INVISIBLE);
+            }
         }
 
         private void displayAddress(Property property) {
-            String address = property.getAddress()+", "+ property.getCity()+", "+property.getState();
-            addressTv.setText(address);
+
+            if (property.getCity().isEmpty()) {
+                addressLabelIV.setVisibility(View.INVISIBLE);
+            } else {
+
+                String address = property.getAddress() + ", " + property.getCity() + ", " + property.getState();
+                addressTv.setText(address);
+            }
         }
 
         private void displayType(Property property) {
@@ -247,7 +296,7 @@ public class DetailsFragment extends Fragment {
         Fragment simulatorFragment = SimulatorFragment.newInstance(sharedDetailViewModel.property.getValue().getPrice());
         Utils.addFragmentInDetailScreen(getActivity(), simulatorFragment);
     }
-    private void configureCollapsingToolBar() {
+    private void configureCollapsingToolBar(Property property) {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -260,7 +309,7 @@ public class DetailsFragment extends Fragment {
             getActivity().onBackPressed();
         });
         appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if (Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) {
+            if ((Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) || (property.getCity().isEmpty())){
                 map_fab.setVisibility(View.INVISIBLE);
             } else {
                 map_fab.setVisibility(View.VISIBLE);

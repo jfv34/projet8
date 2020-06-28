@@ -69,7 +69,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
         city_tv.setText(property.getCity());
         type_tv.setText(property.getType());
-        price_tv.setText(String.format("$ %s", property.getPrice()));
+        if (!property.getPrice().isEmpty()) {
+            price_tv.setText(String.format("$ %s", property.getPrice()));
+        }
         int radius = 20;
         int margin = 8;
         if (property.getPhotos() != null) {
