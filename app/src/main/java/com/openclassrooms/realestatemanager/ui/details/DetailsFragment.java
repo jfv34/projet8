@@ -27,6 +27,7 @@ import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.simulator.SimulatorFragment;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,6 +111,9 @@ public class DetailsFragment extends Fragment {
     @BindView(R.id.fragment_detail_simulator_buton)
     ImageView simulatorIv;
 
+    @BindView(R.id.fragment_detail_dotsIndicator)
+    SpringDotsIndicator dotsIndicator;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +140,7 @@ public class DetailsFragment extends Fragment {
         sharedDetailViewModel.property.observe(getViewLifecycleOwner(), property -> {
 
             displayToolbarTitle(property);
+            displayDots(property);
             configureCollapsingToolBar(property);
             displayType(property);
             displayAddress(property);
@@ -151,6 +156,13 @@ public class DetailsFragment extends Fragment {
 
     private void displayToolbarTitle(Property property) {
         toolbar.setTitle(property.getType());
+    }
+
+    private void displayDots(Property property) {
+
+        if (property.getPhotos().size() > 1) {
+            dotsIndicator.setViewPager(viewPager);
+        }
     }
 
     private void displayMap(Property property) {

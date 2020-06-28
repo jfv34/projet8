@@ -25,11 +25,26 @@
             >
 
             <androidx.viewpager.widget.ViewPager
-
                 app:layout_collapseMode="parallax"
                 android:id="@+id/fragment_detail_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/viewPager"
+                />
+
+            <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                android:layout_gravity="top|end"
+                android:layout_marginTop="35dp"
+                android:id="@+id/fragment_detail_dotsIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dampingRatio="0.5"
+                app:dotsColor="@color/colorPrimary"
+                app:dotsStrokeColor="@color/colorWhite"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="16dp"
+                app:dotsSpacing="6dp"
+                app:dotsStrokeWidth="2dp"
+                app:stiffness="300"
                 />
 
             <com.google.android.material.appbar.MaterialToolbar
