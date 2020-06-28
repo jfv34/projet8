@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
@@ -377,14 +378,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         sharedPreferences.edit().clear().apply();
         FilterFragment filterFragment = new FilterFragment();
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        final boolean tabletSize = getActivity().getResources().getBoolean(R.bool.isTablet);
-        if (tabletSize) {
-            transaction.remove(this);
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, filterFragment).commit();
-        } else {
-            transaction.remove(this);
-            transaction.replace(R.id.frame_layout_main, filterFragment).commit();
-        }
+        transaction.remove(this);
+        Utils.addFragmentInDetailScreen(getActivity(),filterFragment);
     }
 
     private void toolBar() {

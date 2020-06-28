@@ -30,6 +30,8 @@ public class FilterFragmentViewModel extends ViewModel {
     public MutableLiveData<List<Type>> typesFilter = new MutableLiveData<>();
     public MutableLiveData<Integer> priceMin = new MutableLiveData<>();
     public MutableLiveData<Integer> priceMax = new MutableLiveData<>();
+    public MutableLiveData<Integer> priceBoundMin = new MutableLiveData<>();
+    public MutableLiveData<Integer> priceBoundMax = new MutableLiveData<>();
     public MutableLiveData<Integer> areaMin = new MutableLiveData<>();
     public MutableLiveData<Integer> areaMax = new MutableLiveData<>();
     public MutableLiveData<Integer> numberOfPhotosMin = new MutableLiveData<>();
@@ -261,7 +263,8 @@ public class FilterFragmentViewModel extends ViewModel {
     private void filterByPrice(ArrayList<Property> properties) {
         int priceMini = filter.getPriceMini();
         int priceMaxi = filter.getPriceMaxi();
-        if (priceMini > Constants.slider_price_minimum || priceMaxi < Constants.slider_price_maximum)
+        if (priceBoundMax.getValue() != null && priceBoundMin.getValue() != null) {
+            if (priceMini > priceBoundMin.getValue() || priceMaxi < priceBoundMax.getValue())
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 if (!property.getPrice().isEmpty()) {
@@ -270,6 +273,7 @@ public class FilterFragmentViewModel extends ViewModel {
                         properties.remove(property);
                 }
             }
+        }
     }
 
     private void filterByStatus(ArrayList<Property> properties) {
@@ -355,5 +359,25 @@ public class FilterFragmentViewModel extends ViewModel {
             }
         }
         return status;
+    }
+
+    public void configure_bounds_in_pricesSlider() {
+        AsyncTask.execute(() -> {
+            ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
+
+            int min = 0;
+            int max = 0;
+            for (Property property : properties) {
+                int price = Integer.parseInt(property.getPrice());
+                if (price < min) {
+                    min = price;
+                }
+                if (price > max) {
+                    max = price;
+                }
+            }
+            priceBoundMax.postValue(max);
+            priceBoundMin.postValue(min);
+        });
     }
 }
