@@ -36,7 +36,8 @@ public class MyDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldProperties.get(oldItemPosition).equals(newProperties.get(newItemPosition));
+        boolean result = oldProperties.get(oldItemPosition).equals(newProperties.get(newItemPosition));
+        return result;
     }
 
     @Nullable

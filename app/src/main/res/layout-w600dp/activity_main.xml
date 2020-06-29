@@ -3,25 +3,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <FrameLayout
+    <FrameLayout
             android:id="@+id/frame_layout_main"
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="50" />
+            android:layout_weight="1" />
 
         <FrameLayout
             android:id="@+id/activity_main_frame_layout_detail_large_screen"
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="50" />
-    </LinearLayout>
+            android:layout_weight="1" />
+
 </LinearLayout>
 
 

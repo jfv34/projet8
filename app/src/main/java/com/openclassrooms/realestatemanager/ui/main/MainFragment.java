@@ -23,6 +23,8 @@ import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -71,7 +73,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
             if (properties.size() == 0) {
                 Utils.toast(getActivity(), "No data to display");
             } else if(propertyAdapter==null)  {
-                propertyAdapter = new PropertyAdapter(properties, getContext(), MainFragment.this);
+                propertyAdapter = new PropertyAdapter(new ArrayList<>(properties), getContext(), MainFragment.this);
                 recyclerView.setAdapter(propertyAdapter);
             }else{
                 propertyAdapter.updateProperties(properties);
