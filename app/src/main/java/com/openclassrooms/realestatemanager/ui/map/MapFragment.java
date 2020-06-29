@@ -180,8 +180,8 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             googleMap.getUiSettings().setZoomControlsEnabled(true);
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             googleMap.getUiSettings().setZoomGesturesEnabled(true);
-            observeFilterProperties();
         }
+        observeFilterProperties();
     }
 
     private void checkLocationPermission() {
