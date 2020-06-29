@@ -36,8 +36,7 @@ public class MyDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        boolean result = oldProperties.get(oldItemPosition-1).equals(newProperties.get(newItemPosition-1));
-        return result;
+        return oldProperties.get(oldItemPosition-1).equals(newProperties.get(newItemPosition-1));
     }
 
     @Nullable
@@ -50,6 +49,15 @@ public class MyDiffCallback extends DiffUtil.Callback {
         Bundle diff = new Bundle();
         if (!newItem.getPrice().equals(oldItem.getPrice())) {
             diff.putString("price", newItem.getPrice());
+        }
+        if (!newItem.getCity().equals(oldItem.getCity())) {
+            diff.putString("city", newItem.getCity());
+        }
+        if (!newItem.getType().equals(oldItem.getType())) {
+            diff.putString("type", newItem.getType());
+        }
+        if (!newItem.getPhotos().equals(oldItem.getPhotos())) {
+            diff.putSerializable("photo", newItem.getPhotos());
         }
 
         return diff;

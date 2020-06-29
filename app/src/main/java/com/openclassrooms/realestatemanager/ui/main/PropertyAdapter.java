@@ -21,6 +21,7 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropert
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -116,9 +117,17 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                     p = o.getString(key);
                     price_tv.setText(p);
                 }
+                if (key.equals("city")) {
+                    p = o.getString(key);
+                    city_tv.setText(p);
+                }
+                if (key.equals("type")) {
+                    p = o.getString(key);
+                    type_tv.setText(p);
+                }
+                }
             }
         }
-    }
 
     @Override
     public int getItemCount() {
