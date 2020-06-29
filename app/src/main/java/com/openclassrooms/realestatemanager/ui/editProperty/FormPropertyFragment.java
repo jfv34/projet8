@@ -303,20 +303,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         dialog.show();
     }
 
-    @OnClick(R.id.fragment_form_property_validate_fab)
-    public void insert_property() {
-
-        if (bundleProperty == -1) {
-            viewModel.setProperty_in_database(newProperty());
-            sharedFilterViewModel.setProperty_for_shared(newProperty());
-            notification_property_added();
-        } else {
-            viewModel.updateProperty(newProperty(), bundleProperty);
-            sharedFilterViewModel.setProperty_for_shared(newProperty());
-        }
-        getActivity().onBackPressed();
-    }
-
     @OnClick(R.id.fragment_form_property_photos_bt)
     public void selectImage() {
         final CharSequence[] options = {getString(R.string.takephoto), getString(R.string.choosefromgallery), getString(R.string.cancel)};
@@ -512,5 +498,19 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> Utils.replaceFragmentInDetailScreen(getActivity(),this));
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
+    }
+
+    @OnClick(R.id.fragment_form_property_validate_fab)
+    public void insert_property() {
+
+        if (bundleProperty == -1) {
+            viewModel.setProperty_in_database(newProperty());
+            sharedFilterViewModel.setProperty_for_shared(newProperty());
+            notification_property_added();
+        } else {
+            viewModel.updateProperty(newProperty(), bundleProperty);
+            sharedFilterViewModel.setProperty_for_shared(newProperty());
+        }
+        getActivity().onBackPressed();
     }
 }

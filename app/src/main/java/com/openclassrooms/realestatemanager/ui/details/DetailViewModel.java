@@ -24,8 +24,10 @@ public class DetailViewModel extends ViewModel {
 
         AsyncTask.execute(() -> {
             Property result = repository.getProperty(bundleProperty);
-            photos.postValue(result.getPhotos());
-            property.postValue(result);
+            if (result != null) {
+                photos.postValue(result.getPhotos());
+                property.postValue(result);
+            }
         });
     }
 }
