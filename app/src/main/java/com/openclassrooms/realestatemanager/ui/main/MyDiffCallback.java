@@ -36,15 +36,15 @@ public class MyDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldProperties.get(oldItemPosition-1).equals(newProperties.get(newItemPosition-1));
+        return oldProperties.get(oldItemPosition).equals(newProperties.get(newItemPosition));
     }
 
     @Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
         //you can return particular field for changed item.
-        Property oldItem = oldProperties.get(oldItemPosition-1);
-        Property newItem = newProperties.get(newItemPosition-1);
+        Property oldItem = oldProperties.get(oldItemPosition);
+        Property newItem = newProperties.get(newItemPosition);
 
         Bundle diff = new Bundle();
         if (!newItem.getPrice().equals(oldItem.getPrice())) {

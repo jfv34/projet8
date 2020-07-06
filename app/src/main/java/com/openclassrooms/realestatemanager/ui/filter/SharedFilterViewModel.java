@@ -31,7 +31,7 @@ public class SharedFilterViewModel extends ViewModel {
         if (newProperty != null && properties.getValue() != null) {
             List<Property> newProperties = properties.getValue();
             for (int i = 0; i < properties.getValue().size(); i++) {
-                if (properties.getValue().get(i).getId() - 1 == newProperty.getId()) {
+                if (properties.getValue().get(i).getId() == newProperty.getId()) {
                     newProperties.remove(i);
                     newProperties.add(i, newProperty);
                 }

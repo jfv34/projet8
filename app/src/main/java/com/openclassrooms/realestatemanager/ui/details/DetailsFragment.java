@@ -45,7 +45,7 @@ public class DetailsFragment extends Fragment {
         return detailsFragment;
     }
 
-    private DetailViewModel sharedDetailViewModel;
+    private DetailViewModel detailViewModel;
     private int bundleProperty;
 
     @BindView(R.id.fragment_detail_appbar)
@@ -130,14 +130,14 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedDetailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
+        detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         loadProperty();
     }
 
     private void loadProperty() {
-        sharedDetailViewModel.loadProperty(bundleProperty);
+        detailViewModel.loadProperty(bundleProperty);
         observePhotos();
-        sharedDetailViewModel.property.observe(getViewLifecycleOwner(), property -> {
+        detailViewModel.property.observe(getViewLifecycleOwner(), property -> {
 
             displayToolbarTitle(property);
             displayDots(property);
@@ -191,7 +191,7 @@ public class DetailsFragment extends Fragment {
 
         private void observePhotos() {
 
-            sharedDetailViewModel.photos.observe(getViewLifecycleOwner(), photos -> {
+            detailViewModel.photos.observe(getViewLifecycleOwner(), photos -> {
                 if(photos!=null){
                     viewPager.setAdapter(new PhotosPageAdapter(getActivity(), photos));}
             });
@@ -291,8 +291,8 @@ public class DetailsFragment extends Fragment {
 
     @OnClick(R.id.fragment_detail_map_fab)
     public void mapClicked() {
-        if (sharedDetailViewModel.property != null) {
-            Property property = sharedDetailViewModel.property.getValue();
+        if (detailViewModel.property != null) {
+            Property property = detailViewModel.property.getValue();
             String url = "http://www.google.fr/maps/place/"
                     + property.getAddress()
                     + "+" + property.getCity()
@@ -305,7 +305,7 @@ public class DetailsFragment extends Fragment {
 
     @OnClick(R.id.fragment_detail_simulator_buton)
     public void simulatorClicked() {
-        Fragment simulatorFragment = SimulatorFragment.newInstance(sharedDetailViewModel.property.getValue().getPrice());
+        Fragment simulatorFragment = SimulatorFragment.newInstance(detailViewModel.property.getValue().getPrice());
         Utils.addFragmentInDetailScreen(getActivity(), simulatorFragment);
     }
     private void configureCollapsingToolBar(Property property) {

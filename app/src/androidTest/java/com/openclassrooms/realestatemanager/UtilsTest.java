@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 public class UtilsTest {
     @Test
-    public void isInsternetAvailableReturnTrue() {
+    public void isInternetAvailableReturnTrue() {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
         boolean isInternetAvailable = Utils.isInternetAvailable(context);
         assertTrue(isInternetAvailable);
