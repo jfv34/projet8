@@ -95,7 +95,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onPropertyClicked(int property) {
 
         Fragment detailsFragment = DetailsFragment.newInstance(property);
-        Utils.addFragmentInDetailScreen(getActivity(), detailsFragment);
+        Utils.replaceFragmentInDetailScreen(getActivity(), detailsFragment);
     }
 
     @OnClick(R.id.fragment_main_insert_property_fab)

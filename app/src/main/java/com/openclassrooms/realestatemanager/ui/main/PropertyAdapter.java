@@ -104,7 +104,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView city_tv = itemView.findViewById(R.id.main_item_address_tv);
         final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
-        final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
 
         String p = null;
         if (payloads.isEmpty()) {
