@@ -24,7 +24,7 @@ import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
 
 public class FilterFragmentViewModel extends ViewModel {
 
-    private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
+    private PropertyRepository repository;
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> entryDate = new MutableLiveData<>();
     public MutableLiveData<List<Type>> typesFilter = new MutableLiveData<>();
@@ -106,7 +106,7 @@ public class FilterFragmentViewModel extends ViewModel {
     }
 
     public void applyFilter(Filter filter, SharedFilterViewModel sharedFilterViewModel) {
-
+        repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
         AsyncTask.execute(() -> {
             ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
             ArrayList<Property> filterProperties = filter(filter, properties);

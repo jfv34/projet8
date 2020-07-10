@@ -31,12 +31,14 @@ public class MyDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldProperties.get(oldItemPosition).id == newProperties.get(newItemPosition).id;
+        boolean result = oldProperties.get(oldItemPosition).id == newProperties.get(newItemPosition).id;
+        return result;
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldProperties.get(oldItemPosition).equals(newProperties.get(newItemPosition));
+        boolean result = ((Bundle) getChangePayload(oldItemPosition, newItemPosition)).isEmpty();
+        return result;
     }
 
     @Nullable
@@ -47,18 +49,14 @@ public class MyDiffCallback extends DiffUtil.Callback {
         Property newItem = newProperties.get(newItemPosition);
 
         Bundle diff = new Bundle();
-        if (!newItem.getPrice().equals(oldItem.getPrice())) {
+        if (!newItem.getPrice().equals(oldItem.getPrice()))
             diff.putString("price", newItem.getPrice());
-        }
-        if (!newItem.getCity().equals(oldItem.getCity())) {
+        if (!newItem.getCity().equals(oldItem.getCity()))
             diff.putString("city", newItem.getCity());
-        }
-        if (!newItem.getType().equals(oldItem.getType())) {
+        if (!newItem.getType().equals(oldItem.getType()))
             diff.putString("type", newItem.getType());
-        }
-        if (!newItem.getPhotos().equals(oldItem.getPhotos())) {
-            diff.putSerializable("photo", newItem.getPhotos());
-        }
+        if (newItem.getPhotos() != null && !newItem.getPhotos().equals(oldItem.getPhotos()))
+            diff.putSerializable("photos", newItem.getPhotos());
 
         return diff;
     }

@@ -21,7 +21,6 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropert
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,13 +59,15 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        bind(holder,properties.get(position));
+    }
+
+    private void bind(@NonNull ViewHolder holder, Property property) {
         final View itemView = holder.itemView.findViewById(R.id.item_property);
         final TextView city_tv = itemView.findViewById(R.id.main_item_address_tv);
         final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
         final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
-
-        Property property = properties.get(position);
 
         city_tv.setText(property.getCity());
         type_tv.setText(property.getType());
@@ -105,28 +106,23 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
 
-        String p = null;
         if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads);
-            return;
+            bind(holder,properties.get(position));
         } else {
             Bundle o = (Bundle) payloads.get(0);
             for (String key : o.keySet()) {
                 if (key.equals("price")) {
-                    p = o.getString(key);
-                    price_tv.setText(p);
+                    price_tv.setText(o.getString(key));
                 }
                 if (key.equals("city")) {
-                    p = o.getString(key);
-                    city_tv.setText(p);
+                    city_tv.setText(o.getString(key));
                 }
                 if (key.equals("type")) {
-                    p = o.getString(key);
-                    type_tv.setText(p);
-                }
+                    type_tv.setText(o.getString(key));
                 }
             }
         }
+    }
 
     @Override
     public int getItemCount() {
