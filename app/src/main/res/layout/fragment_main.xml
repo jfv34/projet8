@@ -20,6 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageButton
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@color/colorPrimary"
+                android:tint="@color/colorWhite"
+                android:src="@drawable/ic_settings_24px"
+                android:id="@+id/fragment_main_preferences_button"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end" />
+
                 <ImageButton
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_small"

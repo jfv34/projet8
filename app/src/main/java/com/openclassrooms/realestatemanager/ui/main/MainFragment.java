@@ -43,6 +43,11 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_main, container, false);
@@ -89,6 +94,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     private void configureToolBar() {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
     }
 
     @Override
