@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.ui.Utils;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -13,9 +13,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 
+import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Photo;
-import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +35,8 @@ import java.util.UUID;
  * Created by Philippe on 21/02/2018.
  */
 
+
+
 public class Utils {
 
     /**
@@ -41,6 +45,7 @@ public class Utils {
      * @param dollars
      * @return
      */
+
     public static int convertDollarToEuro(int dollars){
         return (int) Math.round(dollars * 0.812);
     }

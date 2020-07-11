@@ -10,13 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.models.Currency;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
@@ -32,6 +35,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     private List<Property> properties;
     private Context context;
     private OnPropertyClickedListener clickedListener;
+    private Currency currency;
     @BindView(R.id.main_item_type_tv) TextView type;
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,8 +46,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         }
     }
 
-    public PropertyAdapter(List<Property> properties, Context context, OnPropertyClickedListener clickedListener) {
+    public PropertyAdapter(List<Property> properties, Currency currency,Context context, OnPropertyClickedListener clickedListener) {
         this.properties = properties;
+        this.currency = currency;
         this.context = context;
         this.clickedListener = clickedListener;
     }
@@ -59,6 +64,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         bind(holder,properties.get(position));
     }
 
@@ -72,7 +78,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         city_tv.setText(property.getCity());
         type_tv.setText(property.getType());
         if (!property.getPrice().isEmpty()) {
-            price_tv.setText(String.format("$ %s", property.getPrice()));
+            if(currency==Currency.DOLLARS){
+            price_tv.setText(String.format("$ %s", property.getPrice()));}
+            else{price_tv.setText(String.format("%s €", Utils.convertDollarToEuro(Integer.parseInt(property.getPrice()))));}
         }
         int radius = 20;
         int margin = 8;

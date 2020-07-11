@@ -23,8 +23,10 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.simulator.SimulatorFragment;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
@@ -46,6 +48,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private DetailViewModel detailViewModel;
+    private SharedCurrencyViewModel sharedCurrencyViewModel;
     private int bundleProperty;
 
     @BindView(R.id.fragment_detail_appbar)
@@ -130,6 +133,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         loadProperty();
     }
@@ -259,12 +263,21 @@ public class DetailsFragment extends Fragment {
         }
 
         private void displayPrice(Property property) {
+        sharedCurrencyViewModel.currency.observe(requireActivity(),currency -> {
+
             if (!property.getPrice().isEmpty()) {
-                String price = "$ " + property.getPrice();
+                String price;
+                if (currency == Currency.DOLLARS) {
+                    price = "$ " + property.getPrice();
+                } else {
+                    price = Utils.convertDollarToEuro(Integer.parseInt(property.getPrice())) + " €";
+                }
                 priceTv.setText(price);
             } else {
                 simulatorIv.setVisibility(View.INVISIBLE);
             }
+
+            ;});
         }
 
         private void displayAddress(Property property) {

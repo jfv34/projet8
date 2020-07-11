@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
 import com.openclassrooms.realestatemanager.models.Filter;
@@ -15,29 +14,30 @@ import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.openclassrooms.realestatemanager.Utils.convertDateToString;
+import static com.openclassrooms.realestatemanager.ui.Utils.Utils.convertDateToString;
 
 public class FilterFragmentViewModel extends ViewModel {
 
     private PropertyRepository repository;
-    public MutableLiveData<String> soldDate = new MutableLiveData<>();
-    public MutableLiveData<String> entryDate = new MutableLiveData<>();
-    public MutableLiveData<List<Type>> typesFilter = new MutableLiveData<>();
-    public MutableLiveData<Integer> priceMin = new MutableLiveData<>();
-    public MutableLiveData<Integer> priceMax = new MutableLiveData<>();
-    public MutableLiveData<Integer> priceBoundMin = new MutableLiveData<>();
-    public MutableLiveData<Integer> priceBoundMax = new MutableLiveData<>();
-    public MutableLiveData<Integer> areaMin = new MutableLiveData<>();
-    public MutableLiveData<Integer> areaMax = new MutableLiveData<>();
-    public MutableLiveData<Integer> numberOfPhotosMin = new MutableLiveData<>();
-    public MutableLiveData<Integer> numberOfPhotosMax = new MutableLiveData<>();
-    public MutableLiveData<Integer> piecesMin = new MutableLiveData<>();
-    public MutableLiveData<Integer> piecesMax = new MutableLiveData<>();
+    MutableLiveData<String> soldDate = new MutableLiveData<>();
+    MutableLiveData<String> entryDate = new MutableLiveData<>();
+    MutableLiveData<List<Type>> typesFilter = new MutableLiveData<>();
+    MutableLiveData<Integer> priceMin = new MutableLiveData<>();
+    MutableLiveData<Integer> priceMax = new MutableLiveData<>();
+    MutableLiveData<Integer> priceBoundMin = new MutableLiveData<>();
+    MutableLiveData<Integer> priceBoundMax = new MutableLiveData<>();
+    MutableLiveData<Integer> areaMin = new MutableLiveData<>();
+    MutableLiveData<Integer> areaMax = new MutableLiveData<>();
+    MutableLiveData<Integer> numberOfPhotosMin = new MutableLiveData<>();
+    MutableLiveData<Integer> numberOfPhotosMax = new MutableLiveData<>();
+    MutableLiveData<Integer> piecesMin = new MutableLiveData<>();
+    MutableLiveData<Integer> piecesMax = new MutableLiveData<>();
 
     private Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;

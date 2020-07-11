@@ -46,4 +46,7 @@
     <string name="result">Result</string>
     <string name="your_monthly_payments_will_be">Your monthly payments will be</string>
     <string name="result_of_the_simulation">Result of the simulation</string>
+    <string name="currency">Currency</string>
+    <string name="dollars">Dollars</string>
+    <string name="euros">euros</string>
 </resources>

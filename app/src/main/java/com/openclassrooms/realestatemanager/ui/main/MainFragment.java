@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -15,8 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
+import com.openclassrooms.realestatemanager.models.Currency;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
@@ -29,14 +33,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MainFragment extends Fragment implements OnPropertyClickedListener {
 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
     private SharedFilterViewModel sharedFilterViewModel;
+    private SharedCurrencyViewModel sharedCurrencyViewModel;
     private PropertyAdapter propertyAdapter;
     private View root;
+    public static final String PREFS_CURRENCY = "PREFS_CURRENCY";
+    SharedPreferences sharedPreferences;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -45,6 +54,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getActivity().getSharedPreferences(PREFS_CURRENCY, MODE_PRIVATE);
     }
 
     @Override
@@ -67,18 +77,41 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
             sharedFilterViewModel.loadProperties();
         }
         observeFilterProperties();
+
+        sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
+        String prefs_currency = sharedPreferences.getString(PREFS_CURRENCY, "dollars");
+        if (prefs_currency.equals("euros")) {
+            sharedCurrencyViewModel.currency.postValue(Currency.EUROS);
+        } else {
+            sharedCurrencyViewModel.currency.postValue(Currency.DOLLARS);
+        }
+        //observeCurrency();
     }
+
+    /*private void observeCurrency() {
+        sharedCurrencyViewModel.currency.observe(getViewLifecycleOwner(), currency ->
+        {
+
+            if (currency == Currency.DOLLARS) {
+                ;
+            }
+            if (currency == Currency.EUROS) {
+                ;
+            }
+        });
+    }*/
 
     private void observeFilterProperties() {
         if (sharedFilterViewModel.properties.getValue() == null) {
             sharedFilterViewModel.loadProperties();
         }
         sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
-
             if (properties.size() == 0) {
                 Utils.toast(getActivity(), "No data to display");
             } else if(propertyAdapter==null)  {
-                propertyAdapter = new PropertyAdapter(new ArrayList<>(properties), getContext(), MainFragment.this);
+                Currency currency = sharedCurrencyViewModel.currency.getValue();
+                propertyAdapter = new PropertyAdapter(new ArrayList<>(properties), currency, getContext(), MainFragment.this);
+
                 recyclerView.setAdapter(propertyAdapter);
             }else{
                 propertyAdapter.updateProperties(properties);
@@ -120,5 +153,41 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onMapClicked() {
         Fragment mapFragment = MapFragment.newInstance();
         Utils.replaceFragmentInMainScreen(getActivity(), mapFragment);
+    }
+
+    @OnClick(R.id.fragment_main_preferences_button)
+    public void onPreferencesClicked() {
+        AlertDialog.Builder alertDialog_builder = new AlertDialog.Builder(getActivity());
+        alertDialog_builder.setTitle(R.string.currency);
+
+        final CharSequence[] currencyList = {"Dollars", "Euros"};
+        final Currency[] currencySelected = {Currency.DOLLARS};
+
+        alertDialog_builder.setSingleChoiceItems(currencyList, 0, (dialog, which) -> {
+            if (which == 0) {
+                currencySelected[0] = Currency.DOLLARS;
+            } else {
+                currencySelected[0] = Currency.EUROS;
+            }
+        })
+                .setPositiveButton("ok", (dialog, id) -> {
+                    String prefs_currency = "";
+                    if (currencySelected[0] == Currency.DOLLARS) {
+                        sharedCurrencyViewModel.setCurrency(Currency.DOLLARS);
+                        prefs_currency = "dollars";
+                    } else {
+                        sharedCurrencyViewModel.setCurrency(Currency.EUROS);
+                        prefs_currency = "euros";
+                    }
+                    sharedPreferences.edit()
+                            .putString(PREFS_CURRENCY, prefs_currency)
+                            .apply();
+                    Fragment mainFragment = MainFragment.newInstance();
+                    Utils.replaceFragmentInMainScreen(getActivity(), mainFragment);
+                })
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
+                });
+
+        alertDialog_builder.show();
     }
 }

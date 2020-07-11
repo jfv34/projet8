@@ -2,6 +2,9 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
+
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
