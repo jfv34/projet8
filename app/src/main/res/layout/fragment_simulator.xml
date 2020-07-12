@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_simulator_toolbar"
-        app:startIconDrawable="@drawable/ic_money_24px">
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:inputType="number"

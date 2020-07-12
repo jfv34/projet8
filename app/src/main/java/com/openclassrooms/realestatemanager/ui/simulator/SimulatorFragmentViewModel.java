@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.openclassrooms.realestatemanager.models.Currency;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+
 public class SimulatorFragmentViewModel extends ViewModel {
 
     MutableLiveData<String> price = new MutableLiveData<>();
@@ -12,6 +15,7 @@ public class SimulatorFragmentViewModel extends ViewModel {
     MutableLiveData<String> contribution = new MutableLiveData<>();
     MutableLiveData<Boolean> isDurationYears = new MutableLiveData<>();
     MutableLiveData<String> result = new MutableLiveData<>();
+    private Currency currency = Currency.DOLLARS;
 
     public void init(String bundlePrice) {
         price.postValue(bundlePrice);
@@ -47,6 +51,7 @@ public class SimulatorFragmentViewModel extends ViewModel {
 
         if (price.getValue() != null && !price.getValue().isEmpty()) {
             price_ = Integer.parseInt(price.getValue());
+            if(currency==Currency.EUROS){price_= Utils.convertDollarToEuro(price_);}
         }
         if (contribution.getValue() != null && !contribution.getValue().isEmpty()) {
             contribution_ = Integer.parseInt(contribution.getValue());
@@ -79,5 +84,9 @@ public class SimulatorFragmentViewModel extends ViewModel {
                 result.postValue(String.valueOf(r));
             }
         } else result.postValue("");
+    }
+
+    public void setCurrency(Currency new_Currency) {
+        currency = new_Currency;
     }
 }

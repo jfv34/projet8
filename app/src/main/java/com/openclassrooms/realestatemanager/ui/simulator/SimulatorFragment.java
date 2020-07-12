@@ -17,7 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Currency;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +29,12 @@ public class SimulatorFragment extends Fragment {
 
     @BindView(R.id.fragment_simulator_price_textInputEditText)
     EditText price_et;
+    @BindView(R.id.fragment_simulator_price_textfield)
+    TextInputLayout price_textInputLayout;
     @BindView(R.id.fragment_simulator_contribution_textInputEditText)
     EditText contribution_et;
+    @BindView(R.id.fragment_simulator_contribution_textfield)
+    TextInputLayout contribution_textInputLayout;
     @BindView(R.id.fragment_simulator_rate_textInputEditText)
     EditText rate_et;
     @BindView(R.id.fragment_simulator_duration_textInputEditText)
@@ -51,6 +58,7 @@ public class SimulatorFragment extends Fragment {
 
     private String bundlePrice;
     private SimulatorFragmentViewModel viewModel;
+    private SharedCurrencyViewModel sharedCurrencyViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +79,7 @@ public class SimulatorFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolBar();
         viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
+        sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         text_before_result_tv.setVisibility(View.INVISIBLE);
         price_et.setText(bundlePrice);
         viewModel.init(bundlePrice);
@@ -87,8 +96,26 @@ public class SimulatorFragment extends Fragment {
                 result_tv.setText("");
             } else {
                 text_before_result_tv.setVisibility(View.VISIBLE);
-                result_tv.setText("$ " + result);
+                if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
+                    result_tv.setText(result + " €");
+                } else {
+                    result_tv.setText("$ " + result);
+                }
             }
+        });
+        sharedCurrencyViewModel.currency.observe(getViewLifecycleOwner(), currency ->
+        {
+            viewModel.setCurrency(currency);
+            viewModel.calculation();
+            if (currency == Currency.EUROS) {
+                price_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
+                contribution_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
+                ;
+            } else {
+                price_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
+                contribution_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
+            }
+
         });
         viewModel.price.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
         viewModel.contribution.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
