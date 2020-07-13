@@ -32,14 +32,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDeleteClickedListener;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPhotoDescriptionClickedListener;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
 
 import java.util.ArrayList;
@@ -58,6 +61,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private int bundleProperty;
     private FormPropertyFragmentViewModel viewModel;
     private SharedFilterViewModel sharedFilterViewModel;
+    private SharedCurrencyViewModel sharedCurrencyViewModel;
 
     private View root;
     private Bitmap photoBM = null;
@@ -69,7 +73,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @BindView(R.id.fragment_insert_property_TextField_type)
     TextInputLayout property_type;
     @BindView(R.id.fragment_insert_property_TextField_price)
-    TextInputLayout property_price;
+    TextInputLayout property_price_textInputLayout;
+    @BindView(R.id.fragment_insert_property_price_textInputEditText)
+    TextInputEditText property_price_textInputEditText;
     @BindView(R.id.fragment_insert_property_TextField_address)
     TextInputLayout property_address;
     @BindView(R.id.fragment_insert_property_TextField_city)
@@ -127,6 +133,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
 
         configure_autoComplete_types();
         configure_availability_status();
@@ -179,6 +186,38 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         observeAgent();
         observeSoldDate();
         observeEntryDate();
+        observeCurrency();
+    }
+
+    private void observePrice() {
+        viewModel.dollarsPrice.observe(getViewLifecycleOwner(), dollarsPrice ->
+        {
+            if (dollarsPrice != null) {
+                displayPriceInCurrentCurrency(dollarsPrice);
+            }
+        });
+        ;
+    }
+
+    private void observeCurrency() {
+        sharedCurrencyViewModel.currency.observe(getViewLifecycleOwner(), currency -> {
+            if (viewModel.dollarsPrice.getValue() != null) {
+                displayPriceInCurrentCurrency(viewModel.dollarsPrice.getValue());
+            }
+        })
+        ;
+    }
+
+    private void displayPriceInCurrentCurrency(String dollarsPrice) {
+        if (sharedCurrencyViewModel.currency.getValue() == Currency.DOLLARS) {
+            property_price_textInputLayout.getEditText().setText(dollarsPrice);
+            property_price_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
+            ;
+        } else {
+
+            property_price_textInputLayout.getEditText().setText(String.valueOf(Utils.convertDollarToEuro(Integer.parseInt(dollarsPrice))));
+            property_price_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
+        }
     }
 
     private void observeEntryDate() {
@@ -250,12 +289,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private void observeType() {
         viewModel.type.observe(getViewLifecycleOwner(), type -> {
             property_type.getEditText().setText(type);
-        });
-    }
-
-    private void observePrice() {
-        viewModel.price.observe(getViewLifecycleOwner(), price -> {
-            property_price.getEditText().setText(price);
         });
     }
 
@@ -408,7 +441,13 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private Property newProperty() {
         String type = property_type.getEditText().getText().toString();
-        String price = property_price.getEditText().getText().toString();
+        String price_before_conversion = property_price_textInputLayout.getEditText().getText().toString();
+        String dollars_price;
+        if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
+            dollars_price = String.valueOf(Utils.convertEuroToDollar(Integer.parseInt(price_before_conversion)));
+        } else {
+            dollars_price = price_before_conversion;
+        }
         String address = property_address.getEditText().getText().toString();
         String city = property_city.getEditText().getText().toString();
         String state = property_state.getEditText().getText().toString();
@@ -436,7 +475,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         return new Property(
                 type,
-                price,
+                dollars_price,
                 address,
                 city,
                 state,

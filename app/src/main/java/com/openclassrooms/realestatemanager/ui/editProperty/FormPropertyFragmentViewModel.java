@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
@@ -26,7 +27,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Photo>> photos = new MutableLiveData<>();
     public MutableLiveData<Status> status = new MutableLiveData<>();
-    public MutableLiveData<String> price = new MutableLiveData<>();
+    public MutableLiveData<String> dollarsPrice = new MutableLiveData<>();
     public MutableLiveData<String> type = new MutableLiveData<>();
     public MutableLiveData<String> city = new MutableLiveData<>();
     public MutableLiveData<String> address = new MutableLiveData<>();
@@ -39,12 +40,13 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public MutableLiveData<String> agent = new MutableLiveData<>();
     public MutableLiveData<String> soldDate = new MutableLiveData<>();
     public MutableLiveData<String> entryDate = new MutableLiveData<>();
+    public Currency currency = Currency.DOLLARS;
 
     public void loadProperty(int id) {
         AsyncTask.execute(() -> {
                     Property result = repository.getProperty(id);
                     photos.postValue(result.getPhotos());
-                    price.postValue(result.getPrice());
+                    dollarsPrice.postValue(result.getPrice());
                     type.postValue(result.getType());
                     city.postValue(result.getCity());
                     address.postValue(result.getAddress());
@@ -130,5 +132,9 @@ public class FormPropertyFragmentViewModel extends ViewModel {
     public void setAvailableDate(int year, int month, int dayOfMonth) {
         String formattedDate = convertDateToString(year, month, dayOfMonth);
         entryDate.setValue(formattedDate);
+    }
+
+    public void setCurrency(Currency new_currency) {
+        currency = new_currency;
     }
 }
