@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
 import com.openclassrooms.realestatemanager.models.Type;
@@ -38,10 +39,9 @@ import butterknife.OnClick;
 
 import static android.content.Context.MODE_PRIVATE;
 
-
 public class FilterFragment extends Fragment implements OnChipClickedListener {
     SharedPreferences sharedPreferences;
-    private SharedFilterViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedFilterViewModel;
     private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
     private static Calendar calendar = Calendar.getInstance();
@@ -109,7 +109,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
         toolBar();

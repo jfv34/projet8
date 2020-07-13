@@ -43,7 +43,7 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
-import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +60,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private static Calendar calendar = Calendar.getInstance();
     private int bundleProperty;
     private FormPropertyFragmentViewModel viewModel;
-    private SharedFilterViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedFilterViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private View root;
     private Bitmap photoBM = null;
@@ -131,7 +131,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
 
         configure_autoComplete_types();

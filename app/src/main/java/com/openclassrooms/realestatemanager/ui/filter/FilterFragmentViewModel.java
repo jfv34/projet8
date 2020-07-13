@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class FilterFragmentViewModel extends ViewModel {
         return filterProperties;
     }
 
-    public void applyFilter(Filter filter, SharedFilterViewModel sharedFilterViewModel) {
+    public void applyFilter(Filter filter, SharedPropertiesViewModel sharedFilterViewModel) {
         repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
         AsyncTask.execute(() -> {
             ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
@@ -320,7 +321,7 @@ public class FilterFragmentViewModel extends ViewModel {
 
     public void validate(String cities, String states, String interestPoints, String agent,
                          String availableDate, String soldDate, String status,
-                         SharedFilterViewModel sharedFilterViewModel) {
+                         SharedPropertiesViewModel sharedFilterViewModel) {
 
         Filter filter = new Filter(
                 getTypesFilter(),

@@ -24,7 +24,7 @@ import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
-import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
-    private SharedFilterViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedFilterViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private PropertyAdapter propertyAdapter;
     private View root;
@@ -72,7 +72,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         if (sharedFilterViewModel.isFiltred = false) {
             sharedFilterViewModel.loadProperties();
         }

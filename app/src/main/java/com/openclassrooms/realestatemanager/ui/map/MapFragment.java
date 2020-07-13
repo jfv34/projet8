@@ -45,7 +45,7 @@ import com.openclassrooms.realestatemanager.models.Marker;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private static final int PERMISSIONS_REQUEST_CODE = 123;
-    private SharedFilterViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedFilterViewModel;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
 
@@ -92,7 +92,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private void connectionAndLoading() {
         if (Utils.isInternetAvailable(getActivity())) {
             loadMap();
-            sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+            sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
             if (sharedFilterViewModel.isFiltred = false) {
                 sharedFilterViewModel.loadProperties();
             }

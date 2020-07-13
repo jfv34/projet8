@@ -28,7 +28,7 @@ import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.filter.SharedFilterViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.simulator.SimulatorFragment;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
@@ -50,7 +50,7 @@ public class DetailsFragment extends Fragment {
 
     private DetailViewModel detailViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
-    private SharedFilterViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedFilterViewModel;
 
     private int bundleProperty;
 
@@ -137,7 +137,7 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
+        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
         loadProperty();

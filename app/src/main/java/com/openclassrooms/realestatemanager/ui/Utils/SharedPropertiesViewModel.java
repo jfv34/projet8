@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.filter;
+package com.openclassrooms.realestatemanager.ui.Utils;
 
 import android.os.AsyncTask;
 
@@ -13,7 +13,7 @@ import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.List;
 
-public class SharedFilterViewModel extends ViewModel {
+public class SharedPropertiesViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
