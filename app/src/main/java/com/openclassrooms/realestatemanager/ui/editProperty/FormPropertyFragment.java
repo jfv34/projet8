@@ -542,11 +542,11 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         if (bundleProperty == -1) {
             viewModel.setProperty_in_database(newProperty());
-            sharedFilterViewModel.setProperty_for_shared(newProperty());
+            sharedFilterViewModel.setProperty(newProperty(),-1);
             notification_property_added();
         } else {
             viewModel.updateProperty(newProperty(), bundleProperty);
-            sharedFilterViewModel.setProperty_for_shared(newProperty());
+            sharedFilterViewModel.setProperty(newProperty(),bundleProperty);
         }
         getActivity().onBackPressed();
     }

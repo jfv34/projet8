@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.Utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -27,11 +28,14 @@ public class SharedPropertiesViewModel extends ViewModel {
         );
     }
 
-    public void setProperty_for_shared(Property newProperty) {
+    public void setProperty(Property newProperty, int bundleId) {
         if (newProperty != null && properties.getValue() != null) {
             List<Property> newProperties = properties.getValue();
             for (int i = 0; i < properties.getValue().size(); i++) {
-                if (properties.getValue().get(i).getId() == newProperty.getId()) {
+                Log.i("tag_property","i: "+i);
+                Log.i("tag_property","properties ID: "+properties.getValue().get(i).getId());
+                Log.i("tag_property","bundle ID: "+bundleId);
+                if (properties.getValue().get(i).getId() == bundleId) {
                     newProperties.remove(i);
                     newProperties.add(i, newProperty);
                 }

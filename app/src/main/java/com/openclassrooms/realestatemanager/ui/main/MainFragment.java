@@ -20,11 +20,11 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
-    private SharedPropertiesViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedPropertiesViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private PropertyAdapter propertyAdapter;
     private View root;
@@ -72,9 +72,9 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
-        if (sharedFilterViewModel.isFiltred = false) {
-            sharedFilterViewModel.loadProperties();
+        sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
+        if (sharedPropertiesViewModel.isFiltred = false) {
+            sharedPropertiesViewModel.loadProperties();
         }
         observeFilterProperties();
 
@@ -85,27 +85,13 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         } else {
             sharedCurrencyViewModel.currency.postValue(Currency.DOLLARS);
         }
-        //observeCurrency();
     }
 
-    /*private void observeCurrency() {
-        sharedCurrencyViewModel.currency.observe(getViewLifecycleOwner(), currency ->
-        {
-
-            if (currency == Currency.DOLLARS) {
-                ;
-            }
-            if (currency == Currency.EUROS) {
-                ;
-            }
-        });
-    }*/
-
     private void observeFilterProperties() {
-        if (sharedFilterViewModel.properties.getValue() == null) {
-            sharedFilterViewModel.loadProperties();
+        if (sharedPropertiesViewModel.properties.getValue() == null) {
+            sharedPropertiesViewModel.loadProperties();
         }
-        sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+        sharedPropertiesViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties.size() == 0) {
                 Utils.toast(getActivity(), "No data to display");
             } else if(propertyAdapter==null)  {
