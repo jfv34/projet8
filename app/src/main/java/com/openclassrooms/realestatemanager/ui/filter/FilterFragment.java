@@ -24,11 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipClickedListener;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +44,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class FilterFragment extends Fragment implements OnChipClickedListener {
     SharedPreferences sharedPreferences;
     private SharedPropertiesViewModel sharedFilterViewModel;
+    private SharedCurrencyViewModel sharedCurrencyViewModel;
     private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
     private static Calendar calendar = Calendar.getInstance();
@@ -110,6 +113,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
+        sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
         toolBar();
@@ -240,7 +244,12 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         filterFragmentViewModel.priceMin.observe(getViewLifecycleOwner(), integer ->
         {
-            priceMin_tv.setText(integer + " €");
+            if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
+                priceMin_tv.setText(integer + " €");
+            } else {
+                priceMin_tv.setText("$ " + integer);
+                ;
+            }
             if (price_slidebar.getSelectedMinValue().intValue() != integer) {
                 price_slidebar.setMinStartValue(integer).apply();
             }
@@ -248,7 +257,12 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         filterFragmentViewModel.priceMax.observe(getViewLifecycleOwner(), integer ->
         {
-            priceMax_tv.setText(integer + " €");
+            if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
+                priceMax_tv.setText(integer + " €");
+            } else {
+                priceMax_tv.setText("$ " + integer);
+                ;
+            }
             if (price_slidebar.getSelectedMaxValue().intValue() != integer) {
                 price_slidebar.setMaxStartValue(integer).apply();
             }
@@ -345,7 +359,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 availableDate_Et.getText().toString(),
                 soldDate_Et.getText().toString(),
                 status_tv.getText().toString(),
-                sharedFilterViewModel
+                sharedFilterViewModel,
+                sharedCurrencyViewModel.currency.getValue()
         );
 
                 sharedPreferences

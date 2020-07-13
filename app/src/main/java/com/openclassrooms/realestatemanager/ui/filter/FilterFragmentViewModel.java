@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.base.BaseApplication;
 import com.openclassrooms.realestatemanager.database.PropertyDataBase;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Filter;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
@@ -321,12 +322,24 @@ public class FilterFragmentViewModel extends ViewModel {
 
     public void validate(String cities, String states, String interestPoints, String agent,
                          String availableDate, String soldDate, String status,
-                         SharedPropertiesViewModel sharedFilterViewModel) {
+                         SharedPropertiesViewModel sharedFilterViewModel, Currency currency) {
+
+        Integer dollars_priceMax =0;
+        Integer dollars_priceMin= 0;
+        if(currency==Currency.EUROS){
+            dollars_priceMax=Utils.convertEuroToDollar(priceMax.getValue());
+            dollars_priceMin=Utils.convertEuroToDollar(priceMin.getValue());
+            ;}
+        else{
+            dollars_priceMax=priceMax.getValue();
+            dollars_priceMin=priceMin.getValue();
+            ;}
+
 
         Filter filter = new Filter(
                 getTypesFilter(),
-                priceMax.getValue(),
-                priceMin.getValue(),
+                dollars_priceMax,
+               dollars_priceMin,
                getFilterListInForm(cities),
                 getFilterListInForm(states),
                 areaMax.getValue(),
@@ -339,7 +352,8 @@ public class FilterFragmentViewModel extends ViewModel {
                 availableDate,
                 soldDate,
                 numberOfPhotosMax.getValue(),
-                numberOfPhotosMin.getValue());
+                numberOfPhotosMin.getValue()
+        );
 
         applyFilter(filter, sharedFilterViewModel);
     }
