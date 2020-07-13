@@ -58,7 +58,7 @@ import static android.app.Activity.RESULT_OK;
 public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClickedListener, OnPhotoDescriptionClickedListener {
 
     private static Calendar calendar = Calendar.getInstance();
-    private int bundleProperty;
+    private int bundlePropertyId;
     private FormPropertyFragmentViewModel viewModel;
     private SharedPropertiesViewModel sharedFilterViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
@@ -114,7 +114,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundleProperty = getArguments().getInt("property", 0);
+        bundlePropertyId = getArguments().getInt("property", 0);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         configure_availability_status();
         configure_availabilityDate();
         configure_soldDate();
-        if (bundleProperty != -1) {
+        if (bundlePropertyId != -1) {
             loadProperty();
         }
         property_availability_dropdown.setOnKeyListener((v, keyCode, event) -> {
@@ -169,7 +169,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void loadProperty() {
-        viewModel.loadProperty(bundleProperty);
+        viewModel.loadProperty(bundlePropertyId);
         observePhotos();
         observeStatusAvailability();
         observePrice();
@@ -473,6 +473,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         }
 
         return new Property(
+                bundlePropertyId,
                 type,
                 dollars_price,
                 address,
@@ -528,7 +529,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void configureToolBar() {
-        if(bundleProperty==-1){toolbar.setTitle("Adding a new property");}
+        if(bundlePropertyId ==-1){toolbar.setTitle("Adding a new property");}
         else{toolbar.setTitle("Edit property");}
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -540,13 +541,13 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @OnClick(R.id.fragment_form_property_validate_fab)
     public void insert_property() {
 
-        if (bundleProperty == -1) {
+        if (bundlePropertyId == -1) {
             viewModel.setProperty_in_database(newProperty());
             sharedFilterViewModel.setProperty(newProperty(),-1);
             notification_property_added();
         } else {
-            viewModel.updateProperty(newProperty(), bundleProperty);
-            sharedFilterViewModel.setProperty(newProperty(),bundleProperty);
+            viewModel.updateProperty(newProperty(), bundlePropertyId);
+            sharedFilterViewModel.setProperty(newProperty(), bundlePropertyId);
         }
         getActivity().onBackPressed();
     }

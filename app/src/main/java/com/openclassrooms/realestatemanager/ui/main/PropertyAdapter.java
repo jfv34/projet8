@@ -10,19 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.models.Currency;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
+import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import java.util.List;
 
@@ -118,15 +116,15 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             bind(holder,properties.get(position));
         } else {
             Bundle o = (Bundle) payloads.get(0);
+
             for (String key : o.keySet()) {
-                if (key.equals("price")) {
-                    price_tv.setText(o.getString(key));
-                }
-                if (key.equals("city")) {
-                    city_tv.setText(o.getString(key));
-                }
-                if (key.equals("type")) {
-                    type_tv.setText(o.getString(key));
+                switch (key) {
+                    case "price":
+                        price_tv.setText(o.getString(key));
+                    case "city":
+                        city_tv.setText(o.getString(key));
+                    case "type":
+                        type_tv.setText(o.getString(key));
                 }
             }
         }

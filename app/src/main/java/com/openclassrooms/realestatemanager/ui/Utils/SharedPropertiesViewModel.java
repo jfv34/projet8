@@ -18,7 +18,7 @@ public class SharedPropertiesViewModel extends ViewModel {
 
     private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
     public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
-    public boolean isFiltred = false;
+    public boolean isFiltered = false;
 
     public void loadProperties() {
 

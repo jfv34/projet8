@@ -113,7 +113,7 @@ public class FilterFragmentViewModel extends ViewModel {
             ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
             ArrayList<Property> filterProperties = filter(filter, properties);
             sharedFilterViewModel.properties.postValue(filterProperties);
-            sharedFilterViewModel.isFiltred = true;
+            sharedFilterViewModel.isFiltered = true;
 
                 }
         );

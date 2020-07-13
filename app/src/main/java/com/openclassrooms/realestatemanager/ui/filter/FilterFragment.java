@@ -390,7 +390,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     @OnClick(R.id.fragment_filter_removeFilters_bt)
     public void removeFilters(){
-        sharedFilterViewModel.isFiltred = false;
+        sharedFilterViewModel.isFiltered = false;
         filterFragmentViewModel.initTypesFilter();
         sharedPreferences.edit().clear().apply();
         FilterFragment filterFragment = new FilterFragment();

@@ -73,7 +73,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         super.onViewCreated(view, savedInstanceState);
 
         sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
-        if (sharedPropertiesViewModel.isFiltred = false) {
+        if (sharedPropertiesViewModel.isFiltered = false) {
             sharedPropertiesViewModel.loadProperties();
         }
         observeFilterProperties();

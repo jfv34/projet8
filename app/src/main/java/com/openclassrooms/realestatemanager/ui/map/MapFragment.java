@@ -93,7 +93,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         if (Utils.isInternetAvailable(getActivity())) {
             loadMap();
             sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
-            if (sharedFilterViewModel.isFiltred = false) {
+            if (sharedFilterViewModel.isFiltered = false) {
                 sharedFilterViewModel.loadProperties();
             }
             toolBar();

@@ -29,10 +29,25 @@ public class Property {
     private String saleDate;
     private String agentName;
 
-    public Property(String type, String price, String address, String city, String state, String zip,
-                    String area, String pieces, String interestPoint, String description,
-                    ArrayList<Photo> photos, Status status, String entryDate, String saleDate, String agentName
+    public Property(
+            int id,
+            String type,
+            String price,
+            String address,
+            String city,
+            String state,
+            String zip,
+            String area,
+            String pieces,
+            String interestPoint,
+            String description,
+            ArrayList<Photo> photos,
+            Status status,
+            String entryDate,
+            String saleDate,
+            String agentName
     ) {
+        this.id=id;
         this.type = type;
         this.price = price;
         this.address = address;
@@ -190,10 +205,11 @@ public class Property {
     }
 
     public static Property fromContentValues(ContentValues values) {
-        final Property property = new Property(null, null, null, null, null,
+        final Property property = new Property(0,null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null);
 
+        if (values.containsKey("id")) property.setId(values.getAsInteger("id"));
         if (values.containsKey("type")) property.setAddress(values.getAsString("type"));
         if (values.containsKey("price")) property.setAddress(values.getAsString("price"));
         if (values.containsKey("address")) property.setAddress(values.getAsString("address"));
