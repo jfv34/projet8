@@ -172,6 +172,8 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         filterFragmentViewModel.priceMax.setValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
         price_slidebar.setMinStartValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
         price_slidebar.setMaxStartValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
+        filterFragmentViewModel.priceBoundMin.postValue(Constants.slider_price_minimum);
+        filterFragmentViewModel.priceBoundMax.postValue(Constants.slider_price_maximum);
     }
 
 
