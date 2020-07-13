@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,7 +82,7 @@ public class SimulatorFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SimulatorFragmentViewModel.class);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         text_before_result_tv.setVisibility(View.INVISIBLE);
-        price_et.setText(bundlePrice);
+
         viewModel.init(bundlePrice);
 
         observe_text_in_editText(price_et, "PRICE");
@@ -108,10 +109,12 @@ public class SimulatorFragment extends Fragment {
             viewModel.setCurrency(currency);
             viewModel.calculation();
             if (currency == Currency.EUROS) {
+                price_et.setText(String.valueOf(Utils.convertDollarToEuro(Integer.parseInt(bundlePrice))));
                 price_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
                 contribution_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
                 ;
             } else {
+                price_et.setText(bundlePrice);
                 price_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
                 contribution_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
             }
