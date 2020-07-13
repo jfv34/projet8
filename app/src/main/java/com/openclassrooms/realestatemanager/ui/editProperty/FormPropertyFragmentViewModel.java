@@ -134,7 +134,4 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         entryDate.setValue(formattedDate);
     }
 
-    public void setCurrency(Currency new_currency) {
-        currency = new_currency;
-    }
 }

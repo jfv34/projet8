@@ -62,6 +62,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private FormPropertyFragmentViewModel viewModel;
     private SharedFilterViewModel sharedFilterViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
+    private SharedPropertyViewModel sharedPropertyViewModel;
 
     private View root;
     private Bitmap photoBM = null;
@@ -134,6 +135,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
         sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedFilterViewModel.class);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
+        sharedPropertyViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertyViewModel.class);
 
         configure_autoComplete_types();
         configure_availability_status();
