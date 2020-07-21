@@ -42,8 +42,8 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
 import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -309,8 +309,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         final String[] TYPE = viewModel.getTypes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, TYPE);
-        AutoCompleteTextView textView = root.findViewById(R.id.fragment_insert_property_TextField_type_dropdown);
+        AutoCompleteTextView textView = root.findViewById(R.id.fragment_form_property_type_dropdown);
         textView.setAdapter(adapter);
+        textView.setCursorVisible(false);
     }
 
     private void configure_availability_status() {
@@ -528,13 +529,21 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         configure_availability_status();
     }
 
+    @OnClick(R.id.fragment_form_property_type_dropdown)
+    public void types() {
+        configure_autoComplete_types();
+    }
+
     private void configureToolBar() {
-        if(bundlePropertyId ==-1){toolbar.setTitle("Adding a new property");}
-        else{toolbar.setTitle("Edit property");}
+        if (bundlePropertyId == -1) {
+            toolbar.setTitle("Adding a new property");
+        } else {
+            toolbar.setTitle("Edit property");
+        }
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> Utils.replaceFragmentInDetailScreen(getActivity(),this));
+        toolbar.setNavigationOnClickListener(v -> Utils.replaceFragmentInDetailScreen(getActivity(), this));
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 
