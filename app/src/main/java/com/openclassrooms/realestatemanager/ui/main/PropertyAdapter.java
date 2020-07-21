@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -111,6 +112,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         final TextView city_tv = itemView.findViewById(R.id.main_item_address_tv);
         final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
         final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
+        final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
 
         if (payloads.isEmpty()) {
             bind(holder,properties.get(position));
@@ -120,11 +122,32 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             for (String key : o.keySet()) {
                 switch (key) {
                     case "price":
-                        price_tv.setText(o.getString(key));
+                        if (currency == Currency.DOLLARS) {
+                            price_tv.setText(String.format("$ %s", o.getString(key)));
+                        } else {
+                            price_tv.setText(String.format("%s €", Utils.convertDollarToEuro(Integer.parseInt(o.getString(key)))));
+                        }
+                        break;
                     case "city":
                         city_tv.setText(o.getString(key));
+                        break;
                     case "type":
                         type_tv.setText(o.getString(key));
+                        break;
+                    case "photo":
+                        if(o.getStringArrayList(key)!=null){
+                        ArrayList<String> photo_ref = o.getStringArrayList(key);
+                        String filePhoto = photo_ref.get(0);
+                        String namePhoto = photo_ref.get(1);
+                        Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
+                        int radius = 20;
+                        int margin = 8;
+                        if (photoBM != null) {
+                            Glide.with(context)
+                                    .load(photoBM)
+                                    .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
+                                    .into(photo_iv);
+                        }}
                 }
             }
         }

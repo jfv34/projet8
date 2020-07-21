@@ -3,14 +3,19 @@ package com.openclassrooms.realestatemanager;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class UtilsTest {
 
     @Test
-    public void When_euro_100000_return_123153_dollars() {
-      int result = Utils.convertEuroToDollar(100000);
-        Assertions.assertThat(result).isEqualTo(123153);
+    public void convertDollarToEuro_return_81_euros_when_convert_100_dollars() {
+        Assert.assertEquals(81, Utils.convertDollarToEuro(100));
+    }
+
+    @Test
+    public void convertEuroToDollars_return_100_euros_when_convert_81_dollars() {
+        Assert.assertEquals(100, Utils.convertEuroToDollar(81));
     }
 
     @Test
@@ -26,7 +31,4 @@ public class UtilsTest {
 
         Assertions.assertThat(result).isTrue();
     }
-
-
-
 }
