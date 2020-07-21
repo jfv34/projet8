@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.map;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -127,6 +128,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         mGoogleApiClient.connect();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onConnected(Bundle bundle) {
         googleMap.setMyLocationEnabled(true);
@@ -136,6 +138,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
       locateUser();
         }
 
+    @SuppressLint("MissingPermission")
     private void locateUser() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
@@ -321,7 +324,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
                     }
                 } else {
-                    Utils.toast(getActivity(), "No permission for location");
+                    Utils.toast(getActivity(), R.string.nopermissionforlocation);
                 }
             }
         }

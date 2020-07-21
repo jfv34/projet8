@@ -93,7 +93,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         }
         sharedPropertiesViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties.size() == 0) {
-                Utils.toast(getActivity(), "No data to display");
+                Utils.toast(getActivity(), R.string.nodatatodisplay);
             } else if(propertyAdapter==null)  {
                 Currency currency = sharedCurrencyViewModel.currency.getValue();
                 propertyAdapter = new PropertyAdapter(new ArrayList<>(properties), currency, getContext(), MainFragment.this);

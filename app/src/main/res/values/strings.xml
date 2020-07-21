@@ -49,4 +49,6 @@
     <string name="currency">Currency</string>
     <string name="dollars">Dollars</string>
     <string name="euros">euros</string>
+    <string name="nodatatodisplay">No data to display</string>
+    <string name="nopermissionforlocation">No permission for location</string>
 </resources>

@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -33,8 +32,6 @@ import java.util.UUID;
  * Created by Philippe on 21/02/2018.
  */
 
-
-
 public class Utils {
 
     /**
@@ -57,6 +54,7 @@ public class Utils {
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return
      */
+
     public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return dateFormat.format(new Date());
@@ -70,17 +68,22 @@ public class Utils {
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
      * @param context
      * @return
      */
-    public static Boolean isInternetAvailable(Context context){
+
+    public static Boolean isInternetAvailable(Context context) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if(networkInfo==null){return false;}else{
-        return networkInfo.isAvailable();}
-
+        if (networkInfo == null) {
+            return false;
+        } else {
+            return networkInfo.isAvailable();
+        }
     }
+
     public static void toast(Context context, int message) {
         Toast toast = Toast.makeText(context, context.getString(message), Toast.LENGTH_LONG);
         toast.show();
@@ -100,8 +103,6 @@ public class Utils {
         String uniqueString = UUID.randomUUID().toString();
         String photoName = "photo_" + uniqueString;
         File mypath = new File(directory, photoName);
-        Log.i("tag_mypath: ", mypath.toString());
-
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
@@ -127,7 +128,6 @@ public class Utils {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         return photo;
     }
 
@@ -148,6 +148,7 @@ public class Utils {
 
         return simpleDateFormat.format(dateSelected);
     }
+
     public static Date convertStringToDate(String entryDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
         Date date = null;
@@ -158,6 +159,7 @@ public class Utils {
         }
         return date;
     }
+
     public static void addFragmentInDetailScreen(FragmentActivity activity, Fragment fragment) {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
@@ -167,6 +169,7 @@ public class Utils {
             transaction.add(R.id.frame_layout_main, fragment).addToBackStack(fragment.getClass().getName()).commit();
         }
     }
+
     public static void replaceFragmentInDetailScreen(FragmentActivity activity, Fragment fragment) {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
@@ -176,6 +179,7 @@ public class Utils {
             transaction.replace(R.id.frame_layout_main, fragment).commit();
         }
     }
+
     public static void replaceFragmentInMainScreen(FragmentActivity activity, Fragment fragment) {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame_layout_main, fragment).commit();

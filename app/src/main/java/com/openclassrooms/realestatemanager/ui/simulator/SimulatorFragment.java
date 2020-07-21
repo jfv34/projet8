@@ -98,9 +98,9 @@ public class SimulatorFragment extends Fragment {
             } else {
                 text_before_result_tv.setVisibility(View.VISIBLE);
                 if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
-                    result_tv.setText(result + " €");
+                    result_tv.setText(String.format("%s €", result));
                 } else {
-                    result_tv.setText("$ " + result);
+                    result_tv.setText(String.format("$ %s", result));
                 }
             }
         });
@@ -109,7 +109,9 @@ public class SimulatorFragment extends Fragment {
             viewModel.setCurrency(currency);
             viewModel.calculation();
             if (currency == Currency.EUROS) {
-                price_et.setText(String.valueOf(Utils.convertDollarToEuro(Integer.parseInt(bundlePrice))));
+                int price = Integer.parseInt(bundlePrice);
+                int euros_price = Utils.convertDollarToEuro(price);
+                price_et.setText(String.valueOf(euros_price));
                 price_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
                 contribution_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
                 ;
@@ -118,7 +120,6 @@ public class SimulatorFragment extends Fragment {
                 price_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
                 contribution_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
             }
-
         });
         viewModel.price.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
         viewModel.contribution.observe(getViewLifecycleOwner(), price -> viewModel.calculation());
