@@ -153,7 +153,7 @@ public class SimulatorFragment extends Fragment {
         });
     }
     private void toolBar() {
-        toolbar.setTitle("Real estate simulator");
+        toolbar.setTitle(R.string.realestatesimulator);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

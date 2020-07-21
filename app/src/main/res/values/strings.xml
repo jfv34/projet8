@@ -51,4 +51,6 @@
     <string name="euros">euros</string>
     <string name="nodatatodisplay">No data to display</string>
     <string name="nopermissionforlocation">No permission for location</string>
+    <string name="realestatesimulator">Real estate simulator</string>
+    <string name="realestatemanager">Real Estate Manager</string>
 </resources>

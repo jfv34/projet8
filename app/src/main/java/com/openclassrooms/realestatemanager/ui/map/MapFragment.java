@@ -160,7 +160,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
         googleMap = map;
 
-
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -188,8 +187,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private void checkLocationPermission() {
-        //requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
-
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -342,7 +339,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
 
     @Override
     public void onLocationChanged(Location location) {
-
     }
 
     @Override
@@ -358,19 +354,16 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private void toolBar() {
-        toolbar.setTitle("Real Estate Manager");
+        toolbar.setTitle(R.string.realestatemanager);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     @OnClick(R.id.fragment_map_main_button)
@@ -384,7 +377,4 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         Fragment formPropertyFragment = FormPropertyFragment.newInstance(-1);
         Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
     }
-
-
-
 }

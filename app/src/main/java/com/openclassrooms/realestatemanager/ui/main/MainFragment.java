@@ -43,7 +43,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     private SharedPropertiesViewModel sharedPropertiesViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private PropertyAdapter propertyAdapter;
-    private View root;
     public static final String PREFS_CURRENCY = "PREFS_CURRENCY";
     SharedPreferences sharedPreferences;
 
@@ -60,8 +59,8 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this,root);
+        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        ButterKnife.bind(this, root);
         configureToolBar();
         configureRecyclerView();
 
