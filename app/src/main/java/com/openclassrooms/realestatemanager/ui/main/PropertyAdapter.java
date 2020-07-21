@@ -37,11 +37,10 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     private Currency currency;
     @BindView(R.id.main_item_type_tv) TextView type;
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-
         }
     }
 
@@ -63,7 +62,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         bind(holder,properties.get(position));
     }
 

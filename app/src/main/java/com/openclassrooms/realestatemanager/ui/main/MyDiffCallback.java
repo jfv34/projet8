@@ -32,14 +32,12 @@ public class MyDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        boolean result = oldProperties.get(oldItemPosition).id == newProperties.get(newItemPosition).id;
-        return result;
+        return oldProperties.get(oldItemPosition).id == newProperties.get(newItemPosition).id;
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        boolean result = ((Bundle) getChangePayload(oldItemPosition, newItemPosition)).isEmpty();
-        return result;
+        return ((Bundle) getChangePayload(oldItemPosition, newItemPosition)).isEmpty();
     }
 
     @Nullable

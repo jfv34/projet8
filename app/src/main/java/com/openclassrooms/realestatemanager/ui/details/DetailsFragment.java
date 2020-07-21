@@ -50,7 +50,7 @@ public class DetailsFragment extends Fragment {
 
     private DetailViewModel detailViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
-    private SharedPropertiesViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedPropertiesViewModel;
 
     private int bundleProperty;
 
@@ -137,7 +137,7 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
+        sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
         loadProperty();
@@ -162,7 +162,7 @@ public class DetailsFragment extends Fragment {
             displayMap(property);
         });
 
-        sharedFilterViewModel.properties.observe(requireActivity(), properties ->
+        sharedPropertiesViewModel.properties.observe(requireActivity(), properties ->
                 {
                     if (!properties.isEmpty()) {
                         detailViewModel.loadProperty(bundleProperty);

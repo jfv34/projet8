@@ -117,7 +117,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
     @Override
     public void onPropertyClicked(int property) {
-
         Fragment detailsFragment = DetailsFragment.newInstance(property);
         Utils.replaceFragmentInDetailScreen(getActivity(), detailsFragment);
     }
@@ -172,7 +171,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {
                 });
-
         alertDialog_builder.show();
     }
 }

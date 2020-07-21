@@ -43,7 +43,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class FilterFragment extends Fragment implements OnChipClickedListener {
     SharedPreferences sharedPreferences;
-    private SharedPropertiesViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedPropertiesViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private FilterFragmentViewModel filterFragmentViewModel;
     private View root;
@@ -112,7 +112,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
+        sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
@@ -361,7 +361,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 availableDate_Et.getText().toString(),
                 soldDate_Et.getText().toString(),
                 status_tv.getText().toString(),
-                sharedFilterViewModel,
+                sharedPropertiesViewModel,
                 sharedCurrencyViewModel.currency.getValue()
         );
 
@@ -390,7 +390,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
     @OnClick(R.id.fragment_filter_removeFilters_bt)
     public void removeFilters(){
-        sharedFilterViewModel.isFiltered = false;
+        sharedPropertiesViewModel.isFiltered = false;
         filterFragmentViewModel.initTypesFilter();
         sharedPreferences.edit().clear().apply();
         FilterFragment filterFragment = new FilterFragment();

@@ -60,7 +60,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private static Calendar calendar = Calendar.getInstance();
     private int bundlePropertyId;
     private FormPropertyFragmentViewModel viewModel;
-    private SharedPropertiesViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedPropertiesViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private View root;
     private Bitmap photoBM = null;
@@ -131,7 +131,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(FormPropertyFragmentViewModel.class);
-        sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
+        sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
 
         configure_autoComplete_types();
@@ -552,11 +552,11 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         if (bundlePropertyId == -1) {
             viewModel.setProperty_in_database(newProperty());
-            sharedFilterViewModel.setProperty(newProperty(),-1);
+            sharedPropertiesViewModel.setProperty(newProperty(),-1);
             notification_property_added();
         } else {
             viewModel.updateProperty(newProperty(), bundlePropertyId);
-            sharedFilterViewModel.setProperty(newProperty(), bundlePropertyId);
+            sharedPropertiesViewModel.setProperty(newProperty(), bundlePropertyId);
         }
         getActivity().onBackPressed();
     }

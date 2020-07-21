@@ -71,7 +71,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private static final int PERMISSIONS_REQUEST_CODE = 123;
-    private SharedPropertiesViewModel sharedFilterViewModel;
+    private SharedPropertiesViewModel sharedPropertiesViewModel;
     private ArrayList<Marker> markerList = new ArrayList<>();
     private GoogleMap googleMap;
 
@@ -93,9 +93,9 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     private void connectionAndLoading() {
         if (Utils.isInternetAvailable(getActivity())) {
             loadMap();
-            sharedFilterViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
-            if (sharedFilterViewModel.isFiltered = false) {
-                sharedFilterViewModel.loadProperties();
+            sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
+            if (sharedPropertiesViewModel.isFiltered = false) {
+                sharedPropertiesViewModel.loadProperties();
             }
             toolBar();
         } else internetNotAvailable();
@@ -220,10 +220,10 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     }
 
     private void observeFilterProperties() {
-        if (sharedFilterViewModel.properties.getValue() == null) {
-            sharedFilterViewModel.loadProperties();
+        if (sharedPropertiesViewModel.properties.getValue() == null) {
+            sharedPropertiesViewModel.loadProperties();
         }
-        sharedFilterViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
+        sharedPropertiesViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
 
             if (properties.size() == 0) {
                 Utils.toast(getActivity(), getString(R.string.noproperties));

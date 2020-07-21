@@ -57,89 +57,44 @@ public class Filter {
         return types;
     }
 
-    public void setTypes(ArrayList<Type> types) {
-        this.types = types;
-    }
-
     public int getPriceMaxi() {
         return priceMaxi;
-    }
-
-    public void setPriceMaxi(int priceMaxi) {
-        this.priceMaxi = priceMaxi;
     }
 
     public int getPriceMini() {
         return priceMini;
     }
 
-    public void setPriceMini(int priceMini) {
-        this.priceMini = priceMini;
-    }
-
     public ArrayList<String> getCities() {
-
         return cities;
-    }
-
-    public void setCities(ArrayList<String> cities) {
-        this.cities = cities;
     }
 
     public ArrayList<String> getStates() {
         return states;
     }
 
-    public void setStates(ArrayList<String> states) {
-        this.states = states;
-    }
-
     public int getAreaMaxi() {
         return areaMaxi;
-    }
-
-    public void setAreaMaxi(int areaMaxi) {
-        this.areaMaxi = areaMaxi;
     }
 
     public int getAreaMini() {
         return areaMini;
     }
 
-    public void setAreaMini(int areaMini) {
-        this.areaMini = areaMini;
-    }
-
     public int getPiecesMaxi() {
         return piecesMaxi;
-    }
-
-    public void setPiecesMaxi(int piecesMaxi) {
-        this.piecesMaxi = piecesMaxi;
     }
 
     public int getPiecesMini() {
         return piecesMini;
     }
 
-    public void setPiecesMini(int piecesMini) {
-        this.piecesMini = piecesMini;
-    }
-
     public ArrayList<String> getInterestPoints() {
         return interestPoints;
     }
 
-    public void setInterestPoints(ArrayList<String> interestPoints) {
-        this.interestPoints = interestPoints;
-    }
-
     public ArrayList<String> getAgentName() {
         return agentName;
-    }
-
-    public void setAgentName(ArrayList<String> agentName) {
-        this.agentName = agentName;
     }
 
     public Status getStatus() {
@@ -154,31 +109,15 @@ public class Filter {
         return entryDate;
     }
 
-    public void setEntryDate(String entryDate) {
-        this.entryDate = entryDate;
-    }
-
     public String getSaleDate() {
         return saleDate;
-    }
-
-    public void setSaleDate(String saleDate) {
-        this.saleDate = saleDate;
     }
 
     public int getNumberOfPhotosMaxi() {
         return numberOfPhotosMaxi;
     }
 
-    public void setNumberOfPhotosMaxi(int numberOfPhotosMaxi) {
-        this.numberOfPhotosMaxi = numberOfPhotosMaxi;
-    }
-
     public int getNumberOfPhotosMini() {
         return numberOfPhotosMini;
-    }
-
-    public void setNumberOfPhotosMini(int numberOfPhotosMini) {
-        this.numberOfPhotosMini = numberOfPhotosMini;
     }
 }
