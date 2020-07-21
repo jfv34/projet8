@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models;
 
-
 import android.content.ContentValues;
 
 import androidx.room.Entity;
@@ -109,16 +108,8 @@ public class Property {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getZip() {
         return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
     }
 
     public String getArea() {
@@ -133,24 +124,12 @@ public class Property {
         return pieces;
     }
 
-    public void setPieces(String pieces) {
-        this.pieces = pieces;
-    }
-
     public String getInterestPoint() {
         return interestPoint;
     }
 
-    public void setInterestPoint(String interestPoint) {
-        this.interestPoint = interestPoint;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public ArrayList<Photo> getPhotos() {
@@ -180,10 +159,6 @@ public class Property {
         }
     }
 
-    public void setEntryDate(String entryDate) {
-        this.entryDate = entryDate;
-    }
-
     public String getSaleDate() {
         if (saleDate == null) {
             return "";
@@ -192,16 +167,8 @@ public class Property {
         }
     }
 
-    public void setSaleDate(String saleDate) {
-        this.saleDate = saleDate;
-    }
-
     public String getAgentName() {
         return agentName;
-    }
-
-    public void setAgentName(String agentName) {
-        this.agentName = agentName;
     }
 
     public static Property fromContentValues(ContentValues values) {

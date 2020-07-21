@@ -15,16 +15,8 @@ public class Marker {
         return propertyId;
     }
 
-    public void setPropertyId(int propertyId) {
-        this.propertyId = propertyId;
-    }
-
     public LatLng getLatLng_marker() {
         return latLng_marker;
-    }
-
-    public void setLatLng_marker(LatLng latLng_marker) {
-        this.latLng_marker = latLng_marker;
     }
 }
 

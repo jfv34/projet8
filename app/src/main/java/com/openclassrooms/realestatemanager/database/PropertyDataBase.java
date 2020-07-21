@@ -40,10 +40,6 @@ public abstract class PropertyDataBase extends RoomDatabase {
         return INSTANCE;
     }
 
-
-
-    // ---
-
     private static Callback prepopulateDatabase(){
         return new Callback() {
 
@@ -129,7 +125,6 @@ public abstract class PropertyDataBase extends RoomDatabase {
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_2);
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_3);
                 db.insert("Property", OnConflictStrategy.IGNORE,contentValues_4);
-
             }
         };
     }
