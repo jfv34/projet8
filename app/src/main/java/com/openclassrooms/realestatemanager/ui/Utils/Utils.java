@@ -174,7 +174,7 @@ public class Utils {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         final boolean tabletSize = activity.getResources().getBoolean(R.bool.isTablet);
         if (tabletSize || activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, fragment).commit();
+            transaction.replace(R.id.activity_main_frame_layout_detail_large_screen, fragment).addToBackStack(fragment.getClass().getName()).commit();
         } else {
             transaction.replace(R.id.frame_layout_main, fragment).commit();
         }
@@ -182,6 +182,6 @@ public class Utils {
 
     public static void replaceFragmentInMainScreen(FragmentActivity activity, Fragment fragment) {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_layout_main, fragment).commit();
+            transaction.replace(R.id.frame_layout_main, fragment).addToBackStack(fragment.getClass().getName()).commit();
         }
 }
