@@ -60,7 +60,7 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
-    public static String getDateinDayMonthYearFormat(){
+    public static String getTodayDateinDayMonthYearFormat(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }

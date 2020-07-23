@@ -21,9 +21,9 @@ public class UtilsTest {
     }
 
     @Test
-    public void return_date_in_DD_MM_YYYY_format() {
+    public void return_today_date_in_DD_MM_YYYY_format() {
         String initialFormat = Utils.getTodayDate();
-        String expectedFormat = Utils.getDateinDayMonthYearFormat();
+        String expectedFormat = Utils.getTodayDateinDayMonthYearFormat();
         boolean result = true;
         if (!initialFormat.substring(0, 4).equals(expectedFormat.substring(6, 10))) {
             result = false;

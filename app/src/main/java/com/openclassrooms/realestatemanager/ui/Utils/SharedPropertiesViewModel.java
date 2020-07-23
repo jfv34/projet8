@@ -15,14 +15,14 @@ import java.util.List;
 
 public class SharedPropertiesViewModel extends ViewModel {
 
-    private PropertyRepository repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
+    private PropertyRepository repository;
     public MutableLiveData<List<Property>> properties = new MutableLiveData<>();
     public boolean isFiltered = false;
 
     public void loadProperties() {
-
+        repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
         AsyncTask.execute(() -> {
-            properties.postValue(repository.getProperties());
+                    properties.postValue(repository.getProperties());
                 }
         );
     }
