@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.ui.main;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,6 +129,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                         break;
                     case "city":
                         city_tv.setText(o.getString(key));
+                        Log.i("tag_setText",o.getString(key));
                         break;
                     case "type":
                         type_tv.setText(o.getString(key));
@@ -135,8 +137,8 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                     case "photo":
                         if(o.getStringArrayList(key)!=null){
                         ArrayList<String> photo_ref = o.getStringArrayList(key);
-                        String filePhoto = photo_ref.get(0);
-                        String namePhoto = photo_ref.get(1);
+                        String namePhoto = photo_ref.get(0);
+                        String filePhoto = photo_ref.get(1);
                         Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
                         int radius = 20;
                         int margin = 8;

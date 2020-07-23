@@ -54,7 +54,7 @@ public class MyDiffCallback extends DiffUtil.Callback {
             diff.putString("city", newItem.getCity());
         if (!newItem.getType().equals(oldItem.getType()))
             diff.putString("type", newItem.getType());
-        if (newItem.getPhotos() != null && !newItem.getPhotos().equals(oldItem.getPhotos())) {
+        if (newItem.getPhotos().get(0) != null && !newItem.getPhotos().equals(oldItem.getPhotos())) {
             ArrayList<String> photo_ref = new ArrayList<String>();
             photo_ref.add(0,newItem.getPhotos().get(0).getFileNamePhoto());
             photo_ref.add(1,newItem.getPhotos().get(0).getPath());
