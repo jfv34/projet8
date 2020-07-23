@@ -15,6 +15,7 @@ import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -501,25 +502,51 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @Override
     public void onPhotoDescriptionClicked(int position) {
         Photo photo = viewModel.getPhoto(position);
-        photoBM = Utils.loadImageFromStorage(photo.getPath(),photo.getFileNamePhoto());
+        photoBM = Utils.loadImageFromStorage(photo.getPath(), photo.getFileNamePhoto());
         descriptionAlertDialog(position);
     }
 
     private void observeStatusAvailability() {
-        viewModel.status.observe(getViewLifecycleOwner(), status -> {
-            switch (status) {
-                case SOLD: {
-                    property_availability_status.getEditText().setText(R.string.sold);
+        property_availability_dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 1: {
+                        viewModel.status.postValue(Status.AVAILABLE);
+                    }
+                    break;
+                    case 2: {
+                        viewModel.status.postValue(Status.SOLD);
+                    }
                 }
-                break;
-                case AVAILABLE: {
-                    property_availability_status.getEditText().setText(R.string.available);
-                }
-                break;
-                default: {
-                    property_availability_status.getEditText().setText("");
-                }
+                configure_availability_status();
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        viewModel.status.observe(getViewLifecycleOwner(), status ->
+
+                {
+                    switch (status) {
+                        case SOLD: {
+                            property_availability_status.getEditText().setText(R.string.sold);
+                            property_sold_date.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                        case AVAILABLE: {
+                            property_availability_status.getEditText().setText(R.string.available);
+                            property_sold_date.setVisibility(View.INVISIBLE);
+                        }
+                        break;
+                        default: {
+                            property_availability_status.getEditText().setText("");
+                            property_sold_date.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
         );
     }
@@ -555,6 +582,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
             sharedPropertiesViewModel.setProperty(newProperty(),-1);
             notification_property_added();
         } else {
+            if (!property_sold_date.getEditText().equals("") && property_availability_status.getEditText().toString() == "Sold") {
+                Utils.toast(getActivity(), getString(R.string.errorsolddate));
+            }
             viewModel.updateProperty(newProperty(), bundlePropertyId);
             sharedPropertiesViewModel.setProperty(newProperty(), bundlePropertyId);
         }

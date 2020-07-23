@@ -9,12 +9,12 @@ import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
 public class SimulatorFragmentViewModel extends ViewModel {
 
-    MutableLiveData<String> price = new MutableLiveData<>();
-    MutableLiveData<String> rate_in_percentage = new MutableLiveData<>();
-    MutableLiveData<String> duration = new MutableLiveData<>();
-    MutableLiveData<String> contribution = new MutableLiveData<>();
-    MutableLiveData<Boolean> isDurationYears = new MutableLiveData<>();
-    MutableLiveData<String> result = new MutableLiveData<>();
+    public MutableLiveData<String> price = new MutableLiveData<>();
+    public MutableLiveData<String> rate_in_percentage = new MutableLiveData<>();
+    public MutableLiveData<String> duration = new MutableLiveData<>();
+    public MutableLiveData<String> contribution = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isDurationYears = new MutableLiveData<>();
+    public MutableLiveData<String> result = new MutableLiveData<>();
     private Currency currency = Currency.DOLLARS;
 
     public void init(String bundlePrice) {
