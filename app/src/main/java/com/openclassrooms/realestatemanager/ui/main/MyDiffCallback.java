@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import com.openclassrooms.realestatemanager.models.Property;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyDiffCallback extends DiffUtil.Callback {
@@ -47,19 +46,6 @@ public class MyDiffCallback extends DiffUtil.Callback {
         Property oldItem = oldProperties.get(oldItemPosition);
         Property newItem = newProperties.get(newItemPosition);
 
-        Bundle diff = new Bundle();
-        if (!newItem.getPrice().equals(oldItem.getPrice()))
-            diff.putString("price", newItem.getPrice());
-        if (!newItem.getCity().equals(oldItem.getCity()))
-            diff.putString("city", newItem.getCity());
-        if (!newItem.getType().equals(oldItem.getType()))
-            diff.putString("type", newItem.getType());
-        if (newItem.getPhotos().get(0) != null && !newItem.getPhotos().equals(oldItem.getPhotos())) {
-            ArrayList<String> photo_ref = new ArrayList<String>();
-            photo_ref.add(0,newItem.getPhotos().get(0).getFileNamePhoto());
-            photo_ref.add(1,newItem.getPhotos().get(0).getPath());
-            diff.putStringArrayList("photo",photo_ref);
-        }
-        return diff;
+        return oldItem.compareTo(newItem);
     }
 }

@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.details;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,9 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 import com.openclassrooms.realestatemanager.models.Photo;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class PhotosPageAdapter extends PagerAdapter {
@@ -34,12 +33,9 @@ public class PhotosPageAdapter extends PagerAdapter {
         ImageView imageView = view.findViewById(R.id.detail_item_photo_iv);
         TextView detailDescriptionTV = view.findViewById(R.id.detail_item_photo_description_tv);
         detailDescriptionTV.setText(photos.get(position).getDescription());
-        Bitmap image = getImage(position);
-        if(image!=null){
             Glide.with(context)
-                    .load(image)
+                    .load(new File(photos.get(position).getFullPath()))
                     .into(imageView);
-        }
         container.addView(view);
         return view;
     }
@@ -47,16 +43,6 @@ public class PhotosPageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object view) {
         container.removeView((View) view);
-    }
-
-
-    private Bitmap getImage(int position) {
-        Photo photo = photos.get(position);
-        if(photo!=null) {
-            Bitmap photoBM = Utils.loadImageFromStorage(photo.getPath(), photo.getFileNamePhoto());
-       return photoBM;
-        }
-        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.models;
 
 import android.content.ContentValues;
+import android.os.Bundle;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -193,5 +194,18 @@ public class Property {
         if (values.containsKey("saleDate")) property.setAddress(values.getAsString("saleDate"));
         if (values.containsKey("agentName")) property.setAddress(values.getAsString("agentName"));
         return property;
+    }
+    public Bundle compareTo(Property other){
+        Bundle diff = new Bundle();
+        if (!getPrice().equals(other.getPrice()))
+            diff.putString("price", other.getPrice());
+        if (!getCity().equals(other.getCity()))
+            diff.putString("city", other.getCity());
+        if (!getType().equals(other.getType()))
+            diff.putString("type", other.getType());
+        if (getPhotos().size() == other.getPhotos().size() && !other.getPhotos().isEmpty() && !getPhotos().get(0).getFullPath().equals(other.getPhotos().get(0).getFullPath())) {
+            diff.putString("photoPath",other.getPhotos().get(0).getFullPath());
+        }
+        return diff;
     }
 }

@@ -502,7 +502,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @Override
     public void onPhotoDescriptionClicked(int position) {
         Photo photo = viewModel.getPhoto(position);
-        photoBM = Utils.loadImageFromStorage(photo.getPath(), photo.getFileNamePhoto());
         descriptionAlertDialog(position);
     }
 

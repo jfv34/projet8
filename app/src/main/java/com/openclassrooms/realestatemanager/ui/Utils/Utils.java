@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
@@ -17,8 +16,6 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Photo;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -118,17 +115,6 @@ public class Utils {
             }
         }
         return new Photo(directory.getAbsoluteFile().toString(), photoName, description);
-    }
-
-    public static Bitmap loadImageFromStorage(String path, String photoName) {
-        Bitmap photo = null;
-        try {
-            File f = new File(path, photoName);
-            photo = BitmapFactory.decodeStream(new FileInputStream(f));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return photo;
     }
 
     public static String convertDateToString(int year, int month, int dayOfMonth) {

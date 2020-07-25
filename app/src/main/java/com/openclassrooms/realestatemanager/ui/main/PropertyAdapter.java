@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.Utils.Utils;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -85,15 +84,12 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         if (property.getPhotos() != null) {
             if (property.getPhotos().size() >0) {
                 Photo photo = property.getPhotos().get(0);
-                String filePhoto = photo.getPath();
-                String namePhoto = photo.getFileNamePhoto();
-                Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
-                if (photoBM != null) {
-                    Glide.with(context)
-                            .load(photoBM)
+
+                Glide.with(context)
+                        .load(new File(photo.getFullPath()))
                             .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
                             .into(photo_iv);
-                }
+
             }
         } else {
             Glide.with(context)
@@ -129,25 +125,24 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                         break;
                     case "city":
                         city_tv.setText(o.getString(key));
-                        Log.i("tag_setText",o.getString(key));
+                        Log.i("tag_setText", o.getString(key));
                         break;
                     case "type":
                         type_tv.setText(o.getString(key));
                         break;
-                    case "photo":
-                        if(o.getStringArrayList(key)!=null){
-                        ArrayList<String> photo_ref = o.getStringArrayList(key);
-                        String namePhoto = photo_ref.get(0);
-                        String filePhoto = photo_ref.get(1);
-                        Bitmap photoBM = Utils.loadImageFromStorage(filePhoto,namePhoto);
+                    case "photoPath":
+
+
+                        String path = o.getString(key);
+
                         int radius = 20;
                         int margin = 8;
-                        if (photoBM != null) {
-                            Glide.with(context)
-                                    .load(photoBM)
-                                    .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
-                                    .into(photo_iv);
-                        }}
+
+                        Glide.with(context)
+                                .load(new File(path))
+                                .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
+                                .into(photo_iv);
+
                 }
             }
         }

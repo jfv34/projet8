@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.models;
 
+import java.io.File;
+
 public class Photo {
     private String path;
     private String fileName;
@@ -15,6 +17,9 @@ public class Photo {
         return path;
     }
 
+    public String getFullPath(){
+        return path+ File.separator+fileName;
+    }
     public void setPath(String path) {
         this.path = path;
     }
