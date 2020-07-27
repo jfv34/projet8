@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropertyClickedListener;
 import com.openclassrooms.realestatemanager.models.Currency;
-import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
-import com.openclassrooms.realestatemanager.ui.utils.Utils;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
 import com.openclassrooms.realestatemanager.ui.map.MapFragment;
+import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -93,12 +93,14 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         sharedPropertiesViewModel.properties.observe(getViewLifecycleOwner(), properties -> {
             if (properties.size() == 0) {
                 Utils.toast(getActivity(), R.string.nodatatodisplay);
-            } else if(propertyAdapter==null)  {
+            }
+
+            if (propertyAdapter == null) {
                 Currency currency = sharedCurrencyViewModel.currency.getValue();
                 propertyAdapter = new PropertyAdapter(new ArrayList<>(properties), currency, getContext(), MainFragment.this);
 
                 recyclerView.setAdapter(propertyAdapter);
-            }else{
+            } else {
                 propertyAdapter.updateProperties(properties);
             }
         });

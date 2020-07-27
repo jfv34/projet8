@@ -41,7 +41,7 @@ public class FilterFragmentViewModel extends ViewModel {
     MutableLiveData<Integer> piecesMin = new MutableLiveData<>();
     MutableLiveData<Integer> piecesMax = new MutableLiveData<>();
 
-    private Filter filter;
+    public Filter filter;
     private String[] TYPE_LIST = Constants.TYPE_LIST;
     private String[] AVAILABILITY_LIST = {"All", "Available","Sold"} ;
 
@@ -87,61 +87,70 @@ public class FilterFragmentViewModel extends ViewModel {
         return filter;
     }
 
-    public ArrayList<Property> filter(Filter filter, ArrayList<Property> properties) {
-
-        this.filter = filter;
-        ArrayList<Property> filterProperties;
-        filterProperties = properties;
-        filterByTypes(filterProperties);
-        filterByPrice(filterProperties);
-        filterByCities(filterProperties);
-        filterByStates(filterProperties);
-        filterByArea(filterProperties);
-        filterByPieces(filterProperties);
-        filterByInterestPoints(filterProperties);
-        filterByAgent(filterProperties);
-        filterByDates(filterProperties);
-        filterByPhotos(filterProperties);
-        filterByStatus(filterProperties);
-
-        return filterProperties;
-    }
-
     public void applyFilter(Filter filter, SharedPropertiesViewModel sharedFilterViewModel) {
         repository = new DataPropertiesRepository(PropertyDataBase.getInstance(BaseApplication.getAppContext()).propertyDao());
         AsyncTask.execute(() -> {
-            ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
-            ArrayList<Property> filterProperties = filter(filter, properties);
-            sharedFilterViewModel.properties.postValue(filterProperties);
-            sharedFilterViewModel.isFiltered = true;
+                    ArrayList<Property> properties = (ArrayList<Property>) repository.getProperties();
+                    ArrayList<Property> filterProperties = filter(filter, properties);
+                    sharedFilterViewModel.properties.postValue(filterProperties);
+                    sharedFilterViewModel.isFiltered = true;
 
                 }
         );
     }
 
-    private void filterByInterestPoints(ArrayList<Property> properties) {
+    public ArrayList<Property> filter(Filter filter, ArrayList<Property> properties) {
+
+        this.filter = filter;
+        filterByTypes(properties);//
+        properties = filterByPrice(properties);
+        properties = filterByCities(properties);
+        properties = filterByStates(properties);
+        properties = filterByArea(properties);
+        properties = filterByPieces(properties);
+        properties = filterByInterestPoints(properties);
+        properties = filterByAgent(properties);
+        properties = filterByDates(properties);
+        properties = filterByPhotos(properties);
+        properties = filterByStatus(properties);
+
+        return properties;
+    }
+
+    private ArrayList<Property> filterByInterestPoints(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         ArrayList<String> interestPointsFilter = filter.getInterestPoints();
         if (!interestPointsFilter.get(0).equals("")) {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String interestPoint = property.getInterestPoint();
-                filter_for_list(property, interestPoint, interestPointsFilter,properties);
+                boolean isSelected = filter_for_list(interestPoint, interestPointsFilter);
+                if (isSelected) {
+                    newProperties.add(property);
+                }
             }
-        }
+            return newProperties;
+        } else return properties;
     }
 
-    private void filterByStates(ArrayList<Property> properties) {
+    public ArrayList<Property> filterByStates(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         ArrayList<String> statesFilter = filter.getStates();
         if (!statesFilter.get(0).equals("")) {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String state = property.getState();
-                filter_for_list(property, state, statesFilter,properties);
+                boolean isSelected = filter_for_list(state, statesFilter);
+                if (isSelected) {
+                    newProperties.add(property);
+                }
             }
-        }
+            return newProperties;
+        } else return properties;
     }
 
-    private void filterByTypes(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByTypes(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         if (!filter.getTypes().isEmpty()) {
             ArrayList<String> typesFilter = new ArrayList<>();
             for (int i = 0; i < filter.getTypes().size(); i++) {
@@ -149,41 +158,53 @@ public class FilterFragmentViewModel extends ViewModel {
                     typesFilter.add(TYPE_LIST[i]);
                 }
             }
-            if(!typesFilter.isEmpty()){
-            for (int i = 0; i < properties.size(); i++) {
-                Property property = properties.get(i);
-                String type = property.getType();
-                if (!typesFilter.contains(type)) {
-                    properties.remove(property);
-                    i--;
+            if (!typesFilter.isEmpty()) {
+                for (int i = 0; i < properties.size(); i++) {
+                    Property property = properties.get(i);
+                    String type = property.getType();
+                    if (typesFilter.contains(type)) {
+                        newProperties.add(property);
+                    }
                 }
-            }
-        };}
+                return newProperties;
+            } else return properties;
+        }
+        return properties;
     }
 
-    private void filterByCities(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByCities(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         ArrayList<String> citiesFilter = filter.getCities();
         if (!citiesFilter.get(0).equals("")) {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String city = property.getCity();
-                filter_for_list(property, city, citiesFilter,properties);
+                boolean isSelected = filter_for_list(city, citiesFilter);
+                if (isSelected) {
+                    newProperties.add(property);
+                }
             }
-        }
+            return newProperties;
+        } else return properties;
     }
 
-    private void filterByAgent(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByAgent(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         ArrayList<String> agentsFilter = filter.getAgentName();
         if (!agentsFilter.get(0).equals("")) {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String agent = property.getAgentName();
-                filter_for_list(property, agent, agentsFilter,properties);
+                boolean is_selected = filter_for_list(agent, agentsFilter);
+                if (is_selected) {
+                    newProperties.add(property);
+                }
             }
-        }
+            return newProperties;
+        } else return properties;
     }
 
-    private void filter_for_list(Property property, String data, ArrayList<String> dataListFilter, ArrayList<Property> properties) {
+    private boolean filter_for_list(String data, ArrayList<String> dataListFilter) {
         boolean one_of_them = false;
         for (int j = 0; j < dataListFilter.size(); j++) {
             String listFilter = dataListFilter.get(j);
@@ -191,12 +212,12 @@ public class FilterFragmentViewModel extends ViewModel {
                 one_of_them = true;
             }
         }
-        if (!one_of_them) {
-            properties.remove(property);
-        }
+
+        return one_of_them;
     }
 
-    private void filterByDates(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByDates(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         Date entryDateFilter = Utils.convertStringToDate(filter.getEntryDate());
         Date soldeDateFilter = Utils.convertStringToDate(filter.getSaleDate());
 
@@ -205,16 +226,22 @@ public class FilterFragmentViewModel extends ViewModel {
             Date entryDate = Utils.convertStringToDate(property.getEntryDate());
             Date soldeDate = Utils.convertStringToDate(property.getSaleDate());
 
-            if (entryDateFilter != null && entryDate != null && entryDate.compareTo(entryDateFilter) < 0)
-                properties.remove(property);
+            if (entryDateFilter != null && entryDate != null
+                    && entryDate.compareTo(entryDateFilter) < 0)
+                newProperties.add(property);
 
-            if (soldeDateFilter != null && soldeDate != null)
-                if (soldeDate.compareTo(soldeDateFilter) < 0)
-                    properties.remove(property);
+            if (soldeDateFilter != null && soldeDate != null
+                    && soldeDate.compareTo(soldeDateFilter) < 0
+                    && !properties.contains(property))
+                newProperties.add(property);
         }
+        if (entryDateFilter == null && soldeDateFilter == null) {
+            return properties;
+        } else return newProperties;
     }
 
-    private void filterByPhotos(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByPhotos(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         int nbOfPhotosMini = filter.getNumberOfPhotosMini();
         int nbOfPhotosMaxi = filter.getNumberOfPhotosMaxi();
         if (nbOfPhotosMini > 0 || nbOfPhotosMaxi < Constants.slider_photos_maximum) {
@@ -226,13 +253,15 @@ public class FilterFragmentViewModel extends ViewModel {
                 } else {
                     nbOfPhotos = property.getPhotos().size();
                 }
-                if (nbOfPhotos < nbOfPhotosMini || nbOfPhotos > nbOfPhotosMaxi)
-                    properties.remove(property);
+                if (nbOfPhotos > nbOfPhotosMini && nbOfPhotos < nbOfPhotosMaxi)
+                    newProperties.add(property);
             }
         }
+        return newProperties;
     }
 
-    private void filterByPieces(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByPieces(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         int piecesMini = filter.getPiecesMini();
         int piecesMaxi = filter.getPiecesMaxi();
         if (piecesMini > Constants.slider_pieces_minimum || piecesMaxi < Constants.slider_pieces_maximum) {
@@ -240,14 +269,16 @@ public class FilterFragmentViewModel extends ViewModel {
                 Property property = properties.get(i);
                 if (!property.getPieces().isEmpty()) {
                     int pieces = Integer.parseInt(property.getPieces());
-                    if (pieces < piecesMini || pieces > piecesMaxi)
-                        properties.remove(property);
+                    if (pieces > piecesMini && pieces < piecesMaxi)
+                        newProperties.add(property);
                 }
             }
         }
+        return newProperties;
     }
 
-    private void filterByArea(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByArea(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         int areaMini = filter.getAreaMini();
         int areaMaxi = filter.getAreaMaxi();
         if (areaMini > Constants.slider_area_minimum || areaMaxi < Constants.slider_area_maximum) {
@@ -255,40 +286,44 @@ public class FilterFragmentViewModel extends ViewModel {
                 Property property = properties.get(i);
                 if (!property.getArea().isEmpty()) {
                     int area = Integer.parseInt(property.getArea());
-                    if (area < areaMini || area > areaMaxi)
-                        properties.remove(property);
+                    if (area > areaMini && area < areaMaxi)
+                        newProperties.add(property);
                 }
             }
         }
+        return newProperties;
     }
 
-    private void filterByPrice(ArrayList<Property> properties) {
+    public ArrayList<Property> filterByPrice(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         int priceMini = filter.getPriceMini();
         int priceMaxi = filter.getPriceMaxi();
-        if (priceBoundMax.getValue() != null && priceBoundMin.getValue() != null) {
-            if (priceMini > priceBoundMin.getValue() || priceMaxi < priceBoundMax.getValue())
-            for (int i = 0; i < properties.size(); i++) {
-                Property property = properties.get(i);
-                if (!property.getPrice().isEmpty()) {
-                    int price = Integer.parseInt(property.getPrice());
-                    if (price < priceMini || price > priceMaxi)
-                        properties.remove(property);
+        for (int i = 0; i < properties.size(); i++) {
+            Property property = properties.get(i);
+            if (!property.getPrice().isEmpty()) {
+                int price = Integer.parseInt(property.getPrice());
+                if (price > priceMini && price < priceMaxi) {
+                    newProperties.add(property);
                 }
             }
         }
+        return newProperties;
     }
 
-    private void filterByStatus(ArrayList<Property> properties) {
+    private ArrayList<Property> filterByStatus(ArrayList<Property> properties) {
+        ArrayList<Property> newProperties = new ArrayList<>();
         Status statusFilter = filter.getStatus();
-        if(statusFilter!=Status.UNSPECIFIED){
-        for (int i = 0; i < properties.size(); i++) {
-            Property property = properties.get(i);
-            Status status = property.getStatus();
-            if (status != statusFilter) {
-                properties.remove(property);
+        if (statusFilter != Status.UNSPECIFIED) {
+            for (int i = 0; i < properties.size(); i++) {
+                Property property = properties.get(i);
+                Status status = property.getStatus();
+                if (status == statusFilter) {
+                    newProperties.add(property);
+                }
             }
-        }
-    }}
+            return newProperties;
+        } else return properties;
+    }
 
     void setType(int position, boolean selected) {
         ArrayList<Type> newtypesFilter = (ArrayList<Type>) typesFilter.getValue();
@@ -374,5 +409,9 @@ public class FilterFragmentViewModel extends ViewModel {
             }
         }
         return status;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
     }
 }
