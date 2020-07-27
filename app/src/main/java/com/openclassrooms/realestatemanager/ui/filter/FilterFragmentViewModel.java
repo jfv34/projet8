@@ -290,8 +290,8 @@ public class FilterFragmentViewModel extends ViewModel {
                         newProperties.add(property);
                 }
             }
-        }
-        return newProperties;
+            return newProperties;
+        }else return properties;
     }
 
     public ArrayList<Property> filterByPrice(ArrayList<Property> properties) {
