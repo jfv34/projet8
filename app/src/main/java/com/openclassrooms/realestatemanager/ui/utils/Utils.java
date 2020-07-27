@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.Utils;
+package com.openclassrooms.realestatemanager.ui.utils;
 
 import android.content.Context;
 import android.content.ContextWrapper;

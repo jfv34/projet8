@@ -25,10 +25,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.simulator.SimulatorFragment;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 

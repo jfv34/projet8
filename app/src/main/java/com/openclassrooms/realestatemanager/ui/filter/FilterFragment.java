@@ -28,9 +28,9 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnChipCli
 import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.util.Calendar;
 import java.util.List;

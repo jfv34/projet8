@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropert
 import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.io.File;
 import java.util.List;
@@ -36,7 +35,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     private OnPropertyClickedListener clickedListener;
     private Currency currency;
     @BindView(R.id.main_item_type_tv) TextView type;
-
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         ViewHolder(@NonNull View itemView) {
@@ -125,7 +123,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                         break;
                     case "city":
                         city_tv.setText(o.getString(key));
-                        Log.i("tag_setText", o.getString(key));
                         break;
                     case "type":
                         type_tv.setText(o.getString(key));
@@ -154,7 +151,6 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     }
 
     public void updateProperties(List<Property> newProperties) {
-
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newProperties, properties));
         this.properties = newProperties;
         diffResult.dispatchUpdatesTo(this);

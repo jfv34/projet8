@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.models.Currency;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 public class SimulatorFragmentViewModel extends ViewModel {
 

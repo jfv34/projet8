@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.openclassrooms.realestatemanager.models.Currency;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
 
 import org.junit.Assert;
 import org.junit.Rule;

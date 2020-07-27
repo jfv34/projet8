@@ -20,8 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Currency;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

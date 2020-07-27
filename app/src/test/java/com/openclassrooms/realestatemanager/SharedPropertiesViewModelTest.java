@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
 
 import org.junit.Assert;
 import org.junit.Rule;

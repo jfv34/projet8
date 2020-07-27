@@ -42,9 +42,9 @@ import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.models.Photo;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.models.Status;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedCurrencyViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;

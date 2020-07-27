@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager;
 
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;

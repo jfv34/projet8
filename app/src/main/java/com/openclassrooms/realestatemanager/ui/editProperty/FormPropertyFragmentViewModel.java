@@ -17,7 +17,7 @@ import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
 
 import java.util.ArrayList;
 
-import static com.openclassrooms.realestatemanager.ui.Utils.Utils.convertDateToString;
+import static com.openclassrooms.realestatemanager.ui.utils.Utils.convertDateToString;
 
 public class FormPropertyFragmentViewModel extends ViewModel {
 

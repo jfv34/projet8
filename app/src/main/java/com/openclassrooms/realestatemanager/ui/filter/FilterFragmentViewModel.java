@@ -15,14 +15,14 @@ import com.openclassrooms.realestatemanager.models.Type;
 import com.openclassrooms.realestatemanager.repositories.Constants;
 import com.openclassrooms.realestatemanager.repositories.DataPropertiesRepository;
 import com.openclassrooms.realestatemanager.repositories.PropertyRepository;
-import com.openclassrooms.realestatemanager.ui.Utils.SharedPropertiesViewModel;
-import com.openclassrooms.realestatemanager.ui.Utils.Utils;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.openclassrooms.realestatemanager.ui.Utils.Utils.convertDateToString;
+import static com.openclassrooms.realestatemanager.ui.utils.Utils.convertDateToString;
 
 public class FilterFragmentViewModel extends ViewModel {
 
