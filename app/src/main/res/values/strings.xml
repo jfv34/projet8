@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
-    <string name="testing_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <string name="app_title">Real Estate Manager</string>
-    <string name="available_since">Available since</string>
+    <string name="app_title" translatable="false">Real Estate Manager</string>
     <string name="solded_since">Solded since</string>
-    <string name="square_meter">Square meter,"</string>
-    <string name="pieces">Pieces"</string>
+    <string name="square_meter">square meter,</string>
+    <string name="pieces">pieces</string>
     <string name="price">Price</string>
     <string name="address">Address</string>
     <string name="city">City</string>
@@ -16,14 +14,14 @@
     <string name="interest_points">Interest points: </string>
     <string name="description">Description</string>
     <string name="type">Type</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="photos">photos</string>
     <string name="completed">Completed</string>
     <string name="photo_description">Photo description</string>
     <string name="validate">Validate</string>
     <string name="edit_property">Edit property</string>
     <string name="agent">Agent</string>
-    <string name="chooseyourprofilepicture">Choose your profile picture</string>
+    <string name="chooseyourprofilepicture">Choose your picture</string>
     <string name="choosefromgallery">Choose from Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="takephoto">Take Photo</string>
@@ -48,10 +46,19 @@
     <string name="result_of_the_simulation">Result of the simulation</string>
     <string name="currency">Currency</string>
     <string name="dollars">Dollars</string>
-    <string name="euros">euros</string>
+    <string name="euros">Euros</string>
     <string name="nodatatodisplay">No data to display</string>
     <string name="nopermissionforlocation">No permission for location</string>
     <string name="realestatesimulator">Real estate simulator</string>
-    <string name="realestatemanager">Real Estate Manager</string>
+    <string name="realestatemanager" translatable="false">Real Estate Manager</string>
     <string name="errorsolddate">Error: sold date but status is not solded</string>
+    <string name="available_since">Available since</string>
+    <string name="see_the_map">See the map</string>
+    <string name="adding_photos">Adding photos</string>
+    <string name="Adding_a_new_property">Adding a new property</string>
+    <string name="contribution">Contribution</string>
+    <string name="rate">Rate</string>
+    <string name="duration">Duration</string>
+    <string name="in_years">In years</string>
+    <string name="in_months">In months</string>
 </resources>

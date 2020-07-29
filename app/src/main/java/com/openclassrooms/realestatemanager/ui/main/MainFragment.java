@@ -27,8 +27,6 @@ import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
 import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -97,7 +95,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
             if (propertyAdapter == null) {
                 Currency currency = sharedCurrencyViewModel.currency.getValue();
-                propertyAdapter = new PropertyAdapter(new ArrayList<>(properties), currency, getContext(), MainFragment.this);
+                propertyAdapter = new PropertyAdapter(properties, currency, getContext(), MainFragment.this);
 
                 recyclerView.setAdapter(propertyAdapter);
             } else {

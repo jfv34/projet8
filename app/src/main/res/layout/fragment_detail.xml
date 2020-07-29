@@ -267,7 +267,7 @@
         android:focusable="true"
         app:backgroundTint="@color/colorPrimary"
         app:tint="#ffffff"
-        android:text="See the map"
+        android:text="@string/see_the_map"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textColor="@color/colorWhite"

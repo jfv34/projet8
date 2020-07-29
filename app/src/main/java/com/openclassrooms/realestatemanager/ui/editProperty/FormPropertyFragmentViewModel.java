@@ -70,8 +70,7 @@ public class FormPropertyFragmentViewModel extends ViewModel {
         );
     }
 
-    public void updateProperty(Property property, int id) {
-        property.setId(id);
+    public void updateProperty(Property property) {
         AsyncTask.execute(() ->
                 repository.updateProperty(property)
         );

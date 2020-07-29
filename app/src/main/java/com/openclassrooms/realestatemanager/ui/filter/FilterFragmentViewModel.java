@@ -231,8 +231,8 @@ public class FilterFragmentViewModel extends ViewModel {
                 newProperties.add(property);
 
             if (soldeDateFilter != null && soldeDate != null
-                    && soldeDate.compareTo(soldeDateFilter) < 0
-                    && !properties.contains(property))
+                    && soldeDate.compareTo(soldeDateFilter) > 0
+                    && !newProperties.contains(property))
                 newProperties.add(property);
         }
         if (entryDateFilter == null && soldeDateFilter == null) {

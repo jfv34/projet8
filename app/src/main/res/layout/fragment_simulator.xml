@@ -32,7 +32,7 @@
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:hint="Price"
+        android:hint="@string/price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_simulator_toolbar"
@@ -53,7 +53,7 @@
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:hint="Contribution"
+        android:hint="@string/contribution"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_simulator_price_textfield"
@@ -74,7 +74,7 @@
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:hint="Rate"
+        android:hint="@string/rate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_simulator_contribution_textfield"
@@ -95,7 +95,7 @@
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_normal"
-        android:hint="Duration"
+        android:hint="@string/duration"
         app:layout_constraintEnd_toStartOf="@id/fragment_simulator_duration_radiogroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_simulator_rate_textfield"
@@ -120,14 +120,14 @@
             android:id="@+id/fragment_simulator_duration_radiobutton_years"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="in years" />
+            android:text="@string/in_years" />
 
         <RadioButton
             android:checked="false"
             android:id="@+id/fragment_simulator_duration_radiobutton_months"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="in months" />
+            android:text="@string/in_months" />
     </RadioGroup>
 
     <TextView

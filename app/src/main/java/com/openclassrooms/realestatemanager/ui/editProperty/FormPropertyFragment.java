@@ -562,9 +562,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void configureToolBar() {
         if (bundlePropertyId == -1) {
-            toolbar.setTitle("Adding a new property");
+            toolbar.setTitle(R.string.Adding_a_new_property);
         } else {
-            toolbar.setTitle("Edit property");
+            toolbar.setTitle(R.string.edit_property);
         }
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -578,14 +578,14 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         if (bundlePropertyId == -1) {
             viewModel.setProperty_in_database(newProperty());
-            sharedPropertiesViewModel.setProperty(newProperty(),-1);
+            sharedPropertiesViewModel.setProperty(newProperty());
             notification_property_added();
         } else {
             if (!property_sold_date.getEditText().equals("") && property_availability_status.getEditText().toString() == "Sold") {
                 Utils.toast(getActivity(), getString(R.string.errorsolddate));
             }
-            viewModel.updateProperty(newProperty(), bundlePropertyId);
-            sharedPropertiesViewModel.setProperty(newProperty(), bundlePropertyId);
+            viewModel.updateProperty(newProperty());
+            sharedPropertiesViewModel.setProperty(newProperty());
         }
         getActivity().onBackPressed();
     }

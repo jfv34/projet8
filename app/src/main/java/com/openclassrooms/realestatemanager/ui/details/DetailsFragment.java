@@ -52,7 +52,7 @@ public class DetailsFragment extends Fragment {
     private SharedCurrencyViewModel sharedCurrencyViewModel;
     private SharedPropertiesViewModel sharedPropertiesViewModel;
 
-    private int bundleProperty;
+    private int bundlePropertyId;
 
     @BindView(R.id.fragment_detail_appbar)
     AppBarLayout appBarLayout;
@@ -123,7 +123,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundleProperty = getArguments().getInt("property", 0);
+        bundlePropertyId = getArguments().getInt("property", 0);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void loadProperty() {
-        detailViewModel.loadProperty(bundleProperty);
+        detailViewModel.loadProperty(bundlePropertyId);
         observePhotos();
         detailViewModel.property.observe(getViewLifecycleOwner(), property -> {
 
@@ -165,7 +165,7 @@ public class DetailsFragment extends Fragment {
         sharedPropertiesViewModel.properties.observe(requireActivity(), properties ->
                 {
                     if (!properties.isEmpty()) {
-                        detailViewModel.loadProperty(bundleProperty);
+                        detailViewModel.loadProperty(bundlePropertyId);
                     }
                     ;
                 }
@@ -312,7 +312,7 @@ public class DetailsFragment extends Fragment {
         @OnClick(R.id.fragment_detail_fab)
         public void editPropertyclicked() {
 
-            Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundleProperty);
+            Fragment formPropertyFragment = FormPropertyFragment.newInstance(bundlePropertyId);
             Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
         }
 
