@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 final boolean tabletSize = getApplicationContext().getResources().getBoolean(R.bool.isTablet);
                 final boolean orientation_landScape = getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-
                 super.onBackPressed();
                 break;
             default:
