@@ -204,18 +204,6 @@ public class FilterFragmentViewModel extends ViewModel {
         } else return properties;
     }
 
-    private boolean filter_for_list(String data, ArrayList<String> dataListFilter) {
-        boolean one_of_them = false;
-        for (int j = 0; j < dataListFilter.size(); j++) {
-            String listFilter = dataListFilter.get(j);
-            if (data.toUpperCase().equals(listFilter.toUpperCase())) {
-                one_of_them = true;
-            }
-        }
-
-        return one_of_them;
-    }
-
     private ArrayList<Property> filterByDates(ArrayList<Property> properties) {
         ArrayList<Property> newProperties = new ArrayList<>();
         Date entryDateFilter = Utils.convertStringToDate(filter.getEntryDate());
@@ -323,6 +311,18 @@ public class FilterFragmentViewModel extends ViewModel {
             }
             return newProperties;
         } else return properties;
+    }
+
+    private boolean filter_for_list(String data, ArrayList<String> dataListFilter) {
+        boolean one_of_them = false;
+        for (int j = 0; j < dataListFilter.size(); j++) {
+            String listFilter = dataListFilter.get(j);
+            if (data.toUpperCase().equals(listFilter.toUpperCase())) {
+                one_of_them = true;
+            }
+        }
+
+        return one_of_them;
     }
 
     void setType(int position, boolean selected) {

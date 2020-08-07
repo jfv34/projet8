@@ -73,7 +73,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         if (sharedPropertiesViewModel.isFiltered = false) {
             sharedPropertiesViewModel.loadProperties();
         }
-        observeFilterProperties();
+        observeProperties();
 
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         String prefs_currency = sharedPreferences.getString(PREFS_CURRENCY, "dollars");
@@ -84,7 +84,7 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         }
     }
 
-    private void observeFilterProperties() {
+    private void observeProperties() {
         if (sharedPropertiesViewModel.properties.getValue() == null) {
             sharedPropertiesViewModel.loadProperties();
         }

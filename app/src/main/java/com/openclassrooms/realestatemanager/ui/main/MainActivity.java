@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.main;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         switch (getSupportFragmentManager().getBackStackEntryCount()) {
             case 0:
-                final boolean tabletSize = getApplicationContext().getResources().getBoolean(R.bool.isTablet);
-                final boolean orientation_landScape = getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-                super.onBackPressed();
+            super.onBackPressed();
                 break;
             default:
                 getSupportFragmentManager().popBackStack();

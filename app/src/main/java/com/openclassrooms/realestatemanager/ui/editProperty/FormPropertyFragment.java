@@ -440,6 +440,23 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         notificationManager.notify(1, notificationBuilder.build());
     }
 
+    @OnClick(R.id.fragment_form_property_validate_fab)
+    public void insert_property() {
+
+        if (bundlePropertyId == -1) {
+            viewModel.setProperty_in_database(newProperty());
+            sharedPropertiesViewModel.setProperty(newProperty());
+            notification_property_added();
+        } else {
+            if (!property_sold_date.getEditText().equals("") && property_availability_status.getEditText().toString() == "Sold") {
+                Utils.toast(getActivity(), getString(R.string.errorsolddate));
+            }
+            viewModel.updateProperty(newProperty());
+            sharedPropertiesViewModel.setProperty(newProperty());
+        }
+        getActivity().onBackPressed();
+    }
+
     private Property newProperty() {
         String type = property_type.getEditText().getText().toString();
         String price_before_conversion = property_price_textInputLayout.getEditText().getText().toString();
@@ -571,22 +588,5 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         actionBar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(v -> Utils.replaceFragmentInDetailScreen(getActivity(), this));
         toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
-    }
-
-    @OnClick(R.id.fragment_form_property_validate_fab)
-    public void insert_property() {
-
-        if (bundlePropertyId == -1) {
-            viewModel.setProperty_in_database(newProperty());
-            sharedPropertiesViewModel.setProperty(newProperty());
-            notification_property_added();
-        } else {
-            if (!property_sold_date.getEditText().equals("") && property_availability_status.getEditText().toString() == "Sold") {
-                Utils.toast(getActivity(), getString(R.string.errorsolddate));
-            }
-            viewModel.updateProperty(newProperty());
-            sharedPropertiesViewModel.setProperty(newProperty());
-        }
-        getActivity().onBackPressed();
     }
 }
