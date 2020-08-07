@@ -102,7 +102,7 @@ public class FilterFragmentViewModel extends ViewModel {
     public ArrayList<Property> filter(Filter filter, ArrayList<Property> properties) {
 
         this.filter = filter;
-        filterByTypes(properties);//
+        properties = filterByTypes(properties);
         properties = filterByPrice(properties);
         properties = filterByCities(properties);
         properties = filterByStates(properties);
@@ -110,8 +110,6 @@ public class FilterFragmentViewModel extends ViewModel {
         properties = filterByPieces(properties);
         properties = filterByInterestPoints(properties);
         properties = filterByAgent(properties);
-        properties = filterByDates(properties);
-        properties = filterByPhotos(properties);
         properties = filterByStatus(properties);
 
         return properties;

@@ -173,22 +173,23 @@ public class Property {
     }
 
     public static Property fromContentValues(ContentValues values) {
-        final Property property = new Property(0,null, null, null, null, null,
+        final Property property = new Property(0, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null);
 
         if (values.containsKey("id")) property.setId(values.getAsInteger("id"));
-        if (values.containsKey("type")) property.setAddress(values.getAsString("type"));
-        if (values.containsKey("price")) property.setAddress(values.getAsString("price"));
+        if (values.containsKey("type")) property.setType(values.getAsString("type"));
+        if (values.containsKey("price")) property.setPrice(values.getAsString("price"));
         if (values.containsKey("address")) property.setAddress(values.getAsString("address"));
-        if (values.containsKey("city")) property.setAddress(values.getAsString("city"));
-        if (values.containsKey("state")) property.setAddress(values.getAsString("state"));
-        if (values.containsKey("zip")) property.setAddress(values.getAsString("zip"));
-        if (values.containsKey("aera")) property.setAddress(values.getAsString("aera"));
-        if (values.containsKey("pieces")) property.setAddress(values.getAsString("pieces"));
-        if (values.containsKey("interestPoint")) property.setAddress(values.getAsString("interestPoint"));
-        if (values.containsKey("description")) property.setAddress(values.getAsString("description"));
-        if (values.containsKey("photos")) property.setAddress(values.getAsString("photos"));
+        if (values.containsKey("city")) property.setCity(values.getAsString("city"));
+        if (values.containsKey("state")) property.setCity(values.getAsString("state"));
+        if (values.containsKey("zip")) property.setCity(values.getAsString("zip"));
+        if (values.containsKey("aera")) property.setArea(values.getAsString("aera"));
+        if (values.containsKey("pieces")) property.setCity(values.getAsString("pieces"));
+        if (values.containsKey("interestPoint"))
+            property.setCity(values.getAsString("interestPoint"));
+        if (values.containsKey("description")) property.setCity(values.getAsString("description"));
+        if (values.containsKey("photos")) property.setCity(values.getAsString("photos"));
         if (values.containsKey("status")) property.setAddress(values.getAsString("status"));
         if (values.containsKey("entryDate")) property.setAddress(values.getAsString("entryDate"));
         if (values.containsKey("saleDate")) property.setAddress(values.getAsString("saleDate"));
@@ -203,8 +204,8 @@ public class Property {
             diff.putString("city", other.getCity());
         if (!getType().equals(other.getType()))
             diff.putString("type", other.getType());
-        if (getPhotos().size() == other.getPhotos().size() && !other.getPhotos().isEmpty() && !getPhotos().get(0).getFullPath().equals(other.getPhotos().get(0).getFullPath())) {
-            diff.putString("photoPath",other.getPhotos().get(0).getFullPath());
+        if (getPhotos() != null && getPhotos().size() == other.getPhotos().size() && !other.getPhotos().isEmpty() && !getPhotos().get(0).getFullPath().equals(other.getPhotos().get(0).getFullPath())) {
+            diff.putString("photoPath", other.getPhotos().get(0).getFullPath());
         }
         return diff;
     }
