@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame_layout_main"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:id="@+id/activity_main_toolbar"
+        app:titleTextColor="#ffffffff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@color/colorPrimary"
+            android:tint="@color/colorWhite"
+            android:src="@drawable/ic_settings_24px"
+            android:id="@+id/fragment_main_preferences_button"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end" />
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@color/colorPrimary"
+            android:tint="@color/colorWhite"
+            android:src="@drawable/ic_search_24px"
+            android:id="@+id/activity_main_filter_button"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end" />
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@color/colorPrimary"
+            android:tint="@color/colorWhite"
+            android:src="@drawable/ic_place_24px"
+            android:id="@+id/fragment_main_map_button"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end" />
+
+    </androidx.appcompat.widget.Toolbar>
 </FrameLayout>
 

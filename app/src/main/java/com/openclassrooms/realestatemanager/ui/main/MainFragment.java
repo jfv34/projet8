@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,8 +18,6 @@ import com.openclassrooms.realestatemanager.clickedListener_interfaces.OnPropert
 import com.openclassrooms.realestatemanager.models.Currency;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.filter.FilterFragment;
-import com.openclassrooms.realestatemanager.ui.map.MapFragment;
 import com.openclassrooms.realestatemanager.ui.utils.SharedCurrencyViewModel;
 import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.utils.Utils;
@@ -36,7 +31,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class MainFragment extends Fragment implements OnPropertyClickedListener {
 
     @BindView(R.id.fragment_main_recyclerView) RecyclerView recyclerView;
-    @BindView(R.id.fragment_main_toolbar) Toolbar toolbar;
 
     private SharedPropertiesViewModel sharedPropertiesViewModel;
     private SharedCurrencyViewModel sharedCurrencyViewModel;
@@ -59,7 +53,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, root);
-        configureToolBar();
         configureRecyclerView();
 
         return root;
@@ -110,11 +103,6 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
         recyclerView.setLayoutManager(layoutManager);
     }
 
-    private void configureToolBar() {
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
-    }
-
     @Override
     public void onPropertyClicked(int property) {
         Fragment detailsFragment = DetailsFragment.newInstance(property);
@@ -125,52 +113,5 @@ public class MainFragment extends Fragment implements OnPropertyClickedListener 
     public void onInsertPropertyClicked() {
         Fragment formPropertyFragment = FormPropertyFragment.newInstance(-1);
         Utils.addFragmentInDetailScreen(getActivity(), formPropertyFragment);
-    }
-
-    @OnClick(R.id.fragment_main_filter_button)
-    public void onFilterClicked() {
-        Fragment filterFragment = FilterFragment.newInstance();
-        Utils.addFragmentInDetailScreen(getActivity(), filterFragment);
-    }
-
-    @OnClick(R.id.fragment_main_map_button)
-    public void onMapClicked() {
-        Fragment mapFragment = MapFragment.newInstance();
-        Utils.replaceFragmentInMainScreen(getActivity(), mapFragment);
-    }
-
-    @OnClick(R.id.fragment_main_preferences_button)
-    public void onPreferencesClicked() {
-        AlertDialog.Builder alertDialog_builder = new AlertDialog.Builder(getActivity());
-        alertDialog_builder.setTitle(R.string.currency);
-
-        final CharSequence[] currencyList = {"Dollars", "Euros"};
-        final Currency[] currencySelected = {Currency.DOLLARS};
-
-        alertDialog_builder.setSingleChoiceItems(currencyList, 0, (dialog, which) -> {
-            if (which == 0) {
-                currencySelected[0] = Currency.DOLLARS;
-            } else {
-                currencySelected[0] = Currency.EUROS;
-            }
-        })
-                .setPositiveButton("ok", (dialog, id) -> {
-                    String prefs_currency = "";
-                    if (currencySelected[0] == Currency.DOLLARS) {
-                        sharedCurrencyViewModel.setCurrency(Currency.DOLLARS);
-                        prefs_currency = "dollars";
-                    } else {
-                        sharedCurrencyViewModel.setCurrency(Currency.EUROS);
-                        prefs_currency = "euros";
-                    }
-                    sharedPreferences.edit()
-                            .putString(PREFS_CURRENCY, prefs_currency)
-                            .apply();
-                    Fragment mainFragment = MainFragment.newInstance();
-                    Utils.replaceFragmentInMainScreen(getActivity(), mainFragment);
-                })
-                .setNegativeButton(R.string.cancel, (dialog, id) -> {
-                });
-        alertDialog_builder.show();
     }
 }

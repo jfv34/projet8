@@ -23,10 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -66,8 +63,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     private View root;
     private Bitmap photoBM = null;
 
-    @BindView(R.id.fragment_insert_property_toolbar)
-    Toolbar toolbar;
     @BindView(R.id.fragment_insert_property_photos_recyclerView)
     RecyclerView photosRecyclerView;
     @BindView(R.id.fragment_insert_property_TextField_type)
@@ -123,7 +118,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         root = inflater.inflate(R.layout.fragment_form_property, container, false);
         ButterKnife.bind(this, root);
-        configureToolBar();
+        //configureToolBar();
         return root;
     }
 
@@ -575,18 +570,5 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @OnClick(R.id.fragment_form_property_type_dropdown)
     public void types() {
         configure_autoComplete_types();
-    }
-
-    private void configureToolBar() {
-        if (bundlePropertyId == -1) {
-            toolbar.setTitle(R.string.Adding_a_new_property);
-        } else {
-            toolbar.setTitle(R.string.edit_property);
-        }
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> Utils.replaceFragmentInDetailScreen(getActivity(), this));
-        toolbar.setNavigationOnClickListener(v -> getActivity().onBackPressed());
     }
 }

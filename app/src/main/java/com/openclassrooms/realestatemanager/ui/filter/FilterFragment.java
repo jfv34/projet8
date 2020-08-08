@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -89,7 +87,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     TextView priceMin_tv;
     @BindView(R.id.fragment_filter_price_amountMax_txt)
     TextView priceMax_tv;
-    @BindView(R.id.fragment_filter_toolbar)
+
     Toolbar toolbar;
 
     public static FilterFragment newInstance() {
@@ -116,7 +114,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
-        toolBar();
+        //toolBar();
         types();
         status();
         soldeDate();
@@ -397,15 +395,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.remove(this);
         Utils.addFragmentInDetailScreen(getActivity(),filterFragment);
-    }
-
-    private void toolBar() {
-        toolbar.setTitle("Filter properties");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v ->
-                getActivity().onBackPressed());
     }
 
     @Override

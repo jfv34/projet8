@@ -12,18 +12,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:paddingTop="@dimen/margin_large"
-        android:id="@+id/fragment_simulator_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back_24px"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="#ffffffff" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_simulator_price_textfield"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -35,7 +23,7 @@
         android:hint="@string/price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_simulator_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         >
 
         <com.google.android.material.textfield.TextInputEditText

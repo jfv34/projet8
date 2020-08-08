@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -41,18 +40,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.ui.utils.Utils;
 import com.openclassrooms.realestatemanager.models.Marker;
 import com.openclassrooms.realestatemanager.models.Property;
 import com.openclassrooms.realestatemanager.ui.details.DetailsFragment;
 import com.openclassrooms.realestatemanager.ui.editProperty.FormPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.main.MainFragment;
+import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
+import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -62,9 +60,6 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         OnMapReadyCallback {
-
-    @BindView(R.id.fragment_map_toolbar)
-    androidx.appcompat.widget.Toolbar toolbar;
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -97,7 +92,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
             if (sharedPropertiesViewModel.isFiltered = false) {
                 sharedPropertiesViewModel.loadProperties();
             }
-            toolBar();
+            //toolBar();
         } else internetNotAvailable();
     }
 
@@ -353,23 +348,12 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
     public void onProviderDisabled(String provider) {
     }
 
-    private void toolBar() {
-        toolbar.setTitle(R.string.realestatemanager);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-    }
-
     @Override
     public void onConnectionSuspended(int i) {
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    }
-
-    @OnClick(R.id.fragment_map_main_button)
-    public void onMainClicked() {
-        Fragment mainFragment = MainFragment.newInstance();
-        Utils.replaceFragmentInMainScreen(getActivity(), mainFragment);
     }
 
     @OnClick(R.id.fragment_map_insert_property_fab)
