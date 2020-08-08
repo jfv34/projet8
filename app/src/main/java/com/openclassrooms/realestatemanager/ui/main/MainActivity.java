@@ -29,12 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        switch (getSupportFragmentManager().getBackStackEntryCount()) {
-            case 0:
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             super.onBackPressed();
-                break;
-            default:
-                getSupportFragmentManager().popBackStack();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 }

@@ -125,10 +125,10 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         areaSlider();
         piecesSlider();
         numberOfPhotosSlider();
-        load_savedFilters();
+        loadSavedFilters();
     }
 
-    private void load_savedFilters() {
+    private void loadSavedFilters() {
         load_types_chips();
         cities_Et.setText(sharedPreferences.getString("cities", ""));
         states_Et.setText(sharedPreferences.getString("states", ""));
