@@ -246,7 +246,7 @@ public class MapFragment extends Fragment implements GoogleMap.OnMyLocationButto
         googleMap.setOnMarkerClickListener(marker -> {
             for (int i = 0; i < markerList.size(); i++) {
                 LatLng click_latlng = marker.getPosition();
-                LatLng saved_latlng = markerList.get(i).getLatLng_marker();
+                LatLng saved_latlng = markerList.get(i).getLatLngMarker();
                 if (click_latlng.equals(saved_latlng)) {
                     int propertyId = markerList.get(i).getPropertyId();
                     Fragment detailsFragment = DetailsFragment.newInstance(propertyId);

@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.main;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ImageButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -40,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         configureToolBar();
         configureAndShowMainFragment();
-
-        ImageButton filterButton = findViewById(R.id.activity_main_filter_button);
     }
 
     private void configureAndShowMainFragment() {
@@ -77,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.fragment_main_preferences_button)
     public void onPreferencesClicked() {
-        AlertDialog.Builder alertDialog_builder = new AlertDialog.Builder(this);
-        alertDialog_builder.setTitle(R.string.currency);
+        AlertDialog.Builder alertdialogBuilder = new AlertDialog.Builder(this);
+        alertdialogBuilder.setTitle(R.string.currency);
 
         final CharSequence[] currencyList = {"Dollars", "Euros"};
         final Currency[] currencySelected = {Currency.DOLLARS};
 
-        alertDialog_builder.setSingleChoiceItems(currencyList, 0, (dialog, which) -> {
+        alertdialogBuilder.setSingleChoiceItems(currencyList, 0, (dialog, which) -> {
             if (which == 0) {
                 currencySelected[0] = Currency.DOLLARS;
             } else {
@@ -91,23 +88,23 @@ public class MainActivity extends AppCompatActivity {
             }
         })
                 .setPositiveButton("ok", (dialog, id) -> {
-                    String prefs_currency = "";
+                    String prefsCurrency = "";
                     if (currencySelected[0] == Currency.DOLLARS) {
                         sharedCurrencyViewModel.setCurrency(Currency.DOLLARS);
-                        prefs_currency = "dollars";
+                        prefsCurrency = "dollars";
                     } else {
                         sharedCurrencyViewModel.setCurrency(Currency.EUROS);
-                        prefs_currency = "euros";
+                        prefsCurrency = "euros";
                     }
                     sharedPreferences.edit()
-                            .putString(PREFS_CURRENCY, prefs_currency)
+                            .putString(PREFS_CURRENCY, prefsCurrency)
                             .apply();
                     Fragment mainFragment = MainFragment.newInstance();
                     Utils.replaceFragmentInMainScreen(this, mainFragment);
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {
                 });
-        alertDialog_builder.show();
+        alertdialogBuilder.show();
     }
 
     private void configureToolBar() {

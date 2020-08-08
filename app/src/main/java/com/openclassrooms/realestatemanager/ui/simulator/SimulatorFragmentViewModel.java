@@ -10,7 +10,7 @@ import com.openclassrooms.realestatemanager.ui.utils.Utils;
 public class SimulatorFragmentViewModel extends ViewModel {
 
     public MutableLiveData<String> price = new MutableLiveData<>();
-    public MutableLiveData<String> rate_in_percentage = new MutableLiveData<>();
+    public MutableLiveData<String> rateInPercentage = new MutableLiveData<>();
     public MutableLiveData<String> duration = new MutableLiveData<>();
     public MutableLiveData<String> contribution = new MutableLiveData<>();
     public MutableLiveData<Boolean> isDurationYears = new MutableLiveData<>();
@@ -30,7 +30,7 @@ public class SimulatorFragmentViewModel extends ViewModel {
                 contribution.postValue(text);
                 break;
             case "RATE":
-                rate_in_percentage.postValue(text);
+                rateInPercentage.postValue(text);
                 break;
             case "DURATION":
                 duration.postValue(text);
@@ -43,37 +43,37 @@ public class SimulatorFragmentViewModel extends ViewModel {
     }
 
     public void calculation() {
-        int price_ = 0;
-        int contribution_ = 0;
-        double rate_ = 0;
-        int duration_ = 0;
-        boolean isDurationYears_ = true;
+        int newPrice = 0;
+        int newContribution = 0;
+        double newRate = 0;
+        int newDuration = 0;
+        boolean newIsDurationYears = true;
 
         if (price.getValue() != null && !price.getValue().isEmpty()) {
-            price_ = Integer.parseInt(price.getValue());
-            if(currency==Currency.EUROS){price_= Utils.convertDollarToEuro(price_);}
+            newPrice = Integer.parseInt(price.getValue());
+            if(currency==Currency.EUROS){newPrice= Utils.convertDollarToEuro(newPrice);}
         }
         if (contribution.getValue() != null && !contribution.getValue().isEmpty()) {
-            contribution_ = Integer.parseInt(contribution.getValue());
+            newContribution = Integer.parseInt(contribution.getValue());
         }
-        if (rate_in_percentage.getValue() != null && !rate_in_percentage.getValue().isEmpty()) {
-            rate_ = (Double.parseDouble(rate_in_percentage.getValue())) / 100;
+        if (rateInPercentage.getValue() != null && !rateInPercentage.getValue().isEmpty()) {
+            newRate = (Double.parseDouble(rateInPercentage.getValue())) / 100;
         }
         if (duration.getValue() != null && !duration.getValue().isEmpty()) {
-            duration_ = Integer.parseInt(duration.getValue());
+            newDuration = Integer.parseInt(duration.getValue());
         }
         if (isDurationYears.getValue() != null) {
-            isDurationYears_ = isDurationYears.getValue();
+            newIsDurationYears = isDurationYears.getValue();
         }
 
-        if (isDurationYears_) {
-            duration_ = duration_ * 12;
+        if (newIsDurationYears) {
+            newDuration = newDuration * 12;
         }
 
-        if (price_ > 0 && contribution_ >= 0 && rate_ >= 0 && duration_ > 0) {
+        if (newPrice > 0 && newContribution >= 0 && newRate >= 0 && newDuration > 0) {
 
-            int r = (int) (((price_ - contribution_) * (rate_ / 12)) /
-                    (1 - (Math.pow(1 + (rate_ / 12), -duration_))));
+            int r = (int) (((newPrice - newContribution) * (newRate / 12)) /
+                    (1 - (Math.pow(1 + (newRate / 12), -newDuration))));
 
             if (r <= 0) {
                 result.postValue("");

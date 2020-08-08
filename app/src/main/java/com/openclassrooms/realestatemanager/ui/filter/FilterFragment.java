@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -48,47 +47,45 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private static Calendar calendar = Calendar.getInstance();
 
     @BindView(R.id.fragment_filter_cities_textInputEditText)
-    EditText cities_Et;
+    EditText citiesEt;
     @BindView(R.id.fragment_filter_state_textInputEditText)
-    EditText states_Et;
+    EditText statesEt;
     @BindView(R.id.fragment_filter_area_slidebar)
-    CrystalRangeSeekbar area_slidebar;
+    CrystalRangeSeekbar areaSlidebar;
     @BindView(R.id.fragment_filter_area_aeraMin_txt)
-    TextView areaMin_txt;
+    TextView areaMinTxt;
     @BindView(R.id.fragment_filter_area_aeraMax_txt)
-    TextView areaMax_txt;
+    TextView areaMaxTxt;
     @BindView(R.id.fragment_filter_pieces_numberMin_txt)
-    TextView piecesMin_txt;
+    TextView piecesMinTxt;
     @BindView(R.id.fragment_filter_pieces_numberMax_txt)
-    TextView piecesMax_txt;
+    TextView piecesMaxTxt;
     @BindView(R.id.fragment_filter_interestPoints_textInputEditText)
-    EditText interestPoints_Et;
+    EditText interestPointsEt;
     @BindView(R.id.fragment_filter_agent_textInputEditText)
-    EditText agent_Et;
+    EditText agentEt;
     @BindView(R.id.fragment_filter_availability_status_dropdown)
-    AutoCompleteTextView status_tv;
+    AutoCompleteTextView statusTv;
     @BindView(R.id.fragment_filter_availability_date_textInputEditText)
-    EditText availableDate_Et;
+    EditText availableDateEt;
     @BindView(R.id.fragment_filter_sold_date_textInputEditText)
-    EditText soldDate_Et;
+    EditText soldDateEt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMin_txt)
-    TextView numberOfPhotoMin_txt;
+    TextView numberOfPhotoMinTxt;
     @BindView(R.id.fragment_filter_numberOfphotos_numberMax_txt)
-    TextView numberOfPhotoMax_txt;
+    TextView numberOfPhotoMaxTxt;
     @BindView(R.id.fragment_filter_types_chips_recyclerView)
-    RecyclerView types_chips_rv;
+    RecyclerView typesChipsRv;
     @BindView(R.id.fragment_filter_price_slidebar)
-    CrystalRangeSeekbar price_slidebar;
+    CrystalRangeSeekbar priceSlidebar;
     @BindView(R.id.fragment_filter_pieces_slidebar)
-    CrystalRangeSeekbar pieces_slidebar;
+    CrystalRangeSeekbar piecesSlidebar;
     @BindView(R.id.fragment_filter_numberOfPhotos_slider)
-    CrystalRangeSeekbar numberOfPhotos_slidebar;
+    CrystalRangeSeekbar numberOfPhotosSlidebar;
     @BindView(R.id.fragment_filter_price_amoutMin_txt)
-    TextView priceMin_tv;
+    TextView priceMinTv;
     @BindView(R.id.fragment_filter_price_amountMax_txt)
-    TextView priceMax_tv;
-
-    Toolbar toolbar;
+    TextView priceMaxTv;
 
     public static FilterFragment newInstance() {
         return new FilterFragment();
@@ -114,7 +111,6 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
         filterFragmentViewModel = new ViewModelProvider(this).get(FilterFragmentViewModel.class);
 
-        //toolBar();
         types();
         status();
         soldeDate();
@@ -127,58 +123,58 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     private void loadSavedFilters() {
-        load_types_chips();
-        cities_Et.setText(sharedPreferences.getString("cities", ""));
-        states_Et.setText(sharedPreferences.getString("states", ""));
-        interestPoints_Et.setText(sharedPreferences.getString("interestPoints", ""));
-        agent_Et.setText(sharedPreferences.getString("agent", ""));
-        status_tv.setText(sharedPreferences.getString("status", ""));
-        availableDate_Et.setText(sharedPreferences.getString("available_date",""));
-        soldDate_Et.setText(sharedPreferences.getString("sold_date",""));
-        load_prices_slider();
-        load_area_slider();
-        load_pieces_slider();
-        load_numberOfPhotos_slider();
+        loadTypesChips();
+        citiesEt.setText(sharedPreferences.getString("cities", ""));
+        statesEt.setText(sharedPreferences.getString("states", ""));
+        interestPointsEt.setText(sharedPreferences.getString("interestPoints", ""));
+        agentEt.setText(sharedPreferences.getString("agent", ""));
+        statusTv.setText(sharedPreferences.getString("status", ""));
+        availableDateEt.setText(sharedPreferences.getString("available_date",""));
+        soldDateEt.setText(sharedPreferences.getString("sold_date",""));
+        loadPricesSlider();
+        loadAreaSlider();
+        loadPiecesSlider();
+        loadNumberOfPhotosSlider();
     }
 
-    private void load_numberOfPhotos_slider() {
+    private void loadNumberOfPhotosSlider() {
         filterFragmentViewModel.numberOfPhotosMin.setValue(sharedPreferences.getInt("numberOfPhotos_mini", 0));
-        filterFragmentViewModel.numberOfPhotosMax.setValue(sharedPreferences.getInt("numberOfPhotos_maxi", Constants.slider_photos_maximum));
-        numberOfPhotos_slidebar.setMinStartValue(sharedPreferences.getInt("numberOfPhotos_mini", 0));
-        numberOfPhotos_slidebar.setMaxStartValue(sharedPreferences.getInt("numberOfPhotos_maxi", Constants.slider_photos_maximum));
+        filterFragmentViewModel.numberOfPhotosMax.setValue(sharedPreferences.getInt("numberOfPhotos_maxi", Constants.sliderPhotosMaximum));
+        numberOfPhotosSlidebar.setMinStartValue(sharedPreferences.getInt("numberOfPhotos_mini", 0));
+        numberOfPhotosSlidebar.setMaxStartValue(sharedPreferences.getInt("numberOfPhotos_maxi", Constants.sliderPhotosMaximum));
 
     }
 
-    private void load_pieces_slider() {
-        filterFragmentViewModel.piecesMin.setValue(sharedPreferences.getInt("pieces_mini", Constants.slider_pieces_minimum));
-        filterFragmentViewModel.piecesMax.setValue(sharedPreferences.getInt("pieces_maxi", Constants.slider_pieces_maximum));
-        pieces_slidebar.setMinStartValue(sharedPreferences.getInt("pieces_mini", Constants.slider_pieces_minimum));
-        pieces_slidebar.setMaxStartValue(sharedPreferences.getInt("pieces_maxi", Constants.slider_pieces_maximum));
+    private void loadPiecesSlider() {
+        filterFragmentViewModel.piecesMin.setValue(sharedPreferences.getInt("pieces_mini", Constants.sliderPiecesMinimum));
+        filterFragmentViewModel.piecesMax.setValue(sharedPreferences.getInt("pieces_maxi", Constants.sliderPiecesMaximum));
+        piecesSlidebar.setMinStartValue(sharedPreferences.getInt("pieces_mini", Constants.sliderPiecesMinimum));
+        piecesSlidebar.setMaxStartValue(sharedPreferences.getInt("pieces_maxi", Constants.sliderPiecesMaximum));
 
     }
 
-    private void load_area_slider() {
-        filterFragmentViewModel.areaMin.setValue(sharedPreferences.getInt("area_mini", Constants.slider_area_minimum));
-        filterFragmentViewModel.areaMax.setValue(sharedPreferences.getInt("area_maxi", Constants.slider_area_maximum));
-        area_slidebar.setMinStartValue(sharedPreferences.getInt("area_mini", Constants.slider_area_minimum));
-        area_slidebar.setMaxStartValue(sharedPreferences.getInt("area_maxi", Constants.slider_area_maximum));
+    private void loadAreaSlider() {
+        filterFragmentViewModel.areaMin.setValue(sharedPreferences.getInt("area_mini", Constants.sliderAreaMinimum));
+        filterFragmentViewModel.areaMax.setValue(sharedPreferences.getInt("area_maxi", Constants.sliderAreaMaximum));
+        areaSlidebar.setMinStartValue(sharedPreferences.getInt("area_mini", Constants.sliderAreaMinimum));
+        areaSlidebar.setMaxStartValue(sharedPreferences.getInt("area_maxi", Constants.sliderAreaMaximum));
 
         }
 
-    private void load_prices_slider() {
-        filterFragmentViewModel.priceMin.setValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
-        filterFragmentViewModel.priceMax.setValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
-        price_slidebar.setMinStartValue(sharedPreferences.getInt("price_mini", Constants.slider_price_minimum));
-        price_slidebar.setMaxStartValue(sharedPreferences.getInt("price_maxi", Constants.slider_price_maximum));
-        filterFragmentViewModel.priceBoundMin.postValue(Constants.slider_price_minimum);
-        filterFragmentViewModel.priceBoundMax.postValue(Constants.slider_price_maximum);
+    private void loadPricesSlider() {
+        filterFragmentViewModel.priceMin.setValue(sharedPreferences.getInt("price_mini", Constants.sliderPriceMinimum));
+        filterFragmentViewModel.priceMax.setValue(sharedPreferences.getInt("price_maxi", Constants.sliderPriceMaximum));
+        priceSlidebar.setMinStartValue(sharedPreferences.getInt("price_mini", Constants.sliderPriceMinimum));
+        priceSlidebar.setMaxStartValue(sharedPreferences.getInt("price_maxi", Constants.sliderPriceMaximum));
+        filterFragmentViewModel.priceBoundMin.postValue(Constants.sliderPriceMinimum);
+        filterFragmentViewModel.priceBoundMax.postValue(Constants.sliderPriceMaximum);
     }
 
 
-    private void load_types_chips() {
+    private void loadTypesChips() {
         String isSelected_prefs = sharedPreferences.getString("types", "");
         if (!isSelected_prefs.isEmpty()) {
-            List<Type> typesFilter = filterFragmentViewModel.getTypesFilter_prefs(isSelected_prefs);
+            List<Type> typesFilter = filterFragmentViewModel.getTypesFilterPrefs(isSelected_prefs);
             filterFragmentViewModel.typesFilter.postValue(typesFilter);
         }
     }
@@ -186,7 +182,7 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private void soldeDate() {
         TextInputEditText soldeDate = root.findViewById(R.id.fragment_filter_sold_date_textInputEditText);
 
-        soldeDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+        soldeDate.setOnClickListener(v -> datePickerClick((view, year, month, dayOfMonth) ->
                 filterFragmentViewModel.setSoldDate(year, month, dayOfMonth)
         ));
         filterFragmentViewModel.soldDate.observe(getViewLifecycleOwner(), soldeDate::setText);
@@ -195,13 +191,13 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private void availabilityDate() {
         TextInputEditText availabilityDate = root.findViewById(R.id.fragment_filter_availability_date_textInputEditText);
 
-        availabilityDate.setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+        availabilityDate.setOnClickListener(v -> datePickerClick((view, year, month, dayOfMonth) ->
                 filterFragmentViewModel.setAvailableDate(year, month, dayOfMonth)
         ));
         filterFragmentViewModel.entryDate.observe(getViewLifecycleOwner(), availabilityDate::setText);
     }
 
-    private void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
+    private void datePickerClick(DatePickerDialog.OnDateSetListener listener) {
 
         DatePickerDialog dialog = new DatePickerDialog(
                 getActivity(),
@@ -217,23 +213,23 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         filterFragmentViewModel.areaMin.observe(getViewLifecycleOwner(), integer ->
                 {
-                    areaMin_txt.setText(integer + " m²");
-                    if (area_slidebar.getSelectedMinValue().intValue() != integer) {
-                        area_slidebar.setMinStartValue(integer).apply();
+                    areaMinTxt.setText(integer + " m²");
+                    if (areaSlidebar.getSelectedMinValue().intValue() != integer) {
+                        areaSlidebar.setMinStartValue(integer).apply();
                     }
                 }
         );
 
         filterFragmentViewModel.areaMax.observe(getViewLifecycleOwner(), integer ->
                 {
-                    areaMax_txt.setText(integer + " m²");
-                    if (area_slidebar.getSelectedMaxValue().intValue() != integer) {
-                        area_slidebar.setMaxStartValue(integer).apply();
+                    areaMaxTxt.setText(integer + " m²");
+                    if (areaSlidebar.getSelectedMaxValue().intValue() != integer) {
+                        areaSlidebar.setMaxStartValue(integer).apply();
                     }
                 }
         );
 
-        area_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+        areaSlidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
             filterFragmentViewModel.areaMin.setValue(minValue.intValue());
             filterFragmentViewModel.areaMax.setValue(maxValue.intValue());
 
@@ -245,30 +241,28 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
         filterFragmentViewModel.priceMin.observe(getViewLifecycleOwner(), integer ->
         {
             if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
-                priceMin_tv.setText(integer + " €");
+                priceMinTv.setText(integer + " €");
             } else {
-                priceMin_tv.setText("$ " + integer);
-                ;
+                priceMinTv.setText("$ " + integer);
             }
-            if (price_slidebar.getSelectedMinValue().intValue() != integer) {
-                price_slidebar.setMinStartValue(integer).apply();
+            if (priceSlidebar.getSelectedMinValue().intValue() != integer) {
+                priceSlidebar.setMinStartValue(integer).apply();
             }
         });
 
         filterFragmentViewModel.priceMax.observe(getViewLifecycleOwner(), integer ->
         {
             if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
-                priceMax_tv.setText(integer + " €");
+                priceMaxTv.setText(integer + " €");
             } else {
-                priceMax_tv.setText("$ " + integer);
-                ;
+                priceMaxTv.setText("$ " + integer);
             }
-            if (price_slidebar.getSelectedMaxValue().intValue() != integer) {
-                price_slidebar.setMaxStartValue(integer).apply();
+            if (priceSlidebar.getSelectedMaxValue().intValue() != integer) {
+                priceSlidebar.setMaxStartValue(integer).apply();
             }
         });
 
-        price_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+        priceSlidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
             filterFragmentViewModel.priceMin.setValue(minValue.intValue());
             filterFragmentViewModel.priceMax.setValue(maxValue.intValue());
 
@@ -279,22 +273,22 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
 
         filterFragmentViewModel.piecesMin.observe(getViewLifecycleOwner(), integer ->
         {
-            piecesMin_txt.setText(integer.toString());
-            if (pieces_slidebar.getSelectedMinValue().intValue() != integer) {
-                pieces_slidebar.setMinStartValue(integer).apply();
+            piecesMinTxt.setText(integer.toString());
+            if (piecesSlidebar.getSelectedMinValue().intValue() != integer) {
+                piecesSlidebar.setMinStartValue(integer).apply();
             }
         });
 
 
         filterFragmentViewModel.piecesMax.observe(getViewLifecycleOwner(), integer ->
         {
-            piecesMax_txt.setText(integer.toString());
-            if (pieces_slidebar.getSelectedMaxValue().intValue() != integer) {
-                pieces_slidebar.setMaxStartValue(integer).apply();
+            piecesMaxTxt.setText(integer.toString());
+            if (piecesSlidebar.getSelectedMaxValue().intValue() != integer) {
+                piecesSlidebar.setMaxStartValue(integer).apply();
             }
         });
 
-        pieces_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+        piecesSlidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
             filterFragmentViewModel.piecesMin.setValue(minValue.intValue());
             filterFragmentViewModel.piecesMax.setValue(maxValue.intValue());
 
@@ -304,22 +298,22 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private void numberOfPhotosSlider() {
         filterFragmentViewModel.numberOfPhotosMin.observe(getViewLifecycleOwner(), integer ->
         {
-            numberOfPhotoMin_txt.setText(integer.toString());
-            if (numberOfPhotos_slidebar.getSelectedMinValue().intValue() != integer) {
-                numberOfPhotos_slidebar.setMinStartValue(integer).apply();
+            numberOfPhotoMinTxt.setText(integer.toString());
+            if (numberOfPhotosSlidebar.getSelectedMinValue().intValue() != integer) {
+                numberOfPhotosSlidebar.setMinStartValue(integer).apply();
             }
         });
 
 
         filterFragmentViewModel.numberOfPhotosMax.observe(getViewLifecycleOwner(), integer ->
         {
-            numberOfPhotoMax_txt.setText(integer.toString());
-            if (numberOfPhotos_slidebar.getSelectedMaxValue().intValue() != integer) {
-                numberOfPhotos_slidebar.setMaxStartValue(integer).apply();
+            numberOfPhotoMaxTxt.setText(integer.toString());
+            if (numberOfPhotosSlidebar.getSelectedMaxValue().intValue() != integer) {
+                numberOfPhotosSlidebar.setMaxStartValue(integer).apply();
             }
         });
 
-        numberOfPhotos_slidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
+        numberOfPhotosSlidebar.setOnRangeSeekbarChangeListener((minValue, maxValue) -> {
             filterFragmentViewModel.numberOfPhotosMin.setValue(minValue.intValue());
             filterFragmentViewModel.numberOfPhotosMax.setValue(maxValue.intValue());
         });
@@ -328,14 +322,14 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     private void types() {
 
         filterFragmentViewModel.initTypesFilter();
-        types_chips_rv.setHasFixedSize(true);
+        typesChipsRv.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        types_chips_rv.setLayoutManager(layoutManager);
+        typesChipsRv.setLayoutManager(layoutManager);
 
         filterFragmentViewModel.typesFilter.observe(getViewLifecycleOwner(),typesFilter->{
             if(typesFilter!=null){
                 TypesChipsAdapter typesChipsAdapter = new TypesChipsAdapter(typesFilter, getActivity(), FilterFragment.this);
-                types_chips_rv.setAdapter(typesChipsAdapter);
+                typesChipsRv.setAdapter(typesChipsAdapter);
             }
         });
     }
@@ -350,15 +344,15 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
     }
 
     @OnClick(R.id.fragment_filter_validate_fab)
-    public void filter_validate() {
+    public void filterValidate() {
         filterFragmentViewModel.validate(
-                cities_Et.getText().toString(),
-                states_Et.getText().toString(),
-                interestPoints_Et.getText().toString(),
-                agent_Et.getText().toString(),
-                availableDate_Et.getText().toString(),
-                soldDate_Et.getText().toString(),
-                status_tv.getText().toString(),
+                citiesEt.getText().toString(),
+                statesEt.getText().toString(),
+                interestPointsEt.getText().toString(),
+                agentEt.getText().toString(),
+                availableDateEt.getText().toString(),
+                soldDateEt.getText().toString(),
+                statusTv.getText().toString(),
                 sharedPropertiesViewModel,
                 sharedCurrencyViewModel.currency.getValue()
         );
@@ -366,21 +360,21 @@ public class FilterFragment extends Fragment implements OnChipClickedListener {
                 sharedPreferences
                         .edit()
                         .putString("types", filterFragmentViewModel.getTypeInString())
-                        .putInt("price_mini", price_slidebar.getSelectedMinValue().intValue())
-                        .putInt("price_maxi", price_slidebar.getSelectedMaxValue().intValue())
-                        .putString("cities", cities_Et.getText().toString())
-                        .putString("states", states_Et.getText().toString())
-                        .putInt("area_mini", area_slidebar.getSelectedMinValue().intValue())
-                        .putInt("area_maxi", area_slidebar.getSelectedMaxValue().intValue())
-                        .putInt("pieces_mini", pieces_slidebar.getSelectedMinValue().intValue())
-                        .putInt("pieces_maxi", pieces_slidebar.getSelectedMaxValue().intValue())
-                        .putString("interestPoints", interestPoints_Et.getText().toString())
-                        .putString("agent", agent_Et.getText().toString())
-                        .putString("status", status_tv.getText().toString())
-                        .putString("available_date", availableDate_Et.getText().toString())
-                        .putString("sold_date", soldDate_Et.getText().toString())
-                        .putInt("numberOfPhotos_mini", numberOfPhotos_slidebar.getSelectedMinValue().intValue())
-                        .putInt("numberOfPhotos_maxi", numberOfPhotos_slidebar.getSelectedMaxValue().intValue())
+                        .putInt("price_mini", priceSlidebar.getSelectedMinValue().intValue())
+                        .putInt("price_maxi", priceSlidebar.getSelectedMaxValue().intValue())
+                        .putString("cities", citiesEt.getText().toString())
+                        .putString("states", statesEt.getText().toString())
+                        .putInt("area_mini", areaSlidebar.getSelectedMinValue().intValue())
+                        .putInt("area_maxi", areaSlidebar.getSelectedMaxValue().intValue())
+                        .putInt("pieces_mini", piecesSlidebar.getSelectedMinValue().intValue())
+                        .putInt("pieces_maxi", piecesSlidebar.getSelectedMaxValue().intValue())
+                        .putString("interestPoints", interestPointsEt.getText().toString())
+                        .putString("agent", agentEt.getText().toString())
+                        .putString("status", statusTv.getText().toString())
+                        .putString("available_date", availableDateEt.getText().toString())
+                        .putString("sold_date", soldDateEt.getText().toString())
+                        .putInt("numberOfPhotos_mini", numberOfPhotosSlidebar.getSelectedMinValue().intValue())
+                        .putInt("numberOfPhotos_maxi", numberOfPhotosSlidebar.getSelectedMaxValue().intValue())
                         .apply();
 
         getActivity().onBackPressed();

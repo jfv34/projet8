@@ -15,7 +15,7 @@ public class Marker {
         return propertyId;
     }
 
-    public LatLng getLatLng_marker() {
+    public LatLng getLatLngMarker() {
         return latLng_marker;
     }
 }

@@ -65,17 +65,17 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
     private void bind(@NonNull ViewHolder holder, Property property) {
         final View itemView = holder.itemView.findViewById(R.id.item_property);
-        final TextView city_tv = itemView.findViewById(R.id.main_item_address_tv);
-        final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
-        final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
-        final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
+        final TextView cityTv = itemView.findViewById(R.id.main_item_address_tv);
+        final TextView typeTv = itemView.findViewById(R.id.main_item_type_tv);
+        final TextView priceTv = itemView.findViewById(R.id.main_item_price_tv);
+        final ImageView photoIv = itemView.findViewById(R.id.main_item_photo_iv);
 
-        city_tv.setText(property.getCity());
-        type_tv.setText(property.getType());
+        cityTv.setText(property.getCity());
+        typeTv.setText(property.getType());
         if (!property.getPrice().isEmpty()) {
             if(currency==Currency.DOLLARS){
-            price_tv.setText(String.format("$ %s", property.getPrice()));}
-            else{price_tv.setText(String.format("%s €", Utils.convertDollarToEuro(Integer.parseInt(property.getPrice()))));}
+            priceTv.setText(String.format("$ %s", property.getPrice()));}
+            else{priceTv.setText(String.format("%s €", Utils.convertDollarToEuro(Integer.parseInt(property.getPrice()))));}
         }
         int radius = 20;
         int margin = 8;
@@ -86,14 +86,14 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                 Glide.with(context)
                         .load(new File(photo.getFullPath()))
                             .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
-                            .into(photo_iv);
+                            .into(photoIv);
 
             }
         } else {
             Glide.with(context)
                     .load(R.drawable.default_photo)
                     .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
-                    .into(photo_iv);
+                    .into(photoIv);
 
         }
         itemView.setOnClickListener(view -> clickedListener.onPropertyClicked(property.getId()));
@@ -102,10 +102,10 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position, List<Object> payloads) {
         final View itemView = holder.itemView.findViewById(R.id.item_property);
-        final TextView city_tv = itemView.findViewById(R.id.main_item_address_tv);
-        final TextView type_tv = itemView.findViewById(R.id.main_item_type_tv);
-        final TextView price_tv = itemView.findViewById(R.id.main_item_price_tv);
-        final ImageView photo_iv = itemView.findViewById(R.id.main_item_photo_iv);
+        final TextView cityTv = itemView.findViewById(R.id.main_item_address_tv);
+        final TextView typeTv = itemView.findViewById(R.id.main_item_type_tv);
+        final TextView priceTv = itemView.findViewById(R.id.main_item_price_tv);
+        final ImageView photoIv = itemView.findViewById(R.id.main_item_photo_iv);
 
         if (payloads.isEmpty()) {
             bind(holder,properties.get(position));
@@ -116,29 +116,25 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
                 switch (key) {
                     case "price":
                         if (currency == Currency.DOLLARS) {
-                            price_tv.setText(String.format("$ %s", o.getString(key)));
+                            priceTv.setText(String.format("$ %s", o.getString(key)));
                         } else {
-                            price_tv.setText(String.format("%s €", Utils.convertDollarToEuro(Integer.parseInt(o.getString(key)))));
+                            priceTv.setText(String.format("%s €", Utils.convertDollarToEuro(Integer.parseInt(o.getString(key)))));
                         }
                         break;
                     case "city":
-                        city_tv.setText(o.getString(key));
+                        cityTv.setText(o.getString(key));
                         break;
                     case "type":
-                        type_tv.setText(o.getString(key));
+                        typeTv.setText(o.getString(key));
                         break;
                     case "photoPath":
-
-
                         String path = o.getString(key);
-
                         int radius = 20;
                         int margin = 8;
-
                         Glide.with(context)
                                 .load(new File(path))
                                 .transform(new CenterCrop(), new RoundedCornersTransformation(radius, margin, RoundedCornersTransformation.CornerType.ALL))
-                                .into(photo_iv);
+                                .into(photoIv);
 
                 }
             }

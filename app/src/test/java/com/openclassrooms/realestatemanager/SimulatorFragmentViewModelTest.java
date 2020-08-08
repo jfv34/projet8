@@ -24,7 +24,7 @@ public class SimulatorFragmentViewModelTest {
 
         String price = simulatorFragmentViewModel.price.getValue();
         String contribution = simulatorFragmentViewModel.contribution.getValue();
-        String rate = simulatorFragmentViewModel.rate_in_percentage.getValue();
+        String rate = simulatorFragmentViewModel.rateInPercentage.getValue();
         String duration = simulatorFragmentViewModel.duration.getValue();
 
         Assert.assertEquals(price, "testPrice");
@@ -51,7 +51,7 @@ public class SimulatorFragmentViewModelTest {
         simulatorFragmentViewModel.price.postValue("100000");
         simulatorFragmentViewModel.contribution.postValue("10000");
         simulatorFragmentViewModel.duration.postValue("12");
-        simulatorFragmentViewModel.rate_in_percentage.postValue("4");
+        simulatorFragmentViewModel.rateInPercentage.postValue("4");
 
         simulatorFragmentViewModel.calculation();
 

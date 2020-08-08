@@ -32,8 +32,4 @@ public class Converters {
         Gson gson = new Gson();
         return gson.toJson(status);
     }
-
-
-
 }
-

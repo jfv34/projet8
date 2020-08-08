@@ -19,7 +19,6 @@ import com.openclassrooms.realestatemanager.ui.utils.SharedPropertiesViewModel;
 import com.openclassrooms.realestatemanager.ui.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.openclassrooms.realestatemanager.ui.utils.Utils.convertDateToString;
@@ -122,7 +121,7 @@ public class FilterFragmentViewModel extends ViewModel {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String interestPoint = property.getInterestPoint();
-                boolean isSelected = filter_for_list(interestPoint, interestPointsFilter);
+                boolean isSelected = filterForList(interestPoint, interestPointsFilter);
                 if (isSelected) {
                     newProperties.add(property);
                 }
@@ -138,7 +137,7 @@ public class FilterFragmentViewModel extends ViewModel {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String state = property.getState();
-                boolean isSelected = filter_for_list(state, statesFilter);
+                boolean isSelected = filterForList(state, statesFilter);
                 if (isSelected) {
                     newProperties.add(property);
                 }
@@ -177,7 +176,7 @@ public class FilterFragmentViewModel extends ViewModel {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String city = property.getCity();
-                boolean isSelected = filter_for_list(city, citiesFilter);
+                boolean isSelected = filterForList(city, citiesFilter);
                 if (isSelected) {
                     newProperties.add(property);
                 }
@@ -193,7 +192,7 @@ public class FilterFragmentViewModel extends ViewModel {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 String agent = property.getAgentName();
-                boolean is_selected = filter_for_list(agent, agentsFilter);
+                boolean is_selected = filterForList(agent, agentsFilter);
                 if (is_selected) {
                     newProperties.add(property);
                 }
@@ -202,55 +201,11 @@ public class FilterFragmentViewModel extends ViewModel {
         } else return properties;
     }
 
-    private ArrayList<Property> filterByDates(ArrayList<Property> properties) {
-        ArrayList<Property> newProperties = new ArrayList<>();
-        Date entryDateFilter = Utils.convertStringToDate(filter.getEntryDate());
-        Date soldeDateFilter = Utils.convertStringToDate(filter.getSaleDate());
-
-        for (int i = 0; i < properties.size(); i++) {
-            Property property = properties.get(i);
-            Date entryDate = Utils.convertStringToDate(property.getEntryDate());
-            Date soldeDate = Utils.convertStringToDate(property.getSaleDate());
-
-            if (entryDateFilter != null && entryDate != null
-                    && entryDate.compareTo(entryDateFilter) < 0)
-                newProperties.add(property);
-
-            if (soldeDateFilter != null && soldeDate != null
-                    && soldeDate.compareTo(soldeDateFilter) > 0
-                    && !newProperties.contains(property))
-                newProperties.add(property);
-        }
-        if (entryDateFilter == null && soldeDateFilter == null) {
-            return properties;
-        } else return newProperties;
-    }
-
-    private ArrayList<Property> filterByPhotos(ArrayList<Property> properties) {
-        ArrayList<Property> newProperties = new ArrayList<>();
-        int nbOfPhotosMini = filter.getNumberOfPhotosMini();
-        int nbOfPhotosMaxi = filter.getNumberOfPhotosMaxi();
-        if (nbOfPhotosMini > 0 || nbOfPhotosMaxi < Constants.slider_photos_maximum) {
-            for (int i = 0; i < properties.size(); i++) {
-                Property property = properties.get(i);
-                int nbOfPhotos;
-                if (property.getPhotos() == null) {
-                    nbOfPhotos = 0;
-                } else {
-                    nbOfPhotos = property.getPhotos().size();
-                }
-                if (nbOfPhotos > nbOfPhotosMini && nbOfPhotos < nbOfPhotosMaxi)
-                    newProperties.add(property);
-            }
-        }
-        return newProperties;
-    }
-
     private ArrayList<Property> filterByPieces(ArrayList<Property> properties) {
         ArrayList<Property> newProperties = new ArrayList<>();
         int piecesMini = filter.getPiecesMini();
         int piecesMaxi = filter.getPiecesMaxi();
-        if (piecesMini > Constants.slider_pieces_minimum || piecesMaxi < Constants.slider_pieces_maximum) {
+        if (piecesMini > Constants.sliderPiecesMinimum || piecesMaxi < Constants.sliderPiecesMaximum) {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 if (!property.getPieces().isEmpty()) {
@@ -267,7 +222,7 @@ public class FilterFragmentViewModel extends ViewModel {
         ArrayList<Property> newProperties = new ArrayList<>();
         int areaMini = filter.getAreaMini();
         int areaMaxi = filter.getAreaMaxi();
-        if (areaMini > Constants.slider_area_minimum || areaMaxi < Constants.slider_area_maximum) {
+        if (areaMini > Constants.sliderAreaMinimum || areaMaxi < Constants.sliderAreaMaximum) {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 if (!property.getArea().isEmpty()) {
@@ -311,16 +266,16 @@ public class FilterFragmentViewModel extends ViewModel {
         } else return properties;
     }
 
-    private boolean filter_for_list(String data, ArrayList<String> dataListFilter) {
-        boolean one_of_them = false;
+    private boolean filterForList(String data, ArrayList<String> dataListFilter) {
+        boolean oneOfThem = false;
         for (int j = 0; j < dataListFilter.size(); j++) {
             String listFilter = dataListFilter.get(j);
             if (data.toUpperCase().equals(listFilter.toUpperCase())) {
-                one_of_them = true;
+                oneOfThem = true;
             }
         }
 
-        return one_of_them;
+        return oneOfThem;
     }
 
     void setType(int position, boolean selected) {
@@ -342,11 +297,11 @@ public class FilterFragmentViewModel extends ViewModel {
         return types.toString();
     }
 
-    public List<Type> getTypesFilter_prefs(String isSelected_prefs) {
+    public List<Type> getTypesFilterPrefs(String isSelectedPrefs) {
         ArrayList<Type> typesFilter = new ArrayList<>();
-        List<String> isSelected_st = getFilterListInForm(isSelected_prefs);
+        List<String> isSelectedSt = getFilterListInForm(isSelectedPrefs);
         for (int i = 0; i < TYPE_LIST.length; i++) {
-            boolean isSelected = Boolean.parseBoolean(isSelected_st.get(i));
+            boolean isSelected = Boolean.parseBoolean(isSelectedSt.get(i));
             Type type = new Type(TYPE_LIST[i], isSelected);
             typesFilter.add(type);
         }
@@ -357,22 +312,21 @@ public class FilterFragmentViewModel extends ViewModel {
                          String availableDate, String soldDate, String status,
                          SharedPropertiesViewModel sharedFilterViewModel, Currency currency) {
 
-        Integer dollars_priceMax =0;
-        Integer dollars_priceMin= 0;
+        Integer dollarsPriceMax =0;
+        Integer dollarsPriceMin= 0;
         if(currency==Currency.EUROS){
-            dollars_priceMax=Utils.convertEuroToDollar(priceMax.getValue());
-            dollars_priceMin=Utils.convertEuroToDollar(priceMin.getValue());
-            ;}
+            dollarsPriceMax=Utils.convertEuroToDollar(priceMax.getValue());
+            dollarsPriceMin=Utils.convertEuroToDollar(priceMin.getValue());
+        }
         else{
-            dollars_priceMax=priceMax.getValue();
-            dollars_priceMin=priceMin.getValue();
-            ;}
-
+            dollarsPriceMax=priceMax.getValue();
+            dollarsPriceMin=priceMin.getValue();
+        }
 
         Filter filter = new Filter(
                 getTypesFilter(),
-                dollars_priceMax,
-               dollars_priceMin,
+                dollarsPriceMax,
+               dollarsPriceMin,
                getFilterListInForm(cities),
                 getFilterListInForm(states),
                 areaMax.getValue(),

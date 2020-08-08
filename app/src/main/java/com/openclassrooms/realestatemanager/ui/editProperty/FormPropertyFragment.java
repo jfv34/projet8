@@ -66,37 +66,37 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     @BindView(R.id.fragment_insert_property_photos_recyclerView)
     RecyclerView photosRecyclerView;
     @BindView(R.id.fragment_insert_property_TextField_type)
-    TextInputLayout property_type;
+    TextInputLayout propertyType;
     @BindView(R.id.fragment_insert_property_TextField_price)
-    TextInputLayout property_price_textInputLayout;
+    TextInputLayout propertyPriceTextInputLayout;
     @BindView(R.id.fragment_insert_property_price_textInputEditText)
-    TextInputEditText property_price_textInputEditText;
+    TextInputEditText propertyPriceTextInputEditText;
     @BindView(R.id.fragment_insert_property_TextField_address)
-    TextInputLayout property_address;
+    TextInputLayout propertyAddress;
     @BindView(R.id.fragment_insert_property_TextField_city)
-    TextInputLayout property_city;
+    TextInputLayout propertyCity;
     @BindView(R.id.fragment_insert_property_TextField_state)
-    TextInputLayout property_state;
+    TextInputLayout propertyState;
     @BindView(R.id.fragment_insert_property_TextField_zip)
-    TextInputLayout property_zip;
+    TextInputLayout propertyZip;
     @BindView(R.id.fragment_insert_property_TextField_area)
-    TextInputLayout property_area;
+    TextInputLayout propertyArea;
     @BindView(R.id.fragment_insert_property_TextField_pieces)
-    TextInputLayout property_pieces;
+    TextInputLayout propertyPieces;
     @BindView(R.id.fragment_insert_property_TextField_interestPoints)
-    TextInputLayout property_interestPoints;
+    TextInputLayout propertyInterestPoints;
     @BindView(R.id.fragment_insert_property_TextField_description)
-    TextInputLayout property_description;
+    TextInputLayout propertyDescription;
     @BindView(R.id.fragment_insert_property_TextField_agent)
-    TextInputLayout property_agent;
+    TextInputLayout propertyAgent;
     @BindView(R.id.fragment_form_property_availability_status)
-    TextInputLayout property_availability_status;
+    TextInputLayout propertyAvailabilityStatus;
     @BindView(R.id.fragment_form_property_availability_dropdown)
-    AutoCompleteTextView property_availability_dropdown;
+    AutoCompleteTextView propertyAvailabilityDropdown;
     @BindView(R.id.fragment_form_property_availability_date)
-    TextInputLayout property_entry_date;
+    TextInputLayout propertyEntryDate;
     @BindView(R.id.fragment_form_property_sold_date)
-    TextInputLayout property_sold_date;
+    TextInputLayout propertySoldDate;
 
     public static FormPropertyFragment newInstance(int bundleProperty) {
         FormPropertyFragment formPropertyFragment = new FormPropertyFragment();
@@ -118,7 +118,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
         root = inflater.inflate(R.layout.fragment_form_property, container, false);
         ButterKnife.bind(this, root);
-        //configureToolBar();
         return root;
     }
 
@@ -130,22 +129,22 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         sharedPropertiesViewModel = new ViewModelProvider(requireActivity()).get(SharedPropertiesViewModel.class);
         sharedCurrencyViewModel = new ViewModelProvider(requireActivity()).get(SharedCurrencyViewModel.class);
 
-        configure_autoComplete_types();
-        configure_availability_status();
-        configure_availabilityDate();
-        configure_soldDate();
+        configureAutoCompleteTypes();
+        configureAvailabilityStatus();
+        configureAvailabilityDate();
+        configureSoldDate();
         if (bundlePropertyId != -1) {
             loadProperty();
         }
-        property_availability_dropdown.setOnKeyListener((v, keyCode, event) -> {
-            property_availability_status.getEditText().setText("");
+        propertyAvailabilityDropdown.setOnKeyListener((v, keyCode, event) -> {
+            propertyAvailabilityStatus.getEditText().setText("");
             return false;
         });
     }
 
-    private void configure_soldDate() {
+    private void configureSoldDate() {
         TextInputLayout textInputLayout = root.findViewById(R.id.fragment_form_property_sold_date);
-        textInputLayout.getEditText().setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+        textInputLayout.getEditText().setOnClickListener(v -> datePickerClick((view, year, month, dayOfMonth) ->
                 viewModel.setSoldDate(year, month, dayOfMonth)
         ));
         viewModel.soldDate.observe(getViewLifecycleOwner(), soldDate ->
@@ -153,10 +152,10 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         );
     }
 
-    private void configure_availabilityDate() {
+    private void configureAvailabilityDate() {
         TextInputLayout availabilityDate = root.findViewById(R.id.fragment_form_property_availability_date);
 
-        availabilityDate.getEditText().setOnClickListener(v -> date_picker_click((view, year, month, dayOfMonth) ->
+        availabilityDate.getEditText().setOnClickListener(v -> datePickerClick((view, year, month, dayOfMonth) ->
                 viewModel.setAvailableDate(year, month, dayOfMonth)
         ));
         viewModel.entryDate.observe(getViewLifecycleOwner(), soldDate ->
@@ -191,7 +190,6 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 displayPriceInCurrentCurrency(dollarsPrice);
             }
         });
-        ;
     }
 
     private void observeCurrency() {
@@ -205,85 +203,84 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     private void displayPriceInCurrentCurrency(String dollarsPrice) {
         if (sharedCurrencyViewModel.currency.getValue() == Currency.DOLLARS) {
-            property_price_textInputLayout.getEditText().setText(dollarsPrice);
-            property_price_textInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
-            ;
+            propertyPriceTextInputLayout.getEditText().setText(dollarsPrice);
+            propertyPriceTextInputLayout.setStartIconDrawable(R.drawable.ic_money_24px);
         } else {
 
-            property_price_textInputLayout.getEditText().setText(String.valueOf(Utils.convertDollarToEuro(Integer.parseInt(dollarsPrice))));
-            property_price_textInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
+            propertyPriceTextInputLayout.getEditText().setText(String.valueOf(Utils.convertDollarToEuro(Integer.parseInt(dollarsPrice))));
+            propertyPriceTextInputLayout.setStartIconDrawable(R.drawable.ic_euro_24px);
         }
     }
 
     private void observeEntryDate() {
         viewModel.entryDate.observe(getViewLifecycleOwner(), entryDate -> {
-            property_entry_date.getEditText().setText(entryDate);
+            propertyEntryDate.getEditText().setText(entryDate);
         });
     }
 
     private void observeSoldDate() {
         viewModel.soldDate.observe(getViewLifecycleOwner(), soldDate -> {
-            property_sold_date.getEditText().setText(soldDate);
+            propertySoldDate.getEditText().setText(soldDate);
         });
     }
 
     private void observeAgent() {
         viewModel.agent.observe(getViewLifecycleOwner(), agent -> {
-            property_agent.getEditText().setText(agent);
+            propertyAgent.getEditText().setText(agent);
         });
     }
 
     private void observeDescription() {
         viewModel.description.observe(getViewLifecycleOwner(), description -> {
-            property_description.getEditText().setText(description);
+            propertyDescription.getEditText().setText(description);
         });
     }
 
     private void observeInterestPoints() {
         viewModel.interestpoints.observe(getViewLifecycleOwner(), interestPoint -> {
-            property_interestPoints.getEditText().setText(interestPoint);
+            propertyInterestPoints.getEditText().setText(interestPoint);
         });
     }
 
     private void observePieces() {
         viewModel.pieces.observe(getViewLifecycleOwner(), pieces -> {
-            property_pieces.getEditText().setText(pieces);
+            propertyPieces.getEditText().setText(pieces);
         });
     }
 
     private void observeArea() {
         viewModel.area.observe(getViewLifecycleOwner(), area -> {
-            property_area.getEditText().setText(area);
+            propertyArea.getEditText().setText(area);
         });
     }
 
     private void observeZip() {
         viewModel.zip.observe(getViewLifecycleOwner(), zip -> {
-            property_zip.getEditText().setText(zip);
+            propertyZip.getEditText().setText(zip);
         });
     }
 
     private void observeState() {
         viewModel.state.observe(getViewLifecycleOwner(), state -> {
-            property_state.getEditText().setText(state);
+            propertyState.getEditText().setText(state);
         });
     }
 
     private void observeCity() {
         viewModel.city.observe(getViewLifecycleOwner(), city -> {
-            property_city.getEditText().setText(city);
+            propertyCity.getEditText().setText(city);
         });
     }
 
     private void observeAddress() {
         viewModel.address.observe(getViewLifecycleOwner(), address -> {
-            property_address.getEditText().setText(address);
+            propertyAddress.getEditText().setText(address);
         });
     }
 
     private void observeType() {
         viewModel.type.observe(getViewLifecycleOwner(), type -> {
-            property_type.getEditText().setText(type);
+            propertyType.getEditText().setText(type);
         });
     }
 
@@ -300,7 +297,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         });
     }
 
-    private void configure_autoComplete_types() {
+    private void configureAutoCompleteTypes() {
 
         final String[] TYPE = viewModel.getTypes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -310,7 +307,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         textView.setCursorVisible(false);
     }
 
-    private void configure_availability_status() {
+    private void configureAvailabilityStatus() {
         final String[] AVAILABILITY = viewModel.getAvailabilities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, AVAILABILITY);
@@ -319,7 +316,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         textView.setCursorVisible(false);
     }
 
-    public void date_picker_click(DatePickerDialog.OnDateSetListener listener) {
+    public void datePickerClick(DatePickerDialog.OnDateSetListener listener) {
 
         DatePickerDialog dialog = new DatePickerDialog(
                 getActivity(),
@@ -335,10 +332,10 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     public void selectImage() {
         final CharSequence[] options = {getString(R.string.takephoto), getString(R.string.choosefromgallery), getString(R.string.cancel)};
 
-        AlertDialog.Builder alertDialog_Photo_builder = new AlertDialog.Builder(getActivity());
-        alertDialog_Photo_builder.setTitle(R.string.chooseyourprofilepicture);
+        AlertDialog.Builder alertdialogPhotoBuilder = new AlertDialog.Builder(getActivity());
+        alertdialogPhotoBuilder.setTitle(R.string.chooseyourprofilepicture);
 
-        alertDialog_Photo_builder.setItems(options, (dialog, item) -> {
+        alertdialogPhotoBuilder.setItems(options, (dialog, item) -> {
 
             if (options[item].equals(getString(R.string.takephoto))) {
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -352,7 +349,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 dialog.dismiss();
             }
         });
-        alertDialog_Photo_builder.show();
+        alertdialogPhotoBuilder.show();
     }
 
     @Override
@@ -389,9 +386,9 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void descriptionAlertDialog(int position) {
-        AlertDialog.Builder alertDialog_descriptionPhoto_builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder alertDialogDescriptionPhotoBuilder = new AlertDialog.Builder(getActivity());
 
-        alertDialog_descriptionPhoto_builder.setTitle(R.string.photo_description);
+        alertDialogDescriptionPhotoBuilder.setTitle(R.string.photo_description);
         final EditText input = new EditText(getActivity());
         if (position != -1) {
             input.setHint(viewModel.getPhoto(position).getDescription());
@@ -403,8 +400,8 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(35);
         input.setFilters(fArray);
-        alertDialog_descriptionPhoto_builder.setView(input);
-        alertDialog_descriptionPhoto_builder.setPositiveButton("OK", (dialogInterface, i) -> {
+        alertDialogDescriptionPhotoBuilder.setView(input);
+        alertDialogDescriptionPhotoBuilder.setPositiveButton("OK", (dialogInterface, i) -> {
             Toast.makeText(getActivity(), R.string.photoanddescriptionadded, Toast.LENGTH_SHORT).show();
             String description = input.getText().toString();
             if (position != -1) {
@@ -415,7 +412,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
             }
         });
         observePhotos();
-        alertDialog_descriptionPhoto_builder.show();
+        alertDialogDescriptionPhotoBuilder.show();
     }
 
     private int spanCount() {
@@ -425,7 +422,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
         } else return 3;
     }
 
-    private void notification_property_added() {
+    private void notificationPropertyAdded() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity(), "1")
                 .setSmallIcon(R.drawable.ic_home_24px)
                 .setContentTitle(getString(R.string.propertyadded))
@@ -436,14 +433,14 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     @OnClick(R.id.fragment_form_property_validate_fab)
-    public void insert_property() {
+    public void insertProperty() {
 
         if (bundlePropertyId == -1) {
-            viewModel.setProperty_in_database(newProperty());
+            viewModel.setPropertyInDatabase(newProperty());
             sharedPropertiesViewModel.setProperty(newProperty());
-            notification_property_added();
+            notificationPropertyAdded();
         } else {
-            if (!property_sold_date.getEditText().equals("") && property_availability_status.getEditText().toString() == "Sold") {
+            if (!propertySoldDate.getEditText().equals("") && propertyAvailabilityStatus.getEditText().toString() == "Sold") {
                 Utils.toast(getActivity(), getString(R.string.errorsolddate));
             }
             viewModel.updateProperty(newProperty());
@@ -453,30 +450,30 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private Property newProperty() {
-        String type = property_type.getEditText().getText().toString();
-        String price_before_conversion = property_price_textInputLayout.getEditText().getText().toString();
+        String type = propertyType.getEditText().getText().toString();
+        String priceBeforeConversion = propertyPriceTextInputLayout.getEditText().getText().toString();
         String dollars_price;
         if (sharedCurrencyViewModel.currency.getValue() == Currency.EUROS) {
-            dollars_price = String.valueOf(Utils.convertEuroToDollar(Integer.parseInt(price_before_conversion)));
+            dollars_price = String.valueOf(Utils.convertEuroToDollar(Integer.parseInt(priceBeforeConversion)));
         } else {
-            dollars_price = price_before_conversion;
+            dollars_price = priceBeforeConversion;
         }
-        String address = property_address.getEditText().getText().toString();
-        String city = property_city.getEditText().getText().toString();
-        String state = property_state.getEditText().getText().toString();
-        String zip = property_zip.getEditText().getText().toString();
-        String area = property_area.getEditText().getText().toString();
-        String pieces = property_pieces.getEditText().getText().toString();
-        String interestPoints = property_interestPoints.getEditText().getText().toString();
-        String description = property_description.getEditText().getText().toString();
-        String agent = property_agent.getEditText().getText().toString();
-        String entryDate = property_entry_date.getEditText().getText().toString();
-        String soldDate = property_sold_date.getEditText().getText().toString();
+        String address = propertyAddress.getEditText().getText().toString();
+        String city = propertyCity.getEditText().getText().toString();
+        String state = propertyState.getEditText().getText().toString();
+        String zip = propertyZip.getEditText().getText().toString();
+        String area = propertyArea.getEditText().getText().toString();
+        String pieces = propertyPieces.getEditText().getText().toString();
+        String interestPoints = propertyInterestPoints.getEditText().getText().toString();
+        String description = propertyDescription.getEditText().getText().toString();
+        String agent = propertyAgent.getEditText().getText().toString();
+        String entryDate = propertyEntryDate.getEditText().getText().toString();
+        String soldDate = propertySoldDate.getEditText().getText().toString();
         ArrayList<Photo> photos = viewModel.getPhotos();
 
         Status status = Status.UNSPECIFIED;
 
-        switch (property_availability_status.getEditText().getText().toString()) {
+        switch (propertyAvailabilityStatus.getEditText().getText().toString()) {
             case "Sold": {
                 status = Status.SOLD;
             }
@@ -518,7 +515,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
     }
 
     private void observeStatusAvailability() {
-        property_availability_dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        propertyAvailabilityDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -530,7 +527,7 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                         viewModel.status.postValue(Status.SOLD);
                     }
                 }
-                configure_availability_status();
+                configureAvailabilityStatus();
             }
 
             @Override
@@ -544,18 +541,18 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
                 {
                     switch (status) {
                         case SOLD: {
-                            property_availability_status.getEditText().setText(R.string.sold);
-                            property_sold_date.setVisibility(View.VISIBLE);
+                            propertyAvailabilityStatus.getEditText().setText(R.string.sold);
+                            propertySoldDate.setVisibility(View.VISIBLE);
                         }
                         break;
                         case AVAILABLE: {
-                            property_availability_status.getEditText().setText(R.string.available);
-                            property_sold_date.setVisibility(View.INVISIBLE);
+                            propertyAvailabilityStatus.getEditText().setText(R.string.available);
+                            propertySoldDate.setVisibility(View.INVISIBLE);
                         }
                         break;
                         default: {
-                            property_availability_status.getEditText().setText("");
-                            property_sold_date.setVisibility(View.VISIBLE);
+                            propertyAvailabilityStatus.getEditText().setText("");
+                            propertySoldDate.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -564,11 +561,11 @@ public class FormPropertyFragment extends Fragment implements OnPhotoDeleteClick
 
     @OnClick(R.id.fragment_form_property_availability_dropdown)
     public void availailityStatus() {
-        configure_availability_status();
+        configureAvailabilityStatus();
     }
 
     @OnClick(R.id.fragment_form_property_type_dropdown)
     public void types() {
-        configure_autoComplete_types();
+        configureAutoCompleteTypes();
     }
 }

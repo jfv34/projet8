@@ -64,7 +64,7 @@ public class DetailsFragment extends Fragment {
     ViewPager viewPager;
 
     @BindView(R.id.fragment_detail_map_fab)
-    ExtendedFloatingActionButton map_fab;
+    ExtendedFloatingActionButton mapFab;
 
     @BindView(R.id.fragment_detail_type_tv)
     TextView typeTv;
@@ -76,7 +76,7 @@ public class DetailsFragment extends Fragment {
     ImageView addressLabelIV;
 
     @BindView(R.id.fragment_detail_not_solded_iv)
-    ImageView not_soldedIv;
+    ImageView notSoldedIv;
 
     @BindView(R.id.fragment_detail_solded_iv)
     ImageView soldedIv;
@@ -91,7 +91,7 @@ public class DetailsFragment extends Fragment {
     TextView interestsPointsTv;
 
     @BindView(R.id.fragment_detail_interestPoints_title_tv)
-    TextView interestsPointsTitle_tv;
+    TextView interestsPointsTitleTv;
 
     @BindView(R.id.fragment_detail_description_tv)
     TextView descriptionTv;
@@ -167,7 +167,6 @@ public class DetailsFragment extends Fragment {
                     if (!properties.isEmpty()) {
                         detailViewModel.loadProperty(bundlePropertyId);
                     }
-                    ;
                 }
         );
     }
@@ -234,7 +233,7 @@ public class DetailsFragment extends Fragment {
         private void displayInterestsPoints(Property property) {
             String interestsPoints = property.getInterestPoint();
             if (interestsPoints.isEmpty()) {
-                interestsPointsTitle_tv.setVisibility(View.INVISIBLE);
+                interestsPointsTitleTv.setVisibility(View.INVISIBLE);
             } else {
                 interestsPointsTv.setText(interestsPoints);
             }
@@ -260,7 +259,7 @@ public class DetailsFragment extends Fragment {
 
             switch (property.getStatus()) {
                 case SOLD: {
-                    not_soldedIv.setVisibility(View.INVISIBLE);
+                    notSoldedIv.setVisibility(View.INVISIBLE);
                     soldedIv.setVisibility(View.VISIBLE);
                     String availability = getString(R.string.solded_since) + " " + property.getSaleDate();
                     availabilityTv.setText(availability);
@@ -268,7 +267,7 @@ public class DetailsFragment extends Fragment {
                 }
                 break;
                 case AVAILABLE:{
-                    not_soldedIv.setVisibility(View.VISIBLE);
+                    notSoldedIv.setVisibility(View.VISIBLE);
                     soldedIv.setVisibility(View.INVISIBLE);
                     String availability = getString(R.string.available_since) + " " + property.getEntryDate();
                     availabilityTv.setText(availability);
@@ -291,7 +290,7 @@ public class DetailsFragment extends Fragment {
                 simulatorIv.setVisibility(View.INVISIBLE);
             }
 
-            ;});
+        });
         }
 
         private void displayAddress(Property property) {
@@ -349,9 +348,9 @@ public class DetailsFragment extends Fragment {
         });
         appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if ((Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) || (property.getCity().isEmpty())){
-                map_fab.setVisibility(View.INVISIBLE);
+                mapFab.setVisibility(View.INVISIBLE);
             } else {
-                map_fab.setVisibility(View.VISIBLE);
+                mapFab.setVisibility(View.VISIBLE);
             }
         });
         }
